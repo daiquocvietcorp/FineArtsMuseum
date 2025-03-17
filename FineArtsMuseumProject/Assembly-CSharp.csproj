@@ -41,90 +41,7 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Assets\TutorialInfo\Scripts\Readme.cs" />
-    <Compile Include="Assets\Amazing Assets\Dynamic Radial Masks\Scripts\DRMGameObjectsPool.cs" />
-    <Compile Include="Assets\Amazing Assets\Dynamic Radial Masks\Scripts\DRMGameObjectsPoolCreateButtonAttribute.cs" />
-    <Compile Include="Assets\Amazing Assets\Dynamic Radial Masks\Scripts\DRMUtility.cs" />
-    <Compile Include="Assets\Amazing Assets\Dynamic Radial Masks\Scripts\DRMOnImpulse.cs" />
-    <Compile Include="Assets\Amazing Assets\Dynamic Radial Masks\Scripts\DRMOnParticleCollision.cs" />
-    <Compile Include="Assets\Amazing Assets\Dynamic Radial Masks\Scripts\DRMOnCollision.cs" />
-    <Compile Include="Assets\Amazing Assets\Dynamic Radial Masks\Scripts\DRMLiveObjectsPool.cs" />
-    <Compile Include="Assets\Amazing Assets\Dynamic Radial Masks\Scripts\DRMAnimatableProperty.cs" />
-    <Compile Include="Assets\Amazing Assets\Dynamic Radial Masks\Scripts\DRMObjectsPoolBase.cs" />
-    <Compile Include="Assets\Amazing Assets\Dynamic Radial Masks\Scripts\DRMLiveObject.cs" />
-    <Compile Include="Assets\Amazing Assets\Dynamic Radial Masks\Scripts\DRMController.cs" />
-    <Compile Include="Assets\Amazing Assets\Dynamic Radial Masks\Scripts\DRMShapesEnumAttribute.cs" />
-    <Compile Include="Assets\Amazing Assets\Dynamic Radial Masks\Scripts\DRMInput.cs" />
-    <Compile Include="Assets\Amazing Assets\Dynamic Radial Masks\Scripts\DRMOnMouseRaycast.cs" />
-    <Compile Include="Assets\Amazing Assets\Dynamic Radial Masks\Scripts\DRMGameObject.cs" />
-    <Compile Include="Assets\Amazing Assets\Dynamic Radial Masks\Example Scenes\Files\Scripts\MeshFragmenter.cs" />
-    <Compile Include="Assets\Amazing Assets\Dynamic Radial Masks\Example Scenes\Files\Scripts\Canon.cs" />
-    <Compile Include="Assets\Amazing Assets\Dynamic Radial Masks\Example Scenes\Files\Scripts\TreeAnimation.cs" />
-    <Compile Include="Assets\Amazing Assets\Dynamic Radial Masks\Example Scenes\Files\Scripts\KillZone.cs" />
-    <Compile Include="Assets\Amazing Assets\Dynamic Radial Masks\Example Scenes\Files\Scripts\Follow.cs" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_HeightField_Advanced_Additive.txt" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\CGINC\Tube\DynamicRadialMasks_Tube_24_Advanced_Additive_ID1_Local.cginc" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_Shockwave_Simple_Normalized.txt" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\CGINC\Torus\DynamicRadialMasks_Torus_64_Advanced_Additive_ID1_Local.cginc" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\CGINC\Dot\DynamicRadialMasks_Dot_8_Advanced_Additive_ID1_Local.cginc" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_Shockwave_Simple_Additive.txt" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\CGINC\Dot\DynamicRadialMasks_Dot_8_Advanced_Additive_ID3_Local.cginc" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_Dot_Advanced_Normalized.txt" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_Tube_Advanced_Normalized.txt" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\CGINC\Torus\DynamicRadialMasks_Torus_4_Advanced_Additive_ID1_Global.cginc" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_Sonar_Simple_Normalized.txt" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_UnityShaderGraph_Simple_Additive.txt" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_Dot_Simple_Normalized.txt" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_Shockwave_Advanced_Additive.txt" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\CGINC\Dot\DynamicRadialMasks_Dot_8_Advanced_Additive_ID2_Local.cginc" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_Ripple_Advanced_Additive.txt" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_Torus_Advanced_Normalized.txt" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\CGINC\Shockwave\DynamicRadialMasks_Shockwave_24_Advanced_Additive_ID1_Local.cginc" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_HeightField_Advanced_Normalized.txt" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_AmplifyShaderEditor_Simple_Normalized.txt" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Example Scenes\Packages\ReadMe.txt" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_Dot_Simple_Additive.txt" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_Tube_Advanced_Additive.txt" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\Core\Core.cginc" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_AmplifyShaderEditor_Advanced_Additive.txt" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\CGINC\Sonar\DynamicRadialMasks_Sonar_1_Advanced_Additive_ID1_Local.cginc" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_Ripple_Simple_Normalized.txt" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\CGINC\Shockwave\DynamicRadialMasks_Shockwave_1_Advanced_Additive_ID1_Local.cginc" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\CGINC\Rings\DynamicRadialMasks_Rings_1_Advanced_Additive_ID1_Local.cginc" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_HeightField_Simple_Normalized.txt" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_Ripple_Advanced_Normalized.txt" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_UnityShaderGraph_Advanced_Additive.txt" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\CGINC\HeightField\DynamicRadialMasks_HeightField_4_Advanced_Normalized_ID1_Global.cginc" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_Rings_Simple_Additive.txt" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\CGINC\HeightField\DynamicRadialMasks_HeightField_32_Advanced_Additive_ID1_Local.cginc" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_Sonar_Advanced_Normalized.txt" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_Rings_Simple_Normalized.txt" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\CGINC\Dot\DynamicRadialMasks_Dot_1_Advanced_Additive_ID1_Local.cginc" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\CGINC\Dot\DynamicRadialMasks_Dot_24_Advanced_Additive_ID1_Local.cginc" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_Torus_Simple_Additive.txt" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\CGINC\Ripple\DynamicRadialMasks_Ripple_1_Advanced_Additive_ID1_Local.cginc" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_UnityShaderGraph_Simple_Normalized.txt" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_HeightField_Simple_Additive.txt" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_Sonar_Simple_Additive.txt" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_AmplifyShaderEditor_Simple_Additive.txt" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_Rings_Advanced_Normalized.txt" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_Rings_Advanced_Additive.txt" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\CGINC\HeightField\DynamicRadialMasks_HeightField_1_Advanced_Normalized_ID1_Global.cginc" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_Torus_Advanced_Additive.txt" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Documentation\Manual.txt" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_Sonar_Advanced_Additive.txt" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_UnityShaderGraph_Advanced_Normalized.txt" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_Torus_Simple_Normalized.txt" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\CGINC\HeightField\DynamicRadialMasks_HeightField_1_Advanced_Additive_ID1_Local.cginc" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\CGINC\Torus\DynamicRadialMasks_Torus_16_Advanced_Normalized_ID1_Local.cginc" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_Tube_Simple_Additive.txt" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_Tube_Simple_Normalized.txt" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_Shockwave_Advanced_Normalized.txt" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\CGINC\Torus\DynamicRadialMasks_Torus_1_Advanced_Additive_ID1_Local.cginc" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_Dot_Advanced_Additive.txt" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_AmplifyShaderEditor_Advanced_Normalized.txt" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\CGINC\Tube\DynamicRadialMasks_Tube_1_Advanced_Additive_ID1_Local.cginc" />
-    <None Include="Assets\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_Ripple_Simple_Additive.txt" />
+    <Compile Include="Assets\Configs\TutorialInfo\Scripts\Readme.cs" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.45f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>
@@ -853,6 +770,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{348504e0-964c-3117-e9ba-d1ecaf5a8098}</Project>
+      <Name>Assembly-CSharp-firstpass</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
