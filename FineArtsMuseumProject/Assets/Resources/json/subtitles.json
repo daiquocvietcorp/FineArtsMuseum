@@ -1,0 +1,32 @@
+{
+  "languages": ["en", "vi"],
+  "subtitles": {
+    "en": {
+      "npc_1": {
+        "type": "dynamic",
+        "content": [
+          { "startTime": 0.5, "endTime": 2.0, "text": "Hello! Welcome to Unity 3D." },
+          { "startTime": 2.5, "endTime": 5.0, "text": "Enjoy your journey." }
+        ]
+      },
+      "npc_2": {
+        "type": "static",
+        "content": "This is a test dialogue for NPC 2. The text is shown immediately."
+      }
+      
+    },
+    "vi": {
+      "npc_1": {
+        "type": "dynamic",
+        "content": [
+          { "startTime": 0.5, "endTime": 2.0, "text": "Xin chào! Chào mừng bạn đến với Unity 3D." },
+          { "startTime": 2.5, "endTime": 5.0, "text": "Hãy tận hưởng cuộc hành trình của bạn." }
+        ]
+      },
+      "npc_2": {
+        "type": "static",
+        "content": "Đây là một đoạn hội thoại thử nghiệm cho NPC 2. Văn bản sẽ hiển thị ngay lập tức."
+      }
+    }
+  }
+}
