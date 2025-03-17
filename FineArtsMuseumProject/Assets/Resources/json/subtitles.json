@@ -1,32 +1,34 @@
 {
-  "languages": ["en", "vi"],
-  "subtitles": {
-    "en": {
-      "npc_1": {
-        "type": "dynamic",
-        "content": [
-          { "startTime": 0.5, "endTime": 2.0, "text": "Hello! Welcome to Unity 3D." },
-          { "startTime": 2.5, "endTime": 5.0, "text": "Enjoy your journey." }
-        ]
+  "clips": [
+    {
+      "id": "greeting",
+      "audioPath_en": "Audio/test_en",
+      "audioPath_vi": "Audio/test_vi",
+      "subtitle": {
+        "en": "However, the authors also put forward a number of hypotheses about why researchers leave science. Notably, there is a gender bias, with women not being recognized as research collaborators in published articles. There are also reasons such as researchers moving to a less research-focused institution or changing jobs.",
+        "vi": "Tuy vậy nhóm tác giả cũng đưa ra một số giả thuyết về lý do các nhà nghiên cứu bỏ khoa học. Trong đó đáng chú ý là có sự thiên vị về giới tính khi phụ nữ không được công nhận là cộng tác viên nghiên cứu trong các bài báo xuất bản. Ngoài ra còn có các lý do như nhà nghiên cứu chuyển đến một tổ chức ít tập trung vào nghiên cứu hơn, thay đổi công việc."
       },
-      "npc_2": {
-        "type": "static",
-        "content": "This is a test dialogue for NPC 2. The text is shown immediately."
-      }
-      
+      "type": "dynamic"
     },
-    "vi": {
-      "npc_1": {
-        "type": "dynamic",
-        "content": [
-          { "startTime": 0.5, "endTime": 2.0, "text": "Xin chào! Chào mừng bạn đến với Unity 3D." },
-          { "startTime": 2.5, "endTime": 5.0, "text": "Hãy tận hưởng cuộc hành trình của bạn." }
-        ]
+    {
+      "id": "thanks",
+      "audioPath_en": "Audio/thanks_en",
+      "audioPath_vi": "Audio/thanks_vi",
+      "subtitle": {
+        "en": "Thank you for your support!",
+        "vi": "Cảm ơn bạn đã ủng hộ!"
       },
-      "npc_2": {
-        "type": "static",
-        "content": "Đây là một đoạn hội thoại thử nghiệm cho NPC 2. Văn bản sẽ hiển thị ngay lập tức."
-      }
+      "type": "dynamic"
+    },
+    {
+      "id": "story",
+      "audioPath_en": "Audio/story_en",
+      "audioPath_vi": "Audio/story_vi",
+      "subtitle": {
+        "en": "Once upon a time in a distant land, a hero embarked on a great adventure...",
+        "vi": "Ngày xửa ngày xưa, tại một vùng đất xa xôi, một vị anh hùng đã bắt đầu cuộc phiêu lưu vĩ đại..."
+      },
+      "type": "static"
     }
-  }
+  ]
 }

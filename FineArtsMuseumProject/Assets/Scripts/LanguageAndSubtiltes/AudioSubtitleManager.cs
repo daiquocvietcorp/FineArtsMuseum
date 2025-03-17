@@ -1,0 +1,260 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+
+[System.Serializable]
+public class SubtitleData
+{
+    public string en;
+    public string vi;
+}
+
+[System.Serializable]
+public class AudioClipData
+{
+    public string id;
+    public string audioPath_en;
+    public string audioPath_vi;
+    public SubtitleData subtitle;
+    public string type; // "dynamic" hoặc "static"
+}
+
+[System.Serializable]
+public class AudioDataList
+{
+    public List<AudioClipData> clips;
+}
+
+public class AudioSubtitleManager : MonoBehaviour
+{
+    public static AudioSubtitleManager Instance; // Singleton để dễ gọi từ TriggerZone
+    public AudioSource audioSource;
+    public TMP_Text dynamicSubtitleText;
+    public List<TMP_Text> staticSubtitleText;
+    public GameObject staticSubtitlePanel;
+    public float minTimePerLine = 1.0f; // Thời gian tối thiểu để hiển thị mỗi dòng
+
+    public List<Button> buttons;
+    
+    private AudioDataList audioData;
+    private string currentLanguage;
+    private Coroutine subtitleCoroutine;
+    
+    // Toggle để chọn ngôn ngữ
+    public Toggle toggleEnglish;
+    public Toggle toggleVietnamese;
+
+    void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
+    }
+
+    void Start()
+    {
+        LoadJsonData();
+        LoadLanguage(); 
+        AssignButtonEvents();
+        //staticSubtitlePanel.SetActive(false);
+        toggleEnglish.onValueChanged.AddListener((isOn) => OnToggleChanged(isOn, "en"));
+        toggleVietnamese.onValueChanged.AddListener((isOn) => OnToggleChanged(isOn, "vi"));
+    }
+    void AssignButtonEvents()
+    {
+        foreach (Button btn in buttons)
+        {
+            string buttonId = btn.name;
+            AudioClipData clipData = GetClipDataById(buttonId);
+            if (clipData != null)
+            {
+                btn.onClick.AddListener(() => PlayAudioWithSubtitle(buttonId));
+            }
+            else
+            {
+                Debug.LogWarning($"No matching audio found for button: {buttonId}");
+            }
+        }
+    }
+    void OnToggleChanged(bool isOn, string toggleString)
+    {
+        if (isOn) // Kiểm tra xem Toggle có được bật hay không
+        {
+            ChangeLanguage(toggleString);
+        }
+    }
+    public void ChangeLanguage(string lang)
+    {
+        currentLanguage = lang;
+        PlayerPrefs.SetString("Language", currentLanguage);
+        PlayerPrefs.Save();
+        Debug.Log("Language changed to: " + currentLanguage);
+    }
+
+    void LoadJsonData()
+    {
+        TextAsset jsonFile = Resources.Load<TextAsset>("json/subtitles");
+        if (jsonFile != null)
+        {
+            string jsonText = jsonFile.text;
+            audioData = JsonUtility.FromJson<AudioDataList>(jsonText);
+        }
+        else
+        {
+            Debug.LogError("JSON file not found in Resources/json/subtitles");
+        }
+    }
+    
+    void LoadLanguage()
+    {
+        // Mặc định là Tiếng Việt nếu chưa chọn
+        currentLanguage = PlayerPrefs.GetString("Language", "vi");
+        toggleEnglish.isOn = (currentLanguage == "en");
+        toggleVietnamese.isOn = (currentLanguage == "vi");
+        
+    }
+
+    public void PlayAudioWithSubtitle(string id)
+    {
+        AudioClipData clipData = GetClipDataById(id);
+        if (clipData == null)
+        {
+            Debug.LogWarning($"No matching audio found for trigger ID: {id}");
+            return;
+        }
+
+        string audioPath = (currentLanguage == "vi") ? clipData.audioPath_vi : clipData.audioPath_en;
+        AudioClip clip = Resources.Load<AudioClip>(audioPath);
+
+        if (clip != null)
+        {
+            audioSource.clip = clip;
+            audioSource.Play();
+
+            if (clipData.type == "dynamic")
+            {
+                if (subtitleCoroutine != null)
+                    StopCoroutine(subtitleCoroutine);
+                subtitleCoroutine = StartCoroutine(DisplayDynamicSubtitle(clipData.subtitle, clip.length));
+            }
+            else if (clipData.type == "static")
+            {
+                ShowStaticSubtitle();
+            }
+        }
+        else
+        {
+            Debug.LogError("Audio clip not found: " + audioPath);
+        }
+    }
+
+    IEnumerator DisplayDynamicSubtitle(SubtitleData subtitleData, float audioDuration)
+    {
+        dynamicSubtitleText.text = "";
+        string textToDisplay = currentLanguage == "vi" ? subtitleData.vi : subtitleData.en;
+        
+        List<string> subtitleLines = SplitSubtitleIntoLines(textToDisplay, dynamicSubtitleText);
+        float timePerLine = Mathf.Max(audioDuration / subtitleLines.Count, minTimePerLine);
+
+        foreach (string line in subtitleLines)
+        {
+            dynamicSubtitleText.text = line;
+            yield return new WaitForSeconds(timePerLine);
+        }
+
+        yield return new WaitForSeconds(0.5f);
+        dynamicSubtitleText.text = "";
+    }
+
+    List<string> SplitSubtitleIntoLines(string text, TMP_Text textComponent)
+    {
+        List<string> lines = new List<string>();
+        string[] words = text.Split(' ');
+        string currentLine = "";
+
+        foreach (string word in words)
+        {
+            textComponent.text = currentLine + " " + word;
+            textComponent.ForceMeshUpdate();
+            float textHeight = textComponent.preferredHeight;
+            float maxHeight = textComponent.rectTransform.rect.height;
+
+            if (textHeight > maxHeight)
+            {
+                lines.Add(currentLine.Trim());
+                currentLine = word;
+            }
+            else
+            {
+                currentLine += " " + word;
+            }
+        }
+
+        if (!string.IsNullOrEmpty(currentLine.Trim()))
+        {
+            lines.Add(currentLine.Trim());
+        }
+
+        return lines;
+    }
+
+    void ShowStaticSubtitle()
+    {
+        foreach (var vText in staticSubtitleText)
+        {
+            string textId = vText.name; // Lấy tên của TMP_Text để làm ID
+
+            // Tìm subtitle có ID trùng với tên của TMP_Text
+            AudioClipData clipData = GetClipDataById(textId);
+            if (clipData != null)
+            {
+                vText.text = currentLanguage == "vi" ? clipData.subtitle.vi : clipData.subtitle.en;
+            }
+            else
+            {
+                vText.text = ""; // Xóa nội dung nếu không có dữ liệu phù hợp
+                Debug.LogWarning($"No matching subtitle found for ID: {textId}");
+            }
+        }
+    }
+
+
+
+    public void CloseStaticSubtitle()
+    {
+        staticSubtitlePanel.SetActive(false);
+    }
+
+    public void SwitchLanguage(string lang)
+    {
+        currentLanguage = lang;
+    }
+
+    AudioClipData GetClipDataById(string id)
+    {
+        foreach (var clip in audioData.clips)
+        {
+            if (clip.id == id) return clip;
+        }
+        return null;
+    }
+    public void StopAudioAndClearSubtitle()
+    {
+        if (audioSource.isPlaying)
+        {
+            audioSource.Stop();
+        }
+
+        if (subtitleCoroutine != null)
+        {
+            StopCoroutine(subtitleCoroutine);
+            subtitleCoroutine = null;
+        }
+
+        dynamicSubtitleText.text = ""; // Xóa subtitle động
+    }
+
+}
