@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿    using System.Collections.Generic;
 
 using UnityEngine;
 
@@ -15,6 +15,7 @@ namespace AmazingAssets.DynamicRadialMasks
 #endif
 
         public List<DRMGameObject> DRMGameObjects = new List<DRMGameObject>();
+        public GameObject forceFieldSpherePrefab;
         int previousObjectsCount = 0;
 
 
@@ -63,6 +64,12 @@ namespace AmazingAssets.DynamicRadialMasks
                         DRMController.shaderData_Phase[i] = DRMGameObjects[i].currentPhase;
                         DRMController.shaderData_Frequency[i] = DRMGameObjects[i].frequency;
                         DRMController.shaderData_Smooth[i] = DRMGameObjects[i].smooth;
+                    }
+
+                    if (forceFieldSpherePrefab)
+                    {
+                        forceFieldSpherePrefab.transform.localScale = new Vector3(DRMGameObjects[i].radius+DRMGameObjects[i].radius*2/3*1.1f,
+                            DRMGameObjects[i].radius+DRMGameObjects[i].radius*2/3*1.1f, DRMGameObjects[i].radius+DRMGameObjects[i].radius*2/3*1.1f);
                     }
                 }
             }
