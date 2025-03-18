@@ -36,7 +36,7 @@ public class AudioSubtitleManager : MonoBehaviour
     public GameObject staticSubtitlePanel;
     public float minTimePerLine = 1.0f; // Thời gian tối thiểu để hiển thị mỗi dòng
 
-    public List<Button> buttons;
+    // public List<Button> buttons;
     [SerializeField] private Button TriggerButton;
     
     private AudioDataList audioData;
@@ -60,28 +60,28 @@ public class AudioSubtitleManager : MonoBehaviour
     {
         LoadJsonData();
         LoadLanguage(); 
-        AssignButtonEvents();
-        //ShowStaticSubtitle();
-        //staticSubtitlePanel.SetActive(false);
+        // AssignButtonEvents();
+        // ShowStaticSubtitle();
+        // staticSubtitlePanel.SetActive(false);
         toggleEnglish.onValueChanged.AddListener((isOn) => OnToggleChanged(isOn, "en"));
         toggleVietnamese.onValueChanged.AddListener((isOn) => OnToggleChanged(isOn, "vi"));
     }
-    void AssignButtonEvents()
-    {
-        foreach (Button btn in buttons)
-        {
-            string buttonId = btn.name;
-            AudioClipData clipData = GetClipDataById(buttonId);
-            if (clipData != null)
-            {
-                btn.onClick.AddListener(() => PlayAudioWithSubtitle(buttonId));
-            }
-            else
-            {
-                Debug.LogWarning($"No matching audio found for button: {buttonId}");
-            }
-        }
-    }
+    // void AssignButtonEvents()
+    // {
+    //     foreach (Button btn in buttons)
+    //     {
+    //         string buttonId = btn.name;
+    //         AudioClipData clipData = GetClipDataById(buttonId);
+    //         if (clipData != null)
+    //         {
+    //             btn.onClick.AddListener(() => PlayAudioWithSubtitle(buttonId));
+    //         }
+    //         else
+    //         {
+    //             Debug.LogWarning($"No matching audio found for button: {buttonId}");
+    //         }
+    //     }
+    // }
     
     public void StartArtPanelButton(string id)
     {
