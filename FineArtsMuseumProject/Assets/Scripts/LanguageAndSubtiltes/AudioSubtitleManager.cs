@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 
 [System.Serializable]
-public class SubtitleData
+public partial class SubtitleData
 {
     public string en;
     public string vi;
