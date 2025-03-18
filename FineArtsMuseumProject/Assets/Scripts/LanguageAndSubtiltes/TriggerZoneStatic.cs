@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class TriggerZone : MonoBehaviour
+public class TriggerZoneStatic : MonoBehaviour
 {
     public string triggerId; // ID của vùng trigger, tương ứng với JSON
 
