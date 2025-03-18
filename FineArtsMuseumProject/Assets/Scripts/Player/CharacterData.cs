@@ -10,5 +10,6 @@ namespace Player
         [field:SerializeField] public float RotationSpeed {get; private set;} = 5f;
         [field:SerializeField] public float MinJumpTime {get; private set;} = 0.2f;
         [field:SerializeField] public float WaitingJumpTime {get; private set;} = 0.2f;
+        [field: SerializeField] public LayerMask GroundLayer {get; private set;}
     }
 }
