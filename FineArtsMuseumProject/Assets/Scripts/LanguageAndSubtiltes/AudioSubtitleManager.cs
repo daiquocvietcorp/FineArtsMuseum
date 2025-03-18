@@ -37,10 +37,12 @@ public class AudioSubtitleManager : MonoBehaviour
     public float minTimePerLine = 1.0f; // Thời gian tối thiểu để hiển thị mỗi dòng
 
     public List<Button> buttons;
+    [SerializeField] private Button TriggerButton;
     
     private AudioDataList audioData;
     private string currentLanguage;
     private Coroutine subtitleCoroutine;
+    private string currentPlayingAudioId = "";
     
     // Toggle để chọn ngôn ngữ
     public Toggle toggleEnglish;
@@ -59,6 +61,7 @@ public class AudioSubtitleManager : MonoBehaviour
         LoadJsonData();
         LoadLanguage(); 
         AssignButtonEvents();
+        //ShowStaticSubtitle();
         //staticSubtitlePanel.SetActive(false);
         toggleEnglish.onValueChanged.AddListener((isOn) => OnToggleChanged(isOn, "en"));
         toggleVietnamese.onValueChanged.AddListener((isOn) => OnToggleChanged(isOn, "vi"));
@@ -79,6 +82,25 @@ public class AudioSubtitleManager : MonoBehaviour
             }
         }
     }
+    
+    public void StartArtPanelButton(string id)
+    {
+        AudioClipData clipData = GetClipDataById(id);
+        if (clipData != null)
+        {
+            TriggerButton.gameObject.SetActive(true);
+            TriggerButton.onClick.AddListener(() => PlayAudioWithSubtitle(id));
+        }
+        else
+        {
+            Debug.LogWarning($"No matching audio found for button: {id}");
+        }
+    }
+    
+    public void CloseArtPanelButton()
+    {
+            TriggerButton.gameObject.SetActive(false);
+    }
     void OnToggleChanged(bool isOn, string toggleString)
     {
         if (isOn) // Kiểm tra xem Toggle có được bật hay không
@@ -92,8 +114,22 @@ public class AudioSubtitleManager : MonoBehaviour
         PlayerPrefs.SetString("Language", currentLanguage);
         PlayerPrefs.Save();
         Debug.Log("Language changed to: " + currentLanguage);
+        ShowStaticSubtitle();
+        
+        if (audioSource.isPlaying)
+        {
+            string currentAudioId = GetCurrentPlayingAudioId();
+            StopAudioAndClearSubtitle(); // Dừng audio hiện tại
+            if (!string.IsNullOrEmpty(currentAudioId))
+            {
+                PlayAudioWithSubtitle(currentAudioId); // Phát lại với ngôn ngữ mới
+            }
+        }
     }
-
+    public string GetCurrentPlayingAudioId()
+    {
+        return currentPlayingAudioId;
+    }
     void LoadJsonData()
     {
         TextAsset jsonFile = Resources.Load<TextAsset>("json/subtitles");
@@ -114,11 +150,14 @@ public class AudioSubtitleManager : MonoBehaviour
         currentLanguage = PlayerPrefs.GetString("Language", "vi");
         toggleEnglish.isOn = (currentLanguage == "en");
         toggleVietnamese.isOn = (currentLanguage == "vi");
+        ShowStaticSubtitle();
         
     }
 
+    
     public void PlayAudioWithSubtitle(string id)
     {
+        currentPlayingAudioId = id;
         AudioClipData clipData = GetClipDataById(id);
         if (clipData == null)
         {
@@ -220,19 +259,7 @@ public class AudioSubtitleManager : MonoBehaviour
             }
         }
     }
-
-
-
-    public void CloseStaticSubtitle()
-    {
-        staticSubtitlePanel.SetActive(false);
-    }
-
-    public void SwitchLanguage(string lang)
-    {
-        currentLanguage = lang;
-    }
-
+    
     AudioClipData GetClipDataById(string id)
     {
         foreach (var clip in audioData.clips)
@@ -255,6 +282,7 @@ public class AudioSubtitleManager : MonoBehaviour
         }
 
         dynamicSubtitleText.text = ""; // Xóa subtitle động
+        currentPlayingAudioId = "";
     }
 
 }
