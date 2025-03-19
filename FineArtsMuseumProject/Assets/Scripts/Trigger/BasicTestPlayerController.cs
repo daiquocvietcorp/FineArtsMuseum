@@ -14,21 +14,18 @@ public class BasicTestPlayerController : MonoBehaviour
     private Vector3 moveDirection;
     private float rotationX = 0f;
     private bool isGrounded;
+    private bool isHoldingMouse = false; // Kiểm tra có giữ chuột trái hay không
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true; // Ngăn Rigidbody bị xoay
-
-        // Ẩn con trỏ chuột
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
     }
 
     void Update()
     {
         HandleMovementInput();
-        HandleCameraRotation();
+        HandleMouseInput(); // Kiểm tra xem có giữ chuột trái không
         HandleJump();
     }
 
@@ -59,6 +56,23 @@ public class BasicTestPlayerController : MonoBehaviour
         {
             rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
             isGrounded = false; // Ngăn chặn nhảy liên tục
+        }
+    }
+
+    private void HandleMouseInput()
+    {
+        if (Input.GetMouseButtonDown(0)) // Nhấn giữ chuột trái
+        {
+            isHoldingMouse = true;
+        }
+        else if (Input.GetMouseButtonUp(0)) // Nhả chuột trái
+        {
+            isHoldingMouse = false;
+        }
+
+        if (isHoldingMouse)
+        {
+            HandleCameraRotation();
         }
     }
 

@@ -41,24 +41,36 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Assets\Plugins\KawaseBlur\Invector-3rdPersonController_LITE\Scripts\CharacterController\vThirdPersonMotor.cs" />
     <Compile Include="Assets\Plugins\Amazing Assets\Dynamic Radial Masks\Scripts\DRMOnCollision.cs" />
     <Compile Include="Assets\Plugins\Amazing Assets\Dynamic Radial Masks\Scripts\DRMLiveObject.cs" />
     <Compile Include="Assets\Plugins\Amazing Assets\Dynamic Radial Masks\Scripts\DRMOnMouseRaycast.cs" />
-    <Compile Include="Assets\Plugins\Amazing Assets\Dynamic Radial Masks\Example Scenes\Files\Scripts\MeshFragmenter.cs" />
-    <Compile Include="Assets\Plugins\Amazing Assets\Dynamic Radial Masks\Scripts\DRMGameObjectsPoolCreateButtonAttribute.cs" />
-    <Compile Include="Assets\Plugins\Amazing Assets\Dynamic Radial Masks\Example Scenes\Files\Scripts\KillZone.cs" />
+    <Compile Include="Assets\Plugins\SineVFX\GalaxyMaterials\Resources\Scripts\SineCameraControllerGalaxyMaterials.cs" />
     <Compile Include="Assets\Plugins\Amazing Assets\Dynamic Radial Masks\Scripts\DRMOnParticleCollision.cs" />
+    <Compile Include="Assets\Plugins\KawaseBlur\Invector-3rdPersonController_LITE\Scripts\CharacterController\vThirdPersonInput.cs" />
     <Compile Include="Assets\Plugins\Amazing Assets\Dynamic Radial Masks\Scripts\DRMShapesEnumAttribute.cs" />
+    <Compile Include="Assets\Plugins\KawaseBlur\KawaseBlur.cs" />
+    <Compile Include="Assets\Plugins\KawaseBlur\Invector-3rdPersonController_LITE\Scripts\Generic\Utils\vPickupItem.cs" />
     <Compile Include="Assets\Plugins\Amazing Assets\Dynamic Radial Masks\Example Scenes\Files\Scripts\Canon.cs" />
     <Compile Include="Assets\Plugins\Amazing Assets\Dynamic Radial Masks\Example Scenes\Files\Scripts\Follow.cs" />
     <Compile Include="Assets\Plugins\Amazing Assets\Dynamic Radial Masks\Scripts\DRMUtility.cs" />
     <Compile Include="Assets\Plugins\Amazing Assets\Dynamic Radial Masks\Scripts\DRMObjectsPoolBase.cs" />
-    <Compile Include="Assets\Plugins\Amazing Assets\Dynamic Radial Masks\Scripts\DRMLiveObjectsPool.cs" />
     <Compile Include="Assets\Plugins\Amazing Assets\Dynamic Radial Masks\Scripts\DRMGameObjectsPool.cs" />
-    <Compile Include="Assets\Plugins\Amazing Assets\Dynamic Radial Masks\Scripts\DRMGameObject.cs" />
+    <Compile Include="Assets\Plugins\KawaseBlur\Invector-3rdPersonController_LITE\Scripts\Camera\vThirdPersonCamera.cs" />
     <Compile Include="Assets\Plugins\Amazing Assets\Dynamic Radial Masks\Example Scenes\Files\Scripts\TreeAnimation.cs" />
     <Compile Include="Assets\Plugins\Amazing Assets\Dynamic Radial Masks\Scripts\DRMController.cs" />
     <Compile Include="Assets\Plugins\Amazing Assets\Dynamic Radial Masks\Scripts\DRMInput.cs" />
+    <Compile Include="Assets\Plugins\Amazing Assets\Dynamic Radial Masks\Example Scenes\Files\Scripts\MeshFragmenter.cs" />
+    <Compile Include="Assets\Plugins\KawaseBlur\Invector-3rdPersonController_LITE\3D Models\Others\HealthItem\vAnimateUV.cs" />
+    <Compile Include="Assets\Plugins\Amazing Assets\Dynamic Radial Masks\Scripts\DRMGameObjectsPoolCreateButtonAttribute.cs" />
+    <Compile Include="Assets\Plugins\KawaseBlur\Invector-3rdPersonController_LITE\Scripts\Generic\Utils\vComment.cs" />
+    <Compile Include="Assets\Plugins\Amazing Assets\Dynamic Radial Masks\Example Scenes\Files\Scripts\KillZone.cs" />
+    <Compile Include="Assets\Plugins\KawaseBlur\Invector-3rdPersonController_LITE\Scripts\CharacterController\vThirdPersonAnimator.cs" />
+    <Compile Include="Assets\Plugins\SineVFX\GalaxyMaterials\Resources\Scripts\SineUIControllerGalaxyMaterials.cs" />
+    <Compile Include="Assets\Plugins\KawaseBlur\Invector-3rdPersonController_LITE\Scripts\CharacterController\vThirdPersonController.cs" />
+    <Compile Include="Assets\Plugins\KawaseBlur\Invector-3rdPersonController_LITE\Scripts\Generic\Utils\vExtensions.cs" />
+    <Compile Include="Assets\Plugins\Amazing Assets\Dynamic Radial Masks\Scripts\DRMLiveObjectsPool.cs" />
+    <Compile Include="Assets\Plugins\Amazing Assets\Dynamic Radial Masks\Scripts\DRMGameObject.cs" />
     <Compile Include="Assets\Plugins\Amazing Assets\Dynamic Radial Masks\Scripts\DRMAnimatableProperty.cs" />
     <Compile Include="Assets\Plugins\Amazing Assets\Dynamic Radial Masks\Scripts\DRMOnImpulse.cs" />
     <None Include="Assets\Plugins\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_HeightField_Advanced_Additive.txt" />
@@ -78,13 +90,16 @@
     <None Include="Assets\Plugins\Amazing Assets\Dynamic Radial Masks\Shaders\CGINC\Dot\DynamicRadialMasks_Dot_8_Advanced_Additive_ID2_Local.cginc" />
     <None Include="Assets\Plugins\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_Ripple_Advanced_Additive.txt" />
     <None Include="Assets\Plugins\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_Torus_Advanced_Normalized.txt" />
+    <None Include="Assets\Plugins\KawaseBlur\KawaseBlur.shader" />
     <None Include="Assets\Plugins\Amazing Assets\Dynamic Radial Masks\Shaders\CGINC\Shockwave\DynamicRadialMasks_Shockwave_24_Advanced_Additive_ID1_Local.cginc" />
     <None Include="Assets\Plugins\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_HeightField_Advanced_Normalized.txt" />
     <None Include="Assets\Plugins\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_AmplifyShaderEditor_Simple_Normalized.txt" />
     <None Include="Assets\Plugins\Amazing Assets\Dynamic Radial Masks\Example Scenes\Packages\ReadMe.txt" />
     <None Include="Assets\Plugins\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_Dot_Simple_Additive.txt" />
     <None Include="Assets\Plugins\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_Tube_Advanced_Additive.txt" />
+    <None Include="Assets\Plugins\SineVFX\GalaxyMaterials\_Documentation\02.MaterialParameters.txt" />
     <None Include="Assets\Plugins\Amazing Assets\Dynamic Radial Masks\Shaders\Core\Core.cginc" />
+    <None Include="Assets\Plugins\KawaseBlur\Invector-3rdPersonController_LITE\README_Basic.txt" />
     <None Include="Assets\Plugins\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_AmplifyShaderEditor_Advanced_Additive.txt" />
     <None Include="Assets\Plugins\Amazing Assets\Dynamic Radial Masks\Shaders\CGINC\Sonar\DynamicRadialMasks_Sonar_1_Advanced_Additive_ID1_Local.cginc" />
     <None Include="Assets\Plugins\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_Ripple_Simple_Normalized.txt" />
@@ -106,12 +121,16 @@
     <None Include="Assets\Plugins\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_HeightField_Simple_Additive.txt" />
     <None Include="Assets\Plugins\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_Sonar_Simple_Additive.txt" />
     <None Include="Assets\Plugins\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_AmplifyShaderEditor_Simple_Additive.txt" />
+    <None Include="Assets\Plugins\SineVFX\GalaxyMaterials\_Documentation\!!!_BetterDocumentationOnline_!!!.txt" />
+    <None Include="Assets\Plugins\SineVFX\GalaxyMaterials\_Documentation\01.QuickStart.txt" />
     <None Include="Assets\Plugins\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_Rings_Advanced_Normalized.txt" />
     <None Include="Assets\Plugins\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_Rings_Advanced_Additive.txt" />
     <None Include="Assets\Plugins\Amazing Assets\Dynamic Radial Masks\Shaders\CGINC\HeightField\DynamicRadialMasks_HeightField_1_Advanced_Normalized_ID1_Global.cginc" />
     <None Include="Assets\Plugins\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_Torus_Advanced_Additive.txt" />
+    <None Include="Assets\Plugins\SineVFX\GalaxyMaterials\_Documentation\03.SkyboxUpdate.txt" />
     <None Include="Assets\Plugins\Amazing Assets\Dynamic Radial Masks\Documentation\Manual.txt" />
     <None Include="Assets\Plugins\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_Sonar_Advanced_Additive.txt" />
+    <None Include="Assets\Plugins\SineVFX\GalaxyMaterials\Resources\Environment\EnvShaders\SkyboxProceduralDesaturatedGM.shader" />
     <None Include="Assets\Plugins\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_UnityShaderGraph_Advanced_Normalized.txt" />
     <None Include="Assets\Plugins\Amazing Assets\Dynamic Radial Masks\Shaders\Templates\Template_Torus_Simple_Normalized.txt" />
     <None Include="Assets\Plugins\Amazing Assets\Dynamic Radial Masks\Shaders\CGINC\HeightField\DynamicRadialMasks_HeightField_1_Advanced_Additive_ID1_Local.cginc" />
@@ -790,20 +809,17 @@
     <Reference Include="UnityEngine.SpatialTracking">
       <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.XR.OpenXR.Features.MetaQuestSupport">
-      <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.XR.OpenXR.Features.MetaQuestSupport.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.XR.CoreUtils.Editor">
       <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.XR.CoreUtils.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.ShaderGraph.Editor">
       <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.ShaderGraph.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.XR.Hands.Editor">
+      <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.XR.Hands.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.RenderPipeline.Universal.ShaderLibrary">
       <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.RenderPipeline.Universal.ShaderLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.XR.OpenXR.Features.MetaQuestSupport.Editor">
-      <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.XR.OpenXR.Features.MetaQuestSupport.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.XR.Management">
       <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.XR.Management.dll</HintPath>
@@ -811,11 +827,11 @@
     <Reference Include="Unity.Mathematics.Editor">
       <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.Mathematics.Editor.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.XR.Oculus.Editor">
-      <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.XR.Oculus.Editor.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.VisualScripting.Flow.Editor">
       <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.VisualScripting.Flow.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.VisualEffectGraph.Editor">
+      <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.VisualEffectGraph.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.RenderPipelines.Universal.Runtime">
       <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
@@ -826,8 +842,8 @@
     <Reference Include="Unity.VisualStudio.Editor">
       <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.VisualStudio.Editor.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.XR.OpenXR.Features.OculusQuestSupport.Editor">
-      <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.XR.OpenXR.Features.OculusQuestSupport.Editor.dll</HintPath>
+    <Reference Include="Unity.VisualEffectGraph.Runtime">
+      <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.VisualEffectGraph.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Unity.XR.Management.Editor">
       <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.XR.Management.Editor.dll</HintPath>
@@ -844,6 +860,9 @@
     <Reference Include="Unity.Burst.Editor">
       <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.Burst.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.XR.Interaction.Toolkit">
+      <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.XR.Interaction.Toolkit.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.RenderPipelines.Core.Runtime">
       <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.RenderPipelines.Core.Runtime.dll</HintPath>
     </Reference>
@@ -852,9 +871,6 @@
     </Reference>
     <Reference Include="Unity.PlasticSCM.Editor">
       <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.PlasticSCM.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.XR.OpenXR.Features.OculusQuestSupport">
-      <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.XR.OpenXR.Features.OculusQuestSupport.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualScripting.Core">
       <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.VisualScripting.Core.dll</HintPath>
@@ -877,9 +893,6 @@
     <Reference Include="Unity.InputSystem.ForUI">
       <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.InputSystem.ForUI.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.XR.OpenXR.Editor">
-      <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.XR.OpenXR.Editor.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary">
       <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll</HintPath>
     </Reference>
@@ -892,29 +905,43 @@
     <Reference Include="UnityEditor.XR.LegacyInputHelpers">
       <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\UnityEditor.XR.LegacyInputHelpers.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.XR.OpenXR">
-      <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.XR.OpenXR.dll</HintPath>
+    <Reference Include="Unity.XR.Hands">
+      <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.XR.Hands.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.XR.Oculus">
-      <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.XR.Oculus.dll</HintPath>
+    <Reference Include="Unity.XR.Interaction.Toolkit.Editor">
+      <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.XR.Interaction.Toolkit.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.SpatialTracking">
       <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\UnityEditor.SpatialTracking.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.XR.OpenXR.Features.ConformanceAutomation">
-      <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.XR.OpenXR.Features.ConformanceAutomation.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.RenderPipelines.Core.Editor">
       <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.RenderPipelines.Core.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.XR.OpenXR.Features.RuntimeDebugger.Editor">
-      <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.XR.OpenXR.Features.RuntimeDebugger.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualScripting.State">
       <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.VisualScripting.State.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Unity.XR.Interaction.Toolkit.Samples.Hands.csproj">
+      <Project>{1c61bb26-4a90-f133-da90-4a0720eca755}</Project>
+      <Name>Unity.XR.Interaction.Toolkit.Samples.Hands</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.XR.Interaction.Toolkit.Samples.Hands.Editor.csproj">
+      <Project>{e4160c4d-4da7-eeb3-0fde-175488615489}</Project>
+      <Name>Unity.XR.Interaction.Toolkit.Samples.Hands.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.XR.Interaction.Toolkit.Samples.StarterAssets.csproj">
+      <Project>{2016a447-a6f5-5179-3752-554a60be81a7}</Project>
+      <Name>Unity.XR.Interaction.Toolkit.Samples.StarterAssets</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.XR.Hands.Samples.VisualizerSample.csproj">
+      <Project>{18678c6b-ed2a-52d9-1fad-4acc5ce20826}</Project>
+      <Name>Unity.XR.Hands.Samples.VisualizerSample</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.XR.Interaction.Toolkit.Samples.StarterAssets.Editor.csproj">
+      <Project>{a8a03ea7-534d-4cd9-dfbf-8fc5346caa0b}</Project>
+      <Name>Unity.XR.Interaction.Toolkit.Samples.StarterAssets.Editor</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

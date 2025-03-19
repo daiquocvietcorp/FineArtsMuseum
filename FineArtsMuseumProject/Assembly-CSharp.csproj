@@ -41,12 +41,47 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Assets\Configs\TutorialInfo\Scripts\Readme.cs" />
-    <Compile Include="Assets\Scripts\LanguageAndSubtiltes\SubtitleManager.cs" />
-    <Compile Include="Assets\Scripts\LanguageAndSubtiltes\LanguageSwitcher.cs" />
+    <Compile Include="Assets\Scripts\Player\ICharacterAnimation.cs" />
+    <Compile Include="Assets\Scripts\Trigger\KawaseBlurController.cs" />
     <Compile Include="Assets\Scripts\Trigger\BasicTestPlayerController.cs" />
+    <Compile Include="Assets\Scripts\Trigger\MouseHoverHighlighter.cs" />
+    <Compile Include="Assets\Scripts\Camera\CameraFollowPlayer.cs" />
+    <Compile Include="Assets\Scripts\Trigger\NewBehaviourScript.cs" />
+    <Compile Include="Assets\Scripts\Player\CharacterState.cs" />
+    <Compile Include="Assets\Scripts\Trigger\InteractiveObjectControl.cs" />
+    <Compile Include="Assets\Scripts\Player\CharacterStateMachine.cs" />
+    <Compile Include="Assets\Scripts\InputController\MouseInput.cs" />
+    <Compile Include="Assets\Scripts\LanguageAndSubtiltes\TriggerZone.cs" />
+    <Compile Include="Assets\Scripts\Camera\CameraFollowData.cs" />
+    <Compile Include="Assets\Scripts\DesignPatterns\MonoSingleton.cs" />
     <Compile Include="Assets\Scripts\Trigger\TriggerPainting.cs" />
+    <Compile Include="Assets\Configs\TutorialInfo\Scripts\Readme.cs" />
+    <Compile Include="Assets\Scripts\Player\CharacterData.cs" />
+    <Compile Include="Assets\Scripts\LanguageAndSubtiltes\AudioSubtitleManager.cs" />
+    <Compile Include="Assets\Scripts\Trigger\TriggerObject.cs" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
+    <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
+    <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
     <None Include="Assets\Resources\json\subtitles.json" />
+    <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
+    <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
+    <None Include="Assets\TextMesh Pro\Sprites\EmojiOne.json" />
+    <None Include="Assets\TextMesh Pro\Shaders\TMP_Sprite.shader" />
     <Reference Include="UnityEngine">
       <HintPath>E:\Unity Editor\2021.3.45f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>
@@ -713,20 +748,17 @@
     <Reference Include="UnityEngine.SpatialTracking">
       <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.XR.OpenXR.Features.MetaQuestSupport">
-      <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.XR.OpenXR.Features.MetaQuestSupport.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.XR.CoreUtils.Editor">
       <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.XR.CoreUtils.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.ShaderGraph.Editor">
       <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.ShaderGraph.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.XR.Hands.Editor">
+      <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.XR.Hands.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.RenderPipeline.Universal.ShaderLibrary">
       <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.RenderPipeline.Universal.ShaderLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.XR.OpenXR.Features.MetaQuestSupport.Editor">
-      <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.XR.OpenXR.Features.MetaQuestSupport.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.XR.Management">
       <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.XR.Management.dll</HintPath>
@@ -734,11 +766,11 @@
     <Reference Include="Unity.Mathematics.Editor">
       <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.Mathematics.Editor.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.XR.Oculus.Editor">
-      <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.XR.Oculus.Editor.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.VisualScripting.Flow.Editor">
       <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.VisualScripting.Flow.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.VisualEffectGraph.Editor">
+      <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.VisualEffectGraph.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.RenderPipelines.Universal.Runtime">
       <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
@@ -749,8 +781,8 @@
     <Reference Include="Unity.VisualStudio.Editor">
       <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.VisualStudio.Editor.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.XR.OpenXR.Features.OculusQuestSupport.Editor">
-      <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.XR.OpenXR.Features.OculusQuestSupport.Editor.dll</HintPath>
+    <Reference Include="Unity.VisualEffectGraph.Runtime">
+      <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.VisualEffectGraph.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Unity.XR.Management.Editor">
       <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.XR.Management.Editor.dll</HintPath>
@@ -767,6 +799,9 @@
     <Reference Include="Unity.Burst.Editor">
       <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.Burst.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.XR.Interaction.Toolkit">
+      <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.XR.Interaction.Toolkit.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.RenderPipelines.Core.Runtime">
       <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.RenderPipelines.Core.Runtime.dll</HintPath>
     </Reference>
@@ -775,9 +810,6 @@
     </Reference>
     <Reference Include="Unity.PlasticSCM.Editor">
       <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.PlasticSCM.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.XR.OpenXR.Features.OculusQuestSupport">
-      <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.XR.OpenXR.Features.OculusQuestSupport.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualScripting.Core">
       <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.VisualScripting.Core.dll</HintPath>
@@ -800,9 +832,6 @@
     <Reference Include="Unity.InputSystem.ForUI">
       <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.InputSystem.ForUI.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.XR.OpenXR.Editor">
-      <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.XR.OpenXR.Editor.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary">
       <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll</HintPath>
     </Reference>
@@ -815,23 +844,17 @@
     <Reference Include="UnityEditor.XR.LegacyInputHelpers">
       <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\UnityEditor.XR.LegacyInputHelpers.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.XR.OpenXR">
-      <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.XR.OpenXR.dll</HintPath>
+    <Reference Include="Unity.XR.Hands">
+      <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.XR.Hands.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.XR.Oculus">
-      <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.XR.Oculus.dll</HintPath>
+    <Reference Include="Unity.XR.Interaction.Toolkit.Editor">
+      <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.XR.Interaction.Toolkit.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.SpatialTracking">
       <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\UnityEditor.SpatialTracking.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.XR.OpenXR.Features.ConformanceAutomation">
-      <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.XR.OpenXR.Features.ConformanceAutomation.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.RenderPipelines.Core.Editor">
       <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.RenderPipelines.Core.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.XR.OpenXR.Features.RuntimeDebugger.Editor">
-      <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.XR.OpenXR.Features.RuntimeDebugger.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualScripting.State">
       <HintPath>C:\Users\Khanh Minh Sam Set\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.VisualScripting.State.dll</HintPath>
@@ -841,6 +864,26 @@
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
       <Project>{348504e0-964c-3117-e9ba-d1ecaf5a8098}</Project>
       <Name>Assembly-CSharp-firstpass</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.XR.Interaction.Toolkit.Samples.Hands.csproj">
+      <Project>{1c61bb26-4a90-f133-da90-4a0720eca755}</Project>
+      <Name>Unity.XR.Interaction.Toolkit.Samples.Hands</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.XR.Interaction.Toolkit.Samples.Hands.Editor.csproj">
+      <Project>{e4160c4d-4da7-eeb3-0fde-175488615489}</Project>
+      <Name>Unity.XR.Interaction.Toolkit.Samples.Hands.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.XR.Interaction.Toolkit.Samples.StarterAssets.csproj">
+      <Project>{2016a447-a6f5-5179-3752-554a60be81a7}</Project>
+      <Name>Unity.XR.Interaction.Toolkit.Samples.StarterAssets</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.XR.Hands.Samples.VisualizerSample.csproj">
+      <Project>{18678c6b-ed2a-52d9-1fad-4acc5ce20826}</Project>
+      <Name>Unity.XR.Hands.Samples.VisualizerSample</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.XR.Interaction.Toolkit.Samples.StarterAssets.Editor.csproj">
+      <Project>{a8a03ea7-534d-4cd9-dfbf-8fc5346caa0b}</Project>
+      <Name>Unity.XR.Interaction.Toolkit.Samples.StarterAssets.Editor</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
