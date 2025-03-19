@@ -1,3 +1,6 @@
+using Camera;
+using InputController;
+using LayerMasks;
 using UnityEngine;
 
 namespace Player
@@ -8,17 +11,29 @@ namespace Player
         private ICharacterAnimation _currentState;
         private Vector3 _jumpDirection;
         
+        private Vector3 _touchPosition;
+        private bool _isUsingTouch;
+        
+        private bool _isUsingJoystick;
+        private Vector2 _joystickDirection;
+        
         [field: SerializeField] private Animator animator;
         [field: SerializeField] private CharacterData data;
-        [field: SerializeField] private Transform cameraTransform;
+        private UnityEngine.Camera _cameraMain;
 
+        public bool IsUsingTouch => _isUsingTouch;
+        public bool IsUsingJoystick => _isUsingJoystick;
+        
         private void Start()
         {
+            _cameraMain = CameraManager.Instance.mainCamera;
             _rigidbody = GetComponent<Rigidbody>();
             _currentState = new CharacterIdleState();
             _currentState.EnterState(this);
             
             //stepRayUpper.transform.position = new Vector3(stepRayUpper.transform.position.x, stepHeight, stepRayUpper.transform.position.z);
+            MouseInput.Instance.RegisterClick(MoveCharacter);
+            JoystickInput.Instance.RegisterActionMove(MoveCharacter);
         }
 
         public void PlayAnimation(string animationName)
@@ -29,6 +44,22 @@ namespace Player
         private void Update()
         {
             _currentState.UpdateState(this);
+
+            if (_isUsingTouch)
+            {
+                if (IsMoving())
+                {
+                    _isUsingTouch = false;
+                    return;
+                }
+
+                MoveByTouch();
+            }
+
+            if (_isUsingJoystick)
+            {
+                MoveByJoystick();
+            }
         }
 
         private void FixedUpdate()
@@ -63,8 +94,8 @@ namespace Player
 
             if (!(moveDirection.magnitude >= 0.1f)) return;
             
-            var forward = cameraTransform.forward;
-            var right = cameraTransform.right;
+            var forward = _cameraMain.transform.forward;
+            var right = _cameraMain.transform.right;
                 
             forward.y = 0;
             right.y = 0;
@@ -75,8 +106,76 @@ namespace Player
             var desiredMoveDirection = forward * moveDirection.z + right * moveDirection.x;
             var toRotation = Quaternion.LookRotation(desiredMoveDirection, Vector3.up);
             transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, data.RotationSpeed * Time.deltaTime);
-                
             _rigidbody.MovePosition(transform.position + desiredMoveDirection * (data.MovementSpeed * Time.fixedDeltaTime));
+        }
+
+        private void MoveCharacter(Vector3 position)
+        {
+            if(MouseInput.Instance.IsPointerOverUI()) return;
+            
+            var ray = _cameraMain.ScreenPointToRay(position);
+            if (!Physics.Raycast(ray, out var hit, Mathf.Infinity, LayerManager.Instance.groundLayer)) return;
+            
+            _touchPosition = hit.point;
+            _isUsingTouch = true;
+            
+            _currentState.ExitState(this);
+            _currentState = new CharacterWalkState();
+            _currentState.EnterState(this);
+        }
+        
+        private void MoveByTouch()
+        {
+            if(_currentState is not CharacterWalkState) return;
+            var direction = (_touchPosition - transform.position).normalized;
+            if (direction.magnitude > 0.1f)
+            {
+                var targetRotation = Quaternion.LookRotation(direction);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 10f);
+                //transform.position = Vector3.MoveTowards(transform.position, _touchPosition, data.MovementSpeed * Time.deltaTime);
+                _rigidbody.MovePosition(transform.position + direction * (data.MovementSpeed * Time.fixedDeltaTime));
+            }
+
+            if (Vector3.Distance(transform.position, _touchPosition) < 0.1f)
+            {
+                _isUsingTouch = false;
+            }
+        }
+        
+        private void MoveByJoystick()
+        {
+            if (!(_joystickDirection.magnitude > 0.1f)) return;
+            var moveDirection = new Vector3(_joystickDirection.x, 0, _joystickDirection.y).normalized;
+            var forward = _cameraMain.transform.forward;
+            var right = _cameraMain.transform.right;
+            
+            forward.y = 0;
+            right.y = 0;
+            
+            forward.Normalize();
+            right.Normalize();
+            
+            var desiredMoveDirection = forward * moveDirection.z + right * moveDirection.x;
+            var toRotation = Quaternion.LookRotation(desiredMoveDirection, Vector3.up);
+            transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, data.RotationSpeed * Time.deltaTime);
+            //transform.position = Vector3.MoveTowards(transform.position, transform.position + desiredMoveDirection, data.MovementSpeed * Time.deltaTime);
+            _rigidbody.MovePosition(transform.position + desiredMoveDirection * (data.MovementSpeed * Time.fixedDeltaTime));
+        }
+
+        private void MoveCharacter(Vector2 direction)
+        {
+            if (direction == Vector2.zero)
+            {
+                _isUsingJoystick = false;
+                SwitchState(new CharacterIdleState());
+            }
+            else
+            {
+                _isUsingJoystick = true;
+                _joystickDirection = direction;
+                if (_currentState is CharacterWalkState) return;
+                SwitchState(new CharacterWalkState());
+            }
         }
         
         public void PrepareJump()
@@ -92,8 +191,8 @@ namespace Player
             var moveInput = new Vector3(moveX, 0, moveZ).normalized;
             if (moveInput.magnitude >= 0.1f)
             {
-                var forward = cameraTransform.forward;
-                var right = cameraTransform.right;
+                var forward = _cameraMain.transform.forward;
+                var right = _cameraMain.transform.right;
                 forward.y = 0;
                 right.y = 0;
                 forward.Normalize();
@@ -106,7 +205,7 @@ namespace Player
                 _jumpDirection = Vector3.zero;
             }
             
-            Vector3 jumpForce = _jumpDirection * data.JumpForce + Vector3.up * data.JumpForce;
+            var jumpForce = _jumpDirection * data.JumpForce + Vector3.up * data.JumpForce;
             _rigidbody.velocity = jumpForce;
         }
 

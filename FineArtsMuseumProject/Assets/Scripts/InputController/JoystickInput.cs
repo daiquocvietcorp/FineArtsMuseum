@@ -1,0 +1,54 @@
+using System;
+using DesignPatterns;
+using UnityEngine;
+using UnityEngine.EventSystems;
+
+namespace InputController
+{
+    public class JoystickInput : MonoSingleton<JoystickInput>, IDragHandler, IPointerDownHandler, IPointerUpHandler
+    {
+        public RectTransform background;
+        public RectTransform handle;
+
+        private Vector2 _inputVector;
+        private Action<Vector2> _onMove;
+
+        public Vector2 InputVector => _inputVector;
+        
+        private void Awake()
+        {
+#if UNITY_EDITOR || UNITY_STANDALONE
+            gameObject.SetActive(false);
+#endif            
+        }
+        
+        public void OnDrag(PointerEventData eventData)
+        {
+            Vector2 position = eventData.position - (Vector2)background.position;
+            position = Vector2.ClampMagnitude(position, background.sizeDelta.x / 2);
+
+            handle.anchoredPosition = position;
+            _inputVector = position / (background.sizeDelta.x / 2);
+            
+            if(_inputVector == Vector2.zero) return;
+            _onMove?.Invoke(_inputVector);
+        }
+
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            OnDrag(eventData);
+        }
+        
+        public void RegisterActionMove(Action<Vector2> action)
+        {
+            _onMove = action;
+        }
+
+        public void OnPointerUp(PointerEventData eventData)
+        {
+            handle.anchoredPosition = Vector2.zero;
+            _inputVector = Vector2.zero;
+            _onMove?.Invoke(_inputVector);
+        }
+    }
+}
