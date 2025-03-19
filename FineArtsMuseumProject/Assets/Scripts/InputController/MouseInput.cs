@@ -1,5 +1,7 @@
 using System;
+using Camera;
 using DesignPatterns;
+using LayerMasks;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -15,15 +17,47 @@ namespace InputController
         
         private float _holdTimer;
         private Action<Vector3> _onClick;
+        private UnityEngine.Camera _mainCamera;
+        
+        private bool _isFirstPerson;
+        private bool _canClickMove;
+
+        [field: SerializeField] private MouseInputData data;
+        [field: SerializeField] private Transform goToPointer;
 
         private void Start()
         {
+            _mainCamera = CameraManager.Instance.mainCamera;
             _isClick = false;
             _isHold = false;
+            _isFirstPerson = false;
+            _canClickMove = false;
         }
 
         private void Update()
         {
+            if (!_isFirstPerson)
+            {
+                var ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                
+                if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerManager.Instance.groundLayer))
+                {
+                    goToPointer.gameObject.SetActive(true);
+                    goToPointer.position = hit.point;
+                    _canClickMove = true;
+                }
+                else
+                {
+                    goToPointer.gameObject.SetActive(false);
+                    _canClickMove = false;
+                }
+            }
+            else
+            {
+                
+            }
+            
 #if UNITY_EDITOR || UNITY_STANDALONE
             
             if (Input.GetMouseButtonDown(0))
@@ -35,7 +69,9 @@ namespace InputController
             {
                 _isClick = true;
                 _isHold = false;
+                if(!_canClickMove) return;
                 _onClick?.Invoke(Input.mousePosition);
+                //_onClick?.Invoke(goToPointer.position);
             }
             else if (Input.GetMouseButton(0) && Time.time - _holdTimer > 0.2f)
             {
@@ -79,7 +115,11 @@ namespace InputController
             }
             
 #endif
-            
+        }
+        
+        public void ChangeView(bool isFirstPerson)
+        {
+            _isFirstPerson = isFirstPerson;
         }
         
         public void RegisterClick(Action<Vector3> action)

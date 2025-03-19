@@ -1,4 +1,6 @@
+using Camera;
 using InputController;
+using LayerMasks;
 using UnityEngine;
 
 namespace Player
@@ -17,13 +19,14 @@ namespace Player
         
         [field: SerializeField] private Animator animator;
         [field: SerializeField] private CharacterData data;
-        [field: SerializeField] private UnityEngine.Camera cameraMain;
+        private UnityEngine.Camera _cameraMain;
 
         public bool IsUsingTouch => _isUsingTouch;
         public bool IsUsingJoystick => _isUsingJoystick;
         
         private void Start()
         {
+            _cameraMain = CameraManager.Instance.mainCamera;
             _rigidbody = GetComponent<Rigidbody>();
             _currentState = new CharacterIdleState();
             _currentState.EnterState(this);
@@ -91,8 +94,8 @@ namespace Player
 
             if (!(moveDirection.magnitude >= 0.1f)) return;
             
-            var forward = cameraMain.transform.forward;
-            var right = cameraMain.transform.right;
+            var forward = _cameraMain.transform.forward;
+            var right = _cameraMain.transform.right;
                 
             forward.y = 0;
             right.y = 0;
@@ -110,8 +113,8 @@ namespace Player
         {
             if(MouseInput.Instance.IsPointerOverUI()) return;
             
-            var ray = cameraMain.ScreenPointToRay(position);
-            if (!Physics.Raycast(ray, out var hit, Mathf.Infinity, data.GroundLayer)) return;
+            var ray = _cameraMain.ScreenPointToRay(position);
+            if (!Physics.Raycast(ray, out var hit, Mathf.Infinity, LayerManager.Instance.groundLayer)) return;
             
             _touchPosition = hit.point;
             _isUsingTouch = true;
@@ -143,8 +146,8 @@ namespace Player
         {
             if (!(_joystickDirection.magnitude > 0.1f)) return;
             var moveDirection = new Vector3(_joystickDirection.x, 0, _joystickDirection.y).normalized;
-            var forward = cameraMain.transform.forward;
-            var right = cameraMain.transform.right;
+            var forward = _cameraMain.transform.forward;
+            var right = _cameraMain.transform.right;
             
             forward.y = 0;
             right.y = 0;
@@ -188,8 +191,8 @@ namespace Player
             var moveInput = new Vector3(moveX, 0, moveZ).normalized;
             if (moveInput.magnitude >= 0.1f)
             {
-                var forward = cameraMain.transform.forward;
-                var right = cameraMain.transform.right;
+                var forward = _cameraMain.transform.forward;
+                var right = _cameraMain.transform.right;
                 forward.y = 0;
                 right.y = 0;
                 forward.Normalize();

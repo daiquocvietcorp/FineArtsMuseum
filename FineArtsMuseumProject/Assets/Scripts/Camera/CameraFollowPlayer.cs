@@ -87,6 +87,8 @@ namespace Camera
             data.Distance = data.View1StPerson.Distance;
             data.Height = data.View1StPerson.Height;
             _isFirstPerson = true;
+            
+            MouseInput.Instance.ChangeView(_isFirstPerson);
         }
         
         public void SetThirdPersonView()
@@ -94,6 +96,8 @@ namespace Camera
             data.Distance = data.View3RdPerson.Distance;
             data.Height = data.View3RdPerson.Height;
             _isFirstPerson = false;
+            
+            MouseInput.Instance.ChangeView(_isFirstPerson);
         }
     }
 }
