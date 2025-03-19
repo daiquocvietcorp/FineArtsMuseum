@@ -42,10 +42,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Player\ICharacterAnimation.cs" />
+    <Compile Include="Assets\Scripts\LayerMasks\LayerManager.cs" />
+    <Compile Include="Assets\Scripts\Camera\CameraManager.cs" />
     <Compile Include="Assets\Scripts\Trigger\BasicTestPlayerController.cs" />
     <Compile Include="Assets\Scripts\LanguageAndSubtiltes\TriggerZoneDynamic.cs" />
     <Compile Include="Assets\Scripts\Camera\CameraFollowPlayer.cs" />
     <Compile Include="Assets\Scripts\Player\CharacterState.cs" />
+    <Compile Include="Assets\Scripts\InputController\MouseInputData.cs" />
     <Compile Include="Assets\Scripts\Player\CharacterStateMachine.cs" />
     <Compile Include="Assets\Scripts\InputController\MouseInput.cs" />
     <Compile Include="Assets\Scripts\LanguageAndSubtiltes\TriggerZoneStatic.cs" />
@@ -54,6 +57,7 @@
     <Compile Include="Assets\Scripts\Trigger\TriggerPainting.cs" />
     <Compile Include="Assets\Configs\TutorialInfo\Scripts\Readme.cs" />
     <Compile Include="Assets\Scripts\Player\CharacterData.cs" />
+    <Compile Include="Assets\Scripts\InputController\JoystickInput.cs" />
     <Compile Include="Assets\Scripts\LanguageAndSubtiltes\AudioSubtitleManager.cs" />
     <None Include="Assets\Resources\json\subtitles.json" />
     <Reference Include="UnityEngine">
@@ -82,6 +86,12 @@
     </Reference>
     <Reference Include="UnityEngine.ClothModule">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.45f1\Editor\Data\Managed\UnityEngine\UnityEngine.ClothModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ClusterInputModule">
+      <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.45f1\Editor\Data\Managed\UnityEngine\UnityEngine.ClusterInputModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.ClusterRendererModule">
+      <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.45f1\Editor\Data\Managed\UnityEngine\UnityEngine.ClusterRendererModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.45f1\Editor\Data\Managed\UnityEngine\UnityEngine.CoreModule.dll</HintPath>
@@ -242,6 +252,9 @@
     <Reference Include="UnityEngine.VideoModule">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.45f1\Editor\Data\Managed\UnityEngine\UnityEngine.VideoModule.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.VirtualTexturingModule">
+      <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.45f1\Editor\Data\Managed\UnityEngine\UnityEngine.VirtualTexturingModule.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.WindModule">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.45f1\Editor\Data\Managed\UnityEngine\UnityEngine.WindModule.dll</HintPath>
     </Reference>
@@ -293,11 +306,11 @@
     <Reference Include="UnityEditor.UnityConnectModule">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.45f1\Editor\Data\Managed\UnityEngine\UnityEditor.UnityConnectModule.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>E:\Git\FineArtsMuseum\FineArtsMuseumProject\Library\PackageCache\com.unity.nuget.newtonsoft-json@3.2.1\Runtime\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.VisualScripting.Antlr3.Runtime">
       <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\PackageCache\com.unity.visualscripting@1.9.4\Runtime\VisualScripting.Flow\Dependencies\NCalc\Unity.VisualScripting.Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\PackageCache\com.unity.nuget.newtonsoft-json@3.2.1\Runtime\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.45f1\Editor\Data\PlaybackEngines\iOSSupport\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
@@ -677,62 +690,53 @@
     <Reference Include="System.Xml.Serialization">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.45f1\Editor\Data\NetStandard\compat\2.1.0\shims\netfx\System.Xml.Serialization.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.InternalAPIEngineBridge.001">
+      <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.InternalAPIEngineBridge.001.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.VSCode.Editor">
-      <HintPath>E:\Git\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.VSCode.Editor.dll</HintPath>
+      <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.VSCode.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.PixelPerfect">
-      <HintPath>E:\Git\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.2D.PixelPerfect.dll</HintPath>
+      <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.2D.PixelPerfect.dll</HintPath>
     </Reference>
     <Reference Include="Unity.RenderPipelines.Universal.Shaders">
-      <HintPath>E:\Git\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Shaders.dll</HintPath>
+      <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Shaders.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.2D.Animation.Editor">
-      <HintPath>E:\Git\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.2D.Animation.Editor.dll</HintPath>
+    <Reference Include="PsdPlugin">
+      <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\PsdPlugin.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>E:\Git\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualScripting.State.Editor">
-      <HintPath>E:\Git\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.VisualScripting.State.Editor.dll</HintPath>
+      <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.VisualScripting.State.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Searcher.Editor">
-      <HintPath>E:\Git\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.Searcher.Editor.dll</HintPath>
+      <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.Searcher.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.IK.Editor">
-      <HintPath>E:\Git\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.2D.IK.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.2D.Sprite.Editor">
-      <HintPath>E:\Git\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.2D.Sprite.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.2D.Path.Editor">
-      <HintPath>E:\Git\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.2D.Path.Editor.dll</HintPath>
+      <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.2D.IK.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualScripting.SettingsProvider.Editor">
       <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.VisualScripting.SettingsProvider.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.2D.Path.Editor">
+      <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.2D.Path.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEditor.UI">
-      <HintPath>E:\Git\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
+      <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
     </Reference>
     <Reference Include="Unity.InputSystem">
       <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.InputSystem.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Rider.Editor">
-      <HintPath>E:\Git\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.Rider.Editor.dll</HintPath>
+      <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.Rider.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.RenderPipelines.Core.ShaderLibrary">
-      <HintPath>E:\Git\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.RenderPipelines.Core.ShaderLibrary.dll</HintPath>
+      <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.RenderPipelines.Core.ShaderLibrary.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>E:\Git\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.2D.Tilemap.Extras.Editor">
-      <HintPath>E:\Git\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.2D.Tilemap.Extras.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.2D.Psdimporter.Editor">
-      <HintPath>E:\Git\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.2D.Psdimporter.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.RenderPipelines.Core.Runtime">
-      <HintPath>E:\Git\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.RenderPipelines.Core.Runtime.dll</HintPath>
+      <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.SpatialTracking">
       <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\UnityEngine.SpatialTracking.dll</HintPath>
@@ -743,8 +747,14 @@
     <Reference Include="Unity.XR.CoreUtils.Editor">
       <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.XR.CoreUtils.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.2D.IK.Runtime">
+      <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.2D.IK.Runtime.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.ShaderGraph.Editor">
       <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.ShaderGraph.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.2D.Aseprite.Editor">
+      <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.2D.Aseprite.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.XR.Hands.Editor">
       <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.XR.Hands.Editor.dll</HintPath>
@@ -764,8 +774,20 @@
     <Reference Include="Unity.XR.Oculus.Editor">
       <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.XR.Oculus.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.2D.Common.Editor">
+      <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.2D.Common.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.VisualScripting.Flow.Editor">
       <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.VisualScripting.Flow.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.2D.Tilemap.Extras">
+      <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.2D.Tilemap.Extras.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.2D.Animation.Editor">
+      <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.2D.Animation.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.2D.Tilemap.Editor">
+      <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.2D.Tilemap.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.RenderPipelines.Universal.Runtime">
       <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Runtime.dll</HintPath>
@@ -797,6 +819,15 @@
     <Reference Include="Unity.XR.Interaction.Toolkit">
       <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.XR.Interaction.Toolkit.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.2D.Sprite.Editor">
+      <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.2D.Sprite.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.2D.Psdimporter.Editor">
+      <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.2D.Psdimporter.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.InternalAPIEditorBridge.001">
+      <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.InternalAPIEditorBridge.001.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.RenderPipelines.Core.Runtime">
       <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.RenderPipelines.Core.Runtime.dll</HintPath>
     </Reference>
@@ -806,41 +837,29 @@
     <Reference Include="Unity.PlasticSCM.Editor">
       <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.PlasticSCM.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.2D.Tilemap.Extras.Editor">
+      <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.2D.Tilemap.Extras.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.XR.OpenXR.Features.OculusQuestSupport">
       <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.XR.OpenXR.Features.OculusQuestSupport.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualScripting.Core">
-      <HintPath>E:\Git\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.VisualScripting.Core.dll</HintPath>
+      <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.VisualScripting.Core.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Mathematics">
-      <HintPath>E:\Git\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.Mathematics.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.2D.IK.Runtime">
-      <HintPath>E:\Git\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.2D.IK.Runtime.dll</HintPath>
+      <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.Mathematics.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Burst">
-      <HintPath>E:\Git\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.Burst.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.2D.Aseprite.Editor">
-      <HintPath>E:\Git\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.2D.Aseprite.Editor.dll</HintPath>
+      <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.Burst.dll</HintPath>
     </Reference>
     <Reference Include="Unity.RenderPipelines.Universal.Editor">
-      <HintPath>E:\Git\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Editor.dll</HintPath>
+      <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.RenderPipelines.Universal.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.XR.LegacyInputHelpers">
       <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\UnityEngine.XR.LegacyInputHelpers.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualScripting.Shared.Editor">
-      <HintPath>E:\Git\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.VisualScripting.Shared.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.InternalAPIEditorBridge.001">
-      <HintPath>E:\Git\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.InternalAPIEditorBridge.001.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.2D.Animation.Runtime">
-      <HintPath>E:\Git\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.2D.Animation.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.2D.PixelPerfect.Editor">
-      <HintPath>E:\Git\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.2D.PixelPerfect.Editor.dll</HintPath>
+      <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.VisualScripting.Shared.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.InputSystem.ForUI">
       <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.InputSystem.ForUI.dll</HintPath>
@@ -848,11 +867,17 @@
     <Reference Include="Unity.XR.OpenXR.Editor">
       <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.XR.OpenXR.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.2D.Animation.Runtime">
+      <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.2D.Animation.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.2D.PixelPerfect.Editor">
+      <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.2D.PixelPerfect.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary">
-      <HintPath>E:\Git\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll</HintPath>
+      <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline.Editor">
-      <HintPath>E:\Git\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.Timeline.Editor.dll</HintPath>
+      <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.Timeline.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.XR.CoreUtils">
       <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.XR.CoreUtils.dll</HintPath>
@@ -860,8 +885,17 @@
     <Reference Include="UnityEditor.XR.LegacyInputHelpers">
       <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\UnityEditor.XR.LegacyInputHelpers.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.2D.Aseprite.Common">
+      <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.2D.Aseprite.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.2D.Common.Runtime">
+      <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.2D.Common.Runtime.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.XR.Hands">
       <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.XR.Hands.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.2D.SpriteShape.Editor">
+      <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.2D.SpriteShape.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.XR.OpenXR">
       <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.XR.OpenXR.dll</HintPath>
@@ -879,16 +913,16 @@
       <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.XR.OpenXR.Features.ConformanceAutomation.dll</HintPath>
     </Reference>
     <Reference Include="Unity.RenderPipelines.Core.Editor">
-      <HintPath>E:\Git\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.RenderPipelines.Core.Editor.dll</HintPath>
+      <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.RenderPipelines.Core.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.SpriteShape.Runtime">
-      <HintPath>E:\Git\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.2D.SpriteShape.Runtime.dll</HintPath>
+      <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.2D.SpriteShape.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Unity.XR.OpenXR.Features.RuntimeDebugger.Editor">
       <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.XR.OpenXR.Features.RuntimeDebugger.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualScripting.State">
-      <HintPath>E:\Git\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.VisualScripting.State.dll</HintPath>
+      <HintPath>D:\Project\FineArtsMuseum\FineArtsMuseumProject\Library\ScriptAssemblies\Unity.VisualScripting.State.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -896,13 +930,17 @@
       <Project>{348504e0-964c-3117-e9ba-d1ecaf5a8098}</Project>
       <Name>Assembly-CSharp-firstpass</Name>
     </ProjectReference>
-    <ProjectReference Include="Unity.XR.Interaction.Toolkit.Samples.StarterAssets.csproj">
-      <Project>{2016a447-a6f5-5179-3752-554a60be81a7}</Project>
-      <Name>Unity.XR.Interaction.Toolkit.Samples.StarterAssets</Name>
+    <ProjectReference Include="Unity.XR.Interaction.Toolkit.Samples.Hands.csproj">
+      <Project>{1c61bb26-4a90-f133-da90-4a0720eca755}</Project>
+      <Name>Unity.XR.Interaction.Toolkit.Samples.Hands</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.XR.Interaction.Toolkit.Samples.Hands.Editor.csproj">
       <Project>{e4160c4d-4da7-eeb3-0fde-175488615489}</Project>
       <Name>Unity.XR.Interaction.Toolkit.Samples.Hands.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.XR.Interaction.Toolkit.Samples.StarterAssets.csproj">
+      <Project>{2016a447-a6f5-5179-3752-554a60be81a7}</Project>
+      <Name>Unity.XR.Interaction.Toolkit.Samples.StarterAssets</Name>
     </ProjectReference>
     <ProjectReference Include="Unity.XR.Hands.Samples.VisualizerSample.csproj">
       <Project>{18678c6b-ed2a-52d9-1fad-4acc5ce20826}</Project>
@@ -911,10 +949,6 @@
     <ProjectReference Include="Unity.XR.Interaction.Toolkit.Samples.StarterAssets.Editor.csproj">
       <Project>{a8a03ea7-534d-4cd9-dfbf-8fc5346caa0b}</Project>
       <Name>Unity.XR.Interaction.Toolkit.Samples.StarterAssets.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="Unity.XR.Interaction.Toolkit.Samples.Hands.csproj">
-      <Project>{1c61bb26-4a90-f133-da90-4a0720eca755}</Project>
-      <Name>Unity.XR.Interaction.Toolkit.Samples.Hands</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
