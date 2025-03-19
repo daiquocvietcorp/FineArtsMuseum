@@ -42,7 +42,7 @@ namespace Player
 
         public void UpdateState(CharacterStateMachine character)
         {
-            if(!character.IsMoving())
+            if(!character.IsMoving() && !character.IsUsingTouch && !character.IsUsingJoystick)
             {
                 character.SwitchState(new CharacterIdleState());
             }
@@ -60,6 +60,7 @@ namespace Player
 
         public void FixedUpdateState(CharacterStateMachine character)
         {
+            if(!character.IsMoving()) return;
             character.MoveCharacter();
             //character.StepClimb();
         }
