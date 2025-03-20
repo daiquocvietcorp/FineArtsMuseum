@@ -19,12 +19,14 @@ public class TriggerObject : MonoBehaviour, IPointerDownHandler
     public Button CloseButton;
 
     public BasicTestPlayerController PlayerController; //Sua lai thanh thang Controller cua Thanh
-    
+
+    private TriggerZoneStatic triggerZoneStatic;
     
     private void Start()
     {
         CloseButton.onClick.AddListener(()=> TurnOffBlur());
         CloseButton.gameObject.SetActive(false);
+        triggerZoneStatic = GetComponent<TriggerZoneStatic>();
     }
 
     // private void OnTriggerEnter(Collider other)
@@ -55,6 +57,7 @@ public class TriggerObject : MonoBehaviour, IPointerDownHandler
             isBlur = true;
             //UnityEngine.Camera.main.transform.LookAt(this.transform);
             PlayerController.enabled = false;
+            AudioSubtitleManager.Instance.PlayAudioWithSubtitle(triggerZoneStatic.triggerId);
         }
         else
         {

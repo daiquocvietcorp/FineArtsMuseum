@@ -14,6 +14,7 @@ public class TriggerPainting : MonoBehaviour
     
     public GameObject paintingObject;
     public GameObject otherObject;
+    public GameObject SubtitleObject;
 
     public Renderer renderer;
     
@@ -52,9 +53,10 @@ public class TriggerPainting : MonoBehaviour
             //DrmGameObject.gameObject.SetActive(true);
             renderer.enabled = true;
             DrmGameObject.transform.position = transform.position;
-            fogVFX.transform.position = transform.position;
+            fogVFX.transform.position = new Vector3(transform.position.x, 2, transform.position.z);
             paintingObject.layer = LayerMask.NameToLayer("IgnoreBlur");
             otherObject.layer = LayerMask.NameToLayer("IgnoreBlur");
+            SubtitleObject.SetActive(true);
             isEnter = true;
             currentTrigger = true;
             //UnityEngine.Camera.main.transform.LookAt(paintingObject.transform);
@@ -68,8 +70,8 @@ public class TriggerPainting : MonoBehaviour
         {
             isEnter = false;    
             fogVFX.Stop();
-            // UnityEngine.Camera.main.transform.localPosition = Vector3.zero;
-            // UnityEngine.Camera.main.transform.localRotation = Quaternion.Euler(Vector3.zero);
+            
+            SubtitleObject.SetActive(false);
         }
     }
 

@@ -38,7 +38,7 @@ public class TriggerZoneDynamic: MonoBehaviour
 
     IEnumerator TriggerEvent()
     {
-        yield return new WaitForSeconds(0.5f); // Delay 0.5s trước khi chạy
+        yield return new WaitForSeconds(0f); // Delay 0.5s trước khi chạy
         AudioSubtitleManager.Instance.StartArtPanelButton(triggerId);
     }
 }
