@@ -40,6 +40,7 @@ namespace Camera
             UpdateCameraPosition();
             
             if (!MouseInput.Instance.IsHold) return;
+            _isActive = true;
             
 #if UNITY_EDITOR || UNITY_STANDALONE
             
