@@ -204,7 +204,7 @@ public class AudioSubtitleManager : MonoBehaviour
             yield return new WaitForSeconds(timePerLine);
         }
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0);
         dynamicSubtitleText.text = "";
     }
 
