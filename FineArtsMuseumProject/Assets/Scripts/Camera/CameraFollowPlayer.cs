@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using InputController;
 using UnityEngine;
 
@@ -13,11 +14,16 @@ namespace Camera
         private float _currentPitch;
         
         private bool _isFirstPerson;
+        private bool _isActive;
+        
+        private Transform _currentTarget;
+        private Coroutine _changeViewCoroutine;
 
         private void Awake()
         {
             data.Distance = data.View3RdPerson.Distance;
             data.Height = data.View3RdPerson.Height;
+            _isActive = true;
         }
 
         private void Start()
@@ -67,6 +73,17 @@ namespace Camera
         private void UpdateCameraPosition()
         {
             if (!player) return;
+            if(!_isActive)
+            {
+                var direction = _currentTarget.position - player.position;
+                var targetYaw = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+                _currentYaw = Mathf.LerpAngle(_currentYaw, targetYaw, Time.deltaTime * data.Sensitivity);
+                
+                if (Mathf.Abs(Mathf.DeltaAngle(_currentYaw, targetYaw)) < 0.5f)
+                {
+                    _isActive = true;
+                }
+            }
             
             var rotation = Quaternion.Euler(_currentPitch, _currentYaw, 0);
             var targetPosition = player.position + Vector3.up * data.Height;
@@ -84,20 +101,53 @@ namespace Camera
         
         public void SetFirstPersonView()
         {
-            data.Distance = data.View1StPerson.Distance;
-            data.Height = data.View1StPerson.Height;
+            if(_isFirstPerson) return;
+            MouseInput.Instance.ChangeView(_isFirstPerson);
             _isFirstPerson = true;
             
-            MouseInput.Instance.ChangeView(_isFirstPerson);
+            if(_changeViewCoroutine != null)
+            {
+                StopCoroutine(_changeViewCoroutine);
+            }
+            
+            _changeViewCoroutine = StartCoroutine(ChangeView(data.View3RdPerson, data.View1StPerson));
         }
-        
+
+        private IEnumerator ChangeView(CameraFollowDistance dataView3RdPerson, CameraFollowDistance dataView1StPerson)
+        {
+            const float duration = 0.5f;
+            var time = 0f;
+            
+            while (time < duration)
+            {
+                time += Time.deltaTime;
+                var t = time / duration;
+                data.Distance = Mathf.Lerp(dataView3RdPerson.Distance, dataView1StPerson.Distance, t);
+                data.Height = Mathf.Lerp(dataView3RdPerson.Height, dataView1StPerson.Height, t);
+                yield return null;
+            }
+        }
+
         public void SetThirdPersonView()
         {
-            data.Distance = data.View3RdPerson.Distance;
-            data.Height = data.View3RdPerson.Height;
+            if(!_isFirstPerson) return;
+            MouseInput.Instance.ChangeView(_isFirstPerson);
             _isFirstPerson = false;
             
-            MouseInput.Instance.ChangeView(_isFirstPerson);
+            if(_changeViewCoroutine != null)
+            {
+                StopCoroutine(_changeViewCoroutine);
+            }
+            
+            _changeViewCoroutine = StartCoroutine(ChangeView(data.View1StPerson, data.View3RdPerson));
+        }
+
+        public void RotateCamera(Transform target)
+        {
+            if(target == null) return;
+            _currentTarget = target;
+            _isActive = false;
+            //UpdateCameraPositionTmp();
         }
     }
 }

@@ -36,26 +36,18 @@ namespace InputController
 
         private void Update()
         {
-            if (!_isFirstPerson)
+            var ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out var hit, data.View3RdGoToPointLimitDistance, LayerManager.Instance.groundLayer))
             {
-                var ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-                
-                if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerManager.Instance.groundLayer))
-                {
-                    goToPointer.gameObject.SetActive(true);
-                    goToPointer.position = hit.point;
-                    _canClickMove = true;
-                }
-                else
-                {
-                    goToPointer.gameObject.SetActive(false);
-                    _canClickMove = false;
-                }
+                goToPointer.gameObject.SetActive(true);
+                goToPointer.position = hit.point;
+                _canClickMove = true;
             }
             else
             {
-                
+                goToPointer.gameObject.SetActive(false);
+                _canClickMove = false;
             }
             
 #if UNITY_EDITOR || UNITY_STANDALONE
