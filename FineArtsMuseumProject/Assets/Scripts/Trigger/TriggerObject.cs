@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Player;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,7 +19,9 @@ public class TriggerObject : MonoBehaviour, IPointerDownHandler
     public TextMeshProUGUI ObjectDescriptionText;
     public Button CloseButton;
 
-    public BasicTestPlayerController PlayerController; //Sua lai thanh thang Controller cua Thanh
+    public BasicTestPlayerController PlayerController;
+    public CharacterStateMachine CharacterStateMachine;
+    //Sua lai thanh thang Controller cua Thanh
 
     private TriggerZoneStatic triggerZoneStatic;
     
@@ -56,7 +59,9 @@ public class TriggerObject : MonoBehaviour, IPointerDownHandler
             ObjectDescriptionText.text = "Đây là một khối vuông huyền thoại, chứa vật chất nguy hiểm nhất quả đất, đụng vào rụng tay thấy bà";
             isBlur = true;
             //UnityEngine.Camera.main.transform.LookAt(this.transform);
-            PlayerController.enabled = false;
+            //PlayerController.enabled = false;
+            CharacterStateMachine.enabled = false;
+            
             AudioSubtitleManager.Instance.PlayAudioWithSubtitle(triggerZoneStatic.triggerId);
         }
         else
@@ -75,6 +80,7 @@ public class TriggerObject : MonoBehaviour, IPointerDownHandler
         // UnityEngine.Camera.main.transform.localPosition = Vector3.zero;
         // UnityEngine.Camera.main.transform.localRotation = Quaternion.Euler(Vector3.zero);
         isBlur = false;
-        PlayerController.enabled = true;
+        //PlayerController.enabled = true;
+        CharacterStateMachine.enabled = true;
     }
 }

@@ -167,8 +167,11 @@ public class AudioSubtitleManager : MonoBehaviour
 
         string audioPath = (currentLanguage == "vi") ? clipData.audioPath_vi : clipData.audioPath_en;
         AudioClip clip = Resources.Load<AudioClip>(audioPath);
-
-        if (clip != null)
+        if (audioSource.isPlaying)
+        {
+            StopAudioAndClearSubtitle();
+        }
+        else if (clip != null)
         {
             audioSource.clip = clip;
             audioSource.Play();
