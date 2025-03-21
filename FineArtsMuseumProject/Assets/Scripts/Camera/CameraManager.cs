@@ -6,5 +6,6 @@ namespace Camera
     public class CameraManager : MonoSingleton<CameraManager>
     {
         [field: SerializeField] public UnityEngine.Camera mainCamera;
+        [field: SerializeField] public CameraFollowPlayer cameraFollowPlayer;
     }
 }

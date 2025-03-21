@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1301760487}
   - component: {fileID: 1301760486}
   - component: {fileID: 1301760485}
-  - component: {fileID: 3489689189482936533}
+  - component: {fileID: 8772780567804623494}
   m_Layer: 0
   m_Name: ForceFieldSphere
   m_TagString: Untagged
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 1301760484}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 0.9999989, z: 0.9999989}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1988043305255813777}
@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 94274df6458261447b2cad94bf19c499, type: 2}
+  - {fileID: 2100000, guid: a2490fe174e9d8e42b662ed720087875, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -93,12 +93,12 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1301760484}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3489689189482936533
+--- !u!114 &8772780567804623494
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -107,14 +107,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1301760484}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sharedProfile: {fileID: 11400000, guid: c3c49f827f6f40e40b5f7e5b5d0e201a, type: 2}
-  isGlobal: 0
-  blendDistance: 0
-  weight: 1
+  m_IsGlobal: 0
   priority: 0
+  blendDistance: 2
+  weight: 1
+  sharedProfile: {fileID: 11400000, guid: e8fdecb3d2f8d324fbdc529e58af36f1, type: 2}
 --- !u!1 &526592289229205638
 GameObject:
   m_ObjectHideFlags: 0
@@ -160,15 +160,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92de4220c61c9f6449f2a9668f90cd1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 1.5
-  intensity: 1
-  noiseStrength: 5
+  radius: 0
+  intensity: 1.54
+  noiseStrength: 4.73
   edgeSize: 2
   ringCount: 3
   frequency: 10
   phaseSpeed: 2
-  currentPhase: 33.144188
-  smooth: 3
+  currentPhase: 81.807304
+  smooth: 9.65
   displayAllProperties: 0
   maskShape: 7
 --- !u!1 &526592289235240582
@@ -218,21 +218,21 @@ MonoBehaviour:
   shaderData_Position:
   - {x: 0, y: 0, z: 0, w: 0}
   shaderData_Radius:
-  - 1.5
+  - 0
   shaderData_Intensity:
-  - 1
+  - 1.54
   shaderData_NoiseStrength:
-  - 5
+  - 4.73
   shaderData_EdgeSize:
   - 2
   shaderData_RingCount:
   - 3
   shaderData_Phase:
-  - 33.144188
+  - 81.419655
   shaderData_Frequency:
   - 10
   shaderData_Smooth:
-  - 3
+  - 9.65
   shape: 2
   count: 1
   type: 0
@@ -350,7 +350,7 @@ Transform:
   m_GameObject: {fileID: 8016488750564300644}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.6, y: 2.6, z: 2.6}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1301760488}
