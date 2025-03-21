@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using AmazingAssets.DynamicRadialMasks;
+using Camera;
 using UnityEngine;
 using UnityEngine.VFX;
 
@@ -40,8 +41,8 @@ public class TriggerPainting : MonoBehaviour
     private void Start()
     {
         // Thiết lập Fog Mode
-        RenderSettings.fog = true;
-        RenderSettings.fogMode = FogMode.ExponentialSquared;
+        // RenderSettings.fog = true;
+        // RenderSettings.fogMode = FogMode.ExponentialSquared;
         
         fogVFX.Stop();
     }
@@ -50,6 +51,7 @@ public class TriggerPainting : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            CameraManager.Instance.cameraFollowPlayer.RotateCamera(paintingObject.transform);
             //DrmGameObject.gameObject.SetActive(true);
             renderer.enabled = true;
             DrmGameObject.transform.position = transform.position;
@@ -126,19 +128,19 @@ public class TriggerPainting : MonoBehaviour
         skyboxMaterial.SetFloat("_Exposure", currentExposure);
         
         // Điều chỉnh Fog Density
-        float currentFogDensity = RenderSettings.fogDensity;
-        
-        if (isEnter && currentTrigger)
-        {
-            // Tăng Fog Density khi vào vùng trigger
-            currentFogDensity = Mathf.Min(currentFogDensity + fogDensityChangeRate * Time.deltaTime, maxFogDensity);
-        }
-        else if(!isEnter && currentTrigger)
-        {
-            // Giảm Fog Density khi rời khỏi vùng trigger
-            currentFogDensity = Mathf.Max(currentFogDensity - fogDensityChangeRate * Time.deltaTime, minFogDensity);
-        }
-
-        RenderSettings.fogDensity = currentFogDensity;
+        // float currentFogDensity = RenderSettings.fogDensity;
+        //
+        // if (isEnter && currentTrigger)
+        // {
+        //     // Tăng Fog Density khi vào vùng trigger
+        //     currentFogDensity = Mathf.Min(currentFogDensity + fogDensityChangeRate * Time.deltaTime, maxFogDensity);
+        // }
+        // else if(!isEnter && currentTrigger)
+        // {
+        //     // Giảm Fog Density khi rời khỏi vùng trigger
+        //     currentFogDensity = Mathf.Max(currentFogDensity - fogDensityChangeRate * Time.deltaTime, minFogDensity);
+        // }
+        //
+        // RenderSettings.fogDensity = currentFogDensity;
     }
 }
