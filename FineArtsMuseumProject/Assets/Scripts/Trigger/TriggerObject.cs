@@ -44,7 +44,7 @@ public class TriggerObject : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        //Debug.Log("OnPointerDown");
+        Debug.Log("OnPointerDown");
         if (!isBlur)
         {
             blurGameObject.SetActive(true);
