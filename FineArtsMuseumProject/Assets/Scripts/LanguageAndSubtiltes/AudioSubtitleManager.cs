@@ -171,7 +171,7 @@ public class AudioSubtitleManager : MonoBehaviour
         {
             StopAudioAndClearSubtitle();
         }
-        else if (clip != null)
+        if (clip != null && !audioSource.isPlaying)
         {
             audioSource.clip = clip;
             audioSource.Play();
