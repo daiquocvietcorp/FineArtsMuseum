@@ -19,9 +19,16 @@ public class TriggerObject : MonoBehaviour, IPointerDownHandler
     public TextMeshProUGUI ObjectDescriptionText;
     public Button CloseButton;
 
+    public Scrollbar scrollbar;       // Gán Scrollbar từ Inspector// Gán vật thể cần di chuyển
+    public float minOffsetZ = 0f;       // Z offset nhỏ nhất
+    public float maxOffsetZ = 10f;      // Z offset lớn nhất
+
+    private float initialZ;             // Vị trí Z cao nhất
+    
+    //Sua lai thanh thang Controller cua Thanh
     public BasicTestPlayerController PlayerController;
     public CharacterStateMachine CharacterStateMachine;
-    //Sua lai thanh thang Controller cua Thanh
+    
 
     private TriggerZoneStatic triggerZoneStatic;
     
@@ -30,6 +37,20 @@ public class TriggerObject : MonoBehaviour, IPointerDownHandler
         CloseButton.onClick.AddListener(()=> TurnOffBlur());
         CloseButton.gameObject.SetActive(false);
         triggerZoneStatic = GetComponent<TriggerZoneStatic>();
+    }
+
+    private void Update()
+    {
+        if (interactiveObject != null && scrollbar != null)
+        {
+            // Đảo chiều: scrollbar.value = 0 → offset = max, scrollbar.value = 1 → offset = min
+            float reversedValue = 1f - scrollbar.value;
+            float zOffset = Mathf.Lerp(minOffsetZ, maxOffsetZ, reversedValue);
+
+            Vector3 pos = interactiveObject.transform.localPosition;
+            pos.z = initialZ + zOffset;
+            interactiveObject.transform.localPosition = pos;
+        }
     }
 
     // private void OnTriggerEnter(Collider other)
@@ -47,11 +68,13 @@ public class TriggerObject : MonoBehaviour, IPointerDownHandler
         Debug.Log("OnPointerDown");
         if (!isBlur)
         {
+            CharacterStateMachine.gameObject.layer = LayerMask.NameToLayer("Default");
             blurGameObject.SetActive(true);
+            scrollbar.gameObject.SetActive(true);
             interactiveObject.gameObject.SetActive(true);
             CloseButton.gameObject.SetActive(true);
             interactiveObject.gameObject.transform.SetParent(UnityEngine.Camera.main.transform);
-            interactiveObject.gameObject.transform.localPosition = new Vector3(0, 0, 1);
+            interactiveObject.gameObject.transform.localPosition = Vector3.forward;
             interactiveObject.gameObject.transform.localScale = new Vector3(.5f, .5f, .5f);
             ObjectNameText.gameObject.SetActive(true);
             ObjectDescriptionText.gameObject.SetActive(true);
@@ -72,10 +95,12 @@ public class TriggerObject : MonoBehaviour, IPointerDownHandler
 
     public void TurnOffBlur()
     {
+        CharacterStateMachine.gameObject.layer = LayerMask.NameToLayer("IgnoreBlur");
         ObjectNameText.gameObject.SetActive(false);
         ObjectDescriptionText.gameObject.SetActive(false);
         CloseButton.gameObject.SetActive(false);
         blurGameObject.SetActive(false);
+        scrollbar.gameObject.SetActive(false);
         interactiveObject.gameObject.SetActive(false);
         // UnityEngine.Camera.main.transform.localPosition = Vector3.zero;
         // UnityEngine.Camera.main.transform.localRotation = Quaternion.Euler(Vector3.zero);
