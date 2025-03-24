@@ -9,6 +9,7 @@ namespace Camera
     {
         [SerializeField] private Transform player;
         [SerializeField] private CameraFollowData data;
+        [SerializeField] private DirectionFirstView directionFirstView;
         
         private float _currentYaw;
         private float _currentPitch;
@@ -24,6 +25,8 @@ namespace Camera
             data.Distance = data.View3RdPerson.Distance;
             data.Height = data.View3RdPerson.Height;
             _isActive = true;
+            
+            directionFirstView.DisableDirectionFirstView();
         }
 
         private void Start()
@@ -38,6 +41,7 @@ namespace Camera
         private void Update()
         {
             UpdateCameraPosition();
+            directionFirstView.SetPosition(transform);
             
             if (!MouseInput.Instance.IsHold) return;
             _isActive = true;
@@ -112,6 +116,7 @@ namespace Camera
             }
             
             _changeViewCoroutine = StartCoroutine(ChangeView(data.View3RdPerson, data.View1StPerson));
+            directionFirstView.EnableDirectionFirstView();
         }
 
         private IEnumerator ChangeView(CameraFollowDistance dataView3RdPerson, CameraFollowDistance dataView1StPerson)
@@ -141,6 +146,7 @@ namespace Camera
             }
             
             _changeViewCoroutine = StartCoroutine(ChangeView(data.View1StPerson, data.View3RdPerson));
+            directionFirstView.DisableDirectionFirstView();
         }
 
         public void RotateCamera(Transform target)
