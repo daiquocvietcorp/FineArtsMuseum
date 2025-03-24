@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using InputController;
 using Player;
 using TMPro;
 using UnityEngine;
@@ -83,8 +84,9 @@ public class TriggerObject : MonoBehaviour, IPointerDownHandler
             isBlur = true;
             //UnityEngine.Camera.main.transform.LookAt(this.transform);
             //PlayerController.enabled = false;
-            CharacterStateMachine.enabled = false;
             
+            CharacterManager.Instance.DisableCharacter();
+            InputManager.Instance.DisableInput();
             AudioSubtitleManager.Instance.PlayAudioWithSubtitle(triggerZoneStatic.triggerId);
         }
         else
@@ -105,7 +107,9 @@ public class TriggerObject : MonoBehaviour, IPointerDownHandler
         // UnityEngine.Camera.main.transform.localPosition = Vector3.zero;
         // UnityEngine.Camera.main.transform.localRotation = Quaternion.Euler(Vector3.zero);
         isBlur = false;
+        
+        CharacterManager.Instance.EnableCharacter();
+        InputManager.Instance.EnableInput();
         //PlayerController.enabled = true;
-        CharacterStateMachine.enabled = true;
     }
 }

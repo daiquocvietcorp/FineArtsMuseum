@@ -1,3 +1,4 @@
+using System;
 using Camera;
 using InputController;
 using LayerMasks;
@@ -13,6 +14,7 @@ namespace Player
         
         private Vector3 _touchPosition;
         private bool _isUsingTouch;
+        private bool _isActive;
         
         private bool _isUsingJoystick;
         private Vector2 _joystickDirection;
@@ -23,7 +25,12 @@ namespace Player
 
         public bool IsUsingTouch => _isUsingTouch;
         public bool IsUsingJoystick => _isUsingJoystick;
-        
+
+        private void Awake()
+        {
+            _isActive = true;
+        }
+
         private void Start()
         {
             _cameraMain = CameraManager.Instance.mainCamera;
@@ -43,6 +50,7 @@ namespace Player
 
         private void Update()
         {
+            if (!_isActive) return;
             _currentState.UpdateState(this);
 
             if (_isUsingTouch)
@@ -64,6 +72,7 @@ namespace Player
 
         private void FixedUpdate()
         {
+            if (!_isActive) return;
             _currentState.FixedUpdateState(this);
             //StepClimb();
         }
@@ -212,6 +221,19 @@ namespace Player
         public bool IsJump(float jumpTime)
         {
             return jumpTime >= data.MinJumpTime + data.WaitingJumpTime;
+        }
+
+        public void DisableCharacter()
+        {
+            _isActive = false;
+            gameObject.SetActive(false);
+        }
+        
+        public void EnableCharacter()
+        {
+            _isActive = true;
+            gameObject.SetActive(true);
+            SwitchState(new CharacterIdleState());
         }
     }
 }
