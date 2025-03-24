@@ -11,6 +11,7 @@ namespace InputController
     {
         private bool _isClick;
         private bool _isHold;
+        private bool _isAvailable;
         
         public bool IsClick => _isClick;
         public bool IsHold => _isHold;
@@ -25,6 +26,11 @@ namespace InputController
         [field: SerializeField] private MouseInputData data;
         [field: SerializeField] private Transform goToPointer;
 
+        private void Awake()
+        {
+            _isAvailable = true;
+        }
+        
         private void Start()
         {
             _mainCamera = CameraManager.Instance.mainCamera;
@@ -36,6 +42,7 @@ namespace InputController
 
         private void Update()
         {
+            if (!_isAvailable) return;
             var ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
 
             if (Physics.Raycast(ray, out var hit, data.View3RdGoToPointLimitDistance, LayerManager.Instance.groundLayer))
@@ -126,6 +133,16 @@ namespace InputController
 #else
             if (EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId)) return true;
 #endif
+        }
+
+        public void DisableMouseOrTouchInput()
+        {
+            _isAvailable = false;
+        }
+
+        public void EnableMouseOrTouchInput()
+        {
+            _isAvailable = true;
         }
     }
 }
