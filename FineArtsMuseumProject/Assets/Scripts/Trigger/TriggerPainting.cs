@@ -62,7 +62,7 @@ public class TriggerPainting : MonoBehaviour
             isEnter = true;
             currentTrigger = true;
             //UnityEngine.Camera.main.transform.LookAt(paintingObject.transform);
-            fogVFX.Play();
+            fogVFX.Play();  
         }
     }
 
