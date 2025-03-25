@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace UI
 {
-    public class UISetting : MonoBehaviour
+    public class UISetting : UIBasic
     {
         [Header("View Buttons")]
         [field: SerializeField] private Button thirdPersonButton;
@@ -60,7 +60,7 @@ namespace UI
 
         private void OnBackButtonClicked()
         {
-            
+            DisableUI();
         }
 
         private void OnVietnameseButtonClicked()
