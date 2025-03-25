@@ -9,6 +9,8 @@ namespace UI
         [field: SerializeField] private List<UIObject> uiObjects;
         
         private Dictionary<string, UIBasic> _uiDictionary;
+        private bool _isShowingUI;
+        private string _currentUIKey;
         
         private void Awake()
         {
@@ -33,6 +35,11 @@ namespace UI
         {
             _uiDictionary.GetValueOrDefault(key)?.DisableUI();
         }
+
+        public void SetDataUI(string key, IUIData data)
+        {
+            _uiDictionary.GetValueOrDefault(key)?.SetData(data);
+        }
     }
 
     public class UIBasic : MonoBehaviour
@@ -46,5 +53,15 @@ namespace UI
         {
             gameObject.SetActive(false);
         }
+        
+        public virtual void SetData(IUIData data)
+        {
+            
+        }
+    }
+
+    public interface IUIData
+    {
+        
     }
 }
