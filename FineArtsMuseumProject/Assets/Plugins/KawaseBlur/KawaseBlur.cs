@@ -119,6 +119,7 @@ public class KawaseBlur : ScriptableRendererFeature
         scriptablePass.targetName = settings.targetName;
 
         scriptablePass.renderPassEvent = settings.renderPassEvent;
+        
     } 
 
     public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
