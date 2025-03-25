@@ -54,7 +54,8 @@ namespace Camera
             _currentPitch = Mathf.Clamp(_currentPitch + mouseY, data.MinPitch, data.MaxPitch);
             
 #else
-            
+            float mouseX = 0f;
+            float mouseY = 0f;
             if (Input.touchCount > 0)
             {
                 var touch = Input.GetTouch(0);
