@@ -1,0 +1,58 @@
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class UIGuideChild : MonoBehaviour
+{
+    public Image guideImage;
+    public Sprite guideSprite;
+    
+    public Button CloseButton;
+    public Button PreviousButton;
+    public Button NextButton;
+
+    public TextMeshProUGUI indexText;
+    
+    public int currentIndex;
+    
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+        CloseButton.onClick.AddListener(CloseButtonClicked);
+        PreviousButton.onClick.AddListener(()=>PreviousButtonClicked(currentIndex-1));
+        NextButton.onClick.AddListener(()=>NextButtonClicked(currentIndex+1));
+
+        guideImage.sprite = guideSprite;
+        
+        indexText.text = (currentIndex + 1).ToString() + "<color=#808080>/" + UIGuide.Instance.listGuide.Count;
+        
+        if(currentIndex <= 0 ) PreviousButton.interactable = false;
+        if(currentIndex >= UIGuide.Instance.listGuide.Count - 1) NextButton.interactable = false;
+    }
+
+    public void CloseButtonClicked()
+    {
+        gameObject.SetActive(false);
+    }
+    
+    public void PreviousButtonClicked(int currentIndex)
+    {
+        Debug.Log("PreviousButtonClicked:"+currentIndex);
+        UIGuide.Instance.ShowGuide(currentIndex);
+    }
+    
+    public void NextButtonClicked(int currentIndex)
+    {
+        Debug.Log("NextButtonClicked:"+currentIndex);
+        UIGuide.Instance.ShowGuide(currentIndex);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+}
