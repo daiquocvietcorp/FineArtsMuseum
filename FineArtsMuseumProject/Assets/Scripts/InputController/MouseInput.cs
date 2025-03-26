@@ -43,6 +43,7 @@ namespace InputController
         private void Update()
         {
             if (!_isAvailable) return;
+            
             var ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
 
             if (Physics.Raycast(ray, out var hit, data.View3RdGoToPointLimitDistance, LayerManager.Instance.groundLayer))
@@ -57,54 +58,32 @@ namespace InputController
                 _canClickMove = false;
             }
             
-#if UNITY_EDITOR || UNITY_STANDALONE
-            
-            if (Input.GetMouseButtonDown(0))
+            if (!PlatformManager.Instance.IsStandalone && !PlatformManager.Instance.IsWebGL)
             {
-                _holdTimer = Time.time;
+                goToPointer.gameObject.SetActive(false);
             }
-            
-            if(Input.GetMouseButtonUp(0) && Time.time - _holdTimer < 0.2f)
+
+            if (PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
             {
-                _isClick = true;
-                _isHold = false;
-                if(!_canClickMove) return;
-                _onClick?.Invoke(Input.mousePosition);
-                //_onClick?.Invoke(goToPointer.position);
-            }
-            else if (Input.GetMouseButton(0) && Time.time - _holdTimer > 0.2f)
-            {
-                _isClick = false;
-                
-                if(IsPointerOverUI()) return;
-                _isHold = true;
-            }
-            else
-            {
-                _isClick = false;
-                _isHold = false;
-            }
-            
-#else
-            
-            if (Input.touchCount > 0)
-            {
-                var touch = Input.GetTouch(0);
-                if (touch.phase == TouchPhase.Began)
+                if (Input.GetMouseButtonDown(0))
                 {
                     _holdTimer = Time.time;
                 }
-                
-                if (touch.phase == TouchPhase.Ended && Time.time - _holdTimer < 0.2f)
+            
+                if(Input.GetMouseButtonUp(0) && Time.time - _holdTimer < 0.2f)
                 {
                     _isClick = true;
                     _isHold = false;
-                    _onClick?.Invoke(touch.position);
+                    if(!_canClickMove) return;
+                    _onClick?.Invoke(Input.mousePosition);
+                    //_onClick?.Invoke(goToPointer.position);
                 }
-                else if (touch.phase == TouchPhase.Moved && Time.time - _holdTimer > 0.2f)
+                else if (Input.GetMouseButton(0) && Time.time - _holdTimer > 0.2f)
                 {
-                    _isHold = true;
                     _isClick = false;
+                
+                    if(IsPointerOverUI()) return;
+                    _isHold = true;
                 }
                 else
                 {
@@ -112,8 +91,37 @@ namespace InputController
                     _isHold = false;
                 }
             }
-            
-#endif
+
+            if (PlatformManager.Instance.IsMobile)
+            {
+                if (Input.touchCount > 0)
+                {
+                    var touch = Input.GetTouch(0);
+                    if (touch.phase == TouchPhase.Began)
+                    {
+                        _holdTimer = Time.time;
+                    }
+                
+                    if (touch.phase == TouchPhase.Ended && Time.time - _holdTimer < 0.2f)
+                    {
+                        _isClick = true;
+                        _isHold = false;
+                        _onClick?.Invoke(touch.position);
+                    }
+                    else if (touch.phase == TouchPhase.Moved && Time.time - _holdTimer > 0.2f)
+                    {
+                        _isClick = false;
+                        
+                        if(IsPointerOverUI()) return;
+                        _isHold = true;
+                    }
+                    else
+                    {
+                        _isClick = false;
+                        _isHold = false;
+                    }
+                }
+            }
         }
         
         public void ChangeView(bool isFirstPerson)
@@ -128,11 +136,19 @@ namespace InputController
         
         public bool IsPointerOverUI()
         {
-#if UNITY_EDITOR || UNITY_STANDALONE
-            return EventSystem.current.IsPointerOverGameObject();
-#else
-            if (EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId)) return true;
-#endif
+            if(!EventSystem.current) return false;
+
+            if (PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
+            {
+                return EventSystem.current.IsPointerOverGameObject();
+            }
+
+            if (PlatformManager.Instance.IsMobile)
+            {
+                if (EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId)) return true;
+            }
+            
+            return false;
         }
 
         public void DisableMouseOrTouchInput()
