@@ -1,4 +1,5 @@
 using System;
+using Camera;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -38,6 +39,7 @@ namespace UI
         [Header("System Settings")]
         [field: SerializeField] private Button backButton;
         
+        private Action _onBackButtonClicked;
         private bool _isFirstPerson;
         private bool _isVietnamese;
 
@@ -61,6 +63,7 @@ namespace UI
         private void OnBackButtonClicked()
         {
             DisableUI();
+            _onBackButtonClicked?.Invoke();
         }
 
         private void OnVietnameseButtonClicked()
@@ -135,6 +138,13 @@ namespace UI
             }
         }
 
+        public override void SetData(IUIData data)
+        {
+            base.SetData(data);
+            if(data is not UISettingData settingData) return;
+            _onBackButtonClicked = settingData.OnBackButtonClicked;
+        }
+
         #endregion
 
         #region Main Methods
@@ -151,14 +161,19 @@ namespace UI
         
         private void ClickChangeFirstPerson()
         {
-            
+            CameraManager.Instance.cameraFollowPlayer.SetFirstPersonView();
         }
         
         private void ClickChangeThirdPerson()
         {
-            
+            CameraManager.Instance.cameraFollowPlayer.SetThirdPersonView();
         }
 
         #endregion
+    }
+    
+    public class UISettingData : IUIData
+    {
+        public Action OnBackButtonClicked;
     }
 }

@@ -19,14 +19,18 @@ namespace Camera
         
         private Transform _currentTarget;
         private Coroutine _changeViewCoroutine;
+        
+        private Vector2 _joystickDirection;
 
         private void Awake()
         {
             data.Distance = data.View3RdPerson.Distance;
             data.Height = data.View3RdPerson.Height;
             _isActive = true;
+            _joystickDirection = Vector2.zero;
             
             directionFirstView.DisableDirectionFirstView();
+            JoystickRotationInput.Instance.RegisterActionRotate(UpdateJoystickDirection);
         }
 
         private void Start()
@@ -43,36 +47,60 @@ namespace Camera
             UpdateCameraPosition();
             directionFirstView.SetPosition(transform);
             
-            if (!MouseInput.Instance.IsHold) return;
-            _isActive = true;
-            
-#if UNITY_EDITOR || UNITY_STANDALONE
-            
-            var mouseX = Input.GetAxis("Mouse X") * data.Sensitivity;
-            var mouseY = -Input.GetAxis("Mouse Y") * data.Sensitivity;
-            _currentYaw += mouseX;
-            _currentPitch = Mathf.Clamp(_currentPitch + mouseY, data.MinPitch, data.MaxPitch);
-            
-#else
-            
-            if (Input.touchCount > 0)
+            float mouseX = 0;
+            float mouseY = 0;
+
+            if (PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
             {
-                var touch = Input.GetTouch(0);
-                if (touch.phase == TouchPhase.Moved)
-                {
-                    var delta = touch.deltaPosition;
-                    mouseX = delta.x * data.Sensitivity * 0.1f;
-                    mouseY = delta.y * data.Sensitivity * 0.1f;
-                }
+                if (!MouseInput.Instance.IsHold) return;
+                _isActive = true;
+                
+                mouseX = Input.GetAxis("Mouse X") * data.Sensitivity;
+                mouseY = -Input.GetAxis("Mouse Y") * data.Sensitivity;
+                
+                _currentYaw += mouseX;
+                _currentPitch = Mathf.Clamp(_currentPitch + mouseY, data.MinPitch, data.MaxPitch);
             }
             
-            _currentYaw += mouseX;
-            _currentPitch = Mathf.Clamp(_currentPitch - mouseY, data.MinPitch, data.MaxPitch);
+            if (PlatformManager.Instance.IsMobile)
+            {
+                if (!MouseInput.Instance.IsHold || JoystickInput.Instance.IsMoving) return;
+                _isActive = true;
+                
+                if (Input.touchCount > 0)
+                {
+                    var touch = Input.GetTouch(0);
+                    if (touch.phase == TouchPhase.Moved)
+                    {
+                        var delta = touch.deltaPosition;
+                        mouseX = delta.x * data.Sensitivity * 0.1f;
+                        mouseY = delta.y * data.Sensitivity * 0.1f;
+                    }
+                }
             
-#endif
+                _currentYaw += mouseX;
+                _currentPitch = Mathf.Clamp(_currentPitch - mouseY, data.MinPitch, data.MaxPitch);
+            }
+
+            if (PlatformManager.Instance.IsCloud)
+            {
+                if(_joystickDirection.magnitude < 0.1f) return;
+                _isActive = true;
+                
+                mouseX = _joystickDirection.x * data.Sensitivity;
+                mouseY = _joystickDirection.y * data.Sensitivity;
+                
+                _currentYaw += mouseX;
+                _currentPitch = Mathf.Clamp(_currentPitch - mouseY, data.MinPitch, data.MaxPitch);
+            }
             
-            _currentYaw += mouseX;
-            _currentPitch = Mathf.Clamp(_currentPitch + mouseY, data.MinPitch, data.MaxPitch);
+            /*_currentYaw += mouseX;
+            _currentPitch = Mathf.Clamp(_currentPitch + mouseY, data.MinPitch, data.MaxPitch);*/
+        }
+        
+        private void UpdateJoystickDirection(Vector2 direction)
+        {
+            _joystickDirection = direction;
         }
 
         private void UpdateCameraPosition()

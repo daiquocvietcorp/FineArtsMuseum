@@ -44,6 +44,20 @@ namespace UI
             settingsToggle.image.sprite = settingsOffSprite;
         }
 
+        private void Start()
+        {
+            var settingCallback = new UISettingData()
+            {
+                OnBackButtonClicked = () =>
+                {
+                    settingsToggle.isOn = false;
+                    settingsToggle.image.sprite = settingsOffSprite;
+                    _isSettingsOn = false;
+                }
+            };
+            UIManager.Instance.SetDataUI("UI_SETTING", settingCallback);
+        }
+
         private void OnSettingsToggleValueChanged(bool arg0)
         {
             if(_isSettingsOn == arg0) return;
@@ -133,12 +147,12 @@ namespace UI
 
         private void SettingOff()
         {
-            
+            UIManager.Instance.DisableUI("UI_SETTING");
         }
 
         private void SettingOn()
         {
-            
+            UIManager.Instance.EnableUI("UI_SETTING");
         }
         
         private void VROff()

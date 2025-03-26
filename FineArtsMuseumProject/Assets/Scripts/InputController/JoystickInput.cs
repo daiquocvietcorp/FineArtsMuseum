@@ -17,9 +17,8 @@ namespace InputController
         
         private void Awake()
         {
-#if UNITY_EDITOR || UNITY_STANDALONE
+            if (PlatformManager.Instance.IsCloud || PlatformManager.Instance.IsMobile) return;
             gameObject.SetActive(false);
-#endif            
         }
         
         public void OnDrag(PointerEventData eventData)
@@ -50,5 +49,7 @@ namespace InputController
             _inputVector = Vector2.zero;
             _onMove?.Invoke(_inputVector);
         }
+        
+        public bool IsMoving => _inputVector.magnitude > 0.1f;
     }
 }
