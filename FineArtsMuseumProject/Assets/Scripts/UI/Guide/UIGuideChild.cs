@@ -16,6 +16,8 @@ public class UIGuideChild : MonoBehaviour
     public TextMeshProUGUI indexText;
     
     public int currentIndex;
+
+    private UIGuide _parent;
     
     // Start is called before the first frame update
     void Start()
@@ -27,10 +29,10 @@ public class UIGuideChild : MonoBehaviour
 
         guideImage.sprite = guideSprite;
         
-        indexText.text = (currentIndex + 1).ToString() + "<color=#808080>/" + UIGuide.Instance.listGuide.Count;
+        indexText.text = (currentIndex + 1).ToString() + "<color=#808080>/" + _parent.listGuide.Count;
         
         if(currentIndex <= 0 ) PreviousButton.interactable = false;
-        if(currentIndex >= UIGuide.Instance.listGuide.Count - 1) NextButton.interactable = false;
+        if(currentIndex >= _parent.listGuide.Count - 1) NextButton.interactable = false;
     }
 
     public void CloseButtonClicked()
@@ -41,18 +43,23 @@ public class UIGuideChild : MonoBehaviour
     public void PreviousButtonClicked(int currentIndex)
     {
         Debug.Log("PreviousButtonClicked:"+currentIndex);
-        UIGuide.Instance.ShowGuide(currentIndex);
+        _parent.ShowGuide(currentIndex);
     }
     
     public void NextButtonClicked(int currentIndex)
     {
         Debug.Log("NextButtonClicked:"+currentIndex);
-        UIGuide.Instance.ShowGuide(currentIndex);
+        _parent.ShowGuide(currentIndex);
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public void RegisterUIGuide(UIGuide guide)
+    {
+        _parent = guide;
     }
 }

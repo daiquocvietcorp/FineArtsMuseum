@@ -3,19 +3,19 @@ using UnityEngine.UI;
 
 public class MagnifierHover : MonoBehaviour
 {
-    public LayerMask targetLayer; // Layer cần phát hiện
     public UnityEngine.Camera mainCamera;
-    public UnityEngine.Camera zoomCamera; // Camera phụ dùng để render vùng zoom
-    public RawImage magnifierImage; // UI để hiển thị ảnh zoom
-    public float zoomSize = 1f; // Độ lớn của ảnh zoom
-    public float zoomFactor = 3f; // Độ phóng to
+    public UnityEngine.Camera zoomCamera;
+    public RawImage magnifierImage; // UI RawImage
+    public RectTransform magnifierFrame; // hình viền tròn (tuỳ chọn)
+    public LayerMask targetLayer;
+    public float zoomFactor = 3f;
+    public float cameraOffset = 0.3f;
 
     void Start()
     {
-        if (magnifierImage != null)
-        {
-            magnifierImage.gameObject.SetActive(false);
-        }
+        magnifierImage.gameObject.SetActive(false);
+        if (magnifierFrame != null)
+            magnifierFrame.gameObject.SetActive(false);
     }
 
     void Update()
@@ -26,26 +26,30 @@ public class MagnifierHover : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, 100f, targetLayer))
         {
-            Debug.Log("hit Name:"+hit.transform.name);
-            // Hiện hình ảnh phóng to
-            magnifierImage.gameObject.SetActive(true);
-
-            // Đặt UI ở vị trí chuột
-            magnifierImage.rectTransform.position = mousePos;
-
-            Debug.Log("mousePos "+mousePos);
+            if (hit.transform.tag == "Player") return;
             
-            // Di chuyển camera phụ đến vị trí trúng ray
+            // Show kính lúp
+            magnifierImage.gameObject.SetActive(true);
+            if (magnifierFrame != null)
+                magnifierFrame.gameObject.SetActive(true);
+
+            magnifierImage.rectTransform.position = mousePos;
+            if (magnifierFrame != null)
+                magnifierFrame.position = mousePos;
+
+            // Đặt vị trí camera zoom
             Vector3 hitPos = hit.point;
-            zoomCamera.transform.position = hitPos + hit.normal * 0.3f; // Cách một chút để nhìn thấy bề mặt
+            zoomCamera.transform.position = hitPos + hit.normal * cameraOffset;
             zoomCamera.transform.rotation = Quaternion.LookRotation(-hit.normal);
 
-            // Điều chỉnh FOV để zoom
+            // Zoom
             zoomCamera.fieldOfView = mainCamera.fieldOfView / zoomFactor;
         }
         else
         {
             magnifierImage.gameObject.SetActive(false);
+            if (magnifierFrame != null)
+                magnifierFrame.gameObject.SetActive(false);
         }
     }
 }
