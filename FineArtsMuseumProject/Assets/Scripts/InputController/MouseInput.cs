@@ -25,6 +25,7 @@ namespace InputController
 
         [field: SerializeField] private MouseInputData data;
         [field: SerializeField] private Transform goToPointer;
+        [field: SerializeField] private bool isVR;
 
         private void Awake()
         {
@@ -42,10 +43,11 @@ namespace InputController
 
         private void Update()
         {
+            if(isVR) return;
             if (!_isAvailable) return;
             
             var ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
-
+            
             if (Physics.Raycast(ray, out var hit, data.View3RdGoToPointLimitDistance, LayerManager.Instance.groundLayer))
             {
                 goToPointer.gameObject.SetActive(true);
