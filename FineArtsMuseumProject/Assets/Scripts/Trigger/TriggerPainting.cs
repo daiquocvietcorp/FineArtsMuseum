@@ -16,7 +16,9 @@ public class TriggerPainting : MonoBehaviour
     public GameObject paintingObject;
     public GameObject otherObject;
     public GameObject SubtitleObject;
+    public GameObject ButtonGroupCanvas;
 
+    public Collider detailCollider;
     public Renderer renderer;
     
     private bool isEnter = false;
@@ -45,8 +47,34 @@ public class TriggerPainting : MonoBehaviour
         // RenderSettings.fogMode = FogMode.ExponentialSquared;
         
         fogVFX.Stop();
+        //ButtonGroupCanvas.gameObject.SetActive(false);
     }
 
+    public static void SetLayerRecursively(GameObject obj, string layerName, bool includeSelf = true)
+    {
+        int newLayer = LayerMask.NameToLayer(layerName);
+        if (newLayer == -1)
+        {
+            Debug.LogError("Layer không tồn tại: " + layerName);
+            return;
+        }
+
+        SetLayerRecursively(obj, newLayer, includeSelf);
+    }
+    
+    private static void SetLayerRecursively(GameObject obj, int newLayer, bool includeSelf)
+    {
+        if (obj == null) return;
+
+        if (includeSelf)
+            obj.layer = newLayer;
+
+        foreach (Transform child in obj.transform)
+        {
+            SetLayerRecursively(child.gameObject, newLayer, true);
+        }
+    }
+    
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -57,7 +85,10 @@ public class TriggerPainting : MonoBehaviour
             DrmGameObject.transform.position = transform.position;
             fogVFX.transform.position = new Vector3(transform.position.x, 2, transform.position.z);
             paintingObject.layer = LayerMask.NameToLayer("IgnoreBlur");
+            SetLayerRecursively(detailCollider.gameObject, "IgnoreBlur", true);
+            detailCollider.enabled = true;
             otherObject.layer = LayerMask.NameToLayer("IgnoreBlur");
+            ButtonGroupCanvas.gameObject.SetActive(true);
             SubtitleObject.SetActive(true);
             isEnter = true;
             currentTrigger = true;
@@ -74,6 +105,7 @@ public class TriggerPainting : MonoBehaviour
             fogVFX.Stop();
             
             SubtitleObject.SetActive(false);
+            detailCollider.enabled = false;
         }
     }
 
@@ -93,7 +125,9 @@ public class TriggerPainting : MonoBehaviour
         {
             DrmGameObject.radius = 0f;
             paintingObject.layer = LayerMask.NameToLayer("Default");
+            ButtonGroupCanvas.gameObject.SetActive(false);
             otherObject.layer = LayerMask.NameToLayer("Default");
+            SetLayerRecursively(detailCollider.gameObject, "Default", true);
             currentTrigger = false;
             renderer.enabled = false;
         }

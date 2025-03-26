@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using DesignPatterns;
+using UI;
 using UnityEngine;
 
-public class UIGuide : MonoSingleton<UIGuide>
+public class UIGuide : UIBasic
 {
     public List<UIGuideChild> listGuide;
     
@@ -22,12 +23,11 @@ public class UIGuide : MonoSingleton<UIGuide>
     // Start is called before the first frame update
     void Start()
     {
-        ShowGuide(0);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
         
+        for (int i = 0; i < listGuide.Count; i++)
+        {
+            listGuide[i].RegisterUIGuide(this);
+        }
+        ShowGuide(0);
     }
 }
