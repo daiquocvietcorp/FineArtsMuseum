@@ -1,4 +1,5 @@
 using System.Collections;
+using Audio;
 using UnityEngine;
 
 public class TriggerZoneDynamic: MonoBehaviour
@@ -14,6 +15,8 @@ public class TriggerZoneDynamic: MonoBehaviour
         {
             playerInside = true;
             triggerCoroutine = StartCoroutine(TriggerEvent());
+            //var audioData = AudioSubtitleManager.Instance.GetAudioClipData(triggerId);
+            //AudioManager.Instance.EnterAudioArea(audioData.);
         }
     }
 
@@ -32,7 +35,6 @@ public class TriggerZoneDynamic: MonoBehaviour
             // Dừng Audio và Xóa Subtitle
             AudioSubtitleManager.Instance.StopAudioAndClearSubtitle();
             AudioSubtitleManager.Instance.CloseArtPanelButton();
-
         }
     }
 

@@ -33,7 +33,6 @@ public class AudioSubtitleManager : MonoBehaviour
     public AudioSource audioSource;
     public TMP_Text dynamicSubtitleText;
     public List<TMP_Text> staticSubtitleText;
-    public GameObject staticSubtitlePanel;
     public float minTimePerLine = 1.0f; // Thời gian tối thiểu để hiển thị mỗi dòng
 
     // public List<Button> buttons;
@@ -47,7 +46,13 @@ public class AudioSubtitleManager : MonoBehaviour
     // Toggle để chọn ngôn ngữ
     public Toggle toggleEnglish;
     public Toggle toggleVietnamese;
-
+    
+    public AudioClip ambientSound;
+    public float ambientVolume = 0.5f;
+    private bool _isPlayingAmbientSound = false;
+    private bool _isPlayingAudio = false;
+    
+    
     void Awake()
     {
         if (Instance == null)
@@ -65,6 +70,9 @@ public class AudioSubtitleManager : MonoBehaviour
         // staticSubtitlePanel.SetActive(false);
         toggleEnglish.onValueChanged.AddListener((isOn) => OnToggleChanged(isOn, "en"));
         toggleVietnamese.onValueChanged.AddListener((isOn) => OnToggleChanged(isOn, "vi"));
+        _isPlayingAmbientSound = false;
+        _isPlayingAudio = false;
+        TurnAmbientSound();
     }
     // void AssignButtonEvents()
     // {
@@ -95,6 +103,11 @@ public class AudioSubtitleManager : MonoBehaviour
         {
             Debug.LogWarning($"No matching audio found for button: {id}");
         }
+    }
+    
+    public AudioClipData GetAudioClipData(string id)
+    {
+        return GetClipDataById(id);
     }
     
     public void CloseArtPanelButton()
@@ -157,39 +170,81 @@ public class AudioSubtitleManager : MonoBehaviour
     
     public void PlayAudioWithSubtitle(string id)
     {
-        currentPlayingAudioId = id;
-        AudioClipData clipData = GetClipDataById(id);
-        if (clipData == null)
+        if (_isPlayingAudio)
         {
-            Debug.LogWarning($"No matching audio found for trigger ID: {id}");
-            return;
-        }
-
-        string audioPath = (currentLanguage == "vi") ? clipData.audioPath_vi : clipData.audioPath_en;
-        AudioClip clip = Resources.Load<AudioClip>(audioPath);
-        if (audioSource.isPlaying)
-        {
-            StopAudioAndClearSubtitle();
-        }
-        if (clip != null && !audioSource.isPlaying)
-        {
-            audioSource.clip = clip;
-            audioSource.Play();
-
-            if (clipData.type == "dynamic")
+            //Muốn tắt audio
+            if (_isPlayingAmbientSound) //ambient đang trong trạng thái bật
             {
-                if (subtitleCoroutine != null)
-                    StopCoroutine(subtitleCoroutine);
-                subtitleCoroutine = StartCoroutine(DisplayDynamicSubtitle(clipData.subtitle, clip.length));
+                audioSource.clip = ambientSound;
+                audioSource.volume = ambientVolume;
+                audioSource.loop = true;
             }
-            else if (clipData.type == "static")
-            {
-                ShowStaticSubtitle();
-            }
+            _isPlayingAudio = false;
         }
         else
         {
-            Debug.LogError("Audio clip not found: " + audioPath);
+            //Muốn bật audio
+            if (_isPlayingAmbientSound)
+            {
+                audioSource.Stop();
+                _isPlayingAmbientSound = false;
+            }
+            
+            currentPlayingAudioId = id;
+            AudioClipData clipData = GetClipDataById(id);
+            if (clipData == null)
+            {
+                Debug.LogWarning($"No matching audio found for trigger ID: {id}");
+                return;
+            }
+
+            string audioPath = (currentLanguage == "vi") ? clipData.audioPath_vi : clipData.audioPath_en;
+            AudioClip clip = Resources.Load<AudioClip>(audioPath);
+            if (audioSource.isPlaying)
+            {
+                StopAudioAndClearSubtitle();
+            }
+        
+            if (clip != null && !audioSource.isPlaying)
+            {
+                audioSource.clip = clip;
+                audioSource.Play();
+
+                if (clipData.type == "dynamic")
+                {
+                    if (subtitleCoroutine != null)
+                        StopCoroutine(subtitleCoroutine);
+                    subtitleCoroutine = StartCoroutine(DisplayDynamicSubtitle(clipData.subtitle, clip.length));
+                }
+                else if (clipData.type == "static")
+                {
+                    ShowStaticSubtitle();
+                }
+            }
+            else
+            {
+                Debug.LogError("Audio clip not found: " + audioPath);
+            }
+            _isPlayingAudio = true;
+        }
+    }
+    
+    public void TurnAmbientSound()
+    {
+        if (_isPlayingAmbientSound)
+        {
+            if(_isPlayingAudio) return;
+            audioSource.Stop();
+            _isPlayingAmbientSound = false;
+        }
+        else
+        {
+            if(_isPlayingAudio) return;
+            audioSource.clip = ambientSound;
+            audioSource.volume = ambientVolume;
+            audioSource.loop = true;
+            audioSource.Play();
+            _isPlayingAmbientSound = true;
         }
     }
 
