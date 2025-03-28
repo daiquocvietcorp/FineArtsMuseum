@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using DesignPatterns;
 using UnityEngine;
@@ -17,28 +18,36 @@ namespace UI
             _uiDictionary = new Dictionary<string, UIBasic>();
             foreach (var uiObject in uiObjects)
             {
-                _uiDictionary.Add(uiObject.key, uiObject.ui);
+                _uiDictionary.Add(uiObject.key, uiObject.standaloneUI);
             }
+            
+            EnableUI("UI_START");
         }
         
-        public UIBasic GetUI(string key)
+        private UIBasic GetUI(string key)
         {
-            return _uiDictionary.GetValueOrDefault(key);
+            if(PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
+                return uiObjects.Find(x => x.key == key).standaloneUI;
+            
+            if(PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud)
+                return uiObjects.Find(x => x.key == key).mobileUI;
+            
+            return null;
         }
         
         public void EnableUI(string key)
         {
-            _uiDictionary.GetValueOrDefault(key)?.EnableUI();
+            GetUI(key)?.EnableUI();
         }
         
         public void DisableUI(string key)
         {
-            _uiDictionary.GetValueOrDefault(key)?.DisableUI();
+            GetUI(key)?.DisableUI();
         }
 
         public void SetDataUI(string key, IUIData data)
         {
-            _uiDictionary.GetValueOrDefault(key)?.SetData(data);
+            GetUI(key)?.SetData(data);
         }
     }
 

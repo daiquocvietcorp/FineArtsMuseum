@@ -29,6 +29,10 @@ namespace Player
         private void Awake()
         {
             _isActive = true;
+            if (PlatformManager.Instance.IsVR)
+            {
+                gameObject.SetActive(false);
+            }
         }
 
         private void Start()
@@ -39,7 +43,16 @@ namespace Player
             _currentState.EnterState(this);
             
             //stepRayUpper.transform.position = new Vector3(stepRayUpper.transform.position.x, stepHeight, stepRayUpper.transform.position.z);
-            MouseInput.Instance.RegisterClick(MoveCharacter);
+
+            if (PlatformManager.Instance.IsCloud)
+            {
+                MouseInput.Instance.RegisterClick(MoveCharacterByGoToPointCloud);
+            }
+            else
+            {
+                MouseInput.Instance.RegisterClick(MoveCharacter);
+            }
+            
             JoystickInput.Instance.RegisterActionMove(MoveCharacter);
         }
 
@@ -125,8 +138,18 @@ namespace Player
             var ray = _cameraMain.ScreenPointToRay(position);
             if (!Physics.Raycast(ray, out var hit, Mathf.Infinity, LayerManager.Instance.groundLayer)) return;
             
-            _touchPosition = hit.point;
+            MoveCharacterByGoToPointCloud(hit.point);
+        }
+
+        private void MoveCharacterByGoToPointCloud(Vector3 position)
+        {
+            _touchPosition = position;
             _isUsingTouch = true;
+            
+            if (PlatformManager.Instance.IsMobile)
+            {
+                MouseInput.Instance.ShowGoToPointer(_touchPosition);
+            }
             
             _currentState.ExitState(this);
             _currentState = new CharacterWalkState();
@@ -173,7 +196,7 @@ namespace Player
 
         private void MoveCharacter(Vector2 direction)
         {
-            if (direction == Vector2.zero)
+            if (direction.magnitude < 0.1f)
             {
                 _isUsingJoystick = false;
                 SwitchState(new CharacterIdleState());

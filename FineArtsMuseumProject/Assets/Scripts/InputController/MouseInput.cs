@@ -1,7 +1,11 @@
 using System;
+using System.Collections;
 using Camera;
 using DesignPatterns;
 using LayerMasks;
+using Player;
+using Unity.VisualScripting;
+using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -22,14 +26,23 @@ namespace InputController
         
         private bool _isFirstPerson;
         private bool _canClickMove;
+        private Coroutine _clickMoveCoroutine;
 
         [field: SerializeField] private MouseInputData data;
         [field: SerializeField] private Transform goToPointer;
-        [field: SerializeField] private bool isVR;
+        
+        private GoToPointCloud _goToPointCloud;
 
         private void Awake()
         {
             _isAvailable = true;
+            if (!PlatformManager.Instance.IsCloud) return;
+            _goToPointCloud = goToPointer.AddComponent<GoToPointCloud>();
+            goToPointer.gameObject.layer = LayerManager.Instance.pointCloudLayer.GetFirstLayerIndex();
+            _goToPointCloud.RegisterActionClick(position =>
+            {
+                _onClick?.Invoke(position);
+            });
         }
         
         private void Start()
@@ -39,34 +52,30 @@ namespace InputController
             _isHold = false;
             _isFirstPerson = false;
             _canClickMove = false;
+            goToPointer.gameObject.SetActive(false);
         }
 
         private void Update()
         {
-            if(isVR) return;
+            if(PlatformManager.Instance.IsVR) return;
             if (!_isAvailable) return;
-            
-            var ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
-            
-            if (Physics.Raycast(ray, out var hit, data.View3RdGoToPointLimitDistance, LayerManager.Instance.groundLayer))
-            {
-                goToPointer.gameObject.SetActive(true);
-                goToPointer.position = hit.point;
-                _canClickMove = true;
-            }
-            else
-            {
-                goToPointer.gameObject.SetActive(false);
-                _canClickMove = false;
-            }
-            
-            if (!PlatformManager.Instance.IsStandalone && !PlatformManager.Instance.IsWebGL)
-            {
-                goToPointer.gameObject.SetActive(false);
-            }
 
             if (PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
             {
+                var ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
+            
+                if (Physics.Raycast(ray, out var hit, data.View3RdGoToPointLimitDistance, LayerManager.Instance.groundLayer))
+                {
+                    goToPointer.gameObject.SetActive(true);
+                    goToPointer.position = hit.point;
+                    _canClickMove = true;
+                }
+                else
+                {
+                    goToPointer.gameObject.SetActive(false);
+                    _canClickMove = false;
+                }
+                
                 if (Input.GetMouseButtonDown(0))
                 {
                     _holdTimer = Time.time;
@@ -108,6 +117,7 @@ namespace InputController
                     {
                         _isClick = true;
                         _isHold = false;
+                        
                         _onClick?.Invoke(touch.position);
                     }
                     else if (touch.phase == TouchPhase.Moved && Time.time - _holdTimer > 0.2f)
@@ -124,6 +134,41 @@ namespace InputController
                     }
                 }
             }
+
+            if (PlatformManager.Instance.IsCloud)
+            {
+                //ray center camera
+                if(!_isFirstPerson)
+                {
+                    goToPointer.gameObject.SetActive(false);
+                    return;
+                }
+                
+                var ray = _mainCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+                if (Physics.Raycast(ray, out var hit, data.View3RdGoToPointLimitDistance, LayerManager.Instance.groundLayer))
+                {
+                    goToPointer.gameObject.SetActive(true);
+                    goToPointer.position = hit.point;
+                }
+                else
+                {
+                    goToPointer.gameObject.SetActive(false);
+                }
+            }
+        }
+
+        public void ShowGoToPointer(Vector3 position)
+        {
+            if(_clickMoveCoroutine != null) StopCoroutine(_clickMoveCoroutine);
+            _clickMoveCoroutine = StartCoroutine(ShowGotoPointerCoroutine(position));
+        }
+
+        private IEnumerator ShowGotoPointerCoroutine(Vector3 position)
+        {
+            goToPointer.position = position;
+            goToPointer.gameObject.SetActive(true);
+            yield return new WaitForSeconds(1f);
+            goToPointer.gameObject.SetActive(false);
         }
         
         public void ChangeView(bool isFirstPerson)

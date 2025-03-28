@@ -44,6 +44,7 @@ namespace Camera
 
         private void Update()
         {
+            if(PlatformManager.Instance.IsVR) return;
             UpdateCameraPosition();
             directionFirstView.SetPosition(transform);
             
@@ -84,7 +85,8 @@ namespace Camera
 
             if (PlatformManager.Instance.IsCloud)
             {
-                if(_joystickDirection.magnitude < 0.1f) return;
+                //if(_joystickDirection.magnitude < 0.1f) return;
+                if(_joystickDirection == Vector2.zero) return;
                 _isActive = true;
                 
                 mouseX = _joystickDirection.x * data.Sensitivity;
@@ -135,8 +137,8 @@ namespace Camera
         public void SetFirstPersonView()
         {
             if(_isFirstPerson) return;
-            MouseInput.Instance.ChangeView(_isFirstPerson);
             _isFirstPerson = true;
+            MouseInput.Instance.ChangeView(_isFirstPerson);
             
             if(_changeViewCoroutine != null)
             {
@@ -146,6 +148,8 @@ namespace Camera
             _changeViewCoroutine = StartCoroutine(ChangeView(data.View3RdPerson, data.View1StPerson));
             directionFirstView.EnableDirectionFirstView();
         }
+        
+        public bool IsFirstPerson => _isFirstPerson;
 
         private IEnumerator ChangeView(CameraFollowDistance dataView3RdPerson, CameraFollowDistance dataView1StPerson)
         {
@@ -165,8 +169,8 @@ namespace Camera
         public void SetThirdPersonView()
         {
             if(!_isFirstPerson) return;
-            MouseInput.Instance.ChangeView(_isFirstPerson);
             _isFirstPerson = false;
+            MouseInput.Instance.ChangeView(_isFirstPerson);
             
             if(_changeViewCoroutine != null)
             {
