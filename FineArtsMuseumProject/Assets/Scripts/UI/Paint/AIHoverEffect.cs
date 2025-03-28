@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
@@ -13,6 +14,7 @@ public class AIHoverEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     [Header("Text")]
     public string defaultText = "AI";
     public string hoverText = "AI DIỄN HOẠT";
+    public string hoverTextEnglish = "AI ANIMATION";
 
     [Header("Button Size")]
     public float defaultWidth = 60f;
@@ -40,6 +42,9 @@ public class AIHoverEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     private Vector2 originalSize;
     private Sequence _enterSequence;
     private Sequence _exitSequence;
+    
+    private Tween _sizeTween;
+    private Tween _ppuTween;
 
     public void SetDefaultSprite()
     {
@@ -161,63 +166,127 @@ public class AIHoverEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         // });
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
+    public void SetButtonTextLanguage(bool enter)
     {
-        // _enterSequence.Restart();
-        // return;
-        isHovered = true;
-        buttonTransform.DOSizeDelta(new Vector2(hoverWidth, height), duration).SetEase(easing);
-        if (buttonText != null) buttonText.text = hoverText;
-
-        DOTween.To(() => buttonImage.pixelsPerUnitMultiplier,
-            x => buttonImage.pixelsPerUnitMultiplier = x,
-            hoverPPU,
-            duration).SetEase(easing);
-
-        if (!isSelected)
+        if (enter)
         {
-            if (hoverSprite != null)
+            if (buttonText != null)
             {
-                buttonImage.sprite = hoverSprite;
+                string currentLanguage = PlayerPrefs.GetString("Language", "vi");
+                if (currentLanguage == "vi")
+                {
+                    buttonText.text = hoverText;
+                }
+                else if (currentLanguage == "en")
+                {
+                    buttonText.text = hoverTextEnglish;
+                }
             }
         }
         else
         {
-            if (hoverSpriteSelected != null)
+            if (buttonText != null)
             {
-                buttonImage.sprite = hoverSpriteSelected;
+                buttonText.text = defaultText;
             }
+            
         }
         
     }
 
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        isHovered = true;
+
+        // Stop coroutine nếu đang chạy
+        if (typingCoroutine != null)
+        {
+            StopCoroutine(typingCoroutine);
+            typingCoroutine = null;
+        }
+
+        // Kill tween cũ nếu đang hoạt động
+        _sizeTween?.Kill();
+        _ppuTween?.Kill();
+
+        // Reset text trước khi typing
+        buttonText.text = "";
+
+        // Bắt đầu typing
+        string currentLanguage = PlayerPrefs.GetString("Language", "vi");
+        string targetText = (currentLanguage == "vi") ? hoverText : hoverTextEnglish;
+        typingCoroutine = StartCoroutine(AnimateTypingText(targetText, duration));
+
+        // Animate button size
+        _sizeTween = buttonTransform.DOSizeDelta(new Vector2(hoverWidth, height), duration)
+            .SetEase(easing);
+
+        // Animate pixels per unit
+        _ppuTween = DOTween.To(() => buttonImage.pixelsPerUnitMultiplier,
+            x => buttonImage.pixelsPerUnitMultiplier = x,
+            hoverPPU,
+            duration).SetEase(easing);
+
+        // Sprite change
+        if (!isSelected)
+        {
+            if (hoverSprite != null) buttonImage.sprite = hoverSprite;
+        }
+        else
+        {
+            if (hoverSpriteSelected != null) buttonImage.sprite = hoverSpriteSelected;
+        }
+    }
+    private Coroutine typingCoroutine;
+
+    private IEnumerator AnimateTypingText(string fullText, float totalDuration)
+    {
+        if (buttonText == null) yield break;
+
+        buttonText.text = "";
+        float delay = totalDuration / fullText.Length;
+
+        for (int i = 0; i < fullText.Length; i++)
+        {
+            buttonText.text += fullText[i];
+            yield return new WaitForSeconds(delay);
+        }
+    }
+
     public void OnPointerExit(PointerEventData eventData)
     {
-        // _exitSequence.Restart();
-        // return;
         isHovered = false;
-        buttonTransform.DOSizeDelta(originalSize, duration).SetEase(easing);
-        if (buttonText != null) buttonText.text = defaultText;
 
+        // Stop typing
+        if (typingCoroutine != null)
+        {
+            StopCoroutine(typingCoroutine);
+            typingCoroutine = null;
+        }
+
+        // Kill tween cũ nếu còn
+        _sizeTween?.Kill();
+        _ppuTween?.Kill();
+
+        // Reset về trạng thái ban đầu
+        buttonTransform.DOSizeDelta(originalSize, duration).SetEase(easing);
         DOTween.To(() => buttonImage.pixelsPerUnitMultiplier,
             x => buttonImage.pixelsPerUnitMultiplier = x,
             defaultPPU,
             duration).SetEase(easing);
 
+        if (buttonText != null)
+        {
+            buttonText.text = defaultText;
+        }
+
         if (!isSelected)
         {
-            if (defaultSprite != null)
-            {
-                buttonImage.sprite = defaultSprite;
-            }
+            if (defaultSprite != null) buttonImage.sprite = defaultSprite;
         }
         else
         {
-            if (defaultSpriteSelected != null)
-            {
-                buttonImage.sprite = defaultSpriteSelected;
-            }
+            if (defaultSpriteSelected != null) buttonImage.sprite = defaultSpriteSelected;
         }
-        
     }
 }

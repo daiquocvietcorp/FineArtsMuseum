@@ -12,14 +12,14 @@ GameObject:
   - component: {fileID: 2880025201065570788}
   - component: {fileID: 2880025201065570789}
   - component: {fileID: 2880025201065570786}
-  - component: {fileID: 2880025201065570790}
-  m_Layer: 10
+  - component: {fileID: 233243755}
+  m_Layer: 6
   m_Name: InteractiveObject
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2880025201065570791
 Transform:
   m_ObjectHideFlags: 0
@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d33fe5ce4b6a17a40baed3fadb32719e, type: 2}
+  - {fileID: 2100000, guid: f93b5829a15686c4faa2ff59b9c38795, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -98,7 +98,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2880025201065570790
+--- !u!114 &233243755
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -107,7 +107,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2880025201065570787}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c2a928e78f353e4fb43ef9b824cb64c, type: 3}
+  m_Script: {fileID: 11500000, guid: 5fcdabb0993654847a0e53b3abbdf5ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 50
+  rotationSpeed: 100
+  zoomSpeed: 0.01
+  minScale: 0.2
+  maxScale: 3
+  resetDuration: 0.5
