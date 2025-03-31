@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,7 +14,7 @@ public class PaintDetail : MonoBehaviour
 
     private bool isVolumnOn = true;
     private Image volumnImage;
-    
+
     public TriggerPaintDetail triggerPaintDetail;
 
     void Start()
@@ -31,8 +32,24 @@ public class PaintDetail : MonoBehaviour
         UpdateVolumnSprite();
     }
 
+    private void OnEnable()
+    {
+        if (triggerPaintDetail.triggerPainting != null)
+            AudioSubtitleManager.Instance.PlayAudioWithSubtitle(triggerPaintDetail.triggerPainting.GetComponent<TriggerZoneDynamic>().triggerId);
+    }
+
+    private void OnDisable()
+    {
+        volumnButton.image.sprite = volumnOnSprite;
+        isVolumnOn = true;
+    }
+
+
     void ClosePanel()
     {
+        volumnButton.image.sprite = volumnOnSprite;
+        isVolumnOn = true;
+        AudioSubtitleManager.Instance.StopAudioAndClearSubtitle();
         triggerPaintDetail.ResetFade();
         gameObject.SetActive(false);
     }
@@ -42,7 +59,17 @@ public class PaintDetail : MonoBehaviour
         isVolumnOn = !isVolumnOn;
         UpdateVolumnSprite();
 
-        // Ở đây bạn có thể thêm code bật/tắt âm thanh thực tế nếu cần
+        if (isVolumnOn)
+        {
+            // Bật âm thanh kèm phụ đề
+            AudioSubtitleManager.Instance.PlayAudioWithSubtitle(triggerPaintDetail.triggerPainting.GetComponent<TriggerZoneDynamic>().triggerId);
+        }
+        else
+        {
+            // Tắt âm thanh và phụ đề
+            AudioSubtitleManager.Instance.StopAudioAndClearSubtitle();
+        }
+
         Debug.Log("Volumn is now " + (isVolumnOn ? "On" : "Off"));
     }
 

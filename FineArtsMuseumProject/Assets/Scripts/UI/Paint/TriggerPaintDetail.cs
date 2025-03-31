@@ -12,6 +12,8 @@ public class TriggerPaintDetail : MonoBehaviour,IPointerDownHandler
     public GameObject wsObject;
     public GameObject playerObject;
 
+    public TriggerPainting triggerPainting;
+
     public void OnPointerDown(PointerEventData eventData)
     {
         Debug.Log("!");

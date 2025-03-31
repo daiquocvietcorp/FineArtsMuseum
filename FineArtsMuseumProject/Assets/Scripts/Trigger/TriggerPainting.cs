@@ -17,9 +17,15 @@ public class TriggerPainting : MonoBehaviour
     public GameObject otherObject;
     public GameObject SubtitleObject;
     public GameObject ButtonGroupCanvas;
+    public GameObject ScreenOutlineEffect;
+    public GameObject Player;
 
     public Collider detailCollider;
     public Renderer renderer;
+    
+    public UIPainting UIPainting;
+    
+    public PaintRotateAndZoom paintRotateAndZoom;
     
     private bool isEnter = false;
     private bool currentTrigger = false;
@@ -45,8 +51,8 @@ public class TriggerPainting : MonoBehaviour
         // Thiết lập Fog Mode
         // RenderSettings.fog = true;
         // RenderSettings.fogMode = FogMode.ExponentialSquared;
-        
         fogVFX.Stop();
+        //paintRotateAndZoom = paintingObject.GetComponent<PaintRotateAndZoom>();
         //ButtonGroupCanvas.gameObject.SetActive(false);
     }
 
@@ -65,7 +71,7 @@ public class TriggerPainting : MonoBehaviour
     private static void SetLayerRecursively(GameObject obj, int newLayer, bool includeSelf)
     {
         if (obj == null) return;
-
+        Debug.Log("Setlayer:"+ obj.name);
         if (includeSelf)
             obj.layer = newLayer;
 
@@ -84,16 +90,24 @@ public class TriggerPainting : MonoBehaviour
             renderer.enabled = true;
             DrmGameObject.transform.position = transform.position;
             fogVFX.transform.position = new Vector3(transform.position.x, 2, transform.position.z);
-            paintingObject.layer = LayerMask.NameToLayer("IgnoreBlur");
+            //paintingObject.layer = LayerMask.NameToLayer("IgnoreBlur");
             SetLayerRecursively(detailCollider.gameObject, "IgnoreBlur", true);
+            SetLayerRecursively(paintingObject, "IgnoreBlur", true);
+            SetLayerRecursively(otherObject, "IgnoreBlur", true);
+            SetLayerRecursively(Player, "IgnoreBlur", true);
+            //otherObject.layer = LayerMask.NameToLayer("IgnoreBlur");
+            ScreenOutlineEffect.SetActive(true);
+            SetLayerRecursively(ScreenOutlineEffect, "IgnoreBlur", true);
+            paintRotateAndZoom.enabled = true;
             detailCollider.enabled = true;
-            otherObject.layer = LayerMask.NameToLayer("IgnoreBlur");
+            detailCollider.GetComponent<TriggerPaintDetail>().triggerPainting = this;
             ButtonGroupCanvas.gameObject.SetActive(true);
             SubtitleObject.SetActive(true);
             isEnter = true;
             currentTrigger = true;
             //UnityEngine.Camera.main.transform.LookAt(paintingObject.transform);
-            fogVFX.Play();  
+            fogVFX.Play();
+            //UIPainting.SetDefaultAll();
         }
     }
 
@@ -103,9 +117,20 @@ public class TriggerPainting : MonoBehaviour
         {
             isEnter = false;    
             fogVFX.Stop();
+            paintRotateAndZoom.SmoothResetTransform();
+            paintRotateAndZoom.enabled = false;
+            SetLayerRecursively(ScreenOutlineEffect, "Default", true);
+            ScreenOutlineEffect.SetActive(false);
+            //Debug.Log(other.gameObject.name);
             
+            SetLayerRecursively(Player, "Default", true);
             SubtitleObject.SetActive(false);
+            UIPainting.magnifierHover.enabled = false;
+            detailCollider.GetComponent<TriggerPaintDetail>().ResetFade();
+            detailCollider.GetComponent<TriggerPaintDetail>().triggerPainting = null;
+            detailCollider.GetComponent<TriggerPaintDetail>().paintDescription.SetActive(false);
             detailCollider.enabled = false;
+            UIPainting.SetDefaultAll();
         }
     }
 
@@ -121,13 +146,17 @@ public class TriggerPainting : MonoBehaviour
             renderer.enabled = false;
         }
         
-        if(DrmGameObject.radius <= 0f && !isEnter && DrmGameObject.gameObject.activeSelf && currentTrigger)
+        if(DrmGameObject.radius <= 0f && !isEnter && DrmGameObject.gameObject.activeSelf && currentTrigger) 
         {
             DrmGameObject.radius = 0f;
-            paintingObject.layer = LayerMask.NameToLayer("Default");
+            //paintingObject.layer = LayerMask.NameToLayer("Default");
             ButtonGroupCanvas.gameObject.SetActive(false);
-            otherObject.layer = LayerMask.NameToLayer("Default");
+            //otherObject.layer = LayerMask.NameToLayer("Default");
+            SetLayerRecursively(paintingObject, "Default", true);
             SetLayerRecursively(detailCollider.gameObject, "Default", true);
+            SetLayerRecursively(otherObject, "Default", true);
+            SetLayerRecursively(Player, "Default", true);
+            
             currentTrigger = false;
             renderer.enabled = false;
         }

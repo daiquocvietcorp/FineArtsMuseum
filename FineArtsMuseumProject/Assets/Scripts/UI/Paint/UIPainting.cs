@@ -4,6 +4,8 @@ using UI;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using UnityEngine.Serialization;
+
 public class UIPainting : UIBasic
 {
     public Button guideButton;
@@ -14,11 +16,14 @@ public class UIPainting : UIBasic
     public bool isZoom = false;
     public bool isAI = false;
     
-    public Sprite guideDefaultSprite;
-    public Sprite guideSelectedSprite;
+    [FormerlySerializedAs("guideDefaultSprite")] public Sprite guideButtonDefaultSprite;
+    [FormerlySerializedAs("zoomDefaultSprite")] public Sprite zoomButtonDefaultSprite;
     
-    public Sprite zoomDefaultSprite;
-    public Sprite zoomSelectedSprite;
+    
+    public Sprite guideViSprite;
+    public Sprite guideEnglishSprite;
+    public Sprite zoomViSprite;
+    public Sprite zoomEnglishSprite;
 
     public Image guideRotateImage;
     public Image guideZoomImage;
@@ -29,6 +34,8 @@ public class UIPainting : UIBasic
     public Vector3 guideZoomDefaultPosition;
 
     public float durartion = 9f;
+    
+    public PaintRotateAndZoom paintRotateAndZoom;
     
     private Coroutine _guideRotateCoroutine;
     
@@ -45,27 +52,49 @@ public class UIPainting : UIBasic
 
     private Sequence _guideSequence;
 
+    public void SetDefaultAll()
+    {
+        isGuide = false;
+        isZoom = false;
+        isAI = false;
+        
+        guideButton.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
+        zoomButton.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
+        aiButton.GetComponent<AIHoverEffect>().SetDefaultSprite();
+        
+        StopGuideSequence();
+        SetGuideImageOff();
+        
+        paintRotateAndZoom.SmoothResetTransform();
+        paintRotateAndZoom.enabled = false;
+    }
+    
 public void GuidePaintingClicked()
 {
     isAI = false;
     isZoom = false;
 
     aiButton.GetComponent<AIHoverEffect>().SetDefaultSprite();
-    zoomButton.image.sprite = zoomDefaultSprite;
+    zoomButton.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
     magnifierHover.enabled = false;
 
     if (isGuide)
     {
-        guideButton.image.sprite = guideDefaultSprite;
+        //guideButton.image.sprite = guideDefaultSprite;
         StopGuideSequence();
         SetGuideImageOff();
         isGuide = false;
+        paintRotateAndZoom.enabled = true;
+        guideButton.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
     }
     else
     {
-        guideButton.image.sprite = guideSelectedSprite;
+        //guideButton.image.sprite = guideSelectedSprite;
         StartGuideSequence();
         isGuide = true;
+        paintRotateAndZoom.SmoothResetTransform();
+        paintRotateAndZoom.enabled = false;
+        guideButton.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
     }
 }
 
@@ -95,6 +124,18 @@ private void SetGuideImageOff()
 
 private void StartGuideSequence()
 {
+    string currentLanguage = PlayerPrefs.GetString("Language", "vi");
+    if (currentLanguage == "vi")
+    {
+        guideRotateImage.sprite = guideViSprite;
+        guideZoomImage.sprite = zoomViSprite;
+    }
+    else if (currentLanguage == "en")
+    {
+        guideRotateImage.sprite = guideEnglishSprite;
+        guideZoomImage.sprite = zoomEnglishSprite;
+    }
+    
     // Tính toán vị trí cho hiệu ứng trục X
     Vector3 rotateStartPos = guideRotateDefaultPosition;
     rotateStartPos.x -= 5f;
@@ -153,8 +194,10 @@ private void StartGuideSequence()
     _guideSequence.AppendCallback(() => guideZoomImage.gameObject.SetActive(false));
 
     // Kết thúc
-    _guideSequence.AppendCallback(() => guideButton.image.sprite = guideDefaultSprite);
+    _guideSequence.AppendCallback(() => guideButton.image.sprite = guideButtonDefaultSprite);
     _guideSequence.AppendCallback(() => isGuide = false);
+    _guideSequence.AppendCallback(() => paintRotateAndZoom.SmoothResetTransform());
+    _guideSequence.AppendCallback(() => paintRotateAndZoom.enabled = true);
 
     _guideSequence.SetAutoKill(true);
 }
@@ -165,7 +208,7 @@ private void StartGuideSequence()
         isAI = false;
         
         aiButton.GetComponent<AIHoverEffect>().SetDefaultSprite();
-        guideButton.image.sprite = guideDefaultSprite;
+        guideButton.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
 
         
         
@@ -174,15 +217,18 @@ private void StartGuideSequence()
         
         if (isZoom)
         {
-            zoomButton.image.sprite = zoomDefaultSprite;
             magnifierHover.enabled = false;
             isZoom = false;
+            paintRotateAndZoom.enabled = true;
+            zoomButton.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
         }
         else
         {
             magnifierHover.enabled = true;
-            zoomButton.image.sprite = zoomSelectedSprite;
             isZoom = true;
+            paintRotateAndZoom.SmoothResetTransform();
+            paintRotateAndZoom.enabled = false;
+            zoomButton.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
         }
     }
     
@@ -191,8 +237,8 @@ private void StartGuideSequence()
         isGuide = false;
         isZoom = false;
         
-        guideButton.image.sprite = guideDefaultSprite;
-        zoomButton.image.sprite = zoomDefaultSprite;
+        guideButton.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
+        zoomButton.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
         
         magnifierHover.enabled = false;
         
@@ -205,6 +251,7 @@ private void StartGuideSequence()
             aiButton.GetComponent<AIHoverEffect>().OnClickedButton();
             
             isAI = false;
+            paintRotateAndZoom.enabled = true;
         }
         else
         {
@@ -212,6 +259,8 @@ private void StartGuideSequence()
             aiButton.GetComponent<AIHoverEffect>().isSelected = true;
             aiButton.GetComponent<AIHoverEffect>().OnClickedButton();
             isAI = true;
+            paintRotateAndZoom.SmoothResetTransform();
+            paintRotateAndZoom.enabled = false;
         }
     }
 

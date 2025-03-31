@@ -94,7 +94,7 @@ public class AudioSubtitleManager : MonoBehaviour
     public void StartArtPanelButton(string id)
     {
         AudioClipData clipData = GetClipDataById(id);
-        if (clipData != null)
+        if (clipData != null && TriggerButton != null)
         {
             TriggerButton.gameObject.SetActive(true);
             TriggerButton.onClick.AddListener(() => PlayAudioWithSubtitle(id));
@@ -112,6 +112,7 @@ public class AudioSubtitleManager : MonoBehaviour
     
     public void CloseArtPanelButton()
     {
+        if(TriggerButton != null)
             TriggerButton.gameObject.SetActive(false);
     }
     void OnToggleChanged(bool isOn, string toggleString)
@@ -170,8 +171,10 @@ public class AudioSubtitleManager : MonoBehaviour
     
     public void PlayAudioWithSubtitle(string id)
     {
+        Debug.Log("Play Audio with Subtitle: " + id);
         if (_isPlayingAudio)
         {
+            Debug.Log("set _isPlayingAudio False");
             //Muốn tắt audio
             if (_isPlayingAmbientSound) //ambient đang trong trạng thái bật
             {
@@ -183,6 +186,7 @@ public class AudioSubtitleManager : MonoBehaviour
         }
         else
         {
+            Debug.Log("Set _isPlayingAudio true");
             //Muốn bật audio
             if (_isPlayingAmbientSound)
             {
@@ -315,6 +319,8 @@ public class AudioSubtitleManager : MonoBehaviour
                 vText.text = ""; // Xóa nội dung nếu không có dữ liệu phù hợp
                 Debug.LogWarning($"No matching subtitle found for ID: {textId}");
             }
+            vText.ForceMeshUpdate();
+            LayoutRebuilder.ForceRebuildLayoutImmediate(vText.rectTransform);
         }
     }
     
@@ -339,6 +345,8 @@ public class AudioSubtitleManager : MonoBehaviour
             subtitleCoroutine = null;
         }
 
+        _isPlayingAudio = false;
+        
         dynamicSubtitleText.text = ""; // Xóa subtitle động
         currentPlayingAudioId = "";
     }
