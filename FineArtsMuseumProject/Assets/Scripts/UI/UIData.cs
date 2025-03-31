@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace UI
 {
@@ -14,6 +15,7 @@ namespace UI
     public class UIObject
     {
         [field: SerializeField] public string key;
-        [field: SerializeField] public UIBasic ui;
+        [field: SerializeField] public UIBasic standaloneUI;
+        [field: SerializeField] public UIBasic mobileUI;
     }
 }
