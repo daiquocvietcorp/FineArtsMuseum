@@ -154,6 +154,9 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 128
+  pointCloudLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!4 &11539532
 Transform:
   m_ObjectHideFlags: 0
@@ -3053,7 +3056,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: c9356444f8e9c804184d54a433b9e69b, type: 2}
   goToPointer: {fileID: 103629049}
-  isVR: 1
 --- !u!4 &519780554
 Transform:
   m_ObjectHideFlags: 0
@@ -6043,7 +6045,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiObjects:
   - key: Guide
-    ui: {fileID: 1307902826}
+    standaloneUI: {fileID: 0}
+    mobileUI: {fileID: 0}
 --- !u!1001 &1022805322
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21473,7 +21476,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 55
   m_InteractionLayers:
-    m_Bits: 1
+    m_Bits: 4294967295
   m_AttachTransform: {fileID: 3597256366878279064}
   m_KeepSelectedTargetValid: 1
   m_DisableVisualsWhenBlockedInGroup: 1
