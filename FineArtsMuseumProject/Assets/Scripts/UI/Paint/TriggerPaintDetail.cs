@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Trigger;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Rendering;
@@ -14,10 +15,15 @@ public class TriggerPaintDetail : MonoBehaviour,IPointerDownHandler
 
     public TriggerPainting triggerPainting;
 
+    [field: SerializeField] private string paintingTriggerId;
+    
+    public int paintId;
+    
     public void OnPointerDown(PointerEventData eventData)
     {
         Debug.Log("!");
-        paintDescription.SetActive(true);
+        //paintDescription.SetActive(true);
+        PaintingManager.Instance.EnablePaintDetail(paintingTriggerId);
         StartFade();
     }
     

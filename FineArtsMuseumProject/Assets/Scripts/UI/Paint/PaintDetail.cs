@@ -14,9 +14,17 @@ public class PaintDetail : MonoBehaviour
 
     private bool isVolumnOn = true;
     private Image volumnImage;
+    
+    [field: Header("Paint ID")]
+    [field: SerializeField] private string PaintID { get; set; }
 
     public TriggerPaintDetail triggerPaintDetail;
 
+    public string GetPaintID()
+    {
+        return PaintID;
+    }
+    
     void Start()
     {
         // Gán sự kiện cho nút Close

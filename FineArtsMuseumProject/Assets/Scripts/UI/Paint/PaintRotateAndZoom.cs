@@ -62,71 +62,81 @@ public class PaintRotateAndZoom : MonoBehaviour
 
     void PaintRotateAndZoomFunction()
     {
-#if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBGL
+//#if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBGL
         // PC: xoay bằng chuột phải
-        if (Input.GetMouseButton(1))
+        if (PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
         {
-            float rotateAmount = Input.GetAxis("Mouse X") * rotationSpeed * Time.deltaTime;
-            transform.Rotate(Vector3.up, -rotateAmount, Space.World);
-        }
-
-        // PC: Zoom bằng cuộn chuột
-        float scroll = Input.GetAxis("Mouse ScrollWheel");
-        if (scroll != 0f)
-        {
-            Vector3 scale = transform.localScale;
-            scale += Vector3.one * scroll * zoomSpeed * 100f;
-            scale = ClampScale(scale);
-            transform.localScale = scale;
-
-            // Cập nhật thanh zoom
-            if (zoomScrollbar != null)
+            if (Input.GetMouseButton(1))
             {
-                updatingFromScroll = true;
-                zoomScrollbar.value = GetZoomScrollbarValue(scale.x);
-                updatingFromScroll = false;
-            }
-        }
-#else
-        // Mobile: xoay bằng 1 ngón
-        if (Input.touchCount == 1)
-        {
-            Touch touch = Input.GetTouch(0);
-            if (touch.phase == TouchPhase.Moved)
-            {
-                float rotateAmount = touch.deltaPosition.x * rotationSpeed * Time.deltaTime * 0.5f;
+                float rotateAmount = Input.GetAxis("Mouse X") * rotationSpeed * Time.deltaTime;
                 transform.Rotate(Vector3.up, -rotateAmount, Space.World);
             }
-        }
 
-        // Mobile: zoom bằng 2 ngón
-        if (Input.touchCount == 2)
-        {
-            Touch touch1 = Input.GetTouch(0);
-            Touch touch2 = Input.GetTouch(1);
-
-            Vector2 prevPos1 = touch1.position - touch1.deltaPosition;
-            Vector2 prevPos2 = touch2.position - touch2.deltaPosition;
-
-            float prevMag = (prevPos1 - prevPos2).magnitude;
-            float currMag = (touch1.position - touch2.position).magnitude;
-
-            float delta = currMag - prevMag;
-
-            Vector3 scale = transform.localScale;
-            scale += Vector3.one * delta * zoomSpeed;
-            scale = ClampScale(scale);
-            transform.localScale = scale;
-
-            // Update scrollbar
-            if (zoomScrollbar != null)
+            // PC: Zoom bằng cuộn chuột
+            float scroll = Input.GetAxis("Mouse ScrollWheel");
+            if (scroll != 0f)
             {
-                updatingFromScroll = true;
-                zoomScrollbar.value = GetZoomScrollbarValue(scale.x);
-                updatingFromScroll = false;
+                Vector3 scale = transform.localScale;
+                scale += Vector3.one * scroll * zoomSpeed * 100f;
+                scale = ClampScale(scale);
+                transform.localScale = scale;
+
+                // Cập nhật thanh zoom
+                if (zoomScrollbar != null)
+                {
+                    updatingFromScroll = true;
+                    zoomScrollbar.value = GetZoomScrollbarValue(scale.x);
+                    updatingFromScroll = false;
+                }
             }
         }
-#endif
+
+        if (PlatformManager.Instance.IsMobile)
+        {
+            // Mobile: xoay bằng 1 ngón
+            if (Input.touchCount == 1)
+            {
+                Touch touch = Input.GetTouch(0);
+                if (touch.phase == TouchPhase.Moved)
+                {
+                    float rotateAmount = touch.deltaPosition.x * rotationSpeed * Time.deltaTime * 0.5f;
+                    transform.Rotate(Vector3.up, -rotateAmount, Space.World);
+                }
+            }
+
+            // Mobile: zoom bằng 2 ngón
+            if (Input.touchCount == 2)
+            {
+                Touch touch1 = Input.GetTouch(0);
+                Touch touch2 = Input.GetTouch(1);
+
+                Vector2 prevPos1 = touch1.position - touch1.deltaPosition;
+                Vector2 prevPos2 = touch2.position - touch2.deltaPosition;
+
+                float prevMag = (prevPos1 - prevPos2).magnitude;
+                float currMag = (touch1.position - touch2.position).magnitude;
+
+                float delta = currMag - prevMag;
+
+                Vector3 scale = transform.localScale;
+                scale += Vector3.one * delta * zoomSpeed;
+                scale = ClampScale(scale);
+                transform.localScale = scale;
+
+                // Update scrollbar
+                if (zoomScrollbar != null)
+                {
+                    updatingFromScroll = true;
+                    zoomScrollbar.value = GetZoomScrollbarValue(scale.x);
+                    updatingFromScroll = false;
+                }
+            }
+        }
+        
+//#else
+        
+        
+//#endif
     }
 
     void OnScrollbarChanged(float value)

@@ -46,6 +46,8 @@ public class TriggerPainting : MonoBehaviour
 
     public VisualEffect fogVFX;
 
+    
+
     private void Start()
     {
         // Thiết lập Fog Mode
@@ -71,7 +73,7 @@ public class TriggerPainting : MonoBehaviour
     private static void SetLayerRecursively(GameObject obj, int newLayer, bool includeSelf)
     {
         if (obj == null) return;
-        Debug.Log("Setlayer:"+ obj.name);
+        
         if (includeSelf)
             obj.layer = newLayer;
 
