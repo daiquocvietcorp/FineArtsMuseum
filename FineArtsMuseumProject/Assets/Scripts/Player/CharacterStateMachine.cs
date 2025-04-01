@@ -22,13 +22,20 @@ namespace Player
         [field: SerializeField] private Animator animator;
         [field: SerializeField] private CharacterData data;
         private UnityEngine.Camera _cameraMain;
+        private bool _isStarted;
 
         public bool IsUsingTouch => _isUsingTouch;
         public bool IsUsingJoystick => _isUsingJoystick;
 
+        public void StartCharacter()
+        {
+            _isStarted = true;
+        }
+        
         private void Awake()
         {
             _isActive = true;
+            _isStarted = false;
             if (PlatformManager.Instance.IsVR)
             {
                 gameObject.SetActive(false);
@@ -52,7 +59,10 @@ namespace Player
             {
                 MouseInput.Instance.RegisterClick(MoveCharacter);
             }
-            
+        }
+        
+        public void RegisterJoystickAction()
+        {
             JoystickInput.Instance.RegisterActionMove(MoveCharacter);
         }
 
@@ -63,6 +73,7 @@ namespace Player
 
         private void Update()
         {
+            if(!_isStarted) return;
             if (!_isActive) return;
             _currentState.UpdateState(this);
 

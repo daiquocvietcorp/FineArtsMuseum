@@ -12,6 +12,11 @@ namespace UI
         private Dictionary<string, UIBasic> _uiDictionary;
         private bool _isShowingUI;
         private string _currentUIKey;
+
+        public UIManager(Dictionary<string, UIBasic> uiDictionary)
+        {
+            _uiDictionary = uiDictionary;
+        }
         
         private void Awake()
         {
@@ -20,8 +25,6 @@ namespace UI
             {
                 _uiDictionary.Add(uiObject.key, uiObject.standaloneUI);
             }
-            
-            EnableUI("UI_START");
         }
         
         private UIBasic GetUI(string key)
@@ -49,16 +52,21 @@ namespace UI
         {
             GetUI(key)?.SetData(data);
         }
+        
+        public void ActionUI(string key, Action action = null)
+        {
+            GetUI(key)?.ActionUI(action);
+        }
     }
 
     public class UIBasic : MonoBehaviour
     {
-        public void EnableUI()
+        public virtual void EnableUI()
         {
             gameObject.SetActive(true);
         }
         
-        public void DisableUI()
+        public virtual void DisableUI()
         {
             gameObject.SetActive(false);
         }
@@ -66,6 +74,11 @@ namespace UI
         public virtual void SetData(IUIData data)
         {
             
+        }
+        
+        public virtual void ActionUI(Action action = null)
+        {
+            action?.Invoke();
         }
     }
 

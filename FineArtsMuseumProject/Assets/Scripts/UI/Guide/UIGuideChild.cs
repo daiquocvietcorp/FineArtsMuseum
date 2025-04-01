@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -38,6 +39,11 @@ public class UIGuideChild : MonoBehaviour
     public void CloseButtonClicked()
     {
         gameObject.SetActive(false);
+    }
+
+    public void RegisterClickClose(Action onClick)
+    {
+        CloseButton.onClick.AddListener(() => onClick?.Invoke());
     }
     
     public void PreviousButtonClicked(int currentIndex)

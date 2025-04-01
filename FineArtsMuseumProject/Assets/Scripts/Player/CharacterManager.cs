@@ -1,4 +1,5 @@
 using DesignPatterns;
+using InputController;
 using UnityEngine;
 
 namespace Player
@@ -15,6 +16,16 @@ namespace Player
         public void EnableCharacter()
         {
             defaultCharacterStateMachine.EnableCharacter();
+        }
+        
+        public void StartControlCharacter()
+        {
+            defaultCharacterStateMachine.StartCharacter();
+        }
+
+        public void RegisterActionDefault()
+        {
+            defaultCharacterStateMachine.RegisterJoystickAction();
         }
     }
 }

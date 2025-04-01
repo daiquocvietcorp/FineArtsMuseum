@@ -1,5 +1,6 @@
 using System;
 using DesignPatterns;
+using Player;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -17,10 +18,22 @@ namespace InputController
         
         private void Awake()
         {
-            if (PlatformManager.Instance.IsCloud || PlatformManager.Instance.IsMobile) return;
+            if(PlatformManager.Instance.IsCloud || PlatformManager.Instance.IsMobile)
+            {
+                CharacterManager.Instance.RegisterActionDefault();
+                return;
+            }
             gameObject.SetActive(false);
         }
+
+
+        public void EnableJoystick()
+        {
+            if(!PlatformManager.Instance.IsMobile && !PlatformManager.Instance.IsCloud) return;
+            gameObject.SetActive(true);
+        }        
         
+
         public void OnDrag(PointerEventData eventData)
         {
             Vector2 position = eventData.position - (Vector2)background.position;

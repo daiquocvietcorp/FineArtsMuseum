@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DesignPatterns;
@@ -30,4 +31,28 @@ public class UIGuide : UIBasic
         }
         ShowGuide(0);
     }
+
+    public override void SetData(IUIData data)
+    {
+        base.SetData(data);
+        
+        if (data is UIGuideData guideData)
+        {
+            foreach(var guide in listGuide)
+            {
+                guide.RegisterClickClose(guideData.OnBackButtonClicked);
+            }
+        }
+    }
+
+    public override void ActionUI(Action action = null)
+    {
+        base.ActionUI(action);
+        ShowGuide(0);
+    }
+}
+
+public class UIGuideData : IUIData
+{
+    public Action OnBackButtonClicked;
 }

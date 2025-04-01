@@ -30,7 +30,6 @@ namespace Camera
             _joystickDirection = Vector2.zero;
             
             directionFirstView.DisableDirectionFirstView();
-            JoystickRotationInput.Instance.RegisterActionRotate(UpdateJoystickDirection);
         }
 
         private void Start()
@@ -40,6 +39,11 @@ namespace Camera
             _currentYaw = angles.y;
             _currentPitch = angles.x;
             _isFirstPerson = false;
+        }
+
+        public void RegisterRotationAction()
+        {
+            JoystickRotationInput.Instance.RegisterActionRotate(UpdateJoystickDirection);
         }
 
         private void Update()

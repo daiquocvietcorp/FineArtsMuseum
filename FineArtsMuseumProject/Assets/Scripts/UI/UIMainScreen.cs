@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace UI
 {
-    public class UIMainScreen : MonoBehaviour
+    public class UIMainScreen : UIBasic
     {
         [Header("Toggles")]
         [field: SerializeField] private Toggle guideToggle;
@@ -27,8 +27,22 @@ namespace UI
         private bool _isVROn;
         private bool _isSettingsOn;
 
-        #region Setup Methods
+        #region Override Methods
 
+        public override void EnableUI()
+        {
+            gameObject.SetActive(true);
+        }
+        
+        public override void DisableUI()
+        {
+            gameObject.SetActive(false);
+        }
+
+        #endregion
+        
+        #region Setup Methods
+        
         private void Awake()
         {
             guideToggle.onValueChanged.AddListener(OnGuideToggleValueChanged);
@@ -36,10 +50,14 @@ namespace UI
             settingsToggle.onValueChanged.AddListener(OnSettingsToggleValueChanged);
             
             _isVROn = false;
-            _isGuideOn = false;
+            _isGuideOn = true;
             _isSettingsOn = false;
             
-            guideToggle.image.sprite = guideOffSprite;
+            vrToggle.isOn = false;
+            guideToggle.isOn = true;
+            settingsToggle.isOn = false;
+            
+            guideToggle.image.sprite = guideOnSprite;
             vrToggle.image.sprite = vrOffSprite;
             settingsToggle.image.sprite = settingsOffSprite;
         }
@@ -56,6 +74,17 @@ namespace UI
                 }
             };
             UIManager.Instance.SetDataUI("UI_SETTING", settingCallback);
+            
+            var guideCallback = new UIGuideData()
+            {
+                OnBackButtonClicked = () =>
+                {
+                    guideToggle.isOn = false;
+                    guideToggle.image.sprite = guideOffSprite;
+                    _isGuideOn = false;
+                }
+            };
+            UIManager.Instance.SetDataUI("UI_GUIDE", guideCallback);
         }
 
         private void OnSettingsToggleValueChanged(bool arg0)
@@ -167,12 +196,13 @@ namespace UI
         
         private void GuideOff()
         {
-            
+            UIManager.Instance.DisableUI("UI_GUIDE");
         }
 
         private void GuideOn()
         {
-            
+            UIManager.Instance.EnableUI("UI_GUIDE");
+            UIManager.Instance.ActionUI("UI_GUIDE");
         }
 
         #endregion

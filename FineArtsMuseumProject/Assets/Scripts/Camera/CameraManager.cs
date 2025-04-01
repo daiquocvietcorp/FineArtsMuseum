@@ -8,5 +8,10 @@ namespace Camera
         [field: SerializeField] public UnityEngine.Camera mainCamera;
         [field: SerializeField] public UnityEngine.Camera xrCamera;
         [field: SerializeField] public CameraFollowPlayer cameraFollowPlayer;
+
+        public void RegisterRotationDefault()
+        {
+            cameraFollowPlayer.RegisterRotationAction();
+        }
     }
 }

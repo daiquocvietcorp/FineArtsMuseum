@@ -1,4 +1,5 @@
 using System;
+using Camera;
 using DesignPatterns;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -15,8 +16,18 @@ namespace InputController
         
         private void Awake()
         {
-            if (PlatformManager.Instance.IsCloud) return;
+            if(PlatformManager.Instance.IsCloud)
+            {
+                CameraManager.Instance.RegisterRotationDefault();
+                return;
+            }
             gameObject.SetActive(false);
+        }
+        
+        public void EnableJoystick()
+        {
+            if (!PlatformManager.Instance.IsCloud) return;
+            gameObject.SetActive(true);
         }
         
         public void OnDrag(PointerEventData eventData)
