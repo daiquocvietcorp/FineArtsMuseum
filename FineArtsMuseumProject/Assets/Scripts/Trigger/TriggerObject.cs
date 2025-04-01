@@ -42,6 +42,8 @@ public class TriggerObject : MonoBehaviour, IPointerDownHandler
     private Coroutine guideCoroutine;
 
     public float instructionDuration = 10f;
+    
+    public Vector3 interactObjectLocalPosition = Vector3.forward;
 
     // Các thành phần liên quan đến trạng thái nhân vật
     public CharacterStateMachine CharacterStateMachine;
@@ -252,7 +254,7 @@ public class TriggerObject : MonoBehaviour, IPointerDownHandler
         CloseButton.gameObject.SetActive(true);
         objectDetail.SetActive(true);
         interactiveObject.gameObject.transform.SetParent(UnityEngine.Camera.main.transform);
-        interactiveObject.gameObject.transform.localPosition = Vector3.forward;
+        interactiveObject.gameObject.transform.localPosition = interactObjectLocalPosition;
         interactiveObject.gameObject.transform.localScale = new Vector3(.5f, .5f, .5f);
         //ObjectNameText.gameObject.SetActive(true);
         //ObjectDescriptionText.gameObject.SetActive(true);
