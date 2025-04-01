@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,6 +17,12 @@ public class MagnifierHover : MonoBehaviour
         magnifierImage.gameObject.SetActive(false);
         if (magnifierFrame != null)
             magnifierFrame.gameObject.SetActive(false);
+    }
+
+    private void OnDisable()
+    {
+        magnifierFrame.gameObject.SetActive(false);
+        magnifierImage.gameObject.SetActive(false);
     }
 
     void Update()
