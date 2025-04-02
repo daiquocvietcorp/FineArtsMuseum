@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using UnityEngine.Serialization;
+using UnityEngine.Video;
 
 public class UIPainting : UIBasic
 {
@@ -18,7 +19,15 @@ public class UIPainting : UIBasic
     
     [FormerlySerializedAs("guideDefaultSprite")] public Sprite guideButtonDefaultSprite;
     [FormerlySerializedAs("zoomDefaultSprite")] public Sprite zoomButtonDefaultSprite;
-    
+
+    public List<VideoClip> VideoClips;
+    public VideoPlayer VideoPlayer;
+
+    public Texture tranhDefaultSprite;
+    public GameObject tranh;
+    public RenderTexture videoRenderTexture;
+
+    public GameObject BlinkCanvas;
     
     public Sprite guideViSprite;
     public Sprite guideEnglishSprite;
@@ -38,6 +47,7 @@ public class UIPainting : UIBasic
     public PaintRotateAndZoom paintRotateAndZoom;
     
     private Coroutine _guideRotateCoroutine;
+    private Coroutine _blinkCoroutine;
     
     // Start is called before the first frame update
     void Start()
@@ -67,6 +77,16 @@ public class UIPainting : UIBasic
         
         paintRotateAndZoom.SmoothResetTransform();
         paintRotateAndZoom.enabled = false;
+        
+        BlinkCanvas.SetActive(false);
+        VideoPlayer.Stop();
+        VideoPlayer.gameObject.SetActive(false);
+        tranh.GetComponent<Renderer>().material.mainTexture = tranhDefaultSprite;
+        if (_blinkCoroutine != null)
+        {
+            StopCoroutine(_blinkCoroutine);
+            _blinkCoroutine = null;
+        }
     }
     
 public void GuidePaintingClicked()
@@ -78,6 +98,16 @@ public void GuidePaintingClicked()
     zoomButton.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
     magnifierHover.enabled = false;
 
+    BlinkCanvas.SetActive(false);
+    VideoPlayer.Stop();
+    VideoPlayer.gameObject.SetActive(false);
+    tranh.GetComponent<Renderer>().material.mainTexture = tranhDefaultSprite;
+    if (_blinkCoroutine != null)
+    {
+        StopCoroutine(_blinkCoroutine);
+        _blinkCoroutine = null;
+    }
+    
     if (isGuide)
     {
         //guideButton.image.sprite = guideDefaultSprite;
@@ -210,7 +240,15 @@ private void StartGuideSequence()
         aiButton.GetComponent<AIHoverEffect>().SetDefaultSprite();
         guideButton.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
 
-        
+        BlinkCanvas.SetActive(false);
+        VideoPlayer.Stop();
+        VideoPlayer.gameObject.SetActive(false);
+        tranh.GetComponent<Renderer>().material.mainTexture = tranhDefaultSprite;
+        if (_blinkCoroutine != null)
+        {
+            StopCoroutine(_blinkCoroutine);
+            _blinkCoroutine = null;
+        }
         
         StopGuideSequence();
         SetGuideImageOff();
@@ -236,31 +274,65 @@ private void StartGuideSequence()
     {
         isGuide = false;
         isZoom = false;
-        
+
         guideButton.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
         zoomButton.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
-        
+
         magnifierHover.enabled = false;
-        
+
         StopGuideSequence();
         SetGuideImageOff();
-        
+
         if (isAI)
         {
             aiButton.GetComponent<AIHoverEffect>().isSelected = false;
             aiButton.GetComponent<AIHoverEffect>().OnClickedButton();
-            
+
             isAI = false;
             paintRotateAndZoom.enabled = true;
+
+            BlinkCanvas.SetActive(false);
+            VideoPlayer.Stop();
+            VideoPlayer.gameObject.SetActive(false);
+            tranh.GetComponent<Renderer>().material.mainTexture = tranhDefaultSprite;
+            if (_blinkCoroutine != null)
+            {
+                StopCoroutine(_blinkCoroutine);
+                _blinkCoroutine = null;
+            }
         }
         else
         {
-            
             aiButton.GetComponent<AIHoverEffect>().isSelected = true;
             aiButton.GetComponent<AIHoverEffect>().OnClickedButton();
+
             isAI = true;
             paintRotateAndZoom.SmoothResetTransform();
             paintRotateAndZoom.enabled = false;
+
+            if (_blinkCoroutine != null)
+            {
+                StopCoroutine(_blinkCoroutine);
+            }
+            _blinkCoroutine = StartCoroutine(StartBlinkAndPlayVideo());
+        }
+    }
+
+    private IEnumerator StartBlinkAndPlayVideo()
+    {
+        
+        BlinkCanvas.SetActive(true);
+        VideoPlayer.gameObject.SetActive(false);
+
+        yield return new WaitForSeconds(3f);
+        tranh.GetComponent<Renderer>().material.mainTexture = videoRenderTexture;
+        BlinkCanvas.SetActive(false);
+
+        if (VideoClips.Count > 0)
+        {
+            VideoPlayer.clip = VideoClips[UnityEngine.Random.Range(0, VideoClips.Count)];
+            VideoPlayer.gameObject.SetActive(true);
+            VideoPlayer.Play();
         }
     }
 

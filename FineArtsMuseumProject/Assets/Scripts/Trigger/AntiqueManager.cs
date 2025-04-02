@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using DesignPatterns;
+using UI;
 using UnityEngine;
 
 namespace Trigger
@@ -37,6 +38,7 @@ namespace Trigger
             }
             Debug.Log("AntiqueId:"+ antiqueID);
             _antiqueDetailDict[antiqueID].gameObject.SetActive(true);
+            UIManager.Instance.DisableUI("UI_NAVIGATION");
         }
         
         public void DisableAntiqueDetail(string antiqueID)

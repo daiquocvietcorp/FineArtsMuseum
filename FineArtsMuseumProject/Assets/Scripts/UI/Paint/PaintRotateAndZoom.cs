@@ -11,7 +11,8 @@ public class PaintRotateAndZoom : MonoBehaviour
     public float maxScale = 3f;
     public float resetDuration = 0.5f;
 
-    public Scrollbar zoomScrollbar; // ← Gán Scrollbar vào đây (giá trị 0~1)
+    public Scrollbar zoomScrollbar;
+    public bool CanRotateUpDown = false; // ← Thêm vào đây
 
     private Vector3 originalScale;
     private Quaternion originalRotation;
@@ -42,9 +43,7 @@ public class PaintRotateAndZoom : MonoBehaviour
 
         if (zoomScrollbar != null)
         {
-            // Gán callback khi kéo thanh
             zoomScrollbar.onValueChanged.AddListener(OnScrollbarChanged);
-            // Khởi tạo giá trị theo scale hiện tại
             zoomScrollbar.value = GetZoomScrollbarValue(transform.localScale.x);
         }
     }
@@ -53,7 +52,6 @@ public class PaintRotateAndZoom : MonoBehaviour
     {
         PaintRotateAndZoomFunction();
 
-        // Nhấn R để reset
         if (Input.GetKeyDown(KeyCode.R))
         {
             SmoothResetTransform();
@@ -62,17 +60,20 @@ public class PaintRotateAndZoom : MonoBehaviour
 
     void PaintRotateAndZoomFunction()
     {
-//#if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBGL
-        // PC: xoay bằng chuột phải
         if (PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
         {
             if (Input.GetMouseButton(1))
             {
-                float rotateAmount = Input.GetAxis("Mouse X") * rotationSpeed * Time.deltaTime;
-                transform.Rotate(Vector3.up, -rotateAmount, Space.World);
+                float rotateAmountX = Input.GetAxis("Mouse X") * rotationSpeed * Time.deltaTime;
+                transform.Rotate(Vector3.up, -rotateAmountX, Space.World);
+
+                if (CanRotateUpDown)
+                {
+                    float rotateAmountY = Input.GetAxis("Mouse Y") * rotationSpeed * Time.deltaTime;
+                    transform.Rotate(Vector3.right, rotateAmountY, Space.World);
+                }
             }
 
-            // PC: Zoom bằng cuộn chuột
             float scroll = Input.GetAxis("Mouse ScrollWheel");
             if (scroll != 0f)
             {
@@ -81,7 +82,6 @@ public class PaintRotateAndZoom : MonoBehaviour
                 scale = ClampScale(scale);
                 transform.localScale = scale;
 
-                // Cập nhật thanh zoom
                 if (zoomScrollbar != null)
                 {
                     updatingFromScroll = true;
@@ -93,18 +93,22 @@ public class PaintRotateAndZoom : MonoBehaviour
 
         if (PlatformManager.Instance.IsMobile)
         {
-            // Mobile: xoay bằng 1 ngón
             if (Input.touchCount == 1)
             {
                 Touch touch = Input.GetTouch(0);
                 if (touch.phase == TouchPhase.Moved)
                 {
-                    float rotateAmount = touch.deltaPosition.x * rotationSpeed * Time.deltaTime * 0.5f;
-                    transform.Rotate(Vector3.up, -rotateAmount, Space.World);
+                    float rotateAmountX = touch.deltaPosition.x * rotationSpeed * Time.deltaTime * 0.5f;
+                    transform.Rotate(Vector3.up, -rotateAmountX, Space.World);
+
+                    if (CanRotateUpDown)
+                    {
+                        float rotateAmountY = touch.deltaPosition.y * rotationSpeed * Time.deltaTime * 0.5f;
+                        transform.Rotate(Vector3.right, rotateAmountY, Space.World);
+                    }
                 }
             }
 
-            // Mobile: zoom bằng 2 ngón
             if (Input.touchCount == 2)
             {
                 Touch touch1 = Input.GetTouch(0);
@@ -123,7 +127,6 @@ public class PaintRotateAndZoom : MonoBehaviour
                 scale = ClampScale(scale);
                 transform.localScale = scale;
 
-                // Update scrollbar
                 if (zoomScrollbar != null)
                 {
                     updatingFromScroll = true;
@@ -132,16 +135,11 @@ public class PaintRotateAndZoom : MonoBehaviour
                 }
             }
         }
-        
-//#else
-        
-        
-//#endif
     }
 
     void OnScrollbarChanged(float value)
     {
-        if (updatingFromScroll) return; // Tránh vòng lặp
+        if (updatingFromScroll) return;
 
         float targetScale = Mathf.Lerp(minScale, maxScale, value);
         transform.localScale = new Vector3(targetScale, targetScale, targetScale);

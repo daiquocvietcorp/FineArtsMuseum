@@ -11,13 +11,13 @@ public class UIGuide : UIBasic
     
     public void ShowGuide(int index)
     {
-        
-        Debug.Log(index);
-        // if (index < 0 || index > listGuide.Count) return;
-        
         for (int i = 0; i < listGuide.Count; i++)
         {
             listGuide[i].gameObject.SetActive(i == index);
+            if (i == index)
+            {
+                listGuide[i].Initialize(); // Phải gọi lại Initialize() mỗi khi active
+            }
         }
     }
     
