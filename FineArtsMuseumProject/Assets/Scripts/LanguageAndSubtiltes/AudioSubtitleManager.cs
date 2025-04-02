@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,6 +30,11 @@ public class AudioDataList
 
 public class AudioSubtitleManager : MonoBehaviour
 {
+    private void OnApplicationQuit()
+    {
+        PlayerPrefs.SetString("Language", "vi");
+    }
+
     public static AudioSubtitleManager Instance; // Singleton để dễ gọi từ TriggerZone
     public AudioSource audioSource;
     public TMP_Text dynamicSubtitleText;

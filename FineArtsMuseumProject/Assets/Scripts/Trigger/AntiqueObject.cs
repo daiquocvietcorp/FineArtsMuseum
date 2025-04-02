@@ -1,5 +1,7 @@
 
 
+using UI;
+
 namespace Trigger
 { 
     using System.Collections;
@@ -104,7 +106,9 @@ public class AntiqueObject : MonoBehaviour
         CharacterManager.Instance.EnableCharacter();
         InputManager.Instance.EnableInput();
         AudioSubtitleManager.Instance.StopAudioAndClearSubtitle();
-        gameObject.SetActive(false);
+        UIManager.Instance.EnableUI("UI_NAVIGATION");
+        AntiqueManager.Instance.DisableAntiqueDetail(AntiqueID);
+
     }
 
     private void ToggleSound()
