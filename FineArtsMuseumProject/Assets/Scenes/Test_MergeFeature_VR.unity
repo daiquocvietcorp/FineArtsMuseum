@@ -594,6 +594,7 @@ GameObject:
   - component: {fileID: 21951571}
   - component: {fileID: 21951570}
   - component: {fileID: 21951574}
+  - component: {fileID: 21951575}
   m_Layer: 6
   m_Name: PaintWorldSpaceCanvas (TriggerPaint)
   m_TagString: Untagged
@@ -708,17 +709,40 @@ MonoBehaviour:
   isGuide: 0
   isZoom: 0
   isAI: 0
-  guideDefaultSprite: {fileID: 21300000, guid: 4b281ae9bc703b2428db20a6057ae206, type: 3}
-  guideSelectedSprite: {fileID: 21300000, guid: 683f6399c7408da4f94d1b244494f42b,
+  guideButtonDefaultSprite: {fileID: 21300000, guid: 4b281ae9bc703b2428db20a6057ae206,
     type: 3}
-  zoomDefaultSprite: {fileID: 21300000, guid: 63e498c82e58a7440b1fed272f8cc522, type: 3}
-  zoomSelectedSprite: {fileID: 21300000, guid: 4e98c1f90b68fa74eaec42e67845f805, type: 3}
+  zoomButtonDefaultSprite: {fileID: 21300000, guid: 63e498c82e58a7440b1fed272f8cc522,
+    type: 3}
+  guideViSprite: {fileID: 0}
+  guideEnglishSprite: {fileID: 0}
+  zoomViSprite: {fileID: 0}
+  zoomEnglishSprite: {fileID: 0}
   guideRotateImage: {fileID: 1934506904}
   guideZoomImage: {fileID: 1798599749}
   magnifierHover: {fileID: 1067078126}
   guideRotateDefaultPosition: {x: 0, y: 0, z: 0}
   guideZoomDefaultPosition: {x: 0, y: 0, z: 0}
   durartion: 3
+  paintRotateAndZoom: {fileID: 0}
+--- !u!114 &21951575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 21951569}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7951c64acb0fa62458bf30a60089fe2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 0
+  m_CheckFor2DOcclusion: 0
+  m_CheckFor3DOcclusion: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RaycastTriggerInteraction: 1
 --- !u!114 &28255972 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8772780567804623494, guid: c78af3fb5722e804690fbe7a5d883423,
@@ -877,7 +901,7 @@ PrefabInstance:
         type: 3}
       propertyPath: interactiveObject
       value: 
-      objectReference: {fileID: 233243751}
+      objectReference: {fileID: 0}
     - target: {fileID: 4023531731981627610, guid: 50dfb0a7a70b1f0418938de9e6f3679d,
         type: 3}
       propertyPath: CharacterStateMachine
@@ -1772,18 +1796,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 233243749}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &233243751 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2880025201065570790, guid: 2f0ca34d9f19fc84bba71d3ea55c1667,
-    type: 3}
-  m_PrefabInstance: {fileID: 233243749}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c2a928e78f353e4fb43ef9b824cb64c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &233779542
 GameObject:
   m_ObjectHideFlags: 0
@@ -2169,6 +2181,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &304961211 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 233243755, guid: 2f0ca34d9f19fc84bba71d3ea55c1667,
+    type: 3}
+  m_PrefabInstance: {fileID: 233243749}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fcdabb0993654847a0e53b3abbdf5ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &310654863
 GameObject:
   m_ObjectHideFlags: 0
@@ -2199,7 +2223,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mouseInput: {fileID: 519780553}
-  joystickInput: {fileID: 2000707061}
+  joystickInput: {fileID: 0}
+  joystickRotationInput: {fileID: 0}
 --- !u!4 &310654865
 Transform:
   m_ObjectHideFlags: 0
@@ -2918,7 +2943,6 @@ GameObject:
   m_Component:
   - component: {fileID: 491525793}
   - component: {fileID: 491525792}
-  - component: {fileID: 491525791}
   - component: {fileID: 491525794}
   m_Layer: 0
   m_Name: EventSystem
@@ -2927,26 +2951,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &491525791
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 491525790}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SendPointerHoverToParent: 1
-  m_HorizontalAxis: Horizontal
-  m_VerticalAxis: Vertical
-  m_SubmitButton: Submit
-  m_CancelButton: Cancel
-  m_InputActionsPerSecond: 10
-  m_RepeatDelay: 0.5
-  m_ForceModuleActive: 0
 --- !u!114 &491525792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5273,16 +5277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 217348c80ac830a41809235e3e6cddd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blurGameObject: {fileID: 1418092560}
-  interactiveObject: {fileID: 233243751}
-  ObjectNameText: {fileID: 204439519}
-  ObjectDescriptionText: {fileID: 1641512729}
-  CloseButton: {fileID: 1947453233}
-  scrollbar: {fileID: 894977065}
-  minOffsetZ: 2
-  maxOffsetZ: 8
-  PlayerController: {fileID: 0}
-  CharacterStateMachine: {fileID: 1907409309}
+  antiqueID: 
 --- !u!114 &811984185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6960,6 +6955,7 @@ MonoBehaviour:
   buttonText: {fileID: 1648232512}
   defaultText: AI
   hoverText: "AI DI\u1EC4N HO\u1EA0T"
+  hoverTextEnglish: AI ANIMATION
   defaultWidth: 15
   hoverWidth: 50
   height: 15
@@ -7346,6 +7342,56 @@ Transform:
   m_Father: {fileID: 1886409446}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1196740012
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1196740013}
+  - component: {fileID: 1196740014}
+  m_Layer: 0
+  m_Name: collider
+  m_TagString: Player
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1196740013
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1196740012}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -1.36144, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1906477477}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!143 &1196740014
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1196740012}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 1.36144
+  m_Radius: 0.1
+  m_SlopeLimit: 45
+  m_StepOffset: 0.5
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0.76072, z: 0}
 --- !u!1 &1197428460
 GameObject:
   m_ObjectHideFlags: 0
@@ -7815,7 +7861,7 @@ MonoBehaviour:
   - {fileID: 1248847721}
   m_InteractionLayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 128
   m_InteractionLayers:
     m_Bits: 2147483648
   m_DistanceCalculationMode: 1
@@ -8101,6 +8147,7 @@ GameObject:
   - component: {fileID: 1307902823}
   - component: {fileID: 1307902822}
   - component: {fileID: 1307902826}
+  - component: {fileID: 1307902827}
   m_Layer: 5
   m_Name: 'UIGuide '
   m_TagString: Untagged
@@ -8147,7 +8194,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!223 &1307902824
 Canvas:
   m_ObjectHideFlags: 0
@@ -8157,8 +8204,8 @@ Canvas:
   m_GameObject: {fileID: 1307902821}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
-  m_Camera: {fileID: 1906477474}
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
   m_PlaneDistance: 0.5
   m_PixelPerfect: 1
   m_ReceivesEvents: 1
@@ -8221,6 +8268,25 @@ MonoBehaviour:
   - {fileID: 1577809857}
   - {fileID: 1962865737}
   - {fileID: 672381832}
+--- !u!114 &1307902827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1307902821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7951c64acb0fa62458bf30a60089fe2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 0
+  m_CheckFor2DOcclusion: 0
+  m_CheckFor3DOcclusion: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RaycastTriggerInteraction: 1
 --- !u!1 &1323969014
 GameObject:
   m_ObjectHideFlags: 0
@@ -8629,6 +8695,9 @@ MonoBehaviour:
   paintObject: {fileID: 1404618190}
   wsObject: {fileID: 21951569}
   playerObject: {fileID: 1907409304}
+  triggerPainting: {fileID: 0}
+  paintingTriggerId: 
+  paintId: 0
   volume: {fileID: 28255972}
   fadeDuration: 0
   startFocusDistance: 1
@@ -8725,6 +8794,7 @@ GameObject:
   - component: {fileID: 1396918061}
   - component: {fileID: 1396918060}
   - component: {fileID: 1396918059}
+  - component: {fileID: 1396918062}
   m_Layer: 0
   m_Name: UIPaint
   m_TagString: Untagged
@@ -8816,6 +8886,25 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 5
   m_TargetDisplay: 0
+--- !u!114 &1396918062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1396918057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7951c64acb0fa62458bf30a60089fe2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 0
+  m_CheckFor2DOcclusion: 0
+  m_CheckFor3DOcclusion: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RaycastTriggerInteraction: 1
 --- !u!1 &1404341214
 GameObject:
   m_ObjectHideFlags: 0
@@ -9262,6 +9351,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2984332947052378981, guid: cbfeaa1bbd90e4646b35566c2053d8fc,
         type: 3}
+      propertyPath: Player
+      value: 
+      objectReference: {fileID: 1907409304}
+    - target: {fileID: 2984332947052378981, guid: cbfeaa1bbd90e4646b35566c2053d8fc,
+        type: 3}
       propertyPath: fogVFX
       value: 
       objectReference: {fileID: 545289214}
@@ -9280,6 +9374,11 @@ PrefabInstance:
       propertyPath: scanSpeed
       value: 75
       objectReference: {fileID: 0}
+    - target: {fileID: 2984332947052378981, guid: cbfeaa1bbd90e4646b35566c2053d8fc,
+        type: 3}
+      propertyPath: UIPainting
+      value: 
+      objectReference: {fileID: 21951574}
     - target: {fileID: 2984332947052378981, guid: cbfeaa1bbd90e4646b35566c2053d8fc,
         type: 3}
       propertyPath: maxExposure
@@ -9345,6 +9444,16 @@ PrefabInstance:
       propertyPath: exposureChangeRate
       value: 0.4
       objectReference: {fileID: 0}
+    - target: {fileID: 2984332947052378981, guid: cbfeaa1bbd90e4646b35566c2053d8fc,
+        type: 3}
+      propertyPath: paintRotateAndZoom
+      value: 
+      objectReference: {fileID: 304961211}
+    - target: {fileID: 2984332947052378981, guid: cbfeaa1bbd90e4646b35566c2053d8fc,
+        type: 3}
+      propertyPath: ScreenOutlineEffect
+      value: 
+      objectReference: {fileID: 7275143695622447361}
     - target: {fileID: 2984332947052378981, guid: cbfeaa1bbd90e4646b35566c2053d8fc,
         type: 3}
       propertyPath: atmosphereChangeRate
@@ -13569,6 +13678,7 @@ Transform:
   m_Children:
   - {fileID: 1032922660}
   - {fileID: 70852681}
+  - {fileID: 1196740013}
   m_Father: {fileID: 9004661464654369341}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -16955,24 +17065,6 @@ MonoBehaviour:
   m_LocomotionProvider: {fileID: 9139481726898257071}
   m_MinHeight: 0
   m_MaxHeight: Infinity
---- !u!143 &3065213153380210164
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7719624369533376323}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Height: 1.36144
-  m_Radius: 0.1
-  m_SlopeLimit: 45
-  m_StepOffset: 0.5
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.76072, z: 0}
 --- !u!114 &3183117228373045855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17034,9 +17126,9 @@ MonoBehaviour:
   m_InteractionManager: {fileID: 0}
   m_InteractionLayerMask:
     serializedVersion: 2
-    m_Bits: 23
+    m_Bits: 97
   m_InteractionLayers:
-    m_Bits: 1
+    m_Bits: 97
   m_AttachTransform: {fileID: 0}
   m_KeepSelectedTargetValid: 1
   m_DisableVisualsWhenBlockedInGroup: 1
@@ -19139,7 +19231,7 @@ MonoBehaviour:
   m_InteractionManager: {fileID: 0}
   m_InteractionLayerMask:
     serializedVersion: 2
-    m_Bits: 23
+    m_Bits: 119
   m_InteractionLayers:
     m_Bits: 1
   m_AttachTransform: {fileID: 0}
@@ -19723,7 +19815,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7719624369533376320}
   - component: {fileID: 7830936702933800642}
-  - component: {fileID: 3065213153380210164}
   - component: {fileID: 3065213153380210161}
   - component: {fileID: 3183117228373045855}
   - component: {fileID: 4120050814228212495}
@@ -20256,9 +20347,9 @@ MonoBehaviour:
   m_InteractionManager: {fileID: 0}
   m_InteractionLayerMask:
     serializedVersion: 2
-    m_Bits: 55
+    m_Bits: 97
   m_InteractionLayers:
-    m_Bits: 1
+    m_Bits: 98
   m_AttachTransform: {fileID: 9143284018869461653}
   m_KeepSelectedTargetValid: 1
   m_DisableVisualsWhenBlockedInGroup: 1
@@ -21474,9 +21565,9 @@ MonoBehaviour:
   m_InteractionManager: {fileID: 0}
   m_InteractionLayerMask:
     serializedVersion: 2
-    m_Bits: 55
+    m_Bits: 0
   m_InteractionLayers:
-    m_Bits: 4294967295
+    m_Bits: 0
   m_AttachTransform: {fileID: 3597256366878279064}
   m_KeepSelectedTargetValid: 1
   m_DisableVisualsWhenBlockedInGroup: 1
@@ -21564,7 +21655,7 @@ MonoBehaviour:
   m_LiveConeCastDebugVisuals: 0
   m_RaycastMask:
     serializedVersion: 2
-    m_Bits: 2147483681
+    m_Bits: 2147483745
   m_RaycastTriggerInteraction: 1
   m_RaycastSnapVolumeInteraction: 1
   m_HitClosestOnly: 0

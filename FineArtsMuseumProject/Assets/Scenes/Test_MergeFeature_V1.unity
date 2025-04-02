@@ -154,6 +154,9 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 128
+  pointCloudLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!4 &11539532
 Transform:
   m_ObjectHideFlags: 0
@@ -561,7 +564,7 @@ PrefabInstance:
         type: 3}
       propertyPath: interactiveObject
       value: 
-      objectReference: {fileID: 233243751}
+      objectReference: {fileID: 0}
     - target: {fileID: 4023531731981627610, guid: 50dfb0a7a70b1f0418938de9e6f3679d,
         type: 3}
       propertyPath: CharacterStateMachine
@@ -1425,18 +1428,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 233243749}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &233243751 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2880025201065570790, guid: 2f0ca34d9f19fc84bba71d3ea55c1667,
-    type: 3}
-  m_PrefabInstance: {fileID: 233243749}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c2a928e78f353e4fb43ef9b824cb64c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &233779542
 GameObject:
   m_ObjectHideFlags: 0
@@ -1820,7 +1811,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mouseInput: {fileID: 519780553}
-  joystickInput: {fileID: 2000707061}
+  joystickInput: {fileID: 0}
+  joystickRotationInput: {fileID: 0}
 --- !u!4 &310654865
 Transform:
   m_ObjectHideFlags: 0
@@ -2624,7 +2616,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: c9356444f8e9c804184d54a433b9e69b, type: 2}
   goToPointer: {fileID: 103629049}
-  isVR: 1
 --- !u!4 &519780554
 Transform:
   m_ObjectHideFlags: 0
@@ -3928,16 +3919,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 217348c80ac830a41809235e3e6cddd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blurGameObject: {fileID: 1418092560}
-  interactiveObject: {fileID: 233243751}
-  ObjectNameText: {fileID: 204439519}
-  ObjectDescriptionText: {fileID: 1641512729}
-  CloseButton: {fileID: 1947453233}
-  scrollbar: {fileID: 894977065}
-  minOffsetZ: 2
-  maxOffsetZ: 8
-  PlayerController: {fileID: 0}
-  CharacterStateMachine: {fileID: 1907409309}
+  antiqueID: 
 --- !u!114 &811984185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5228,14 +5210,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 897b691dcfb63ad40b849adc61ac7c52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetLayer:
-    serializedVersion: 2
-    m_Bits: 64
   mainCamera: {fileID: 1906477474}
   zoomCamera: {fileID: 70852684}
   magnifierImage: {fileID: 403317462}
-  zoomSize: 1
+  magnifierFrame: {fileID: 0}
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 64
   zoomFactor: 3
+  cameraOffset: 0.3
 --- !u!1 &1078973146
 GameObject:
   m_ObjectHideFlags: 0
@@ -5887,7 +5870,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   m_InteractionLayers:
-    m_Bits: 2147483648
+    m_Bits: 4294967295
   m_DistanceCalculationMode: 1
   m_SelectMode: 1
   m_FocusMode: 1
@@ -12670,7 +12653,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 55
   m_InteractionLayers:
-    m_Bits: 1
+    m_Bits: 55
   m_AttachTransform: {fileID: 544041813160465895}
   m_KeepSelectedTargetValid: 1
   m_DisableVisualsWhenBlockedInGroup: 1
@@ -12801,7 +12784,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 55
   m_InteractionLayers:
-    m_Bits: 1
+    m_Bits: 55
   m_AttachTransform: {fileID: 5225212278241047274}
   m_KeepSelectedTargetValid: 1
   m_DisableVisualsWhenBlockedInGroup: 1
@@ -13787,7 +13770,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 23
   m_InteractionLayers:
-    m_Bits: 1
+    m_Bits: 23
   m_AttachTransform: {fileID: 0}
   m_KeepSelectedTargetValid: 1
   m_DisableVisualsWhenBlockedInGroup: 1
@@ -15851,7 +15834,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 23
   m_InteractionLayers:
-    m_Bits: 1
+    m_Bits: 23
   m_AttachTransform: {fileID: 0}
   m_KeepSelectedTargetValid: 1
   m_DisableVisualsWhenBlockedInGroup: 1
