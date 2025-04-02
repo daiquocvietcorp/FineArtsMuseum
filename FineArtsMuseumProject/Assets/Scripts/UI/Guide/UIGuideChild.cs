@@ -21,7 +21,7 @@ public class UIGuideChild : MonoBehaviour
     private UIGuide _parent;
     
     // Start is called before the first frame update
-    void Start()
+    public void Initialize()
     {
         
         CloseButton.onClick.AddListener(CloseButtonClicked);
@@ -30,7 +30,7 @@ public class UIGuideChild : MonoBehaviour
 
         guideImage.sprite = guideSprite;
         
-        indexText.text = (currentIndex + 1).ToString() + "<color=#808080>/" + _parent.listGuide.Count;
+        indexText.text = (currentIndex + 1).ToString() + "<color=#808080>/" + _parent.listGuide.Count+"</color>";
         
         if(currentIndex <= 0 ) PreviousButton.interactable = false;
         if(currentIndex >= _parent.listGuide.Count - 1) NextButton.interactable = false;
