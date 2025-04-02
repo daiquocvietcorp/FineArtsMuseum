@@ -8,8 +8,11 @@ namespace UI
     public class UIManager : MonoSingleton<UIManager>
     {
         [field: SerializeField] private List<UIObject> uiObjects;
+        [field: SerializeField] private Transform weakBlur;
         
         private Dictionary<string, UIBasic> _uiDictionary;
+        private Dictionary<string, bool> _usingWeakBlurDict;
+        
         private bool _isShowingUI;
         private string _currentUIKey;
         
@@ -21,31 +24,51 @@ namespace UI
         private void Awake()
         {
             _uiDictionary = new Dictionary<string, UIBasic>();
+            _usingWeakBlurDict = new Dictionary<string, bool>();
             foreach (var uiObject in uiObjects)
             {
-                _uiDictionary.Add(uiObject.key, uiObject.standaloneUI);
+                if(uiObject.standaloneUI != null)
+                    _uiDictionary.Add(uiObject.key + "_PC", uiObject.standaloneUI);
+                if(uiObject.mobileUI != null)
+                    _uiDictionary.Add(uiObject.key + "_MOBILE", uiObject.mobileUI);
+                _usingWeakBlurDict.Add(uiObject.key, uiObject.isUsingWeakBlur);
             }
         }
         
         private UIBasic GetUI(string key)
         {
             if(PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
-                return uiObjects.Find(x => x.key == key).standaloneUI;
+                key += "_PC";
             
             if(PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud)
-                return uiObjects.Find(x => x.key == key).mobileUI;
-            
-            return null;
+                key += "_MOBILE";
+
+            return _uiDictionary.GetValueOrDefault(key, null);
+        }
+
+        private bool IsUsingWeakBlur(string key)
+        {
+            return _usingWeakBlurDict.GetValueOrDefault(key, false);
         }
         
         public void EnableUI(string key)
         {
-            GetUI(key)?.EnableUI();
+            var ui = GetUI(key);
+            if(ui == null) return;
+            ui.EnableUI();
+            
+            if(!IsUsingWeakBlur(key)) return;
+            weakBlur.gameObject.SetActive(true);
         }
         
         public void DisableUI(string key)
         {
-            GetUI(key)?.DisableUI();
+            var ui = GetUI(key);
+            if (ui == null) return;
+            ui.DisableUI();
+            
+            if(!IsUsingWeakBlur(key)) return;
+            weakBlur.gameObject.SetActive(false);
         }
 
         public void SetDataUI(string key, IUIData data)
