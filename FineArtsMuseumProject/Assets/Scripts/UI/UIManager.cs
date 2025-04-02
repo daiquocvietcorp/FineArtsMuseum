@@ -12,7 +12,7 @@ namespace UI
         private Dictionary<string, UIBasic> _uiDictionary;
         private bool _isShowingUI;
         private string _currentUIKey;
-
+        
         public UIManager(Dictionary<string, UIBasic> uiDictionary)
         {
             _uiDictionary = uiDictionary;
