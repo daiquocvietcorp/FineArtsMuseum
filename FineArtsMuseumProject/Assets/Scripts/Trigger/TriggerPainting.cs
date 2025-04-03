@@ -19,7 +19,8 @@ public class TriggerPainting : MonoBehaviour
     public GameObject ButtonGroupCanvas;
     public GameObject ScreenOutlineEffect;
     public GameObject Player;
-
+    
+    public GameObject VRPlayer;
     public Collider detailCollider;
     public Renderer renderer;
     
@@ -97,6 +98,8 @@ public class TriggerPainting : MonoBehaviour
             SetLayerRecursively(paintingObject, "IgnoreBlur", true);
             SetLayerRecursively(otherObject, "IgnoreBlur", true);
             SetLayerRecursively(Player, "IgnoreBlur", true);
+            SetLayerRecursively(VRPlayer, "IgnoreBlur", true);
+
             //otherObject.layer = LayerMask.NameToLayer("IgnoreBlur");
             ScreenOutlineEffect.SetActive(true);
             SetLayerRecursively(ScreenOutlineEffect, "IgnoreBlur", true);
@@ -125,6 +128,8 @@ public class TriggerPainting : MonoBehaviour
             ScreenOutlineEffect.SetActive(false);
             //Debug.Log(other.gameObject.name);
             
+            SetLayerRecursively(VRPlayer, "Default", true);
+
             SetLayerRecursively(Player, "Default", true);
             SubtitleObject.SetActive(false);
             UIPainting.magnifierHover.enabled = false;
@@ -158,6 +163,7 @@ public class TriggerPainting : MonoBehaviour
             SetLayerRecursively(detailCollider.gameObject, "Default", true);
             SetLayerRecursively(otherObject, "Default", true);
             SetLayerRecursively(Player, "Default", true);
+            SetLayerRecursively(VRPlayer, "Default", true);
             
             currentTrigger = false;
             renderer.enabled = false;
