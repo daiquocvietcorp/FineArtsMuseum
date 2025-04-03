@@ -17,6 +17,7 @@ namespace UI
         [field: SerializeField] public string key;
         [field: SerializeField] public UIBasic standaloneUI;
         [field: SerializeField] public UIBasic mobileUI;
+        [field: SerializeField] public UIBasic vrUI;
         [field: SerializeField] public bool isUsingWeakBlur;
     }
 }

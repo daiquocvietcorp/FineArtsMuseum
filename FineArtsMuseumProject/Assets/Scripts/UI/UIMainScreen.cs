@@ -45,20 +45,23 @@ namespace UI
         
         private void Awake()
         {
+            if (!PlatformManager.Instance.IsVR)
+            {
+                vrToggle.onValueChanged.AddListener(OnVRToggleValueChanged);
+                vrToggle.isOn = false;
+                vrToggle.image.sprite = vrOffSprite;
+            }
             guideToggle.onValueChanged.AddListener(OnGuideToggleValueChanged);
-            vrToggle.onValueChanged.AddListener(OnVRToggleValueChanged);
             settingsToggle.onValueChanged.AddListener(OnSettingsToggleValueChanged);
             
             _isVROn = false;
             _isGuideOn = true;
             _isSettingsOn = false;
             
-            vrToggle.isOn = false;
             guideToggle.isOn = true;
             settingsToggle.isOn = false;
             
             guideToggle.image.sprite = guideOnSprite;
-            vrToggle.image.sprite = vrOffSprite;
             settingsToggle.image.sprite = settingsOffSprite;
         }
 

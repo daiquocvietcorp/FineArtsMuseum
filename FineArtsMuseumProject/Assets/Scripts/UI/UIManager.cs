@@ -32,6 +32,8 @@ namespace UI
                 if(uiObject.mobileUI != null)
                     _uiDictionary.Add(uiObject.key + "_MOBILE", uiObject.mobileUI);
                 _usingWeakBlurDict.Add(uiObject.key, uiObject.isUsingWeakBlur);
+                if(uiObject.vrUI != null)
+                    _uiDictionary.Add(uiObject.key + "_VR", uiObject.vrUI);
             }
         }
         
@@ -42,6 +44,9 @@ namespace UI
             
             if(PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud)
                 key += "_MOBILE";
+            
+            if(PlatformManager.Instance.IsVR)
+                key += "_VR";
 
             return _uiDictionary.GetValueOrDefault(key, null);
         }

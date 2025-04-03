@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
+
 public class PaintRotateAndZoom : MonoBehaviour
 {
     public float rotationSpeed = 100f;
@@ -151,7 +152,7 @@ public class PaintRotateAndZoom : MonoBehaviour
         return new Vector3(clamped, clamped, clamped);
     }
 
-    float GetZoomScrollbarValue(float currentScale)
+    public float GetZoomScrollbarValue(float currentScale)
     {
         return Mathf.InverseLerp(minScale, maxScale, currentScale);
     }

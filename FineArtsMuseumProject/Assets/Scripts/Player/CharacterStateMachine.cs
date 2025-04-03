@@ -103,6 +103,7 @@ namespace Player
 
         public void SwitchState(ICharacterAnimation newState)
         {
+            if (PlatformManager.Instance.IsVR) return;
             _currentState.ExitState(this);
             _currentState = newState;
             _currentState.EnterState(this);
