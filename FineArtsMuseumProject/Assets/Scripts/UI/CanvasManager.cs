@@ -32,6 +32,9 @@ namespace UI
             
             if(PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud)
                 _canvasDictionary[key].mobileCanvas.gameObject.SetActive(true);
+            
+            if(PlatformManager.Instance.IsVR)
+                _canvasDictionary[key].vrCanvas.gameObject.SetActive(true);
         }
         
         public void DisableCanvas(string key)
@@ -41,6 +44,9 @@ namespace UI
             
             if(PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud)
                 _canvasDictionary[key].mobileCanvas.gameObject.SetActive(false);
+            
+            if(PlatformManager.Instance.IsVR || PlatformManager.Instance.IsWebGL)
+                _canvasDictionary[key].vrCanvas.gameObject.SetActive(false);
         }
     }
 
@@ -49,6 +55,7 @@ namespace UI
     {
         public Transform standaloneCanvas;
         public Transform mobileCanvas;
+        public Transform vrCanvas;
     }
     
     [Serializable]

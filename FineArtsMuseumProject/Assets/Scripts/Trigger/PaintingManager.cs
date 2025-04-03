@@ -34,6 +34,12 @@ namespace Trigger
                 {
                     paintID += "_mobile";
                 }
+                
+                if (PlatformManager.Instance.IsVR)
+                {
+                    paintID += "_vr";
+                }
+
             }
             Debug.Log("paintID:"+ paintID);
             _paintDetailDict[paintID].gameObject.SetActive(true);

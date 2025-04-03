@@ -26,6 +26,16 @@ public class TriggerPaintDetail : MonoBehaviour,IPointerDownHandler
         PaintingManager.Instance.EnablePaintDetail(paintingTriggerId);
         StartFade();
     }
+
+    public void FakePointerDown()
+    {
+        //paintDescription.SetActive(true);
+        
+        Debug.Log("DEBUG VR POINTER DOWN");
+        PaintingManager.Instance.EnablePaintDetail(paintingTriggerId);
+        StartFade();
+    }
+    
     
     public Volume volume;
     public float fadeDuration = 2f;
