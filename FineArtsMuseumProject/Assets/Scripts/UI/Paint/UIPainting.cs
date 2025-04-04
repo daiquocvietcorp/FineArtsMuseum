@@ -173,7 +173,7 @@ public void GuidePaintingClicked()
         StopGuideSequence();
         SetGuideImageOff();
         isGuide = false;
-        //paintRotateAndZoom.enabled = true;
+        paintRotateAndZoom.enabled = true;
         if(PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
         {
             guideButton.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
@@ -189,7 +189,7 @@ public void GuidePaintingClicked()
         StartGuideSequence();
         isGuide = true;
         paintRotateAndZoom.SmoothAverageResetTransform();
-        //paintRotateAndZoom.enabled = false;
+        paintRotateAndZoom.enabled = true;
         
         if(PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
         {
@@ -356,7 +356,7 @@ private void StartGuideSequence()
         {
             magnifierHover.enabled = false;
             isZoom = false;
-            //paintRotateAndZoom.enabled = true;
+            paintRotateAndZoom.enabled = true;
             if(PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
             {
                 zoomButton.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
@@ -377,7 +377,7 @@ private void StartGuideSequence()
             magnifierHover.enabled = true;
             isZoom = true;
             paintRotateAndZoom.SmoothAverageResetTransform();
-            //paintRotateAndZoom.enabled = false;
+            paintRotateAndZoom.enabled = false;
 
 
              if(PlatformManager.Instance.IsVR)
@@ -447,7 +447,7 @@ private void StartGuideSequence()
             }
 
             isAI = false;
-            //paintRotateAndZoom.enabled = true;
+            paintRotateAndZoom.enabled = true;
 
             BlinkCanvas.SetActive(false);
             VideoPlayer.Stop();
@@ -485,7 +485,7 @@ private void StartGuideSequence()
 
             isAI = true;
             paintRotateAndZoom.SmoothAverageResetTransform();
-            //paintRotateAndZoom.enabled = false;
+            paintRotateAndZoom.enabled = true;
 
             if (_blinkCoroutine != null)
             {

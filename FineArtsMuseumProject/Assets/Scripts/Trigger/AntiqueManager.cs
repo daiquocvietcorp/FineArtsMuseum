@@ -40,6 +40,11 @@ namespace Trigger
                 {
                     antiqueID += "_vr";
                 }
+
+                if (PlatformManager.Instance.IsTomko)
+                {
+                    antiqueID += "_tomko";
+                }
             }
             Debug.Log("AntiqueId:"+ antiqueID);
             _antiqueDetailDict[antiqueID].gameObject.SetActive(true);
