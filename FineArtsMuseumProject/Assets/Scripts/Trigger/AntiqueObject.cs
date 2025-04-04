@@ -50,6 +50,8 @@ public class AntiqueObject : MonoBehaviour
     private bool isSoundOn = true;
     private Coroutine guideCoroutine;
 
+    public RectTransform rect;
+    
     private void Start()
     {
         CloseButton.onClick.AddListener(TurnOffBlur);
@@ -66,6 +68,8 @@ public class AntiqueObject : MonoBehaviour
     {
         ActivateInteractiveMode();
         StartCoroutine(DelayedStartGuide());
+        rect.transform.position += new Vector3(0f, 0f, 0f);
+        rect.ForceUpdateRectTransforms();
     }
     
     private IEnumerator DelayedStartGuide()

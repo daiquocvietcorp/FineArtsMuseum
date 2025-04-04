@@ -15,9 +15,11 @@ public class PaintRotateAndZoom : MonoBehaviour
     public Scrollbar zoomScrollbar;
     public bool CanRotateUpDown = false; // ← Thêm vào đây
 
-    private Vector3 originalScale;
+    public Vector3 originalScale;
     private Quaternion originalRotation;
     private Coroutine resetCoroutine;
+
+    private Vector3 averageScale;
 
     private bool updatingFromScroll = false;
 
@@ -39,14 +41,55 @@ public class PaintRotateAndZoom : MonoBehaviour
 
     void Start()
     {
-        originalScale = transform.localScale;
         originalRotation = transform.rotation;
-
+        averageScale = Vector3.one * ((minScale + maxScale) / 2f);
         if (zoomScrollbar != null)
         {
             zoomScrollbar.onValueChanged.AddListener(OnScrollbarChanged);
             zoomScrollbar.value = GetZoomScrollbarValue(transform.localScale.x);
         }
+    }
+
+    public void SetAverageScale()
+    {
+        if (resetCoroutine != null) StopCoroutine(resetCoroutine);
+        resetCoroutine = StartCoroutine(DoSmoothSetAverageScale());
+    }
+
+    IEnumerator DoSmoothSetAverageScale()
+    {
+        Vector3 startScale = transform.localScale;
+        float elapsed = 0f;
+
+        Vector3 targetScale = Vector3.one * ((minScale + maxScale) / 2f);
+
+        while (elapsed < resetDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.SmoothStep(0f, 1f, elapsed / resetDuration);
+            transform.localScale = Vector3.Lerp(startScale, targetScale, t);
+
+            if (zoomScrollbar != null)
+            {
+                float newVal = GetZoomScrollbarValue(transform.localScale.x);
+                updatingFromScroll = true;
+                zoomScrollbar.value = newVal;
+                updatingFromScroll = false;
+            }
+
+            yield return null;
+        }
+
+        transform.localScale = targetScale;
+
+        if (zoomScrollbar != null)
+        {
+            updatingFromScroll = true;
+            zoomScrollbar.value = GetZoomScrollbarValue(targetScale.x);
+            updatingFromScroll = false;
+        }
+
+        resetCoroutine = null;
     }
 
     void Update()
@@ -55,7 +98,7 @@ public class PaintRotateAndZoom : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.R))
         {
-            SmoothResetTransform();
+            SmoothOriginResetTransform();
         }
     }
 
@@ -157,13 +200,20 @@ public class PaintRotateAndZoom : MonoBehaviour
         return Mathf.InverseLerp(minScale, maxScale, currentScale);
     }
 
-    public void SmoothResetTransform()
+    public void SmoothOriginResetTransform()
     {
         if (resetCoroutine != null) StopCoroutine(resetCoroutine);
-        resetCoroutine = StartCoroutine(DoSmoothReset());
+        resetCoroutine = StartCoroutine(DoSmoothOriginReset());
     }
+    
+    public void SmoothAverageResetTransform()
+    {
+        if (resetCoroutine != null) StopCoroutine(resetCoroutine);
+        resetCoroutine = StartCoroutine(DoSmoothAverageReset());
+    }
+    
 
-    IEnumerator DoSmoothReset()
+    IEnumerator DoSmoothOriginReset()
     {
         Vector3 startScale = transform.localScale;
         Quaternion startRotation = transform.rotation;
@@ -198,4 +248,42 @@ public class PaintRotateAndZoom : MonoBehaviour
 
         resetCoroutine = null;
     }
+    
+    IEnumerator DoSmoothAverageReset()
+    {
+        Vector3 startScale = transform.localScale;
+        Quaternion startRotation = transform.rotation;
+        float elapsed = 0f;
+
+        while (elapsed < resetDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.SmoothStep(0f, 1f, elapsed / resetDuration);
+            transform.localScale = Vector3.Lerp(startScale, averageScale, t);
+            transform.rotation = Quaternion.Slerp(startRotation, originalRotation, t);
+
+            if (zoomScrollbar != null)
+            {
+                float newVal = GetZoomScrollbarValue(transform.localScale.x);
+                updatingFromScroll = true;
+                zoomScrollbar.value = newVal;
+                updatingFromScroll = false;
+            }
+
+            yield return null;
+        }
+
+        transform.localScale = averageScale;
+        transform.rotation = originalRotation;
+        if (zoomScrollbar != null)
+        {
+            updatingFromScroll = true;
+            zoomScrollbar.value = GetZoomScrollbarValue(averageScale.x);
+            updatingFromScroll = false;
+        }
+
+        resetCoroutine = null;
+    }
+    
+    
 }

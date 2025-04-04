@@ -75,7 +75,7 @@ public class UIPainting : UIBasic
         StopGuideSequence();
         SetGuideImageOff();
         
-        paintRotateAndZoom.SmoothResetTransform();
+        paintRotateAndZoom.SmoothOriginResetTransform();
         paintRotateAndZoom.enabled = false;
         
         BlinkCanvas.SetActive(false);
@@ -122,7 +122,7 @@ public void GuidePaintingClicked()
         //guideButton.image.sprite = guideSelectedSprite;
         StartGuideSequence();
         isGuide = true;
-        paintRotateAndZoom.SmoothResetTransform();
+        paintRotateAndZoom.SmoothAverageResetTransform();
         //paintRotateAndZoom.enabled = false;
         guideButton.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
     }
@@ -226,7 +226,7 @@ private void StartGuideSequence()
     // Kết thúc
     _guideSequence.AppendCallback(() => guideButton.image.sprite = guideButtonDefaultSprite);
     _guideSequence.AppendCallback(() => isGuide = false);
-    _guideSequence.AppendCallback(() => paintRotateAndZoom.SmoothResetTransform());
+    _guideSequence.AppendCallback(() => paintRotateAndZoom.SmoothAverageResetTransform());
     _guideSequence.AppendCallback(() => paintRotateAndZoom.enabled = true);
 
     _guideSequence.SetAutoKill(true);
@@ -264,7 +264,7 @@ private void StartGuideSequence()
         {
             magnifierHover.enabled = true;
             isZoom = true;
-            paintRotateAndZoom.SmoothResetTransform();
+            paintRotateAndZoom.SmoothAverageResetTransform();
             //paintRotateAndZoom.enabled = false;
             zoomButton.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
         }
@@ -311,7 +311,7 @@ private void StartGuideSequence()
             aiButton.GetComponent<AIHoverEffect>().OnClickedButton();
 
             isAI = true;
-            paintRotateAndZoom.SmoothResetTransform();
+            paintRotateAndZoom.SmoothAverageResetTransform();
             //paintRotateAndZoom.enabled = false;
 
             if (_blinkCoroutine != null)
