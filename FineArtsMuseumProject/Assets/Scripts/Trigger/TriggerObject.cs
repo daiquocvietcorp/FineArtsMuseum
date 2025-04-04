@@ -13,4 +13,11 @@ public class TriggerObject : MonoBehaviour, IPointerDownHandler
             AntiqueManager.Instance.EnableAntiqueDetail(antiqueID);
         }
     }
+    public void FakePointerDown()
+    {
+        if (antiqueID != null || antiqueID != "")
+        {
+            AntiqueManager.Instance.EnableAntiqueDetail(antiqueID);
+        }
+    }
 }

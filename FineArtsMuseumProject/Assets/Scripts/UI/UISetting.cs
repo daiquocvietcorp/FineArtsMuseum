@@ -8,6 +8,7 @@ namespace UI
 {
     public class UISetting : UIBasic
     {
+        
         [Header("View Buttons")]
         [field: SerializeField] private Button thirdPersonButton;
         [field: SerializeField] private Button firstPersonButton;
@@ -53,8 +54,14 @@ namespace UI
 
         private void Awake()
         {
-            thirdPersonButton.onClick.AddListener(OnThirdPersonButtonClicked);
-            firstPersonButton.onClick.AddListener(OnFirstPersonButtonClicked);
+            if (thirdPersonButton != null)
+            {
+                thirdPersonButton.onClick.AddListener(OnThirdPersonButtonClicked);
+            }
+            if (firstPersonButton != null)
+            {
+                firstPersonButton.onClick.AddListener(OnFirstPersonButtonClicked);
+            }
             englishButton.onClick.AddListener(OnEnglishButtonClicked);
             vietnameseButton.onClick.AddListener(OnVietnameseButtonClicked);
             backButton.onClick.AddListener(OnBackButtonClicked);
@@ -110,6 +117,7 @@ namespace UI
         
         private void SwitchView(bool isFirstPerson)
         {
+            if (PlatformManager.Instance.IsVR) return;
             if (isFirstPerson)
             {
                 firstPersonImage.color = imageOnColor;

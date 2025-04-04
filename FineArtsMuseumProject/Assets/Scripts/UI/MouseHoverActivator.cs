@@ -36,8 +36,22 @@ public class MouseHoverActivator : MonoBehaviour,IPointerEnterHandler, IPointerE
             selectableObject.SetActive(true);
         }
     }
+    public void FakePointerEnter()
+    {
+        if (selectableObject != null)
+        {
+            selectableObject.SetActive(true);
+        }
+    }
 
     public void OnPointerExit(PointerEventData eventData)
+    {
+        if (selectableObject != null)
+        {
+            selectableObject.SetActive(false);
+        }
+    }
+    public void FakePointerExit()
     {
         if (selectableObject != null)
         {

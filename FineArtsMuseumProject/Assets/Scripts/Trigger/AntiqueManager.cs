@@ -35,6 +35,11 @@ namespace Trigger
                 {
                     antiqueID += "_mobile";
                 }
+                
+                if (PlatformManager.Instance.IsVR)
+                {
+                    antiqueID += "_vr";
+                }
             }
             Debug.Log("AntiqueId:"+ antiqueID);
             _antiqueDetailDict[antiqueID].gameObject.SetActive(true);
@@ -57,7 +62,10 @@ namespace Trigger
                 {
                     antiqueID += "_pc";
                 }
-
+                if (PlatformManager.Instance.IsVR)
+                {
+                    antiqueID += "_vr";
+                }
                 if (PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud)
                 {
                     antiqueID += "_mobile";
