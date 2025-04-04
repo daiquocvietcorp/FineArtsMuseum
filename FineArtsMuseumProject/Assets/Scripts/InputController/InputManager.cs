@@ -41,5 +41,14 @@ namespace InputController
         {
             joystickRotationInput.gameObject.SetActive(false);
         }
+        
+        public void SetDragImage(bool isDrag)
+        {
+            if (PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
+            {
+                mouseInput.SetIsDragImage(isDrag);
+            }
+            
+        }
     }
 }

@@ -24,12 +24,14 @@ namespace UI
         private void Awake()
         {
             _animationSequence = DOTween.Sequence();
+
             
-            titleImg.color = new Color(titleImg.color.r, titleImg.color.g, titleImg.color.b, 0);
-            subTitleImg.color = new Color(subTitleImg.color.r, subTitleImg.color.g, subTitleImg.color.b, 0);
-            appNameImg.color = new Color(appNameImg.color.r, appNameImg.color.g, appNameImg.color.b, 0);
-            descriptionImg.color = new Color(descriptionImg.color.r, descriptionImg.color.g, descriptionImg.color.b, 0);
-            startBtnImg.color = new Color(startBtnImg.color.r, startBtnImg.color.g, startBtnImg.color.b, 0);
+                titleImg.color = new Color(titleImg.color.r, titleImg.color.g, titleImg.color.b, 0);
+                subTitleImg.color = new Color(subTitleImg.color.r, subTitleImg.color.g, subTitleImg.color.b, 0);
+                appNameImg.color = new Color(appNameImg.color.r, appNameImg.color.g, appNameImg.color.b, 0);
+                descriptionImg.color = new Color(descriptionImg.color.r, descriptionImg.color.g, descriptionImg.color.b, 0);
+                startBtnImg.color = new Color(startBtnImg.color.r, startBtnImg.color.g, startBtnImg.color.b, 0);
+            
             
             _animationSequence.Append(titleImg.DOFade(1, 1));
             _animationSequence.Join(subTitleImg.DOFade(1, 1));
@@ -80,12 +82,12 @@ namespace UI
 
         private void EnterMain()
         {
-            UIManager.Instance.EnableUI("UI_NAVIGATION");
-            UIManager.Instance.EnableUI("UI_GUIDE");
             CharacterManager.Instance.StartControlCharacter();
             InputManager.Instance.EnableInput();
             InputManager.Instance.EnableJoystick();
             InputManager.Instance.EnableJoystickRotation();
+            UIManager.Instance.EnableUI("UI_NAVIGATION");
+            UIManager.Instance.EnableUI("UI_GUIDE");
         }
     }
 }

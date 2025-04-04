@@ -27,5 +27,15 @@ namespace Player
         {
             defaultCharacterStateMachine.RegisterJoystickAction();
         }
+        
+        public void ShowCharacterSkin()
+        {
+            defaultCharacterStateMachine.ShowCharacter();
+        }
+        
+        public void HideCharacterSkin()
+        {
+            defaultCharacterStateMachine.HideCharacter();
+        }
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DesignPatterns;
+using InputController;
 using UI;
 using UnityEngine;
 
@@ -26,6 +27,8 @@ public class UIGuide : UIBasic
     {
         base.DisableUI();
         _onBackButtonClicked?.Invoke();
+        InputManager.Instance.EnableJoystick();
+        InputManager.Instance.EnableJoystickRotation();
     }
 
     // Start is called before the first frame update
@@ -59,6 +62,15 @@ public class UIGuide : UIBasic
         base.ActionUI(action);
         ShowGuide(0);
     }
+
+    public override void EnableUI()
+    {
+        base.EnableUI();
+        InputManager.Instance.DisableJoystick();
+        InputManager.Instance.DisableJoystickRotation();
+    }
+    
+    
 }
 
 public class UIGuideData : IUIData

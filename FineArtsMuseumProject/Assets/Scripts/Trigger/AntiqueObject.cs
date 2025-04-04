@@ -1,5 +1,6 @@
 
 
+using System;
 using UI;
 
 namespace Trigger
@@ -68,8 +69,12 @@ public class AntiqueObject : MonoBehaviour
     {
         ActivateInteractiveMode();
         StartCoroutine(DelayedStartGuide());
-        rect.transform.position += new Vector3(0f, 0f, 0f);
-        rect.ForceUpdateRectTransforms();
+        if (!PlatformManager.Instance.IsVR)
+        {
+            rect.transform.position += new Vector3(0f, 0f, 0f);
+            rect.ForceUpdateRectTransforms();
+        }
+        
     }
     
     private IEnumerator DelayedStartGuide()
