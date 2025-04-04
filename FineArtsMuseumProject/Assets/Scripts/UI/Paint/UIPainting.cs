@@ -18,6 +18,10 @@ public class UIPainting : UIBasic
     public Button zoomButton_mobile;
     public Button aiButton_mobile;
     
+    public Button guideButton_vr;
+    public Button zoomButton_vr;
+    public Button aiButton_vr;
+    
     public bool isGuide = false;
     public bool isZoom = false;
     public bool isAI = false;
@@ -72,7 +76,12 @@ public class UIPainting : UIBasic
             zoomButton_mobile.onClick.AddListener(ZoomPaintingClicked);
             aiButton_mobile.onClick.AddListener(AIPaintingClicked);
         }
-        
+        if (PlatformManager.Instance.IsVR)
+        {
+            guideButton_vr.onClick.AddListener(GuidePaintingClicked);
+            zoomButton_vr.onClick.AddListener(ZoomPaintingClicked);
+            aiButton_vr.onClick.AddListener(AIPaintingClicked);
+        }
         guideRotateDefaultPosition = guideRotateImage.transform.localPosition;
         guideZoomDefaultPosition = guideRotateImage.transform.localPosition;
     }
@@ -98,7 +107,12 @@ public class UIPainting : UIBasic
             zoomButton_mobile.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
             aiButton_mobile.GetComponent<AIHoverEffect>().SetDefaultSprite();
         }
-        
+        if(PlatformManager.Instance.IsVR)
+        {
+            guideButton_vr.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
+            zoomButton_vr.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
+            aiButton_vr.GetComponent<AIHoverEffect>().SetDefaultSprite();
+        }
         StopGuideSequence();
         SetGuideImageOff();
         
@@ -127,6 +141,13 @@ public void GuidePaintingClicked()
         zoomButton.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
         aiButton.GetComponent<AIHoverEffect>().SetDefaultSprite();
     }
+    
+    if(PlatformManager.Instance.IsVR)
+    {
+        zoomButton_vr.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
+        aiButton_vr.GetComponent<AIHoverEffect>().SetDefaultSprite();
+    }
+
     
     if(PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud)
     {
@@ -288,6 +309,11 @@ private void StartGuideSequence()
         guideButton_mobile.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
     }
     
+    if(PlatformManager.Instance.IsVR)
+    {
+        guideButton_vr.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
+    }
+    
     _guideSequence.AppendCallback(() => isGuide = false);
     _guideSequence.AppendCallback(() => paintRotateAndZoom.SmoothAverageResetTransform());
     _guideSequence.AppendCallback(() => paintRotateAndZoom.enabled = true);
@@ -388,6 +414,12 @@ private void StartGuideSequence()
             guideButton_mobile.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
             zoomButton_mobile.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
         }
+        
+        if(PlatformManager.Instance.IsVR)
+        {
+            guideButton_vr.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
+            zoomButton_vr.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
+        }
 
         magnifierHover.enabled = false;
 
@@ -406,6 +438,12 @@ private void StartGuideSequence()
             {
                 aiButton_mobile.GetComponent<AIHoverEffect>().isSelected = false;
                 aiButton_mobile.GetComponent<AIHoverEffect>().OnClickedButton();
+            }
+            
+            if(PlatformManager.Instance.IsVR)
+            {
+                aiButton_vr.GetComponent<AIHoverEffect>().isSelected = false;
+                aiButton_vr.GetComponent<AIHoverEffect>().OnClickedButton();
             }
 
             isAI = false;
@@ -437,6 +475,12 @@ private void StartGuideSequence()
             {
                 aiButton_mobile.GetComponent<AIHoverEffect>().isSelected = true;
                 aiButton_mobile.GetComponent<AIHoverEffect>().OnClickedButton();
+            }
+            
+            if(PlatformManager.Instance.IsVR)
+            {
+                aiButton_vr.GetComponent<AIHoverEffect>().isSelected = true;
+                aiButton_vr.GetComponent<AIHoverEffect>().OnClickedButton();
             }
 
             isAI = true;
