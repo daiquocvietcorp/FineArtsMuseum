@@ -18,6 +18,7 @@ namespace UI
         [field: SerializeField] public UIBasic standaloneUI;
         [field: SerializeField] public UIBasic mobileUI;
         [field: SerializeField] public UIBasic vrUI;
+        [field: SerializeField] public UIBasic tomkoUI;
         [field: SerializeField] public bool isUsingWeakBlur;
     }
 }

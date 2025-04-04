@@ -44,6 +44,11 @@ namespace Trigger
                     paintID += "_vr";
                 }
 
+                if (PlatformManager.Instance.IsTomko)
+                {
+                    paintID += "_tomko";
+                }
+
             }
             Debug.Log("paintID:"+ paintID);
             UIManager.Instance.DisableUI("UI_SETTING");
