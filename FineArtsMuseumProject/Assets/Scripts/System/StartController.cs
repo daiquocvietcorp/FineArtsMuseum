@@ -16,7 +16,7 @@ namespace System
         private IEnumerator RunApplication()
         {
             CanvasManager.Instance.EnableCanvas("MAIN_CANVAS");
-            if (PlatformManager.Instance.IsCloud && PlatformManager.Instance.IsTomkoDevice)
+            if ((PlatformManager.Instance.IsCloud && PlatformManager.Instance.IsTomkoDevice) || PlatformManager.Instance.IsTomko)
             {
                 UIManager.Instance.EnableUI("UI_LOADING");
                 yield return new WaitForSeconds(13f);
