@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -196,6 +197,8 @@ public class AIHoverEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        if(PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud) return;
+        
         isHovered = true;
 
         // Stop coroutine nếu đang chạy

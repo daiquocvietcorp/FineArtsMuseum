@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UI;
@@ -12,6 +13,10 @@ public class UIPainting : UIBasic
     public Button guideButton;
     public Button zoomButton;
     public Button aiButton;
+
+    public Button guideButton_mobile;
+    public Button zoomButton_mobile;
+    public Button aiButton_mobile;
     
     public bool isGuide = false;
     public bool isZoom = false;
@@ -52,9 +57,19 @@ public class UIPainting : UIBasic
     // Start is called before the first frame update
     void Start()
     {
-        guideButton.onClick.AddListener(GuidePaintingClicked);
-        zoomButton.onClick.AddListener(ZoomPaintingClicked);
-        aiButton.onClick.AddListener(AIPaintingClicked);
+        if (PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
+        {
+            guideButton.onClick.AddListener(GuidePaintingClicked);
+            zoomButton.onClick.AddListener(ZoomPaintingClicked);
+            aiButton.onClick.AddListener(AIPaintingClicked);
+        }
+        
+        if (PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud)
+        {
+            guideButton_mobile.onClick.AddListener(GuidePaintingClicked);
+            zoomButton_mobile.onClick.AddListener(ZoomPaintingClicked);
+            aiButton_mobile.onClick.AddListener(AIPaintingClicked);
+        }
         
         guideRotateDefaultPosition = guideRotateImage.transform.localPosition;
         guideZoomDefaultPosition = guideRotateImage.transform.localPosition;
@@ -68,9 +83,19 @@ public class UIPainting : UIBasic
         isZoom = false;
         isAI = false;
         
-        guideButton.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
-        zoomButton.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
-        aiButton.GetComponent<AIHoverEffect>().SetDefaultSprite();
+        if(PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
+        {
+            guideButton.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
+            zoomButton.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
+            aiButton.GetComponent<AIHoverEffect>().SetDefaultSprite();
+        }
+        
+        if(PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud)
+        {
+            guideButton_mobile.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
+            zoomButton_mobile.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
+            aiButton_mobile.GetComponent<AIHoverEffect>().SetDefaultSprite();
+        }
         
         StopGuideSequence();
         SetGuideImageOff();
@@ -94,8 +119,19 @@ public void GuidePaintingClicked()
     isAI = false;
     isZoom = false;
 
-    aiButton.GetComponent<AIHoverEffect>().SetDefaultSprite();
-    zoomButton.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
+    
+    if(PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
+    {
+        zoomButton.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
+        aiButton.GetComponent<AIHoverEffect>().SetDefaultSprite();
+    }
+    
+    if(PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud)
+    {
+        zoomButton_mobile.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
+        aiButton_mobile.GetComponent<AIHoverEffect>().SetDefaultSprite();
+    }
+    
     magnifierHover.enabled = false;
 
     BlinkCanvas.SetActive(false);
@@ -115,7 +151,14 @@ public void GuidePaintingClicked()
         SetGuideImageOff();
         isGuide = false;
         //paintRotateAndZoom.enabled = true;
-        guideButton.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
+        if(PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
+        {
+            guideButton.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
+        }
+        else if(PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud)
+        {
+            guideButton_mobile.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
+        }
     }
     else
     {
@@ -124,7 +167,15 @@ public void GuidePaintingClicked()
         isGuide = true;
         paintRotateAndZoom.SmoothAverageResetTransform();
         //paintRotateAndZoom.enabled = false;
-        guideButton.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
+        
+        if(PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
+        {
+            guideButton.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
+        }
+        else if(PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud)
+        {
+            guideButton_mobile.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
+        }
     }
 }
 
@@ -224,7 +275,17 @@ private void StartGuideSequence()
     _guideSequence.AppendCallback(() => guideZoomImage.gameObject.SetActive(false));
 
     // Kết thúc
-    _guideSequence.AppendCallback(() => guideButton.image.sprite = guideButtonDefaultSprite);
+    
+    if(PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
+    {
+        guideButton.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
+    }
+    
+    if(PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud)
+    {
+        guideButton_mobile.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
+    }
+    
     _guideSequence.AppendCallback(() => isGuide = false);
     _guideSequence.AppendCallback(() => paintRotateAndZoom.SmoothAverageResetTransform());
     _guideSequence.AppendCallback(() => paintRotateAndZoom.enabled = true);
@@ -237,8 +298,18 @@ private void StartGuideSequence()
         isGuide = false;
         isAI = false;
         
-        aiButton.GetComponent<AIHoverEffect>().SetDefaultSprite();
-        guideButton.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
+        
+        if(PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
+        {
+            guideButton.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
+            aiButton.GetComponent<AIHoverEffect>().SetDefaultSprite();
+        }
+        
+        if(PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud)
+        {
+            guideButton_mobile.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
+            aiButton_mobile.GetComponent<AIHoverEffect>().SetDefaultSprite();
+        }
 
         BlinkCanvas.SetActive(false);
         VideoPlayer.Stop();
@@ -258,7 +329,15 @@ private void StartGuideSequence()
             magnifierHover.enabled = false;
             isZoom = false;
             //paintRotateAndZoom.enabled = true;
-            zoomButton.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
+            if(PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
+            {
+                zoomButton.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
+            }
+            
+            if(PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud)
+            {
+                zoomButton_mobile.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
+            }
         }
         else
         {
@@ -266,7 +345,16 @@ private void StartGuideSequence()
             isZoom = true;
             paintRotateAndZoom.SmoothAverageResetTransform();
             //paintRotateAndZoom.enabled = false;
-            zoomButton.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
+            
+            if(PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
+            {
+                zoomButton.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
+            }
+            
+            if(PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud)
+            {
+                zoomButton_mobile.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
+            }
         }
     }
     
@@ -275,8 +363,18 @@ private void StartGuideSequence()
         isGuide = false;
         isZoom = false;
 
-        guideButton.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
-        zoomButton.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
+        
+        if(PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
+        {
+            guideButton.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
+            zoomButton.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
+        }
+        
+        if(PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud)
+        {
+            guideButton_mobile.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
+            zoomButton_mobile.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
+        }
 
         magnifierHover.enabled = false;
 
@@ -285,8 +383,17 @@ private void StartGuideSequence()
 
         if (isAI)
         {
-            aiButton.GetComponent<AIHoverEffect>().isSelected = false;
-            aiButton.GetComponent<AIHoverEffect>().OnClickedButton();
+            if(PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
+            {
+                aiButton.GetComponent<AIHoverEffect>().isSelected = false;
+                aiButton.GetComponent<AIHoverEffect>().OnClickedButton();
+            }
+            
+            if(PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud)
+            {
+                aiButton_mobile.GetComponent<AIHoverEffect>().isSelected = false;
+                aiButton_mobile.GetComponent<AIHoverEffect>().OnClickedButton();
+            }
 
             isAI = false;
             //paintRotateAndZoom.enabled = true;
@@ -307,8 +414,17 @@ private void StartGuideSequence()
         }
         else
         {
-            aiButton.GetComponent<AIHoverEffect>().isSelected = true;
-            aiButton.GetComponent<AIHoverEffect>().OnClickedButton();
+            if(PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
+            {
+                aiButton.GetComponent<AIHoverEffect>().isSelected = true;
+                aiButton.GetComponent<AIHoverEffect>().OnClickedButton();
+            }
+            
+            if(PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud)
+            {
+                aiButton_mobile.GetComponent<AIHoverEffect>().isSelected = true;
+                aiButton_mobile.GetComponent<AIHoverEffect>().OnClickedButton();
+            }
 
             isAI = true;
             paintRotateAndZoom.SmoothAverageResetTransform();

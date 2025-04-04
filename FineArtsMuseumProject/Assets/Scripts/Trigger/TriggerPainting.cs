@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using AmazingAssets.DynamicRadialMasks;
 using Camera;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.VFX;
 
 public class TriggerPainting : MonoBehaviour
@@ -16,7 +17,8 @@ public class TriggerPainting : MonoBehaviour
     public GameObject paintingObject;
     public GameObject otherObject;
     public GameObject SubtitleObject;
-    public GameObject ButtonGroupCanvas;
+    public GameObject ButtonGroupCanvas_pc;
+    public GameObject ButtonGroupCanvas_mobile;
     public GameObject ScreenOutlineEffect;
     public GameObject Player;
     
@@ -115,7 +117,17 @@ public class TriggerPainting : MonoBehaviour
             paintRotateAndZoom.SetAverageScale();
 
             detailCollider.enabled = false;
-            ButtonGroupCanvas.gameObject.SetActive(true);
+
+            if (PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
+            {
+                ButtonGroupCanvas_pc.gameObject.SetActive(true);
+            }
+            
+            if (PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud)
+            {
+                ButtonGroupCanvas_mobile.gameObject.SetActive(true);
+            }
+            
             SubtitleObject.SetActive(true);
             isEnter = true;
             currentTrigger = true;
@@ -169,7 +181,17 @@ public class TriggerPainting : MonoBehaviour
         {
             DrmGameObject.radius = 0f;
             //paintingObject.layer = LayerMask.NameToLayer("Default");
-            ButtonGroupCanvas.gameObject.SetActive(false);
+            
+            if(PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
+            {
+                ButtonGroupCanvas_pc.gameObject.SetActive(false);
+            }
+            
+            if(PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud)
+            {
+                ButtonGroupCanvas_mobile.gameObject.SetActive(false);
+            }
+            
             //otherObject.layer = LayerMask.NameToLayer("Default");
             SetLayerRecursively(paintingObject, "Default", true);
             SetLayerRecursively(detailCollider.gameObject, "Highlighter", true);
