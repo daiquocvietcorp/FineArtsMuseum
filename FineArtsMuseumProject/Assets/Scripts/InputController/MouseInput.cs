@@ -117,7 +117,7 @@ namespace InputController
                         _isClick = true;
                         _isHold = false;
 
-                        _onClick?.Invoke(touch.position);
+                        //_onClick?.Invoke(touch.position);
                     }
                     else if (touch.phase == TouchPhase.Moved && Time.time - _holdTimer > 0.2f)
                     {
