@@ -101,6 +101,7 @@ namespace UI
 
         private void OnFirstPersonButtonClicked()
         {
+            if(CameraManager.Instance.IsLockFollowView) return;
             if(_isFirstPerson) return;
             ClickChangeFirstPerson();
             SwitchView(true);
@@ -109,6 +110,7 @@ namespace UI
 
         private void OnThirdPersonButtonClicked()
         {
+            if(CameraManager.Instance.IsLockFollowView) return;
             if(!_isFirstPerson) return;
             ClickChangeThirdPerson();
             SwitchView(false);
