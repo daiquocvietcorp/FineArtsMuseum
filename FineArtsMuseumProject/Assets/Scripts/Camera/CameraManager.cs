@@ -1,3 +1,4 @@
+using System;
 using DesignPatterns;
 using UnityEngine;
 
@@ -13,17 +14,20 @@ namespace Camera
         
         public void RegisterRotationDefault()
         {
+            if (PlatformManager.Instance.IsVR) return;
             cameraFollowPlayer.RegisterRotationAction();
         }
 
         public void SetCameraWhenEnterPainting(float distance, float height)
         {
+            if (PlatformManager.Instance.IsVR) return;
             cameraFollowPlayer.EnterPainting(distance, height);
             _isLockFollowView = true;
         }
 
         public void SetCameraWhenExitPainting()
         {
+            if (PlatformManager.Instance.IsVR) return;
             cameraFollowPlayer.ExitPainting();
             _isLockFollowView = false;
         }

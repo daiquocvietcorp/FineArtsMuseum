@@ -1758,6 +1758,7 @@ MonoBehaviour:
   animationImageAnchoredPos: {x: 0, y: 0}
   CharacterStateMachine: {fileID: 1907409309}
   triggerZoneStatic: {fileID: 33040068}
+  rect: {fileID: 0}
 --- !u!114 &33040068
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7887,6 +7888,7 @@ MonoBehaviour:
   resetDuration: 0.5
   zoomScrollbar: {fileID: 0}
   CanRotateUpDown: 0
+  originalScale: {x: 0, y: 0, z: 0}
 --- !u!65 &352633170
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8470,7 +8472,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &387527012
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11612,7 +11614,7 @@ GameObject:
   - component: {fileID: 523342823}
   - component: {fileID: 523342825}
   - component: {fileID: 523342824}
-  m_Layer: 6
+  m_Layer: 13
   m_Name: RawImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11636,8 +11638,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -0}
+  m_SizeDelta: {x: 28.2, y: 28.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &523342824
 MonoBehaviour:
@@ -12205,13 +12207,13 @@ GameObject:
   - component: {fileID: 548531185}
   - component: {fileID: 548531184}
   - component: {fileID: 548531188}
-  m_Layer: 6
+  m_Layer: 13
   m_Name: ZoomMagnifierCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &548531184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12281,19 +12283,19 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 548531183}
-  m_LocalRotation: {x: 0.009255732, y: 0.7070462, z: -0.009255732, w: 0.7070462}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: -23.48}
   m_LocalScale: {x: 0.002200001, y: 0.0022, z: 0.002200001}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1495072627}
-  m_Father: {fileID: 948018372}
+  m_Father: {fileID: 809191113}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 1.5, y: 90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1620, y: 1080}
+  m_AnchoredPosition: {x: -49.3, y: 3.42}
+  m_SizeDelta: {x: 1440, y: 960}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &548531188
 MonoBehaviour:
@@ -12450,10 +12452,11 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 64
-  zoomFactor: 3
-  cameraOffset: 0.5
+  zoomFactor: 14
+  cameraOffset: 1
   leftRayInteractor: {fileID: 1978448287431909278}
   rightRayInteractor: {fileID: 1784145974178136853}
+  ignoredRoot: {fileID: 548531187}
 --- !u!4 &560029257
 Transform:
   m_ObjectHideFlags: 0
@@ -12461,12 +12464,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 560029255}
-  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
-  m_LocalPosition: {x: -49.43, y: -3.42, z: -23.48}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 948018372}
+  m_Father: {fileID: 809191113}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!143 &560167462
@@ -14653,6 +14656,7 @@ MonoBehaviour:
   isGuide: 0
   isZoom: 0
   isAI: 0
+  MagnifierCanvas: {fileID: 548531183}
   guideButtonDefaultSprite: {fileID: 21300000, guid: 4b281ae9bc703b2428db20a6057ae206,
     type: 3}
   zoomButtonDefaultSprite: {fileID: 21300000, guid: 63e498c82e58a7440b1fed272f8cc522,
@@ -18304,6 +18308,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 948018372}
+  - {fileID: 548531187}
+  - {fileID: 560029257}
   - {fileID: 1288617134}
   m_Father: {fileID: 0}
   m_RootOrder: 58
@@ -19144,7 +19150,7 @@ GameObject:
   - component: {fileID: 824491146}
   - component: {fileID: 824491148}
   - component: {fileID: 824491147}
-  m_Layer: 6
+  m_Layer: 13
   m_Name: OutlineBlack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19168,8 +19174,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -0}
+  m_SizeDelta: {x: 28.2, y: 28.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &824491147
 MonoBehaviour:
@@ -19920,7 +19926,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 2
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 7239483546922751829}
   m_PlaneDistance: 0.48
   m_PixelPerfect: 1
   m_ReceivesEvents: 1
@@ -20498,6 +20504,7 @@ MonoBehaviour:
   animationImageAnchoredPos: {x: 0, y: 0}
   CharacterStateMachine: {fileID: 1907409309}
   triggerZoneStatic: {fileID: 932404526}
+  rect: {fileID: 0}
 --- !u!114 &933465181 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6013434589829696430, guid: 4c5901bae86d1c240b3747dd39f32582,
@@ -20677,6 +20684,7 @@ MonoBehaviour:
   resetDuration: 0.5
   zoomScrollbar: {fileID: 0}
   CanRotateUpDown: 0
+  originalScale: {x: 1, y: 1, z: 1}
 --- !u!65 &948018374
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -20688,9 +20696,24 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.8441424, y: 2.057839, z: 3.1381283}
-  m_Center: {x: 0.10679985, y: 0.03746128, z: -0.010314465}
---- !u!114 &948018377
+  m_Size: {x: 0.10285187, y: 2.057839, z: 3.1381283}
+  m_Center: {x: -0.005016327, y: 0.03746128, z: -0.010314465}
+--- !u!114 &948018380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 948018369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74cb171135444f54aaec62cd74b75889, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationSpeed: 45
+  leftRayInteractor: {fileID: 1978448287431909278}
+  rightRayInteractor: {fileID: 1784145974178136853}
+--- !u!114 &948018383
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20702,14 +20725,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a35f6cfbfba9b548aaa00d52cfe8a50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_InteractionManager: {fileID: 5692018807299091572}
+  m_InteractionManager: {fileID: 0}
   m_Colliders:
   - {fileID: 948018374}
   m_InteractionLayerMask:
     serializedVersion: 2
     m_Bits: 4294967295
   m_InteractionLayers:
-    m_Bits: 97
+    m_Bits: 65
   m_DistanceCalculationMode: 1
   m_SelectMode: 0
   m_FocusMode: 1
@@ -20741,36 +20764,10 @@ MonoBehaviour:
       m_Calls: []
   m_SelectEntered:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 948018373}
-        m_TargetAssemblyTypeName: PaintRotateAndZoom, Assembly-CSharp
-        m_MethodName: OnGrabBegin
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.XR.Interaction.Toolkit.XRBaseInteractor,
-            Unity.XR.Interaction.Toolkit
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_SelectExited:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 948018373}
-        m_TargetAssemblyTypeName: PaintRotateAndZoom, Assembly-CSharp
-        m_MethodName: OnGrabEnd
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.XR.Interaction.Toolkit.XRBaseInteractor,
-            Unity.XR.Interaction.Toolkit
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   m_FirstFocusEntered:
     m_PersistentCalls:
       m_Calls: []
@@ -21706,7 +21703,7 @@ GameObject:
   - component: {fileID: 998576942}
   - component: {fileID: 998576944}
   - component: {fileID: 998576943}
-  m_Layer: 6
+  m_Layer: 13
   m_Name: OutlineWhite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21730,8 +21727,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -0}
+  m_SizeDelta: {x: 28.2, y: 28.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &998576943
 MonoBehaviour:
@@ -27048,7 +27045,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 809191113}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1288617135
 BoxCollider:
@@ -33071,7 +33068,7 @@ GameObject:
   - component: {fileID: 1495072630}
   - component: {fileID: 1495072629}
   - component: {fileID: 1495072628}
-  m_Layer: 6
+  m_Layer: 13
   m_Name: ZoomMaskMask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33087,7 +33084,7 @@ RectTransform:
   m_GameObject: {fileID: 1495072626}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -27.753748}
-  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 523342823}
@@ -37605,8 +37602,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 59.400024, y: -60.20014}
-  m_SizeDelta: {x: 58, y: 58}
+  m_AnchoredPosition: {x: 17, y: -15}
+  m_SizeDelta: {x: 100.3, y: 100.3}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1691711365
 MonoBehaviour:
@@ -41822,8 +41819,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 179}
-  m_SizeDelta: {x: 95.8, y: 49.6}
+  m_AnchoredPosition: {x: 0, y: 165.8}
+  m_SizeDelta: {x: 149.1, y: 77.3}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1926850234
 MonoBehaviour:
@@ -52328,7 +52325,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.01
+  near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
   orthographic: 0
@@ -52445,7 +52442,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 8256
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -52802,7 +52799,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4023
+    m_Bits: 12215
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0

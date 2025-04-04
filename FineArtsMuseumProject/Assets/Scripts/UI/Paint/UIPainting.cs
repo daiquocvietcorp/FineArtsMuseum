@@ -21,6 +21,8 @@ public class UIPainting : UIBasic
     public bool isGuide = false;
     public bool isZoom = false;
     public bool isAI = false;
+
+    [SerializeField] private GameObject MagnifierCanvas;
     
     [FormerlySerializedAs("guideDefaultSprite")] public Sprite guideButtonDefaultSprite;
     [FormerlySerializedAs("zoomDefaultSprite")] public Sprite zoomButtonDefaultSprite;
@@ -338,6 +340,11 @@ private void StartGuideSequence()
             {
                 zoomButton_mobile.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
             }
+             if(PlatformManager.Instance.IsVR)
+            {
+            	MagnifierCanvas.gameObject.SetActive(false);
+            }
+
         }
         else
         {
@@ -345,6 +352,12 @@ private void StartGuideSequence()
             isZoom = true;
             paintRotateAndZoom.SmoothAverageResetTransform();
             //paintRotateAndZoom.enabled = false;
+
+
+             if(PlatformManager.Instance.IsVR)
+            {
+            	MagnifierCanvas.gameObject.SetActive(true);
+            }
             
             if(PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
             {
