@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using InputController;
 using UI;
 using UnityEngine;
@@ -8,8 +10,20 @@ namespace System
     {
         private void Start()
         {
-            InputManager.Instance.DisableInput();
+            StartCoroutine(RunApplication());
+        }
+
+        private IEnumerator RunApplication()
+        {
             CanvasManager.Instance.EnableCanvas("MAIN_CANVAS");
+            if (PlatformManager.Instance.IsCloud && PlatformManager.Instance.IsTomkoDevice)
+            {
+                UIManager.Instance.EnableUI("UI_LOADING");
+            }
+
+            yield return new WaitForSeconds(13f);
+            
+            InputManager.Instance.DisableInput();
             UIManager.Instance.EnableUI("UI_START");
         }
     }

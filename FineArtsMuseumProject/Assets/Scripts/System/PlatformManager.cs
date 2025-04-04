@@ -6,6 +6,7 @@ namespace System
     public class PlatformManager : MonoSingleton<PlatformManager>
     {
         [field: SerializeField] private PlatformType platformType;
+        [field: SerializeField] private DeviceType deviceType;
 
         private void Awake()
         {
@@ -17,6 +18,7 @@ namespace System
         public bool IsVR => platformType == PlatformType.VR;
         public bool IsWebGL => platformType == PlatformType.WebGL;
         public bool IsCloud => platformType == PlatformType.Cloud;
+        public bool IsTomkoDevice => deviceType == DeviceType.Tomko;
     }
     
     public enum PlatformType
@@ -26,5 +28,13 @@ namespace System
         VR,
         WebGL,
         Cloud
+    }
+
+    public enum DeviceType
+    {
+        Desktop,
+        Mobile,
+        VR,
+        Tomko
     }
 }
