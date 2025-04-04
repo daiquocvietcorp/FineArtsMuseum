@@ -56,27 +56,29 @@ public class MagnifierHover : MonoBehaviour
 
     void HandleMouseHover()
     {
-        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hit, 100f, targetLayer))
+        Vector3 mousePos = Input.mousePosition;
+        Ray ray = mainCamera.ScreenPointToRay(mousePos);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, 100f, targetLayer))
         {
-            if (hit.transform.CompareTag("Player") || (ignoredRoot && hit.transform.IsChildOf(ignoredRoot))) return;
-
-            Vector3 hitPos = hit.point;
-            Vector3 uiWorldPos = hitPos + hit.normal * cameraOffset;
-
+            if (hit.transform.tag == "Player") return;
+            
+            // Show kính lúp
             magnifierImage.gameObject.SetActive(true);
             if (magnifierFrame != null)
                 magnifierFrame.gameObject.SetActive(true);
 
-            Vector3 screenPos = mainCamera.WorldToScreenPoint(uiWorldPos);
-            magnifierImage.rectTransform.position = screenPos;
+            magnifierImage.rectTransform.position = mousePos;
             if (magnifierFrame != null)
-            {
-                ConvertScreenToWorldCanvasPosition(screenPos, magnifierFrame);
-            }
+                magnifierFrame.position = mousePos;
 
-            zoomCamera.transform.position = uiWorldPos;
+            // Đặt vị trí camera zoom
+            Vector3 hitPos = hit.point;
+            zoomCamera.transform.position = hitPos + hit.normal * cameraOffset;
             zoomCamera.transform.rotation = Quaternion.LookRotation(-hit.normal);
+
+            // Zoom
             zoomCamera.fieldOfView = mainCamera.fieldOfView / zoomFactor;
         }
         else

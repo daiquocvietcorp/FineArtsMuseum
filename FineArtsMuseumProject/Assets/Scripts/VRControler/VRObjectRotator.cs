@@ -10,6 +10,7 @@ public class VRObjectRotator : MonoBehaviour
     [Header("XR Interactors")]
     public XRRayInteractor leftRayInteractor;
     public XRRayInteractor rightRayInteractor;
+    public bool isPicture;
 
     private XRRayInteractor activeInteractor = null;
     private bool isRotating = false;
@@ -95,10 +96,14 @@ public class VRObjectRotator : MonoBehaviour
             transform.rotation = initialObjectRotation * deltaRot;
 
             // Nếu muốn chỉ xoay trục Y:
-            Vector3 euler = (initialObjectRotation * deltaRot).eulerAngles;
-            euler.x = 0;
-            euler.z = 0;
-            transform.rotation = Quaternion.Euler(euler);
+            if (isPicture)
+            {
+                Vector3 euler = (initialObjectRotation * deltaRot).eulerAngles;
+                euler.x = 0;
+                euler.z = 0;
+                transform.rotation = Quaternion.Euler(euler);
+            }
+            
         }
     }
 }
