@@ -45,6 +45,12 @@ namespace UI
 
         #region Setup Methods
 
+        public override void DisableUI()
+        {
+            base.DisableUI();
+            _onBackButtonClicked?.Invoke();
+        }
+
         private void Awake()
         {
             thirdPersonButton.onClick.AddListener(OnThirdPersonButtonClicked);

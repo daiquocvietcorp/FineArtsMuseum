@@ -62,7 +62,7 @@ public class PaintRotateAndZoom : MonoBehaviour
     {
         if (PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
         {
-            if (Input.GetMouseButton(1))
+            if (Input.GetMouseButton(0))
             {
                 float rotateAmountX = Input.GetAxis("Mouse X") * rotationSpeed * Time.deltaTime;
                 transform.Rotate(Vector3.up, -rotateAmountX, Space.World);
@@ -151,7 +151,7 @@ public class PaintRotateAndZoom : MonoBehaviour
         return new Vector3(clamped, clamped, clamped);
     }
 
-    float GetZoomScrollbarValue(float currentScale)
+    public float GetZoomScrollbarValue(float currentScale)
     {
         return Mathf.InverseLerp(minScale, maxScale, currentScale);
     }

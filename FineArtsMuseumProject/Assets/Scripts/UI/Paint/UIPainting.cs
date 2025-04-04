@@ -114,7 +114,7 @@ public void GuidePaintingClicked()
         StopGuideSequence();
         SetGuideImageOff();
         isGuide = false;
-        paintRotateAndZoom.enabled = true;
+        //paintRotateAndZoom.enabled = true;
         guideButton.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
     }
     else
@@ -123,7 +123,7 @@ public void GuidePaintingClicked()
         StartGuideSequence();
         isGuide = true;
         paintRotateAndZoom.SmoothResetTransform();
-        paintRotateAndZoom.enabled = false;
+        //paintRotateAndZoom.enabled = false;
         guideButton.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
     }
 }
@@ -257,7 +257,7 @@ private void StartGuideSequence()
         {
             magnifierHover.enabled = false;
             isZoom = false;
-            paintRotateAndZoom.enabled = true;
+            //paintRotateAndZoom.enabled = true;
             zoomButton.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
         }
         else
@@ -265,7 +265,7 @@ private void StartGuideSequence()
             magnifierHover.enabled = true;
             isZoom = true;
             paintRotateAndZoom.SmoothResetTransform();
-            paintRotateAndZoom.enabled = false;
+            //paintRotateAndZoom.enabled = false;
             zoomButton.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
         }
     }
@@ -289,12 +289,16 @@ private void StartGuideSequence()
             aiButton.GetComponent<AIHoverEffect>().OnClickedButton();
 
             isAI = false;
-            paintRotateAndZoom.enabled = true;
+            //paintRotateAndZoom.enabled = true;
 
             BlinkCanvas.SetActive(false);
             VideoPlayer.Stop();
             VideoPlayer.gameObject.SetActive(false);
             tranh.GetComponent<Renderer>().material.mainTexture = tranhDefaultSprite;
+            
+
+            // Gán texture phát sáng
+            tranh.GetComponent<Renderer>().material.SetTexture("_EmissionMap", tranhDefaultSprite);
             if (_blinkCoroutine != null)
             {
                 StopCoroutine(_blinkCoroutine);
@@ -308,7 +312,7 @@ private void StartGuideSequence()
 
             isAI = true;
             paintRotateAndZoom.SmoothResetTransform();
-            paintRotateAndZoom.enabled = false;
+            //paintRotateAndZoom.enabled = false;
 
             if (_blinkCoroutine != null)
             {
@@ -326,6 +330,7 @@ private void StartGuideSequence()
 
         yield return new WaitForSeconds(3f);
         tranh.GetComponent<Renderer>().material.mainTexture = videoRenderTexture;
+        tranh.GetComponent<Renderer>().material.SetTexture("_EmissionMap", videoRenderTexture);
         BlinkCanvas.SetActive(false);
 
         if (VideoClips.Count > 0)

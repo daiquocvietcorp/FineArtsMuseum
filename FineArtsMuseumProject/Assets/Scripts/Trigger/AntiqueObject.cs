@@ -65,6 +65,13 @@ public class AntiqueObject : MonoBehaviour
     private void OnEnable()
     {
         ActivateInteractiveMode();
+        StartCoroutine(DelayedStartGuide());
+    }
+    
+    private IEnumerator DelayedStartGuide()
+    {
+        yield return null; // đợi 1 frame
+        StartGuide();
     }
 
     public string GetAntiqueID()
@@ -78,15 +85,20 @@ public class AntiqueObject : MonoBehaviour
         blurGameObject.SetActive(true);
         interactiveObject.gameObject.SetActive(true);
         CloseButton.gameObject.SetActive(true);
-        //objectDetail.SetActive(true);
+
         interactiveObject.transform.SetParent(Camera.main.transform);
         interactiveObject.transform.localPosition = interactObjectLocalPosition;
-        interactiveObject.transform.localScale = new Vector3(.5f, .5f, .5f);
+
+        // 👉 Gán scale theo trung bình giữa min và max
+        float avgScale = (interactiveObject.minScale + interactiveObject.maxScale) / 2f;
+        interactiveObject.transform.localScale = new Vector3(avgScale, avgScale, avgScale);
+        interactiveObject.zoomScrollbar.value = interactiveObject.GetZoomScrollbarValue(avgScale);
 
         isBlur = true;
         CharacterManager.Instance.DisableCharacter();
         InputManager.Instance.DisableInput();
-        Debug.Log("triggerZoneStatic.triggerId:" +triggerZoneStatic.triggerId);
+
+        Debug.Log("triggerZoneStatic.triggerId:" + triggerZoneStatic.triggerId);
         AudioSubtitleManager.Instance.PlayAudioWithSubtitle(triggerZoneStatic.triggerId);
     }
 

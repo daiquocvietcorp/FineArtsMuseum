@@ -10,10 +10,10 @@ namespace UI
 {
     public class UIStart : UIBasic
     {
-        [field: SerializeField] private TMP_Text titleTxt;
-        [field: SerializeField] private TMP_Text subTitleTxt;
-        [field: SerializeField] private TMP_Text appNameTxt;
-        [field: SerializeField] private TMP_Text descriptionTxt;
+        [field: SerializeField] private Image titleImg;
+        [field: SerializeField] private Image subTitleImg;
+        [field: SerializeField] private Image appNameImg;
+        [field: SerializeField] private Image descriptionImg;
         
         [field: SerializeField] private Image startBtnImg;
         [field: SerializeField] private Button startBtn;
@@ -25,17 +25,16 @@ namespace UI
         {
             _animationSequence = DOTween.Sequence();
             
-            titleTxt.alpha = 0;
-            subTitleTxt.alpha = 0;
-            appNameTxt.alpha = 0;
-            descriptionTxt.alpha = 0;
-            startBtnImg.color = new Color(1, 1, 1, 0);
-            startBtn.interactable = false;
+            titleImg.color = new Color(titleImg.color.r, titleImg.color.g, titleImg.color.b, 0);
+            subTitleImg.color = new Color(subTitleImg.color.r, subTitleImg.color.g, subTitleImg.color.b, 0);
+            appNameImg.color = new Color(appNameImg.color.r, appNameImg.color.g, appNameImg.color.b, 0);
+            descriptionImg.color = new Color(descriptionImg.color.r, descriptionImg.color.g, descriptionImg.color.b, 0);
+            startBtnImg.color = new Color(startBtnImg.color.r, startBtnImg.color.g, startBtnImg.color.b, 0);
             
-            _animationSequence.Append(titleTxt.DOFade(1, 1));
-            _animationSequence.Join(subTitleTxt.DOFade(1, 1));
-            _animationSequence.Append(appNameTxt.DOFade(1, 1));
-            _animationSequence.Join(descriptionTxt.DOFade(1, 1));
+            _animationSequence.Append(titleImg.DOFade(1, 1));
+            _animationSequence.Join(subTitleImg.DOFade(1, 1));
+            _animationSequence.Append(appNameImg.DOFade(1, 1));
+            _animationSequence.Join(descriptionImg.DOFade(1, 1));
             _animationSequence.Append(startBtnImg.DOFade(1, 1));
             _animationSequence.AppendCallback(() =>
             {
@@ -52,10 +51,10 @@ namespace UI
             
             _hideSequence = DOTween.Sequence();
             
-            _hideSequence.Append(titleTxt.DOFade(0, 1));
-            _hideSequence.Join(subTitleTxt.DOFade(0, 1));
-            _hideSequence.Append(appNameTxt.DOFade(0, 1));
-            _hideSequence.Join(descriptionTxt.DOFade(0, 1));
+            _hideSequence.Append(titleImg.DOFade(0, 1));
+            _hideSequence.Join(subTitleImg.DOFade(0, 1));
+            _hideSequence.Append(appNameImg.DOFade(0, 1));
+            _hideSequence.Join(descriptionImg.DOFade(0, 1));
             _hideSequence.Append(startBtnImg.DOFade(0, 1));
             _hideSequence.AppendCallback(() =>
             {

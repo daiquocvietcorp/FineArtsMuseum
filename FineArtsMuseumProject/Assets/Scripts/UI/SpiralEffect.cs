@@ -22,6 +22,7 @@ public class SpiralEffect : MonoBehaviour
     private int lastIndex = -1;
     private TrailRenderer trail;
     private bool resetting = false;
+    private bool waitingToReset = false;
 
     void Start()
     {
@@ -45,6 +46,8 @@ public class SpiralEffect : MonoBehaviour
 
     void Update()
     {
+        if (waitingToReset) return;
+
         time += Time.deltaTime * speed;
 
         float tMove = time % 1f;
@@ -54,7 +57,7 @@ public class SpiralEffect : MonoBehaviour
         // Nếu vừa quay lại đầu và chưa reset
         if (lastIndex > index && !resetting)
         {
-            StartCoroutine(ResetTrailProperly(spiralPoints[index]));
+            StartCoroutine(WaitBeforeReset(spiralPoints[index]));
             resetting = true;
         }
         else if (lastIndex <= index)
@@ -66,22 +69,34 @@ public class SpiralEffect : MonoBehaviour
         lastIndex = index;
     }
 
+    IEnumerator WaitBeforeReset(Vector3 newPosition)
+    {
+        waitingToReset = true;
+
+        // Đợi 30 giây
+        yield return new WaitForSeconds(30f);
+
+        // Sau đó reset trail
+        yield return StartCoroutine(ResetTrailProperly(newPosition));
+
+        // Reset lại thời gian về 0 để bắt đầu lại từ đầu
+        time = 0f;
+        lastIndex = -1;
+
+        waitingToReset = false;
+    }
+
     IEnumerator ResetTrailProperly(Vector3 newPosition)
     {
-        // Tạm tắt trail và clear dữ liệu
         trail.enabled = false;
         trail.Clear();
 
-        // Chờ 1 frame để đảm bảo trail được xóa sạch
         yield return null;
 
-        // Di chuyển object về vị trí mới sau khi trail được reset
         glowingObject.transform.position = newPosition;
 
-        // Chờ thêm 1 frame để tránh buffer cũ
         yield return null;
 
-        // Bật lại trail
         trail.enabled = true;
     }
 }

@@ -53,7 +53,7 @@ public class PaintDetail : MonoBehaviour
     }
 
 
-    void ClosePanel()
+    public void ClosePanel()
     {
         volumnButton.image.sprite = volumnOnSprite;
         isVolumnOn = true;

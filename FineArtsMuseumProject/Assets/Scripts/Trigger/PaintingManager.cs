@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using DesignPatterns;
+using UI;
 using UnityEngine;
 
 namespace Trigger
@@ -9,10 +10,13 @@ namespace Trigger
     {
         [field: SerializeField] private List<PaintDetail> paintDetails;
         private Dictionary<string, PaintDetail> _paintDetailDict;
+        
+        private PaintDetail _currentPaintDetail;
 
         private void Awake()
         {
             _paintDetailDict = new Dictionary<string, PaintDetail>();
+            _currentPaintDetail = null;
 
             foreach (var pair in paintDetails)
             {
@@ -42,7 +46,10 @@ namespace Trigger
 
             }
             Debug.Log("paintID:"+ paintID);
+            UIManager.Instance.DisableUI("UI_SETTING");
+            UIManager.Instance.DisableUI("UI_GUIDE");
             _paintDetailDict[paintID].gameObject.SetActive(true);
+            _currentPaintDetail = _paintDetailDict[paintID];
         }
         
         public void DisablePaintDetail(string paintID)
@@ -50,6 +57,20 @@ namespace Trigger
             if (_paintDetailDict.ContainsKey(paintID))
             {
                 _paintDetailDict[paintID].gameObject.SetActive(false);
+                if (_currentPaintDetail == _paintDetailDict[paintID])
+                {
+                    _currentPaintDetail = null;
+                }
+            }
+        }
+
+        public void ForceDisablePaintDetail()
+        {
+            if (_currentPaintDetail != null)
+            {
+                _currentPaintDetail.ClosePanel();
+                _currentPaintDetail = null;
+                
             }
         }
     }

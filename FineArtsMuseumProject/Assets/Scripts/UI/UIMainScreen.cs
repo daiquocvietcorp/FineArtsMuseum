@@ -1,4 +1,5 @@
 using System;
+using Trigger;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -169,6 +170,11 @@ namespace UI
             guideToggle.image.sprite = guideOffSprite;
             GuideOff();
         }
+        
+        private void DisablePainting()
+        {
+            PaintingManager.Instance.ForceDisablePaintDetail();
+        }
 
         #endregion
 
@@ -182,6 +188,7 @@ namespace UI
         private void SettingOn()
         {
             UIManager.Instance.EnableUI("UI_SETTING");
+            DisablePainting();
         }
         
         private void VROff()
@@ -191,7 +198,7 @@ namespace UI
 
         private void VROn()
         {
-            
+            DisablePainting();
         }
         
         private void GuideOff()
@@ -203,6 +210,7 @@ namespace UI
         {
             UIManager.Instance.EnableUI("UI_GUIDE");
             UIManager.Instance.ActionUI("UI_GUIDE");
+            DisablePainting();
         }
 
         #endregion

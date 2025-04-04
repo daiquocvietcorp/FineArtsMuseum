@@ -8,6 +8,7 @@ using UnityEngine;
 public class UIGuide : UIBasic
 {
     public List<UIGuideChild> listGuide;
+    private Action _onBackButtonClicked;
     
     public void ShowGuide(int index)
     {
@@ -20,7 +21,13 @@ public class UIGuide : UIBasic
             }
         }
     }
-    
+
+    public override void DisableUI()
+    {
+        base.DisableUI();
+        _onBackButtonClicked?.Invoke();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -42,6 +49,8 @@ public class UIGuide : UIBasic
             {
                 guide.RegisterClickClose(guideData.OnBackButtonClicked);
             }
+            
+            _onBackButtonClicked = guideData.OnBackButtonClicked;
         }
     }
 
