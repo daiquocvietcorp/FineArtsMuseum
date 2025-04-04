@@ -7,8 +7,12 @@ namespace InputController
     public class InputManager : MonoSingleton<InputManager>
     {
         [field: SerializeField] private MouseInput mouseInput;
+        
         [field: SerializeField] private Transform joystickInput;
         [field: SerializeField] private Transform joystickRotationInput;
+        
+        [field: SerializeField] private Transform joystickInputTomko;
+        [field: SerializeField] private Transform joystickRotationInputTomko;
 
         public void DisableInput()
         {
@@ -48,7 +52,6 @@ namespace InputController
             {
                 mouseInput.SetIsDragImage(isDrag);
             }
-            
         }
     }
 }
