@@ -88,7 +88,10 @@ public class TriggerPainting : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            CameraManager.Instance.cameraFollowPlayer.RotateCamera(paintingObject.transform);
+            if (!PlatformManager.Instance.IsVR)
+            {
+                CameraManager.Instance.cameraFollowPlayer.RotateCamera(paintingObject.transform);
+            }
             //DrmGameObject.gameObject.SetActive(true);
             renderer.enabled = true;
             DrmGameObject.transform.position = transform.position;
