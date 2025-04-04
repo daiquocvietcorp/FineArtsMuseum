@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using InputController;
+using Player;
 using UnityEngine;
 
 namespace Camera
@@ -165,6 +166,7 @@ namespace Camera
             if(_isFirstPerson) return;
             _isFirstPerson = true;
             MouseInput.Instance.ChangeView(_isFirstPerson);
+            CharacterManager.Instance.HideCharacterSkin();
             
             if(_changeViewCoroutine != null)
             {
@@ -197,6 +199,7 @@ namespace Camera
             if(!_isFirstPerson) return;
             _isFirstPerson = false;
             MouseInput.Instance.ChangeView(_isFirstPerson);
+            CharacterManager.Instance.ShowCharacterSkin();
             
             if(_changeViewCoroutine != null)
             {

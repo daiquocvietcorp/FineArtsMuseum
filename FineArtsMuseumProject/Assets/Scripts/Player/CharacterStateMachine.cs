@@ -21,6 +21,8 @@ namespace Player
         
         [field: SerializeField] private Animator animator;
         [field: SerializeField] private CharacterData data;
+        [field: SerializeField] private SkinnedMeshRenderer skinnedMeshRenderer;
+        
         private UnityEngine.Camera _cameraMain;
         private bool _isStarted;
 
@@ -269,6 +271,16 @@ namespace Player
             _isActive = true;
             gameObject.SetActive(true);
             SwitchState(new CharacterIdleState());
+        }
+        
+        public void ShowCharacter()
+        {
+            skinnedMeshRenderer.enabled = true;
+        }
+        
+        public void HideCharacter()
+        {
+            skinnedMeshRenderer.enabled = false;
         }
     }
 }
