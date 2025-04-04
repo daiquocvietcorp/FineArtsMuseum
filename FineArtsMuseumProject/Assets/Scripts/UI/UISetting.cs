@@ -1,5 +1,6 @@
 using System;
 using Camera;
+using InputController;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -50,6 +51,15 @@ namespace UI
         {
             base.DisableUI();
             _onBackButtonClicked?.Invoke();
+            InputManager.Instance.EnableJoystick();
+            InputManager.Instance.EnableJoystickRotation();
+        }
+        
+        public override void EnableUI()
+        {
+            base.EnableUI();
+            InputManager.Instance.DisableJoystick();
+            InputManager.Instance.DisableJoystickRotation();
         }
 
         private void Awake()

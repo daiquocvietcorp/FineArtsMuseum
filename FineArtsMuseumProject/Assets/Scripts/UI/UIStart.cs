@@ -80,12 +80,12 @@ namespace UI
 
         private void EnterMain()
         {
-            UIManager.Instance.EnableUI("UI_NAVIGATION");
-            UIManager.Instance.EnableUI("UI_GUIDE");
             CharacterManager.Instance.StartControlCharacter();
             InputManager.Instance.EnableInput();
             InputManager.Instance.EnableJoystick();
             InputManager.Instance.EnableJoystickRotation();
+            UIManager.Instance.EnableUI("UI_NAVIGATION");
+            UIManager.Instance.EnableUI("UI_GUIDE");
         }
     }
 }
