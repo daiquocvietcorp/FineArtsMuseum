@@ -71,7 +71,7 @@ namespace Camera
                 _currentPitch = Mathf.Clamp(_currentPitch + mouseY, data.MinPitch, data.MaxPitch);
             }
             
-            if (PlatformManager.Instance.IsMobile)
+            if (PlatformManager.Instance.IsMobile && false)
             {
                 if (!MouseInput.Instance.IsHold || JoystickInput.Instance.IsMoving) return;
                 _isActive = true;
@@ -91,7 +91,7 @@ namespace Camera
                 _currentPitch = Mathf.Clamp(_currentPitch - mouseY, data.MinPitch, data.MaxPitch);
             }
 
-            if (PlatformManager.Instance.IsCloud)
+            if (PlatformManager.Instance.IsCloud || PlatformManager.Instance.IsMobile)
             {
                 //if(_joystickDirection.magnitude < 0.1f) return;
                 if(_joystickDirection == Vector2.zero) return;

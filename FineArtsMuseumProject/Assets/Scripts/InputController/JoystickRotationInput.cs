@@ -16,7 +16,7 @@ namespace InputController
         
         private void Awake()
         {
-            if(PlatformManager.Instance.IsCloud)
+            if(PlatformManager.Instance.IsCloud || PlatformManager.Instance.IsMobile)
             {
                 CameraManager.Instance.RegisterRotationDefault();
                 return;

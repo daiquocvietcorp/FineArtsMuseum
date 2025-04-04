@@ -144,6 +144,26 @@ namespace Player
             transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, data.RotationSpeed * Time.deltaTime);
             _rigidbody.MovePosition(transform.position + desiredMoveDirection * (data.MovementSpeed * Time.fixedDeltaTime));
         }
+        
+        private void MoveByJoystick()
+        {
+            if (!(_joystickDirection.magnitude > 0.1f)) return;
+            var moveDirection = new Vector3(_joystickDirection.x, 0, _joystickDirection.y).normalized;
+            var forward = _cameraMain.transform.forward;
+            var right = _cameraMain.transform.right;
+            
+            forward.y = 0;
+            right.y = 0;
+            
+            forward.Normalize();
+            right.Normalize();
+            
+            var desiredMoveDirection = forward * moveDirection.z + right * moveDirection.x;
+            var toRotation = Quaternion.LookRotation(desiredMoveDirection, Vector3.up);
+            transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, data.RotationSpeed * Time.deltaTime);
+            //transform.position = Vector3.MoveTowards(transform.position, transform.position + desiredMoveDirection, data.MovementSpeed * Time.deltaTime);
+            _rigidbody.MovePosition(transform.position + desiredMoveDirection * (data.MovementSpeed * Time.fixedDeltaTime));
+        }
 
         private void MoveCharacter(Vector3 position)
         {
@@ -186,26 +206,6 @@ namespace Player
             {
                 _isUsingTouch = false;
             }
-        }
-        
-        private void MoveByJoystick()
-        {
-            if (!(_joystickDirection.magnitude > 0.1f)) return;
-            var moveDirection = new Vector3(_joystickDirection.x, 0, _joystickDirection.y).normalized;
-            var forward = _cameraMain.transform.forward;
-            var right = _cameraMain.transform.right;
-            
-            forward.y = 0;
-            right.y = 0;
-            
-            forward.Normalize();
-            right.Normalize();
-            
-            var desiredMoveDirection = forward * moveDirection.z + right * moveDirection.x;
-            var toRotation = Quaternion.LookRotation(desiredMoveDirection, Vector3.up);
-            transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, data.RotationSpeed * Time.deltaTime);
-            //transform.position = Vector3.MoveTowards(transform.position, transform.position + desiredMoveDirection, data.MovementSpeed * Time.deltaTime);
-            _rigidbody.MovePosition(transform.position + desiredMoveDirection * (data.MovementSpeed * Time.fixedDeltaTime));
         }
 
         private void MoveCharacter(Vector2 direction)
