@@ -21,6 +21,9 @@ namespace Camera
         private Coroutine _changeViewCoroutine;
         
         private Vector2 _joystickDirection;
+        private float _exitPaintingCameraDistance;
+        private float _exitPaintingCameraHeight;
+        private bool _isExitFirstView;
 
         private void Awake()
         {
@@ -122,6 +125,25 @@ namespace Camera
                 {
                     _isActive = true;
                 }
+                
+                /*var direction = _currentTarget.position - player.position;
+
+                var targetYaw = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+
+                var horizontalDistance = new Vector2(direction.x, direction.z).magnitude;
+                var targetPitch = Mathf.Atan2(direction.y, horizontalDistance) * Mathf.Rad2Deg;
+
+                _currentYaw = Mathf.LerpAngle(_currentYaw, targetYaw, Time.deltaTime * data.Sensitivity);
+                _currentPitch = Mathf.LerpAngle(_currentPitch, targetPitch, Time.deltaTime * data.Sensitivity);
+
+                transform.rotation = Quaternion.Euler(_currentPitch, _currentYaw, 0f);
+
+                if (Mathf.Abs(Mathf.DeltaAngle(_currentYaw, targetYaw)) < 0.5f &&
+                    Mathf.Abs(Mathf.DeltaAngle(_currentPitch, targetPitch)) < 0.5f)
+                {
+                    _isActive = true;
+                }*/
+
             }
             
             var rotation = Quaternion.Euler(_currentPitch, _currentYaw, 0);
@@ -191,6 +213,60 @@ namespace Camera
             _currentTarget = target;
             _isActive = false;
             //UpdateCameraPositionTmp();
+        }
+        
+        private IEnumerator ChangeView(float distance, float height)
+        {
+            const float duration = 0.5f;
+            var time = 0f;
+            
+            while(time < duration)
+            {
+                time += Time.deltaTime;
+                var t = time / duration;
+                data.Distance = Mathf.Lerp(data.Distance, distance, t);
+                data.Height = Mathf.Lerp(data.Height, height, t);
+                yield return null;
+            }
+        }
+
+        public void EnterPainting(float distance, float height)
+        {
+            //Nếu là góc nhìn thứ nhất thì bỏ qua
+            if (_isFirstPerson)
+            {
+                _isExitFirstView = true;
+                return;
+            }
+            _isExitFirstView = false;
+            
+            _exitPaintingCameraDistance = data.Distance;
+            _exitPaintingCameraHeight = data.Height;
+            
+            SetFirstPersonView();
+
+            /*if (_changeViewCoroutine != null)
+            {
+                StopCoroutine(_changeViewCoroutine);
+            }
+            
+            _changeViewCoroutine = StartCoroutine(ChangeView(distance, height));
+            if(!_isFirstPerson) directionFirstView.EnableDirectionFirstView();*/
+        }
+
+        public void ExitPainting()
+        {
+            //Nếu ra ngoài mà là góc nhìn thứ nhất thì bỏ qua
+            if(_isExitFirstView) return;
+            SetThirdPersonView();
+            
+            /*if (_changeViewCoroutine != null)
+            {
+                StopCoroutine(_changeViewCoroutine);
+            }
+            
+            _changeViewCoroutine = StartCoroutine(ChangeView(_exitPaintingCameraDistance, _exitPaintingCameraHeight));
+            if(!_isFirstPerson) directionFirstView.DisableDirectionFirstView();*/
         }
     }
 }

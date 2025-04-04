@@ -22,6 +22,7 @@ public class TriggerPainting : MonoBehaviour
     
     public GameObject VRPlayer;
     public Collider detailCollider;
+    public TriggerPaintDetail triggerPaintDetail;
     public Renderer renderer;
     
     public UIPainting UIPainting;
@@ -47,6 +48,11 @@ public class TriggerPainting : MonoBehaviour
 
     public VisualEffect fogVFX;
 
+    [field: SerializeField] private float distanceCamera;
+    [field: SerializeField] private float heightCamera;
+    
+    private BoxCollider _objectCollider;
+
     
 
     private void Start()
@@ -57,6 +63,8 @@ public class TriggerPainting : MonoBehaviour
         fogVFX.Stop();
         //paintRotateAndZoom = paintingObject.GetComponent<PaintRotateAndZoom>();
         //ButtonGroupCanvas.gameObject.SetActive(false);
+        
+        _objectCollider = paintingObject.GetComponent<BoxCollider>();
     }
 
     public static void SetLayerRecursively(GameObject obj, string layerName, bool includeSelf = true)
@@ -89,32 +97,34 @@ public class TriggerPainting : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             CameraManager.Instance.cameraFollowPlayer.RotateCamera(paintingObject.transform);
-            //DrmGameObject.gameObject.SetActive(true);
             renderer.enabled = true;
             DrmGameObject.transform.position = transform.position;
             fogVFX.transform.position = new Vector3(transform.position.x, 2, transform.position.z);
-            //paintingObject.layer = LayerMask.NameToLayer("IgnoreBlur");
-            SetLayerRecursively(detailCollider.gameObject, "IgnoreBlur", true);
+
+            SetLayerRecursively(detailCollider.gameObject, "Default", true);
             SetLayerRecursively(paintingObject, "IgnoreBlur", true);
             SetLayerRecursively(otherObject, "IgnoreBlur", true);
             SetLayerRecursively(Player, "IgnoreBlur", true);
             SetLayerRecursively(VRPlayer, "IgnoreBlur", true);
 
-            //otherObject.layer = LayerMask.NameToLayer("IgnoreBlur");
-            ScreenOutlineEffect.SetActive(true);
+            ScreenOutlineEffect.SetActive(false);
             SetLayerRecursively(ScreenOutlineEffect, "IgnoreBlur", true);
             paintRotateAndZoom.enabled = true;
-            detailCollider.enabled = true;
-            detailCollider.GetComponent<TriggerPaintDetail>().triggerPainting = this;
+
+            // 🔽 Set scale theo trung bình cộng min/max
+            paintRotateAndZoom.SetAverageScale();
+
+            detailCollider.enabled = false;
             ButtonGroupCanvas.gameObject.SetActive(true);
             SubtitleObject.SetActive(true);
             isEnter = true;
             currentTrigger = true;
-            //UnityEngine.Camera.main.transform.LookAt(paintingObject.transform);
             fogVFX.Play();
-            //UIPainting.SetDefaultAll();
+            
+            CameraManager.Instance.SetCameraWhenEnterPainting(distanceCamera, heightCamera);
         }
     }
+
 
     private void OnTriggerExit(Collider other)
     {
@@ -122,10 +132,10 @@ public class TriggerPainting : MonoBehaviour
         {
             isEnter = false;    
             fogVFX.Stop();
-            paintRotateAndZoom.SmoothResetTransform();
+            paintRotateAndZoom.SmoothOriginResetTransform();
             paintRotateAndZoom.enabled = false;
             SetLayerRecursively(ScreenOutlineEffect, "Default", true);
-            ScreenOutlineEffect.SetActive(false);
+            ScreenOutlineEffect.SetActive(true);
             //Debug.Log(other.gameObject.name);
             
             SetLayerRecursively(VRPlayer, "Default", true);
@@ -133,11 +143,13 @@ public class TriggerPainting : MonoBehaviour
             SetLayerRecursively(Player, "Default", true);
             SubtitleObject.SetActive(false);
             UIPainting.magnifierHover.enabled = false;
+            detailCollider.enabled = true;
             detailCollider.GetComponent<TriggerPaintDetail>().ResetFade();
-            detailCollider.GetComponent<TriggerPaintDetail>().triggerPainting = null;
+            //detailCollider.GetComponent<TriggerPaintDetail>().triggerPainting = null;
             detailCollider.GetComponent<TriggerPaintDetail>().paintDescription.SetActive(false);
-            detailCollider.enabled = false;
             UIPainting.SetDefaultAll();
+            
+            CameraManager.Instance.SetCameraWhenExitPainting();
         }
     }
 
@@ -160,7 +172,7 @@ public class TriggerPainting : MonoBehaviour
             ButtonGroupCanvas.gameObject.SetActive(false);
             //otherObject.layer = LayerMask.NameToLayer("Default");
             SetLayerRecursively(paintingObject, "Default", true);
-            SetLayerRecursively(detailCollider.gameObject, "Default", true);
+            SetLayerRecursively(detailCollider.gameObject, "Highlighter", true);
             SetLayerRecursively(otherObject, "Default", true);
             SetLayerRecursively(Player, "Default", true);
             SetLayerRecursively(VRPlayer, "Default", true);

@@ -1,4 +1,5 @@
 using System;
+using Audio;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,13 +25,19 @@ namespace Sound
             {
                 onSound.gameObject.SetActive(true);
                 offSound.gameObject.SetActive(false);
+                //AudioSubtitleManager.Instance.
+                //AudioManager.Instance
                 // Play sound
+                
+                AudioSubtitleManager.Instance.TurnAmbientSound();
             }
             else
             {
                 onSound.gameObject.SetActive(false);
                 offSound.gameObject.SetActive(true);
                 // Stop sound
+                
+                AudioSubtitleManager.Instance.TurnAmbientSound();
             }
         }
     }

@@ -13,6 +13,7 @@ public class TriggerZoneDynamic: MonoBehaviour
     {
         if (other.CompareTag("Player") && !playerInside)
         {
+            Debug.Log("Trigger AM Thanh ne");
             playerInside = true;
             triggerCoroutine = StartCoroutine(TriggerEvent());
             //var audioData = AudioSubtitleManager.Instance.GetAudioClipData(triggerId);
@@ -40,6 +41,7 @@ public class TriggerZoneDynamic: MonoBehaviour
 
     IEnumerator TriggerEvent()
     {
+        Debug.Log("Vao ham Trigger Event");
         yield return new WaitForSeconds(0f); // Delay 0.5s trước khi chạy
         AudioSubtitleManager.Instance.StartArtPanelButton(triggerId);
     }

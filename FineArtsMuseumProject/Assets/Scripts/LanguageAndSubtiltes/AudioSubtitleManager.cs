@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DesignPatterns;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -28,7 +29,7 @@ public class AudioDataList
     public List<AudioClipData> clips;
 }
 
-public class AudioSubtitleManager : MonoBehaviour
+public class AudioSubtitleManager : MonoSingleton<AudioSubtitleManager>
 {
     private void OnApplicationQuit()
     {
@@ -58,6 +59,7 @@ public class AudioSubtitleManager : MonoBehaviour
     private bool _isPlayingAmbientSound = false;
     private bool _isPlayingAudio = false;
     
+    private Coroutine repeatCoroutine;
     
     void Awake()
     {
@@ -99,11 +101,13 @@ public class AudioSubtitleManager : MonoBehaviour
     
     public void StartArtPanelButton(string id)
     {
+        Debug.Log("Vao ham StartArtPanelButton");
         AudioClipData clipData = GetClipDataById(id);
         if (clipData != null && TriggerButton != null)
         {
             TriggerButton.gameObject.SetActive(true);
             TriggerButton.onClick.AddListener(() => PlayAudioWithSubtitle(id));
+            PlayAudioWithSubtitle(id);
         }
         else
         {
@@ -178,65 +182,65 @@ public class AudioSubtitleManager : MonoBehaviour
     public void PlayAudioWithSubtitle(string id)
     {
         Debug.Log("Play Audio with Subtitle: " + id);
-        if (_isPlayingAudio)
-        {
-            Debug.Log("set _isPlayingAudio False");
-            //Muốn tắt audio
-            if (_isPlayingAmbientSound) //ambient đang trong trạng thái bật
-            {
-                audioSource.clip = ambientSound;
-                audioSource.volume = ambientVolume;
-                audioSource.loop = true;
-            }
-            _isPlayingAudio = false;
-        }
-        else
-        {
-            Debug.Log("Set _isPlayingAudio true");
-            //Muốn bật audio
-            if (_isPlayingAmbientSound)
-            {
-                audioSource.Stop();
-                _isPlayingAmbientSound = false;
-            }
-            
-            currentPlayingAudioId = id;
-            AudioClipData clipData = GetClipDataById(id);
-            if (clipData == null)
-            {
-                Debug.LogWarning($"No matching audio found for trigger ID: {id}");
-                return;
-            }
 
-            string audioPath = (currentLanguage == "vi") ? clipData.audioPath_vi : clipData.audioPath_en;
-            AudioClip clip = Resources.Load<AudioClip>(audioPath);
-            if (audioSource.isPlaying)
-            {
-                StopAudioAndClearSubtitle();
-            }
-        
-            if (clip != null && !audioSource.isPlaying)
-            {
-                audioSource.clip = clip;
-                audioSource.Play();
+        // Dừng lại toàn bộ trước khi phát lại
+        StopAudioAndClearSubtitle();
 
-                if (clipData.type == "dynamic")
-                {
-                    if (subtitleCoroutine != null)
-                        StopCoroutine(subtitleCoroutine);
-                    subtitleCoroutine = StartCoroutine(DisplayDynamicSubtitle(clipData.subtitle, clip.length));
-                }
-                else if (clipData.type == "static")
-                {
-                    ShowStaticSubtitle();
-                }
-            }
-            else
-            {
-                Debug.LogError("Audio clip not found: " + audioPath);
-            }
-            _isPlayingAudio = true;
+        // Nếu đang bật ambient thì tắt
+        if (_isPlayingAmbientSound)
+        {
+            audioSource.Stop();
+            _isPlayingAmbientSound = false;
         }
+
+        currentPlayingAudioId = id;
+        AudioClipData clipData = GetClipDataById(id);
+        if (clipData == null)
+        {
+            Debug.LogWarning($"No matching audio found for trigger ID: {id}");
+            return;
+        }
+
+        string audioPath = (currentLanguage == "vi") ? clipData.audioPath_vi : clipData.audioPath_en;
+        AudioClip clip = Resources.Load<AudioClip>(audioPath);
+        if (clip == null)
+        {
+            Debug.LogError("Audio clip not found: " + audioPath);
+            return;
+        }
+
+        audioSource.clip = clip;
+        audioSource.loop = false;
+        audioSource.Play();
+        _isPlayingAudio = true;
+
+        // Bắt đầu lặp
+        if (repeatCoroutine != null)
+            StopCoroutine(repeatCoroutine);
+        repeatCoroutine = StartCoroutine(RepeatAudioAfterDelay(id, clip.length));
+
+        // Phụ đề
+        if (clipData.type == "dynamic")
+        {
+            if (subtitleCoroutine != null)
+                StopCoroutine(subtitleCoroutine);
+            subtitleCoroutine = StartCoroutine(DisplayDynamicSubtitle(clipData.subtitle, clip.length));
+        }
+        else if (clipData.type == "static")
+        {
+            ShowStaticSubtitle();
+        }
+    }
+
+    
+    IEnumerator RepeatAudioAfterDelay(string id, float clipDuration)
+    {
+        yield return new WaitForSeconds(clipDuration + 10f); // Đợi hết clip + 10s
+
+        Debug.Log("Audio finished, waiting 10 seconds... Replaying.");
+
+        // Gọi lại chính nó
+        PlayAudioWithSubtitle(id);
     }
     
     public void TurnAmbientSound()
@@ -351,8 +355,13 @@ public class AudioSubtitleManager : MonoBehaviour
             subtitleCoroutine = null;
         }
 
+        if (repeatCoroutine != null)
+        {
+            StopCoroutine(repeatCoroutine);
+            repeatCoroutine = null;
+        }
+
         _isPlayingAudio = false;
-        
         dynamicSubtitleText.text = ""; // Xóa subtitle động
         currentPlayingAudioId = "";
     }
