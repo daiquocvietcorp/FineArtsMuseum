@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -113,6 +114,7 @@ public class IdleScreenManager : MonoBehaviour
 
     void Update()
     {
+        if(PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud) return;
         if (!idleScreen.activeSelf)
         {
             if (Input.anyKey || Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0)
