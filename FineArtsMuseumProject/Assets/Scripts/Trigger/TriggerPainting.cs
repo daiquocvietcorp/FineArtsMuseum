@@ -18,6 +18,7 @@ public class TriggerPainting : MonoBehaviour
     public GameObject otherObject;
     public GameObject SubtitleObject;
     public GameObject ButtonGroupCanvas_pc;
+    public GameObject ButtonGroupCanvas_vr;
     public GameObject ButtonGroupCanvas_mobile;
     public GameObject ScreenOutlineEffect;
     public GameObject Player;
@@ -131,6 +132,10 @@ public class TriggerPainting : MonoBehaviour
             {
                 ButtonGroupCanvas_mobile.gameObject.SetActive(true);
             }
+            if (PlatformManager.Instance.IsVR)
+            {
+                ButtonGroupCanvas_vr.gameObject.SetActive(true);
+            }
             
             SubtitleObject.SetActive(true);
             isEnter = true;
@@ -154,7 +159,7 @@ public class TriggerPainting : MonoBehaviour
             ScreenOutlineEffect.SetActive(true);
             //Debug.Log(other.gameObject.name);
             
-            SetLayerRecursively(VRPlayer, "Default", true);
+            SetLayerRecursively(VRPlayer, "IgnoreBlur", true);
 
             SetLayerRecursively(Player, "Default", true);
             SubtitleObject.SetActive(false);
@@ -194,6 +199,10 @@ public class TriggerPainting : MonoBehaviour
             if(PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud)
             {
                 ButtonGroupCanvas_mobile.gameObject.SetActive(false);
+            }
+            if(PlatformManager.Instance.IsVR)
+            {
+                ButtonGroupCanvas_vr.gameObject.SetActive(false);
             }
             
             //otherObject.layer = LayerMask.NameToLayer("Default");
