@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using DesignPatterns;
+using InputController;
 using UI;
 using UnityEngine;
 
@@ -55,6 +56,10 @@ namespace Trigger
             UIManager.Instance.DisableUI("UI_GUIDE");
             _paintDetailDict[paintID].gameObject.SetActive(true);
             _currentPaintDetail = _paintDetailDict[paintID];
+
+            if (!PlatformManager.Instance.IsMobile && !PlatformManager.Instance.IsCloud) return;
+            InputManager.Instance.DisableJoystickRotation();
+            InputManager.Instance.DisableJoystick();
         }
         
         public void DisablePaintDetail(string paintID)
@@ -75,7 +80,6 @@ namespace Trigger
             {
                 _currentPaintDetail.ClosePanel();
                 _currentPaintDetail = null;
-                
             }
         }
     }

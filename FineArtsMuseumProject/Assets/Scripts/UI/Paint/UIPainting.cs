@@ -374,7 +374,7 @@ private void StartGuideSequence()
             UIPaintingManager.Instance.DisableUIPainting(PaintID);
             magnifierHover.enabled = false;
             isZoom = false;
-            paintRotateAndZoom.enabled = true;
+            paintRotateAndZoom.canRotate = true;
             if(PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
             {
                 zoomButton.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
@@ -396,7 +396,7 @@ private void StartGuideSequence()
             magnifierHover.enabled = true;
             isZoom = true;
             paintRotateAndZoom.SmoothAverageResetTransform();
-            paintRotateAndZoom.enabled = false;
+            paintRotateAndZoom.canRotate = false;
 
 
              if(PlatformManager.Instance.IsVR)
