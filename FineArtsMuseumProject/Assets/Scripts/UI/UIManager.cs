@@ -34,6 +34,8 @@ namespace UI
                 _usingWeakBlurDict.Add(uiObject.key, uiObject.isUsingWeakBlur);
                 if(uiObject.vrUI != null)
                     _uiDictionary.Add(uiObject.key + "_VR", uiObject.vrUI);
+                if(uiObject.tomkoUI != null)
+                    _uiDictionary.Add(uiObject.key + "_TOMKO", uiObject.tomkoUI);
             }
         }
         
@@ -47,6 +49,9 @@ namespace UI
             
             if(PlatformManager.Instance.IsVR)
                 key += "_VR";
+            
+            if(PlatformManager.Instance.IsTomko)
+                key += "_TOMKO";
 
             return _uiDictionary.GetValueOrDefault(key, null);
         }

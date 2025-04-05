@@ -80,7 +80,7 @@ public class AudioSubtitleManager : MonoSingleton<AudioSubtitleManager>
         toggleVietnamese.onValueChanged.AddListener((isOn) => OnToggleChanged(isOn, "vi"));
         _isPlayingAmbientSound = false;
         _isPlayingAudio = false;
-        TurnAmbientSound();
+        //TurnAmbientSound();
     }
     // void AssignButtonEvents()
     // {
@@ -171,7 +171,8 @@ public class AudioSubtitleManager : MonoSingleton<AudioSubtitleManager>
     void LoadLanguage()
     {
         // Mặc định là Tiếng Việt nếu chưa chọn
-        currentLanguage = PlayerPrefs.GetString("Language", "vi");
+        //currentLanguage = PlayerPrefs.GetString("Language", "vi");
+        currentLanguage = "vi";
         toggleEnglish.isOn = (currentLanguage == "en");
         toggleVietnamese.isOn = (currentLanguage == "vi");
         ShowStaticSubtitle();

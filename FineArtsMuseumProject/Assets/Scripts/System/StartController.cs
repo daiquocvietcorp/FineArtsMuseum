@@ -16,14 +16,15 @@ namespace System
         private IEnumerator RunApplication()
         {
             CanvasManager.Instance.EnableCanvas("MAIN_CANVAS");
-            if (PlatformManager.Instance.IsCloud && PlatformManager.Instance.IsTomkoDevice)
+            if ((PlatformManager.Instance.IsCloud && PlatformManager.Instance.IsTomkoDevice) || PlatformManager.Instance.IsTomko)
             {
                 UIManager.Instance.EnableUI("UI_LOADING");
+                yield return new WaitForSeconds(13f);
             }
-
-            yield return new WaitForSeconds(13f);
+            yield return new WaitForSeconds(.1f);
             
             InputManager.Instance.DisableInput();
+            UIManager.Instance.EnableUI("UI_SOUND");
             UIManager.Instance.EnableUI("UI_START");
         }
     }

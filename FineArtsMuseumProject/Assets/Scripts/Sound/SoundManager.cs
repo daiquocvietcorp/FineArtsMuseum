@@ -1,21 +1,24 @@
 using System;
 using Audio;
+using UI;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Sound
 {
-    public class SoundManager : MonoBehaviour
+    public class SoundManager : UIBasic
     {
         [field: SerializeField] private Transform onSound;
         [field: SerializeField] private Transform offSound;
         private Button _button;
-        private bool _isPlaying = true;
+        private bool _isPlaying = false;
 
-        private void Awake()
+        public override void ActionUI(Action action = null)
         {
+            base.ActionUI(action);
             _button = GetComponent<Button>();
             _button.onClick.AddListener(OnClick);
+            OnClick();
         }
 
         private void OnClick()

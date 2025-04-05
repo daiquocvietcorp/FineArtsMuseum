@@ -1,10 +1,10 @@
-using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
+using UnityEngine.EventSystems;
 
-
-public class PaintRotateAndZoom : MonoBehaviour
+public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandler, IScrollHandler, IPointerUpHandler
 {
     public float rotationSpeed = 100f;
     public float zoomSpeed = 0.01f;
@@ -13,40 +13,121 @@ public class PaintRotateAndZoom : MonoBehaviour
     public float resetDuration = 0.5f;
 
     public Scrollbar zoomScrollbar;
-    public bool CanRotateUpDown = false; // ← Thêm vào đây
+    public bool CanRotateUpDown = false;
 
     public Vector3 originalScale;
     private Quaternion originalRotation;
     private Coroutine resetCoroutine;
 
     private Vector3 averageScale;
-
     private bool updatingFromScroll = false;
+
+    private Dictionary<int, Vector2> activeTouches = new Dictionary<int, Vector2>();
+    private float initialDistance;
+    private Vector3 initialScale;
+    private Vector2 lastPointerPosition;
 
     private void OnEnable()
     {
         if (zoomScrollbar != null)
-        {
             zoomScrollbar.gameObject.SetActive(true);
-        }
     }
 
     private void OnDisable()
     {
         if (zoomScrollbar != null)
-        {
             zoomScrollbar.gameObject.SetActive(false);
-        }
     }
 
     void Start()
     {
         originalRotation = transform.rotation;
         averageScale = Vector3.one * ((minScale + maxScale) / 2f);
+
         if (zoomScrollbar != null)
         {
             zoomScrollbar.onValueChanged.AddListener(OnScrollbarChanged);
             zoomScrollbar.value = GetZoomScrollbarValue(transform.localScale.x);
+        }
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        activeTouches[eventData.pointerId] = eventData.position;
+
+        if (activeTouches.Count == 2)
+        {
+            var positions = new List<Vector2>(activeTouches.Values);
+            initialDistance = Vector2.Distance(positions[0], positions[1]);
+            initialScale = transform.localScale;
+        }
+
+        lastPointerPosition = eventData.position;
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        if (!activeTouches.ContainsKey(eventData.pointerId))
+            return;
+
+        activeTouches[eventData.pointerId] = eventData.position;
+
+        if (activeTouches.Count == 2)
+        {
+            var positions = new List<Vector2>(activeTouches.Values);
+            float currentDistance = Vector2.Distance(positions[0], positions[1]);
+            float scaleFactor = currentDistance / initialDistance;
+
+            Vector3 newScale = initialScale * scaleFactor;
+            newScale = ClampScale(newScale);
+            transform.localScale = newScale;
+
+            if (zoomScrollbar != null)
+            {
+                updatingFromScroll = true;
+                zoomScrollbar.value = GetZoomScrollbarValue(newScale.x);
+                updatingFromScroll = false;
+            }
+        }
+        else if (activeTouches.Count == 1)
+        {
+            Vector2 delta = eventData.position - lastPointerPosition;
+            lastPointerPosition = eventData.position;
+
+            float rotateAmountX = delta.x * rotationSpeed * Time.deltaTime * 0.5f;
+            transform.Rotate(Vector3.up, -rotateAmountX, Space.World);
+
+            if (CanRotateUpDown)
+            {
+                float rotateAmountY = delta.y * rotationSpeed * Time.deltaTime * 0.5f;
+                transform.Rotate(Vector3.right, rotateAmountY, Space.World);
+            }
+        }
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        if (activeTouches.ContainsKey(eventData.pointerId))
+            activeTouches.Remove(eventData.pointerId);
+    }
+
+    public void OnScroll(PointerEventData eventData)
+    {
+        float scroll = eventData.scrollDelta.y;
+
+        if (scroll != 0f)
+        {
+            Vector3 scale = transform.localScale;
+            scale += Vector3.one * scroll * zoomSpeed * 10f;
+            scale = ClampScale(scale);
+            transform.localScale = scale;
+
+            if (zoomScrollbar != null)
+            {
+                updatingFromScroll = true;
+                zoomScrollbar.value = GetZoomScrollbarValue(scale.x);
+                updatingFromScroll = false;
+            }
         }
     }
 
@@ -60,7 +141,6 @@ public class PaintRotateAndZoom : MonoBehaviour
     {
         Vector3 startScale = transform.localScale;
         float elapsed = 0f;
-
         Vector3 targetScale = Vector3.one * ((minScale + maxScale) / 2f);
 
         while (elapsed < resetDuration)
@@ -92,126 +172,17 @@ public class PaintRotateAndZoom : MonoBehaviour
         resetCoroutine = null;
     }
 
-    void Update()
-    {
-        PaintRotateAndZoomFunction();
-
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            SmoothOriginResetTransform();
-        }
-    }
-
-    void PaintRotateAndZoomFunction()
-    {
-        if (PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
-        {
-            if (Input.GetMouseButton(0))
-            {
-                float rotateAmountX = Input.GetAxis("Mouse X") * rotationSpeed * Time.deltaTime;
-                transform.Rotate(Vector3.up, -rotateAmountX, Space.World);
-
-                if (CanRotateUpDown)
-                {
-                    float rotateAmountY = Input.GetAxis("Mouse Y") * rotationSpeed * Time.deltaTime;
-                    transform.Rotate(Vector3.right, rotateAmountY, Space.World);
-                }
-            }
-
-            float scroll = Input.GetAxis("Mouse ScrollWheel");
-            if (scroll != 0f)
-            {
-                Vector3 scale = transform.localScale;
-                scale += Vector3.one * scroll * zoomSpeed * 100f;
-                scale = ClampScale(scale);
-                transform.localScale = scale;
-
-                if (zoomScrollbar != null)
-                {
-                    updatingFromScroll = true;
-                    zoomScrollbar.value = GetZoomScrollbarValue(scale.x);
-                    updatingFromScroll = false;
-                }
-            }
-        }
-
-        if (PlatformManager.Instance.IsMobile)
-        {
-            if (Input.touchCount == 1)
-            {
-                Touch touch = Input.GetTouch(0);
-                if (touch.phase == TouchPhase.Moved)
-                {
-                    float rotateAmountX = touch.deltaPosition.x * rotationSpeed * Time.deltaTime * 0.5f;
-                    transform.Rotate(Vector3.up, -rotateAmountX, Space.World);
-
-                    if (CanRotateUpDown)
-                    {
-                        float rotateAmountY = touch.deltaPosition.y * rotationSpeed * Time.deltaTime * 0.5f;
-                        transform.Rotate(Vector3.right, rotateAmountY, Space.World);
-                    }
-                }
-            }
-
-            if (Input.touchCount == 2)
-            {
-                Touch touch1 = Input.GetTouch(0);
-                Touch touch2 = Input.GetTouch(1);
-
-                Vector2 prevPos1 = touch1.position - touch1.deltaPosition;
-                Vector2 prevPos2 = touch2.position - touch2.deltaPosition;
-
-                float prevMag = (prevPos1 - prevPos2).magnitude;
-                float currMag = (touch1.position - touch2.position).magnitude;
-
-                float delta = currMag - prevMag;
-
-                Vector3 scale = transform.localScale;
-                scale += Vector3.one * delta * zoomSpeed;
-                scale = ClampScale(scale);
-                transform.localScale = scale;
-
-                if (zoomScrollbar != null)
-                {
-                    updatingFromScroll = true;
-                    zoomScrollbar.value = GetZoomScrollbarValue(scale.x);
-                    updatingFromScroll = false;
-                }
-            }
-        }
-    }
-
-    void OnScrollbarChanged(float value)
-    {
-        if (updatingFromScroll) return;
-
-        float targetScale = Mathf.Lerp(minScale, maxScale, value);
-        transform.localScale = new Vector3(targetScale, targetScale, targetScale);
-    }
-
-    Vector3 ClampScale(Vector3 scale)
-    {
-        float clamped = Mathf.Clamp(scale.x, minScale, maxScale);
-        return new Vector3(clamped, clamped, clamped);
-    }
-
-    public float GetZoomScrollbarValue(float currentScale)
-    {
-        return Mathf.InverseLerp(minScale, maxScale, currentScale);
-    }
-
     public void SmoothOriginResetTransform()
     {
         if (resetCoroutine != null) StopCoroutine(resetCoroutine);
         resetCoroutine = StartCoroutine(DoSmoothOriginReset());
     }
-    
+
     public void SmoothAverageResetTransform()
     {
         if (resetCoroutine != null) StopCoroutine(resetCoroutine);
         resetCoroutine = StartCoroutine(DoSmoothAverageReset());
     }
-    
 
     IEnumerator DoSmoothOriginReset()
     {
@@ -239,6 +210,7 @@ public class PaintRotateAndZoom : MonoBehaviour
 
         transform.localScale = originalScale;
         transform.rotation = originalRotation;
+
         if (zoomScrollbar != null)
         {
             updatingFromScroll = true;
@@ -248,7 +220,7 @@ public class PaintRotateAndZoom : MonoBehaviour
 
         resetCoroutine = null;
     }
-    
+
     IEnumerator DoSmoothAverageReset()
     {
         Vector3 startScale = transform.localScale;
@@ -275,6 +247,7 @@ public class PaintRotateAndZoom : MonoBehaviour
 
         transform.localScale = averageScale;
         transform.rotation = originalRotation;
+
         if (zoomScrollbar != null)
         {
             updatingFromScroll = true;
@@ -284,6 +257,23 @@ public class PaintRotateAndZoom : MonoBehaviour
 
         resetCoroutine = null;
     }
-    
-    
+
+    void OnScrollbarChanged(float value)
+    {
+        if (updatingFromScroll) return;
+
+        float targetScale = Mathf.Lerp(minScale, maxScale, value);
+        transform.localScale = new Vector3(targetScale, targetScale, targetScale);
+    }
+
+    Vector3 ClampScale(Vector3 scale)
+    {
+        float clamped = Mathf.Clamp(scale.x, minScale, maxScale);
+        return new Vector3(clamped, clamped, clamped);
+    }
+
+    public float GetZoomScrollbarValue(float currentScale)
+    {
+        return Mathf.InverseLerp(minScale, maxScale, currentScale);
+    }
 }

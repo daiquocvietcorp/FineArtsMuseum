@@ -60,6 +60,14 @@ public class UIPainting : UIBasic
     private Coroutine _guideRotateCoroutine;
     private Coroutine _blinkCoroutine;
     
+    [field: Header("Paint ID")]
+    [field: SerializeField] private string PaintID { get; set; }
+
+    public string GetPaintID()
+    {
+        return PaintID;
+    }
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -88,6 +96,15 @@ public class UIPainting : UIBasic
 
     private Sequence _guideSequence;
 
+    public void SetDefaultZoom()
+    {
+        isZoom = false;
+        zoomButton_mobile.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
+        magnifierHover.enabled = false;
+        paintRotateAndZoom.enabled = true;
+        
+    }
+    
     public void SetDefaultAll()
     {
         isGuide = false;
@@ -173,7 +190,7 @@ public void GuidePaintingClicked()
         StopGuideSequence();
         SetGuideImageOff();
         isGuide = false;
-        //paintRotateAndZoom.enabled = true;
+        paintRotateAndZoom.enabled = true;
         if(PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
         {
             guideButton.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
@@ -193,7 +210,7 @@ public void GuidePaintingClicked()
         StartGuideSequence();
         isGuide = true;
         paintRotateAndZoom.SmoothAverageResetTransform();
-        //paintRotateAndZoom.enabled = false;
+        paintRotateAndZoom.enabled = true;
         
         if(PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
         {
@@ -368,9 +385,10 @@ private void StartGuideSequence()
         
         if (isZoom)
         {
+            UIPaintingManager.Instance.DisableUIPainting(PaintID);
             magnifierHover.enabled = false;
             isZoom = false;
-            //paintRotateAndZoom.enabled = true;
+            paintRotateAndZoom.enabled = true;
             if(PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
             {
                 zoomButton.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
@@ -391,10 +409,11 @@ private void StartGuideSequence()
         }
         else
         {
+            UIPaintingManager.Instance.EnableUIPainting(PaintID);
             magnifierHover.enabled = true;
             isZoom = true;
             paintRotateAndZoom.SmoothAverageResetTransform();
-            //paintRotateAndZoom.enabled = false;
+            paintRotateAndZoom.enabled = false;
 
 
              if(PlatformManager.Instance.IsVR)
@@ -465,7 +484,7 @@ private void StartGuideSequence()
             }
 
             isAI = false;
-            //paintRotateAndZoom.enabled = true;
+            paintRotateAndZoom.enabled = true;
 
             BlinkCanvas.SetActive(false);
             VideoPlayer.Stop();
@@ -503,7 +522,7 @@ private void StartGuideSequence()
 
             isAI = true;
             paintRotateAndZoom.SmoothAverageResetTransform();
-            //paintRotateAndZoom.enabled = false;
+            paintRotateAndZoom.enabled = true;
 
             if (_blinkCoroutine != null)
             {
