@@ -24,6 +24,7 @@ namespace System
             yield return new WaitForSeconds(.1f);
             
             InputManager.Instance.DisableInput();
+            UIManager.Instance.EnableUI("UI_SOUND");
             UIManager.Instance.EnableUI("UI_START");
         }
     }

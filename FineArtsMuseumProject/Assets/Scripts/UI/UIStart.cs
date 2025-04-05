@@ -87,6 +87,7 @@ namespace UI
             InputManager.Instance.EnableJoystick();
             InputManager.Instance.EnableJoystickRotation();
             UIManager.Instance.EnableUI("UI_NAVIGATION");
+            UIManager.Instance.ActionUI("UI_SOUND");
             UIManager.Instance.EnableUI("UI_GUIDE");
         }
     }
