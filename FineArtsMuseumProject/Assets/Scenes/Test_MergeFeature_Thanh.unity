@@ -9572,7 +9572,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -6.84, y: -167.3}
+  m_AnchoredPosition: {x: -6.84, y: -167.29999}
   m_SizeDelta: {x: 2048, y: 258}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &410074747
@@ -11498,7 +11498,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20d9f39bbee702b49aa2d0c5bcf14a21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  platformType: 4
+  platformType: 1
   deviceType: 3
 --- !u!4 &509732428
 Transform:
@@ -11813,7 +11813,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &518860285
 RectTransform:
   m_ObjectHideFlags: 0
@@ -18363,7 +18363,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 89.2, y: 118}
+  m_AnchoredPosition: {x: 89.19995, y: 118}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &787501373
@@ -22925,7 +22925,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -76.400024}
+  m_AnchoredPosition: {x: 0, y: -76.4}
   m_SizeDelta: {x: 2048, y: 276}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1008579726
@@ -39393,7 +39393,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 85.69995, y: -364.8}
+  m_AnchoredPosition: {x: 85.70001, y: -364.8}
   m_SizeDelta: {x: 2048, y: 224}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1653197005
@@ -47533,14 +47533,8 @@ MonoBehaviour:
   - key: UI_LOADING
     standaloneUI: {fileID: 1338701646}
     mobileUI: {fileID: 1338701646}
-    vrUI: {fileID: 0}
+    vrUI: {fileID: 1338701646}
     tomkoUI: {fileID: 537179627}
-    isUsingWeakBlur: 0
-  - key: UI_SOUND
-    standaloneUI: {fileID: 6983733028930808245}
-    mobileUI: {fileID: 422507136}
-    vrUI: {fileID: 0}
-    tomkoUI: {fileID: 787501373}
     isUsingWeakBlur: 0
   weakBlur: {fileID: 611679677}
 --- !u!4 &2017285324
