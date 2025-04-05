@@ -23,7 +23,7 @@ public class TriggerPaintDetail : MonoBehaviour,IPointerDownHandler
     {
         Debug.Log("!");
         //paintDescription.SetActive(true);
-        PaintingManager.Instance.EnablePaintDetail(paintingTriggerId);
+        PaintingDetailManager.Instance.EnablePaintDetail(paintingTriggerId);
         StartFade();
     }
 
@@ -32,7 +32,7 @@ public class TriggerPaintDetail : MonoBehaviour,IPointerDownHandler
         //paintDescription.SetActive(true);
         
         Debug.Log("DEBUG VR POINTER DOWN");
-        PaintingManager.Instance.EnablePaintDetail(paintingTriggerId);
+        PaintingDetailManager.Instance.EnablePaintDetail(paintingTriggerId);
         StartFade();
     }
     

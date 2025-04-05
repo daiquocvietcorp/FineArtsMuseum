@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Trigger
 {
-    public class PaintingManager : MonoSingleton<PaintingManager>
+    public class PaintingDetailManager : MonoSingleton<PaintingDetailManager>
     {
         [field: SerializeField] private List<PaintDetail> paintDetails;
         private Dictionary<string, PaintDetail> _paintDetailDict;
@@ -69,7 +69,7 @@ namespace Trigger
             }
         }
 
-        public void ForceDisablePaintDetail()
+        public void  ForceDisablePaintDetail()
         {
             if (_currentPaintDetail != null)
             {

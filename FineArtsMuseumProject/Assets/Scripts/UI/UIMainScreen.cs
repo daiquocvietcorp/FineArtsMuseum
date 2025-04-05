@@ -27,7 +27,7 @@ namespace UI
         private bool _isGuideOn;
         private bool _isVROn;
         private bool _isSettingsOn;
-
+        
         #region Override Methods
 
         public override void EnableUI()
@@ -113,6 +113,7 @@ namespace UI
 
         private void OnVRToggleValueChanged(bool arg0)
         {
+            
             if(_isVROn == arg0) return;
 
             if (arg0)
@@ -132,6 +133,7 @@ namespace UI
 
         private void OnGuideToggleValueChanged(bool arg0)
         {
+            
             if(_isGuideOn == arg0) return;
             
             if (arg0)
@@ -176,7 +178,7 @@ namespace UI
         
         private void DisablePainting()
         {
-            PaintingManager.Instance.ForceDisablePaintDetail();
+            PaintingDetailManager.Instance.ForceDisablePaintDetail();
         }
 
         #endregion

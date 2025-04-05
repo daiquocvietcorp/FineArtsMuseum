@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
@@ -21,22 +22,21 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
     private Vector3 averageScale;
     private bool updatingFromScroll = false;
 
+    private Dictionary<int, Vector2> activeTouches = new Dictionary<int, Vector2>();
+    private float initialDistance;
+    private Vector3 initialScale;
     private Vector2 lastPointerPosition;
 
     private void OnEnable()
     {
         if (zoomScrollbar != null)
-        {
             zoomScrollbar.gameObject.SetActive(true);
-        }
     }
 
     private void OnDisable()
     {
         if (zoomScrollbar != null)
-        {
             zoomScrollbar.gameObject.SetActive(false);
-        }
     }
 
     void Start()
@@ -53,22 +53,62 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        activeTouches[eventData.pointerId] = eventData.position;
+
+        if (activeTouches.Count == 2)
+        {
+            var positions = new List<Vector2>(activeTouches.Values);
+            initialDistance = Vector2.Distance(positions[0], positions[1]);
+            initialScale = transform.localScale;
+        }
+
         lastPointerPosition = eventData.position;
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        Vector2 delta = eventData.position - lastPointerPosition;
-        lastPointerPosition = eventData.position;
+        if (!activeTouches.ContainsKey(eventData.pointerId))
+            return;
 
-        float rotateAmountX = delta.x * rotationSpeed * Time.deltaTime * 0.5f;
-        transform.Rotate(Vector3.up, -rotateAmountX, Space.World);
+        activeTouches[eventData.pointerId] = eventData.position;
 
-        if (CanRotateUpDown)
+        if (activeTouches.Count == 2)
         {
-            float rotateAmountY = delta.y * rotationSpeed * Time.deltaTime * 0.5f;
-            transform.Rotate(Vector3.right, rotateAmountY, Space.World);
+            var positions = new List<Vector2>(activeTouches.Values);
+            float currentDistance = Vector2.Distance(positions[0], positions[1]);
+            float scaleFactor = currentDistance / initialDistance;
+
+            Vector3 newScale = initialScale * scaleFactor;
+            newScale = ClampScale(newScale);
+            transform.localScale = newScale;
+
+            if (zoomScrollbar != null)
+            {
+                updatingFromScroll = true;
+                zoomScrollbar.value = GetZoomScrollbarValue(newScale.x);
+                updatingFromScroll = false;
+            }
         }
+        else if (activeTouches.Count == 1)
+        {
+            Vector2 delta = eventData.position - lastPointerPosition;
+            lastPointerPosition = eventData.position;
+
+            float rotateAmountX = delta.x * rotationSpeed * Time.deltaTime * 0.5f;
+            transform.Rotate(Vector3.up, -rotateAmountX, Space.World);
+
+            if (CanRotateUpDown)
+            {
+                float rotateAmountY = delta.y * rotationSpeed * Time.deltaTime * 0.5f;
+                transform.Rotate(Vector3.right, rotateAmountY, Space.World);
+            }
+        }
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        if (activeTouches.ContainsKey(eventData.pointerId))
+            activeTouches.Remove(eventData.pointerId);
     }
 
     public void OnScroll(PointerEventData eventData)
@@ -89,11 +129,6 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
                 updatingFromScroll = false;
             }
         }
-    }
-
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        // Optional: Reset lastPointerPosition if needed
     }
 
     public void SetAverageScale()

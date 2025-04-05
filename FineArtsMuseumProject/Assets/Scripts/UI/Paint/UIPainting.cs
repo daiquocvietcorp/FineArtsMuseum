@@ -88,6 +88,12 @@ public class UIPainting : UIBasic
 
     private Sequence _guideSequence;
 
+    public void SetDefaultZoom()
+    {
+        isZoom = false;
+        zoomButton_mobile.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
+    }
+    
     public void SetDefaultAll()
     {
         isGuide = false;
