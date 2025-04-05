@@ -60,6 +60,14 @@ public class UIPainting : UIBasic
     private Coroutine _guideRotateCoroutine;
     private Coroutine _blinkCoroutine;
     
+    [field: Header("Paint ID")]
+    [field: SerializeField] private string PaintID { get; set; }
+
+    public string GetPaintID()
+    {
+        return PaintID;
+    }
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -92,6 +100,9 @@ public class UIPainting : UIBasic
     {
         isZoom = false;
         zoomButton_mobile.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
+        magnifierHover.enabled = false;
+        paintRotateAndZoom.enabled = true;
+        
     }
     
     public void SetDefaultAll()
@@ -360,6 +371,7 @@ private void StartGuideSequence()
         
         if (isZoom)
         {
+            UIPaintingManager.Instance.DisableUIPainting(PaintID);
             magnifierHover.enabled = false;
             isZoom = false;
             paintRotateAndZoom.enabled = true;
@@ -380,6 +392,7 @@ private void StartGuideSequence()
         }
         else
         {
+            UIPaintingManager.Instance.EnableUIPainting(PaintID);
             magnifierHover.enabled = true;
             isZoom = true;
             paintRotateAndZoom.SmoothAverageResetTransform();

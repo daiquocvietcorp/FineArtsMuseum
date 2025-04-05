@@ -192,6 +192,7 @@ namespace UI
 
         private void SettingOn()
         {
+            UIPaintingManager.Instance.ForceDisableUIPaintingZoom();
             UIManager.Instance.EnableUI("UI_SETTING");
             DisablePainting();
         }
@@ -203,6 +204,7 @@ namespace UI
 
         private void VROn()
         {
+            UIPaintingManager.Instance.ForceDisableUIPaintingZoom();
             DisablePainting();
         }
         
@@ -213,6 +215,7 @@ namespace UI
 
         private void GuideOn()
         {
+            UIPaintingManager.Instance.ForceDisableUIPaintingZoom();
             UIManager.Instance.EnableUI("UI_GUIDE");
             UIManager.Instance.ActionUI("UI_GUIDE");
             DisablePainting();
