@@ -182,6 +182,10 @@ public void GuidePaintingClicked()
         {
             guideButton_mobile.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
         }
+        else if(PlatformManager.Instance.IsVR)
+        {
+            guideButton_vr.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
+        }
     }
     else
     {
@@ -198,6 +202,10 @@ public void GuidePaintingClicked()
         else if(PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud)
         {
             guideButton_mobile.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
+        }
+        else if(PlatformManager.Instance.IsVR || PlatformManager.Instance.IsWebGL)
+        {
+            guideButton_vr.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
         }
     }
 }
@@ -338,6 +346,12 @@ private void StartGuideSequence()
             guideButton_mobile.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
             aiButton_mobile.GetComponent<AIHoverEffect>().SetDefaultSprite();
         }
+        
+        if(PlatformManager.Instance.IsVR || PlatformManager.Instance.IsWebGL)
+        {
+            guideButton_vr.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
+            aiButton_vr.GetComponent<AIHoverEffect>().SetDefaultSprite();
+        }
 
         BlinkCanvas.SetActive(false);
         VideoPlayer.Stop();
@@ -366,8 +380,11 @@ private void StartGuideSequence()
             {
                 zoomButton_mobile.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
             }
-             if(PlatformManager.Instance.IsVR)
+            
+            if(PlatformManager.Instance.IsVR)
             {
+                zoomButton_vr.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
+
             	MagnifierCanvas.gameObject.SetActive(false);
             }
 
@@ -382,6 +399,7 @@ private void StartGuideSequence()
 
              if(PlatformManager.Instance.IsVR)
             {
+                zoomButton_vr.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
             	MagnifierCanvas.gameObject.SetActive(true);
             }
             
