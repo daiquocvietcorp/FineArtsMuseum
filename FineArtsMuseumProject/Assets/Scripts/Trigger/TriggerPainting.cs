@@ -53,6 +53,8 @@ public class TriggerPainting : MonoBehaviour
 
     [field: SerializeField] private float distanceCamera;
     [field: SerializeField] private float heightCamera;
+    [field: SerializeField] private Vector3 cameraPositionOffset;
+    [field: SerializeField] private Vector3 cameraRotationOffset;
     
     private BoxCollider _objectCollider;
 
@@ -101,7 +103,9 @@ public class TriggerPainting : MonoBehaviour
         {
             if (!PlatformManager.Instance.IsVR)
             {
-                CameraManager.Instance.cameraFollowPlayer.RotateCamera(paintingObject.transform);
+                //CameraManager.Instance.cameraFollowPlayer.RotateCamera(otherObject.transform);
+                var rotation = Quaternion.Euler(cameraRotationOffset); 
+                CameraManager.Instance.cameraFollowPlayer.SetCameraData(cameraPositionOffset, rotation);
             }
             //DrmGameObject.gameObject.SetActive(true);
             renderer.enabled = true;
