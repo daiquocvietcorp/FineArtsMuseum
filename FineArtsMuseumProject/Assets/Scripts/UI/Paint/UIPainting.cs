@@ -99,7 +99,7 @@ public class UIPainting : UIBasic
     public void SetDefaultZoom()
     {
         isZoom = false;
-        zoomButton_mobile.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
+        if( zoomButton_mobile)zoomButton_mobile.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
         magnifierHover.enabled = false;
         paintRotateAndZoom.enabled = true;
         

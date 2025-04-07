@@ -210,7 +210,7 @@ public class TriggerPainting : MonoBehaviour
             SetLayerRecursively(detailCollider.gameObject, "Highlighter", true);
             SetLayerRecursively(otherObject, "Default", true);
             SetLayerRecursively(Player, "Default", true);
-            SetLayerRecursively(VRPlayer, "Default", true);
+            SetLayerRecursively(VRPlayer, "IgnoreBlur", true);
             
             currentTrigger = false;
             renderer.enabled = false;

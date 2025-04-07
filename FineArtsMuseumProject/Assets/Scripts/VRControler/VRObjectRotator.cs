@@ -29,42 +29,69 @@ public class VRObjectRotator : MonoBehaviour
         }
     }
 
+    // bool TryHandleInteractor(XRRayInteractor interactor)
+    // {
+    //     if (interactor == null || !interactor.enabled) return false;
+    //
+    //     // Kiểm tra tia ray trúng object này
+    //     if (interactor.TryGetCurrent3DRaycastHit(out RaycastHit hit))
+    //     {
+    //         // Nếu object gắn script này
+    //         if (hit.transform == transform)
+    //         {
+    //             // Kiểm tra trigger (isSelectActive)
+    //             if (interactor.isSelectActive)
+    //             {
+    //                 // Nếu chưa xoay => lưu rotation
+    //                 if (!isRotating)
+    //                 {
+    //                     StartRotate(interactor);
+    //                 }
+    //             }
+    //             else
+    //             {
+    //                 // Nếu nhả trigger, dừng xoay
+    //                 if (activeInteractor == interactor)
+    //                 {
+    //                     StopRotate();
+    //                 }
+    //             }
+    //             return true;
+    //         }
+    //     }
+    //     else
+    //     {
+    //         // Nếu interactor này đang activeInteractor => dừng xoay
+    //         if (activeInteractor == interactor)
+    //         {
+    //             StopRotate();
+    //         }
+    //     }
+    //
+    //     return false;
+    // }
+
     bool TryHandleInteractor(XRRayInteractor interactor)
     {
         if (interactor == null || !interactor.enabled) return false;
 
-        // Kiểm tra tia ray trúng object này
-        if (interactor.TryGetCurrent3DRaycastHit(out RaycastHit hit))
+        // Nếu đang xoay bởi interactor này
+        if (activeInteractor == interactor)
         {
-            // Nếu object gắn script này
-            if (hit.transform == transform)
+            if (!interactor.isSelectActive)
             {
-                // Kiểm tra trigger (isSelectActive)
-                if (interactor.isSelectActive)
-                {
-                    // Nếu chưa xoay => lưu rotation
-                    if (!isRotating)
-                    {
-                        StartRotate(interactor);
-                    }
-                }
-                else
-                {
-                    // Nếu nhả trigger, dừng xoay
-                    if (activeInteractor == interactor)
-                    {
-                        StopRotate();
-                    }
-                }
-                return true;
+                StopRotate(); // Thả nút → dừng xoay
             }
+            return true;
         }
-        else
+
+        // Nếu chưa xoay và raycast trúng object này
+        if (!isRotating && interactor.TryGetCurrent3DRaycastHit(out RaycastHit hit))
         {
-            // Nếu interactor này đang activeInteractor => dừng xoay
-            if (activeInteractor == interactor)
+            if (hit.transform == transform && interactor.isSelectActive)
             {
-                StopRotate();
+                StartRotate(interactor);
+                return true;
             }
         }
 
