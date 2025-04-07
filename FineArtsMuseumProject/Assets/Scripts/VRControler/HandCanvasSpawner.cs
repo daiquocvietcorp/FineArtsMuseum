@@ -10,12 +10,12 @@ public class HandCanvasSpawner : MonoBehaviour
         public InputActionProperty gripAction;
         public Transform handTransform;
         public GameObject rayObjectToDisable;
-        [HideInInspector] public GameObject spawnedCanvas;
-      
+        public GameObject canvasToMove;
+
+        [HideInInspector] public bool isGripping;
+        [HideInInspector] public Vector3 gripOffset;
     }
 
-    [Header("Canvas Prefab sẽ hiển thị")]
-    public GameObject canvasPrefab;
 
     [Header("Cấu hình cho từng tay cầm")]
     public HandConfig[] hands;
@@ -25,7 +25,7 @@ public class HandCanvasSpawner : MonoBehaviour
 
     private HandConfig activeHand = null;
 
-    private void OnEnable()
+     private void OnEnable()
     {
         foreach (var hand in hands)
         {
@@ -47,19 +47,23 @@ public class HandCanvasSpawner : MonoBehaviour
 
     private void Update()
     {
-        if (mainCamera == null) return;
-
         foreach (var hand in hands)
         {
-            if (hand.spawnedCanvas != null)
+            if (hand.isGripping && hand.canvasToMove != null)
             {
-                Vector3 fromCamera = hand.spawnedCanvas.transform.position - mainCamera.position;
-                fromCamera.y = 0;
+                Vector3 targetPosition = hand.handTransform.position + hand.gripOffset;
+                hand.canvasToMove.transform.position = targetPosition;
 
-                if (fromCamera.sqrMagnitude > 0.001f)
+                // Xoay về phía người dùng (camera), nhưng chỉ theo trục Y
+                if (mainCamera != null)
                 {
-                    Quaternion targetRotation = Quaternion.LookRotation(fromCamera);
-                    hand.spawnedCanvas.transform.rotation = Quaternion.Slerp(hand.spawnedCanvas.transform.rotation, targetRotation, 5f * Time.deltaTime);
+                    Vector3 dir = targetPosition - mainCamera.position;
+                    dir.y = 0;
+                    if (dir.sqrMagnitude > 0.001f)
+                    {
+                        Quaternion targetRot = Quaternion.LookRotation(dir);
+                        hand.canvasToMove.transform.rotation = Quaternion.Slerp(hand.canvasToMove.transform.rotation, targetRot, 5f * Time.deltaTime);
+                    }
                 }
             }
         }
@@ -69,17 +73,13 @@ public class HandCanvasSpawner : MonoBehaviour
     {
         foreach (var hand in hands)
         {
-            if (context.action == hand.gripAction.action)
+            if (context.action == hand.gripAction.action && hand.canvasToMove != null)
             {
-                if (canvasPrefab == null || hand.spawnedCanvas != null || activeHand != null) return;
-
-                hand.spawnedCanvas = Instantiate(canvasPrefab, hand.handTransform);
-                hand.spawnedCanvas.transform.localPosition = new Vector3(0, 0.04f, 0); // cách tay 10px (0.01 đơn vị)
-                hand.spawnedCanvas.transform.localRotation = Quaternion.identity;
-                hand.spawnedCanvas.SetActive(true);
+                hand.isGripping = true;
+                hand.gripOffset = hand.canvasToMove.transform.position - hand.handTransform.position;
+                hand.canvasToMove.SetActive(true);
                 if (hand.rayObjectToDisable != null)
                     hand.rayObjectToDisable.SetActive(false);
-                activeHand = hand;
                 return;
             }
         }
@@ -91,14 +91,9 @@ public class HandCanvasSpawner : MonoBehaviour
         {
             if (context.action == hand.gripAction.action)
             {
-                if (hand.spawnedCanvas != null)
-                {
-                    Destroy(hand.spawnedCanvas);
-                    hand.spawnedCanvas = null;
-                    if (hand.rayObjectToDisable != null)
-                        hand.rayObjectToDisable.SetActive(true);
-                    if (activeHand == hand) activeHand = null;
-                }
+                hand.isGripping = false;
+                if (hand.rayObjectToDisable != null)
+                    hand.rayObjectToDisable.SetActive(true);
                 return;
             }
         }

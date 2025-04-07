@@ -68,7 +68,7 @@ namespace UI
             ui.EnableUI();
             
             if(!IsUsingWeakBlur(key)) return;
-            weakBlur.gameObject.SetActive(true);
+     
         }
         
         public void DisableUI(string key)
@@ -78,7 +78,8 @@ namespace UI
             ui.DisableUI();
             
             if(!IsUsingWeakBlur(key)) return;
-            weakBlur.gameObject.SetActive(false);
+            if (!PlatformManager.Instance.IsVR)
+                weakBlur.gameObject.SetActive(false);
         }
 
         public void SetDataUI(string key, IUIData data)
