@@ -191,8 +191,8 @@ namespace Camera
             if (!player) return;
             if(!_isActive)
             {
-                transform.position = Vector3.Lerp(transform.position, _currentTargetPosition, Time.deltaTime * data.Sensitivity);
-                transform.rotation = Quaternion.Lerp(transform.rotation, _currentTargetRotation, Time.deltaTime * data.Sensitivity);
+                transform.position = Vector3.Lerp(transform.position, _currentTargetPosition, 2*Time.deltaTime * data.Sensitivity);
+                transform.rotation = Quaternion.Lerp(transform.rotation, _currentTargetRotation, 2*Time.deltaTime * data.Sensitivity);
                 _currentYaw = transform.eulerAngles.y;
                 var rawPitch = transform.eulerAngles.x;
                 _currentPitch = rawPitch > 180f ? rawPitch - 360f : rawPitch;
