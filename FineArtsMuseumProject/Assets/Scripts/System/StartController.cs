@@ -20,7 +20,7 @@ namespace System
             if ((PlatformManager.Instance.IsCloud && PlatformManager.Instance.IsTomkoDevice) || PlatformManager.Instance.IsTomko)
             {
                 UIManager.Instance.EnableUI("UI_LOADING");
-                yield return new WaitForSeconds(13f);
+                yield return new WaitForSeconds(7f);
             }
             yield return new WaitForSeconds(.1f);
             

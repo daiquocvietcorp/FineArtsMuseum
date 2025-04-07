@@ -79,6 +79,7 @@ public class UIPaintingManager : MonoSingleton<UIPaintingManager>
             if (_currentUIPainting != null)
             {
                 _currentUIPainting.SetDefaultZoom();
+                _currentUIPainting.SetDefaultAll();
                 _currentUIPainting = null;
             }
         }

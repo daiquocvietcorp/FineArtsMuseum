@@ -162,6 +162,9 @@ public class UIPainting : UIBasic
         VideoPlayer.Stop();
         VideoPlayer.gameObject.SetActive(false);
         tranh.GetComponent<Renderer>().material.mainTexture = tranhDefaultSprite;
+        // Gán texture phát sáng
+        tranh.GetComponent<Renderer>().material.SetTexture("_EmissionMap", tranhDefaultSprite);
+        
         if (_blinkCoroutine != null)
         {
             StopCoroutine(_blinkCoroutine);
@@ -207,6 +210,8 @@ public void GuidePaintingClicked()
     VideoPlayer.Stop();
     VideoPlayer.gameObject.SetActive(false);
     tranh.GetComponent<Renderer>().material.mainTexture = tranhDefaultSprite;
+    // Gán texture phát sáng
+    tranh.GetComponent<Renderer>().material.SetTexture("_EmissionMap", tranhDefaultSprite);
     if (_blinkCoroutine != null)
     {
         StopCoroutine(_blinkCoroutine);
@@ -239,6 +244,7 @@ public void GuidePaintingClicked()
     }
     else
     {
+        UIPaintingManager.Instance.EnableUIPainting(PaintID);
         //guideButton.image.sprite = guideSelectedSprite;
         StartGuideSequence();
         isGuide = true;
@@ -393,8 +399,6 @@ private void StartGuideSequence()
         isGuide = false;
         isAI = false;
         
-        
-        
         if(PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
         {
             guideButton.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
@@ -422,7 +426,11 @@ private void StartGuideSequence()
         BlinkCanvas.SetActive(false);
         VideoPlayer.Stop();
         VideoPlayer.gameObject.SetActive(false);
+        
         tranh.GetComponent<Renderer>().material.mainTexture = tranhDefaultSprite;
+        // Gán texture phát sáng
+        tranh.GetComponent<Renderer>().material.SetTexture("_EmissionMap", tranhDefaultSprite);
+        
         if (_blinkCoroutine != null)
         {
             StopCoroutine(_blinkCoroutine);
@@ -531,6 +539,7 @@ private void StartGuideSequence()
 
         if (isAI)
         {
+            
             if(PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
             {
                 aiButton.GetComponent<AIHoverEffect>().isSelected = false;
@@ -561,11 +570,12 @@ private void StartGuideSequence()
             BlinkCanvas.SetActive(false);
             VideoPlayer.Stop();
             VideoPlayer.gameObject.SetActive(false);
+            
             tranh.GetComponent<Renderer>().material.mainTexture = tranhDefaultSprite;
             
-
             // Gán texture phát sáng
             tranh.GetComponent<Renderer>().material.SetTexture("_EmissionMap", tranhDefaultSprite);
+
             if (_blinkCoroutine != null)
             {
                 StopCoroutine(_blinkCoroutine);
@@ -574,6 +584,7 @@ private void StartGuideSequence()
         }
         else
         {
+            UIPaintingManager.Instance.EnableUIPainting(PaintID);
             if(PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
             {
                 aiButton.GetComponent<AIHoverEffect>().isSelected = true;
