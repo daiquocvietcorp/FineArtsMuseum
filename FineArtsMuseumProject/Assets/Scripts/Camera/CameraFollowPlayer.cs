@@ -91,7 +91,7 @@ namespace Camera
                 _currentPitch = Mathf.Clamp(_currentPitch - mouseY, data.MinPitch, data.MaxPitch);
             }
 
-            if (PlatformManager.Instance.IsCloud || PlatformManager.Instance.IsMobile)
+            if (PlatformManager.Instance.IsCloud || PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsTomko)
             {
                 //if(_joystickDirection.magnitude < 0.1f) return;
                 if(_joystickDirection == Vector2.zero) return;

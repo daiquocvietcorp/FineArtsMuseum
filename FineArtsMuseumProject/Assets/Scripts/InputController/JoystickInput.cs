@@ -18,7 +18,7 @@ namespace InputController
         
         private void Awake()
         {
-            if(PlatformManager.Instance.IsCloud || PlatformManager.Instance.IsMobile)
+            if(PlatformManager.Instance.IsCloud || PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsTomko)
             {
                 CharacterManager.Instance.RegisterActionDefault();
                 return;
