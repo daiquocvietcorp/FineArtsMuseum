@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using DesignPatterns;
+using InputController;
 using UI;
 using UnityEngine;
 
@@ -49,6 +50,10 @@ namespace Trigger
             Debug.Log("AntiqueId:"+ antiqueID);
             _antiqueDetailDict[antiqueID].gameObject.SetActive(true);
             UIManager.Instance.DisableUI("UI_NAVIGATION");
+            
+            if (!PlatformManager.Instance.IsMobile && !PlatformManager.Instance.IsCloud) return;
+            InputManager.Instance.DisableJoystickRotation();
+            InputManager.Instance.DisableJoystick();
         }
         
         public void DisableAntiqueDetail(string antiqueID)
@@ -57,6 +62,10 @@ namespace Trigger
             {
                 _antiqueDetailDict[antiqueID].gameObject.SetActive(false);
             }
+            
+            if (!PlatformManager.Instance.IsMobile && !PlatformManager.Instance.IsCloud) return;
+            InputManager.Instance.EnableJoystick();
+            InputManager.Instance.EnableJoystickRotation();
         }
 
         public void EnableSoundAntique(string antiqueID)

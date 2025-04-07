@@ -20,6 +20,7 @@ public class TriggerPainting : MonoBehaviour
     public GameObject ButtonGroupCanvas_pc;
     public GameObject ButtonGroupCanvas_vr;
     public GameObject ButtonGroupCanvas_mobile;
+    public GameObject ButtonGroupCanvas_tomko;
     public GameObject ScreenOutlineEffect;
     public GameObject Player;
     
@@ -53,6 +54,8 @@ public class TriggerPainting : MonoBehaviour
 
     [field: SerializeField] private float distanceCamera;
     [field: SerializeField] private float heightCamera;
+    [field: SerializeField] private Vector3 cameraPositionOffset;
+    [field: SerializeField] private Vector3 cameraRotationOffset;
     
     private BoxCollider _objectCollider;
 
@@ -101,7 +104,9 @@ public class TriggerPainting : MonoBehaviour
         {
             if (!PlatformManager.Instance.IsVR)
             {
-                CameraManager.Instance.cameraFollowPlayer.RotateCamera(paintingObject.transform);
+                //CameraManager.Instance.cameraFollowPlayer.RotateCamera(otherObject.transform);
+                var rotation = Quaternion.Euler(cameraRotationOffset); 
+                CameraManager.Instance.cameraFollowPlayer.SetCameraData(cameraPositionOffset, rotation);
             }
             //DrmGameObject.gameObject.SetActive(true);
             renderer.enabled = true;
@@ -135,6 +140,10 @@ public class TriggerPainting : MonoBehaviour
             if (PlatformManager.Instance.IsVR)
             {
                 ButtonGroupCanvas_vr.gameObject.SetActive(true);
+            }
+            if (PlatformManager.Instance.IsTomko)
+            {
+                ButtonGroupCanvas_tomko.gameObject.SetActive(true);
             }
             
             SubtitleObject.SetActive(true);
@@ -203,6 +212,10 @@ public class TriggerPainting : MonoBehaviour
             if(PlatformManager.Instance.IsVR)
             {
                 ButtonGroupCanvas_vr.gameObject.SetActive(false);
+            }
+            if(PlatformManager.Instance.IsTomko)
+            {
+                ButtonGroupCanvas_tomko.gameObject.SetActive(false);
             }
             
             //otherObject.layer = LayerMask.NameToLayer("Default");

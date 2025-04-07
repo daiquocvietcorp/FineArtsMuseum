@@ -22,6 +22,10 @@ public class UIPainting : UIBasic
     public Button zoomButton_vr;
     public Button aiButton_vr;
     
+    public Button guideButton_tomko;
+    public Button zoomButton_tomko;
+    public Button aiButton_tomko;
+    
     public bool isGuide = false;
     public bool isZoom = false;
     public bool isAI = false;
@@ -90,6 +94,12 @@ public class UIPainting : UIBasic
             zoomButton_vr.onClick.AddListener(ZoomPaintingClicked);
             aiButton_vr.onClick.AddListener(AIPaintingClicked);
         }
+        if (PlatformManager.Instance.IsTomko)
+        {
+            guideButton_tomko.onClick.AddListener(GuidePaintingClicked);
+            zoomButton_tomko.onClick.AddListener(ZoomPaintingClicked);
+            aiButton_tomko.onClick.AddListener(AIPaintingClicked);
+        }
         guideRotateDefaultPosition = guideRotateImage.transform.localPosition;
         guideZoomDefaultPosition = guideRotateImage.transform.localPosition;
     }
@@ -99,7 +109,10 @@ public class UIPainting : UIBasic
     public void SetDefaultZoom()
     {
         isZoom = false;
-        if( zoomButton_mobile)zoomButton_mobile.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
+        if(zoomButton)zoomButton.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
+        if(zoomButton_mobile)zoomButton_mobile.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
+        if(zoomButton_vr)zoomButton_vr.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
+        if(zoomButton_tomko)zoomButton_tomko.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
         magnifierHover.enabled = false;
         paintRotateAndZoom.enabled = true;
         
@@ -110,6 +123,8 @@ public class UIPainting : UIBasic
         isGuide = false;
         isZoom = false;
         isAI = false;
+        
+        paintRotateAndZoom.canRotate = true;
         
         if(PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
         {
@@ -130,6 +145,13 @@ public class UIPainting : UIBasic
             zoomButton_vr.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
             aiButton_vr.GetComponent<AIHoverEffect>().SetDefaultSprite();
         }
+
+        if (PlatformManager.Instance.IsTomko)
+        {
+            guideButton_tomko.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
+            zoomButton_tomko.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
+            aiButton_tomko.GetComponent<AIHoverEffect>().SetDefaultSprite();
+        }
         StopGuideSequence();
         SetGuideImageOff();
         
@@ -140,6 +162,9 @@ public class UIPainting : UIBasic
         VideoPlayer.Stop();
         VideoPlayer.gameObject.SetActive(false);
         tranh.GetComponent<Renderer>().material.mainTexture = tranhDefaultSprite;
+        // Gán texture phát sáng
+        tranh.GetComponent<Renderer>().material.SetTexture("_EmissionMap", tranhDefaultSprite);
+        
         if (_blinkCoroutine != null)
         {
             StopCoroutine(_blinkCoroutine);
@@ -152,6 +177,7 @@ public void GuidePaintingClicked()
     isAI = false;
     isZoom = false;
 
+    paintRotateAndZoom.canRotate = true;
     
     if(PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
     {
@@ -172,12 +198,20 @@ public void GuidePaintingClicked()
         aiButton_mobile.GetComponent<AIHoverEffect>().SetDefaultSprite();
     }
     
+    if (PlatformManager.Instance.IsTomko)
+    {
+        zoomButton_tomko.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
+        aiButton_tomko.GetComponent<AIHoverEffect>().SetDefaultSprite();
+    }
+    
     magnifierHover.enabled = false;
 
     BlinkCanvas.SetActive(false);
     VideoPlayer.Stop();
     VideoPlayer.gameObject.SetActive(false);
     tranh.GetComponent<Renderer>().material.mainTexture = tranhDefaultSprite;
+    // Gán texture phát sáng
+    tranh.GetComponent<Renderer>().material.SetTexture("_EmissionMap", tranhDefaultSprite);
     if (_blinkCoroutine != null)
     {
         StopCoroutine(_blinkCoroutine);
@@ -203,9 +237,14 @@ public void GuidePaintingClicked()
         {
             guideButton_vr.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
         }
+        else if(PlatformManager.Instance.IsTomko)
+        {
+            guideButton_tomko.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
+        }
     }
     else
     {
+        UIPaintingManager.Instance.EnableUIPainting(PaintID);
         //guideButton.image.sprite = guideSelectedSprite;
         StartGuideSequence();
         isGuide = true;
@@ -223,6 +262,10 @@ public void GuidePaintingClicked()
         else if(PlatformManager.Instance.IsVR || PlatformManager.Instance.IsWebGL)
         {
             guideButton_vr.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
+        }
+        else if(PlatformManager.Instance.IsTomko)
+        {
+            guideButton_tomko.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
         }
     }
 }
@@ -339,6 +382,11 @@ private void StartGuideSequence()
         guideButton_vr.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
     }
     
+    if(PlatformManager.Instance.IsTomko)
+    {
+        guideButton_tomko.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
+    }
+    
     _guideSequence.AppendCallback(() => isGuide = false);
     _guideSequence.AppendCallback(() => paintRotateAndZoom.SmoothAverageResetTransform());
     _guideSequence.AppendCallback(() => paintRotateAndZoom.enabled = true);
@@ -350,7 +398,6 @@ private void StartGuideSequence()
     {
         isGuide = false;
         isAI = false;
-        
         
         if(PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
         {
@@ -369,11 +416,21 @@ private void StartGuideSequence()
             guideButton_vr.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
             aiButton_vr.GetComponent<AIHoverEffect>().SetDefaultSprite();
         }
+        
+        if(PlatformManager.Instance.IsTomko)
+        {
+            guideButton_tomko.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
+            aiButton_tomko.GetComponent<AIHoverEffect>().SetDefaultSprite();
+        }
 
         BlinkCanvas.SetActive(false);
         VideoPlayer.Stop();
         VideoPlayer.gameObject.SetActive(false);
+        
         tranh.GetComponent<Renderer>().material.mainTexture = tranhDefaultSprite;
+        // Gán texture phát sáng
+        tranh.GetComponent<Renderer>().material.SetTexture("_EmissionMap", tranhDefaultSprite);
+        
         if (_blinkCoroutine != null)
         {
             StopCoroutine(_blinkCoroutine);
@@ -388,7 +445,7 @@ private void StartGuideSequence()
             UIPaintingManager.Instance.DisableUIPainting(PaintID);
             magnifierHover.enabled = false;
             isZoom = false;
-            paintRotateAndZoom.enabled = true;
+            paintRotateAndZoom.canRotate = true;
             if(PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
             {
                 zoomButton.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
@@ -405,6 +462,11 @@ private void StartGuideSequence()
 
             	MagnifierCanvas.gameObject.SetActive(false);
             }
+            
+            if(PlatformManager.Instance.IsTomko)
+            {
+                zoomButton_tomko.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
+            }
 
         }
         else
@@ -413,7 +475,7 @@ private void StartGuideSequence()
             magnifierHover.enabled = true;
             isZoom = true;
             paintRotateAndZoom.SmoothAverageResetTransform();
-            paintRotateAndZoom.enabled = false;
+            paintRotateAndZoom.canRotate = false;
 
 
              if(PlatformManager.Instance.IsVR)
@@ -431,6 +493,11 @@ private void StartGuideSequence()
             {
                 zoomButton_mobile.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
             }
+            
+            if(PlatformManager.Instance.IsTomko)
+            {
+                zoomButton_tomko.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
+            }
         }
     }
     
@@ -439,6 +506,7 @@ private void StartGuideSequence()
         isGuide = false;
         isZoom = false;
 
+        paintRotateAndZoom.canRotate = true;
         
         if(PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
         {
@@ -457,6 +525,12 @@ private void StartGuideSequence()
             guideButton_vr.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
             zoomButton_vr.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
         }
+        
+        if(PlatformManager.Instance.IsTomko)
+        {
+            guideButton_tomko.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
+            zoomButton_tomko.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
+        }
 
         magnifierHover.enabled = false;
 
@@ -465,6 +539,7 @@ private void StartGuideSequence()
 
         if (isAI)
         {
+            
             if(PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
             {
                 aiButton.GetComponent<AIHoverEffect>().isSelected = false;
@@ -482,6 +557,12 @@ private void StartGuideSequence()
                 aiButton_vr.GetComponent<AIHoverEffect>().isSelected = false;
                 aiButton_vr.GetComponent<AIHoverEffect>().OnClickedButton();
             }
+            
+            if(PlatformManager.Instance.IsTomko)
+            {
+                aiButton_tomko.GetComponent<AIHoverEffect>().isSelected = false;
+                aiButton_tomko.GetComponent<AIHoverEffect>().OnClickedButton();
+            }
 
             isAI = false;
             paintRotateAndZoom.enabled = true;
@@ -489,11 +570,12 @@ private void StartGuideSequence()
             BlinkCanvas.SetActive(false);
             VideoPlayer.Stop();
             VideoPlayer.gameObject.SetActive(false);
+            
             tranh.GetComponent<Renderer>().material.mainTexture = tranhDefaultSprite;
             
-
             // Gán texture phát sáng
             tranh.GetComponent<Renderer>().material.SetTexture("_EmissionMap", tranhDefaultSprite);
+
             if (_blinkCoroutine != null)
             {
                 StopCoroutine(_blinkCoroutine);
@@ -502,6 +584,7 @@ private void StartGuideSequence()
         }
         else
         {
+            UIPaintingManager.Instance.EnableUIPainting(PaintID);
             if(PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
             {
                 aiButton.GetComponent<AIHoverEffect>().isSelected = true;
@@ -518,6 +601,12 @@ private void StartGuideSequence()
             {
                 aiButton_vr.GetComponent<AIHoverEffect>().isSelected = true;
                 aiButton_vr.GetComponent<AIHoverEffect>().OnClickedButton();
+            }
+            
+            if(PlatformManager.Instance.IsTomko)
+            {
+                aiButton_tomko.GetComponent<AIHoverEffect>().isSelected = true;
+                aiButton_tomko.GetComponent<AIHoverEffect>().OnClickedButton();
             }
 
             isAI = true;

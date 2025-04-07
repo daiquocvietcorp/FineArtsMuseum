@@ -27,6 +27,8 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
     private Vector3 initialScale;
     private Vector2 lastPointerPosition;
 
+    public bool canRotate = true;
+
     private void OnEnable()
     {
         if (zoomScrollbar != null)
@@ -91,6 +93,7 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
         }
         else if (activeTouches.Count == 1)
         {
+            if(!canRotate) return;
             Vector2 delta = eventData.position - lastPointerPosition;
             lastPointerPosition = eventData.position;
 

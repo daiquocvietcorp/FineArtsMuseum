@@ -1,4 +1,5 @@
 using System;
+using InputController;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -28,7 +29,14 @@ public class PaintDetail : MonoBehaviour
     void Start()
     {
         // Gán sự kiện cho nút Close
-        closeButton.onClick.AddListener(ClosePanel);
+        closeButton.onClick.AddListener(() =>
+        {
+            ClosePanel();
+            
+            if (!PlatformManager.Instance.IsMobile && !PlatformManager.Instance.IsCloud) return;
+            InputManager.Instance.EnableJoystick();
+            InputManager.Instance.EnableJoystickRotation();
+        });
 
         // Gán sự kiện cho nút Volumn
         volumnButton.onClick.AddListener(ToggleVolumn);

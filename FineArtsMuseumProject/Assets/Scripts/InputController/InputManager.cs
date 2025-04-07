@@ -26,7 +26,7 @@ namespace InputController
         
         public void EnableJoystick()
         {
-            if(!PlatformManager.Instance.IsMobile && !PlatformManager.Instance.IsCloud) return;
+            if(!PlatformManager.Instance.IsMobile && !PlatformManager.Instance.IsCloud && !PlatformManager.Instance.IsTomko) return;
             joystickInput.gameObject.SetActive(true);
         }
         
@@ -37,7 +37,7 @@ namespace InputController
         
         public void EnableJoystickRotation()
         {
-            if(!PlatformManager.Instance.IsCloud && !PlatformManager.Instance.IsMobile) return;
+            if(!PlatformManager.Instance.IsCloud && !PlatformManager.Instance.IsMobile && !PlatformManager.Instance.IsTomko) return;
             joystickRotationInput.gameObject.SetActive(true);
         }
         

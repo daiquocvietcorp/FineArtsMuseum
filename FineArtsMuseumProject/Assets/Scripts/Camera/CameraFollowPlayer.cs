@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using DG.Tweening;
 using InputController;
 using Player;
 using UnityEngine;
@@ -19,12 +20,16 @@ namespace Camera
         private bool _isActive;
         
         private Transform _currentTarget;
+        private Vector3 _currentTargetPosition;
+        private Quaternion _currentTargetRotation;
+        
         private Coroutine _changeViewCoroutine;
         
         private Vector2 _joystickDirection;
         private float _exitPaintingCameraDistance;
         private float _exitPaintingCameraHeight;
         private bool _isExitFirstView;
+        private bool _isLockFollowView;
 
         private void Awake()
         {
@@ -53,7 +58,8 @@ namespace Camera
         private void Update()
         {
             if(PlatformManager.Instance.IsVR) return;
-            UpdateCameraPosition();
+            //UpdateCameraPosition();
+            UpdateCameraPositionWithData();
             directionFirstView.SetPosition(transform);
             
             float mouseX = 0;
@@ -62,7 +68,11 @@ namespace Camera
             if (PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
             {
                 if (!MouseInput.Instance.IsHold) return;
-                _isActive = true;
+
+                if (!_isLockFollowView)
+                {
+                    _isActive = true;
+                }
                 
                 mouseX = Input.GetAxis("Mouse X") * data.Sensitivity;
                 mouseY = -Input.GetAxis("Mouse Y") * data.Sensitivity;
@@ -91,11 +101,15 @@ namespace Camera
                 _currentPitch = Mathf.Clamp(_currentPitch - mouseY, data.MinPitch, data.MaxPitch);
             }
 
-            if (PlatformManager.Instance.IsCloud || PlatformManager.Instance.IsMobile)
+            if (PlatformManager.Instance.IsCloud || PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsTomko)
             {
                 //if(_joystickDirection.magnitude < 0.1f) return;
                 if(_joystickDirection == Vector2.zero) return;
-                _isActive = true;
+                
+                if (!_isLockFollowView)
+                {
+                    _isActive = true;
+                }
                 
                 mouseX = _joystickDirection.x * data.Sensitivity;
                 mouseY = _joystickDirection.y * data.Sensitivity;
@@ -118,11 +132,23 @@ namespace Camera
             if (!player) return;
             if(!_isActive)
             {
+                /*transform.DODynamicLookAt(_currentTarget.position, 0.5f);
+                
+                _currentYaw = transform.eulerAngles.y;
+                _currentPitch = -transform.eulerAngles.x;
+                
+                _isActive = true;
+                return;*/
                 var direction = _currentTarget.position - player.position;
                 var targetYaw = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
-                _currentYaw = Mathf.LerpAngle(_currentYaw, targetYaw, Time.deltaTime * data.Sensitivity);
+                var horizontalDistance = new Vector2(direction.x, direction.z).magnitude;
+                var targetPitch = Mathf.Atan2(direction.y, horizontalDistance) * Mathf.Rad2Deg;
                 
-                if (Mathf.Abs(Mathf.DeltaAngle(_currentYaw, targetYaw)) < 0.5f)
+                _currentYaw = Mathf.LerpAngle(_currentYaw, targetYaw, Time.deltaTime * data.Sensitivity);
+                _currentPitch = Mathf.LerpAngle(_currentPitch, -targetPitch/3f, Time.deltaTime * data.Sensitivity);
+                
+                if (Mathf.Abs(Mathf.DeltaAngle(_currentYaw, targetYaw)) < 0.5f
+                    && Mathf.Abs(Mathf.DeltaAngle(_currentPitch, -targetPitch/3)) < 0.5f)
                 {
                     _isActive = true;
                 }
@@ -144,7 +170,6 @@ namespace Camera
                 {
                     _isActive = true;
                 }*/
-
             }
             
             var rotation = Quaternion.Euler(_currentPitch, _currentYaw, 0);
@@ -159,6 +184,38 @@ namespace Camera
             }
             
             transform.rotation = rotation;
+        }
+        
+        private void UpdateCameraPositionWithData()
+        {
+            if (!player) return;
+            if(!_isActive)
+            {
+                transform.position = Vector3.Lerp(transform.position, _currentTargetPosition, Time.deltaTime * data.Sensitivity);
+                transform.rotation = Quaternion.Lerp(transform.rotation, _currentTargetRotation, Time.deltaTime * data.Sensitivity);
+                _currentYaw = transform.eulerAngles.y;
+                var rawPitch = transform.eulerAngles.x;
+                _currentPitch = rawPitch > 180f ? rawPitch - 360f : rawPitch;
+                return;
+            }
+            
+            var rotation = Quaternion.Euler(_currentPitch, _currentYaw, 0);
+            var targetPosition = player.position + Vector3.up * data.Height;
+            var position = targetPosition - (rotation * Vector3.forward * data.Distance);
+            transform.position = position;
+            
+            if(!_isFirstPerson)
+            {
+                transform.LookAt(targetPosition);
+                return;
+            }
+            
+            transform.rotation = rotation;
+        }
+
+        private void UpdateCameraInArea()
+        {
+            
         }
         
         public void SetFirstPersonView()
@@ -217,6 +274,13 @@ namespace Camera
             _isActive = false;
             //UpdateCameraPositionTmp();
         }
+
+        public void SetCameraData(Vector3 position, Quaternion rotation)
+        {
+            _currentTargetPosition = position;
+            _currentTargetRotation = rotation;
+            _isActive = false;
+        }
         
         private IEnumerator ChangeView(float distance, float height)
         {
@@ -235,6 +299,7 @@ namespace Camera
 
         public void EnterPainting(float distance, float height)
         {
+            _isLockFollowView = true;
             //Nếu là góc nhìn thứ nhất thì bỏ qua
             if (_isFirstPerson)
             {
@@ -259,6 +324,8 @@ namespace Camera
 
         public void ExitPainting()
         {
+            _isLockFollowView = false;
+            _isActive = true;
             //Nếu ra ngoài mà là góc nhìn thứ nhất thì bỏ qua
             if(_isExitFirstView) return;
             SetThirdPersonView();
