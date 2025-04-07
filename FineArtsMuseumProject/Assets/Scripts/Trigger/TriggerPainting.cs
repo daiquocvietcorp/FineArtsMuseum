@@ -20,6 +20,7 @@ public class TriggerPainting : MonoBehaviour
     public GameObject ButtonGroupCanvas_pc;
     public GameObject ButtonGroupCanvas_vr;
     public GameObject ButtonGroupCanvas_mobile;
+    public GameObject ButtonGroupCanvas_tomko;
     public GameObject ScreenOutlineEffect;
     public GameObject Player;
     
@@ -140,6 +141,10 @@ public class TriggerPainting : MonoBehaviour
             {
                 ButtonGroupCanvas_vr.gameObject.SetActive(true);
             }
+            if (PlatformManager.Instance.IsTomko)
+            {
+                ButtonGroupCanvas_tomko.gameObject.SetActive(true);
+            }
             
             SubtitleObject.SetActive(true);
             isEnter = true;
@@ -207,6 +212,10 @@ public class TriggerPainting : MonoBehaviour
             if(PlatformManager.Instance.IsVR)
             {
                 ButtonGroupCanvas_vr.gameObject.SetActive(false);
+            }
+            if(PlatformManager.Instance.IsTomko)
+            {
+                ButtonGroupCanvas_tomko.gameObject.SetActive(false);
             }
             
             //otherObject.layer = LayerMask.NameToLayer("Default");
