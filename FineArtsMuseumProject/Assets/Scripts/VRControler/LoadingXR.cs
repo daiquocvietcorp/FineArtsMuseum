@@ -7,19 +7,19 @@ public class LoadingXR : MonoBehaviour
 
     private void Start()
     {
-        if (PlatformManager.Instance.IsVR)
-        {
-            VRLoadingArea.gameObject.SetActive(true);
-            StartCoroutine(LoadVRScene());
-        }
-        else
-        {
-            VRLoadingArea.gameObject.SetActive(false);
-        }
+        // if (PlatformManager.Instance.IsVR)
+        // {
+        //     VRLoadingArea.gameObject.SetActive(true);
+        //     //StartCoroutine(LoadVRScene());
+        // }
+        // else
+        // {
+        //     VRLoadingArea.gameObject.SetActive(false);
+        // }
     }
 
-    private string LoadVRScene()
-    {
-        throw new NotImplementedException();
-    }
+    // private string LoadVRScene()
+    // {
+    //     throw new NotImplementedException();
+    // }
 }

@@ -52,6 +52,9 @@ public class AntiqueObject : MonoBehaviour
     private Coroutine guideCoroutine;
 
     public RectTransform rect;
+
+
+    [SerializeField] private Transform InteractiveObjectLocation;
     
     private void Start()
     {
@@ -91,19 +94,34 @@ public class AntiqueObject : MonoBehaviour
     public void ActivateInteractiveMode()
     {
         CharacterStateMachine.gameObject.layer = LayerMask.NameToLayer("Default");
-        blurGameObject.SetActive(true);
+        if (!PlatformManager.Instance.IsVR)
+            blurGameObject.SetActive(true);
         interactiveObject.gameObject.SetActive(true);
         CloseButton.gameObject.SetActive(true);
 
-        interactiveObject.transform.SetParent(Camera.main.transform);
-        interactiveObject.transform.localPosition = interactObjectLocalPosition;
+        if (!PlatformManager.Instance.IsVR)
+        {
+            interactiveObject.transform.SetParent(Camera.main.transform);
+            interactiveObject.transform.localPosition = interactObjectLocalPosition;
+            // 👉 Gán scale theo trung bình giữa min và max
+            float avgScale = (interactiveObject.minScale + interactiveObject.maxScale) / 2f;
+            interactiveObject.transform.localScale = new Vector3(avgScale, avgScale, avgScale);
+            interactiveObject.zoomScrollbar.value = interactiveObject.GetZoomScrollbarValue(avgScale);
+            isBlur = true;
+        }
+        else
+        {
+            interactiveObject.transform.SetParent(InteractiveObjectLocation);
+            interactiveObject.transform.localPosition = new Vector3(0, 0, 0);
+            Debug.Log(interactObjectLocalPosition);
+            interactiveObject.transform.localScale = new Vector3(1, 1, 1);
 
-        // 👉 Gán scale theo trung bình giữa min và max
-        float avgScale = (interactiveObject.minScale + interactiveObject.maxScale) / 2f;
-        interactiveObject.transform.localScale = new Vector3(avgScale, avgScale, avgScale);
-        interactiveObject.zoomScrollbar.value = interactiveObject.GetZoomScrollbarValue(avgScale);
+        }
+        
 
-        isBlur = true;
+        
+
+        
         CharacterManager.Instance.DisableCharacter();
         InputManager.Instance.DisableInput();
 
@@ -116,7 +134,8 @@ public class AntiqueObject : MonoBehaviour
         CharacterStateMachine.gameObject.layer = LayerMask.NameToLayer("Default");
         //objectDetail.SetActive(false);
         CloseButton.gameObject.SetActive(false);
-        blurGameObject.SetActive(false);
+        if (!PlatformManager.Instance.IsVR)
+            blurGameObject.SetActive(false);
         interactiveObject.gameObject.SetActive(false);
         isBlur = false;
 

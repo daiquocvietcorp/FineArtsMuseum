@@ -43,6 +43,7 @@ namespace InputController
         
         public void DisableJoystickRotation()
         {
+            if(!PlatformManager.Instance.IsCloud && !PlatformManager.Instance.IsMobile) return;
             joystickRotationInput.gameObject.SetActive(false);
         }
         

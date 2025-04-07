@@ -15,6 +15,8 @@ namespace Camera
         
         private float _currentYaw;
         private float _currentPitch;
+        private float _currentAreaYaw;
+        private float _currentAreaPitch;
         
         private bool _isFirstPerson;
         private bool _isActive;
@@ -69,16 +71,16 @@ namespace Camera
             {
                 if (!MouseInput.Instance.IsHold) return;
 
-                if (!_isLockFollowView)
-                {
-                    _isActive = true;
-                }
+                _isActive = true;
                 
                 mouseX = Input.GetAxis("Mouse X") * data.Sensitivity;
                 mouseY = -Input.GetAxis("Mouse Y") * data.Sensitivity;
                 
                 _currentYaw += mouseX;
                 _currentPitch = Mathf.Clamp(_currentPitch + mouseY, data.MinPitch, data.MaxPitch);
+
+                _currentAreaYaw += mouseX;
+                _currentAreaPitch = Mathf.Clamp(_currentAreaPitch + mouseY, data.MinPitch, data.MaxPitch);
             }
             
             if (PlatformManager.Instance.IsMobile && false)
@@ -106,16 +108,16 @@ namespace Camera
                 //if(_joystickDirection.magnitude < 0.1f) return;
                 if(_joystickDirection == Vector2.zero) return;
                 
-                if (!_isLockFollowView)
-                {
-                    _isActive = true;
-                }
+                _isActive = true;
                 
                 mouseX = _joystickDirection.x * data.Sensitivity;
                 mouseY = _joystickDirection.y * data.Sensitivity;
                 
                 _currentYaw += mouseX;
                 _currentPitch = Mathf.Clamp(_currentPitch - mouseY, data.MinPitch, data.MaxPitch);
+                
+                _currentAreaYaw += mouseX;
+                _currentAreaPitch = Mathf.Clamp(_currentAreaPitch - mouseY, data.MinPitch, data.MaxPitch);
             }
             
             /*_currentYaw += mouseX;
@@ -191,26 +193,34 @@ namespace Camera
             if (!player) return;
             if(!_isActive)
             {
-                transform.position = Vector3.Lerp(transform.position, _currentTargetPosition, 2*Time.deltaTime * data.Sensitivity);
-                transform.rotation = Quaternion.Lerp(transform.rotation, _currentTargetRotation, 2*Time.deltaTime * data.Sensitivity);
-                _currentYaw = transform.eulerAngles.y;
+                transform.position = Vector3.Lerp(transform.position, _currentTargetPosition, Time.deltaTime * data.Sensitivity);
+                transform.rotation = Quaternion.Lerp(transform.rotation, _currentTargetRotation, Time.deltaTime * data.Sensitivity);
+                _currentAreaYaw = transform.eulerAngles.y;
                 var rawPitch = transform.eulerAngles.x;
-                _currentPitch = rawPitch > 180f ? rawPitch - 360f : rawPitch;
+                _currentAreaPitch = rawPitch > 180f ? rawPitch - 360f : rawPitch;
                 return;
             }
-            
-            var rotation = Quaternion.Euler(_currentPitch, _currentYaw, 0);
-            var targetPosition = player.position + Vector3.up * data.Height;
-            var position = targetPosition - (rotation * Vector3.forward * data.Distance);
-            transform.position = position;
-            
-            if(!_isFirstPerson)
+
+            if (!_isLockFollowView)
             {
-                transform.LookAt(targetPosition);
-                return;
-            }
+                var rotation = Quaternion.Euler(_currentPitch, _currentYaw, 0);
+                var targetPosition = player.position + Vector3.up * data.Height;
+                var position = targetPosition - (rotation * Vector3.forward * data.Distance);
+                transform.position = position;
+                
+                if(!_isFirstPerson)
+                {
+                    transform.LookAt(targetPosition);
+                    return;
+                }
             
-            transform.rotation = rotation;
+                transform.rotation = rotation;
+            }
+            else
+            {
+                var rotation = Quaternion.Euler(_currentAreaPitch, _currentAreaYaw, 0);
+                transform.rotation = rotation;
+            }
         }
 
         private void UpdateCameraInArea()
