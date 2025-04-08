@@ -338,15 +338,15 @@ private void StartGuideSequence()
     _guideSequence = DOTween.Sequence();
 
     // Rotate Guide xuất hiện
-    _guideSequence.Append(guideRotateImage.DOFade(1f, 0.5f));
-    _guideSequence.Join(guideRotateImage.rectTransform.DOLocalMoveX(rotateEndPos.x, 0.5f));
+    _guideSequence.Append(guideRotateImage.DOFade(1f, 1f));
+    _guideSequence.Join(guideRotateImage.rectTransform.DOLocalMoveX(rotateEndPos.x, 1f));
 
     // Giữ một khoảng thời gian
     _guideSequence.AppendInterval(durartion);
 
     // Rotate Guide biến mất
-    _guideSequence.Append(guideRotateImage.DOFade(0f, 0.5f));
-    _guideSequence.Join(guideRotateImage.rectTransform.DOLocalMoveX(rotateOutPos.x, 0.5f));
+    _guideSequence.Append(guideRotateImage.DOFade(0f, 1f));
+    _guideSequence.Join(guideRotateImage.rectTransform.DOLocalMoveX(rotateOutPos.x, 1f));
     _guideSequence.AppendCallback(() => guideRotateImage.gameObject.SetActive(false));
 
     // Zoom Guide xuất hiện
@@ -356,15 +356,15 @@ private void StartGuideSequence()
         guideZoomImage.DOFade(0f, 0f);
         guideZoomImage.gameObject.SetActive(true);
     });
-    _guideSequence.Append(guideZoomImage.DOFade(1f, 0.5f));
-    _guideSequence.Join(guideZoomImage.rectTransform.DOLocalMoveX(zoomEndPos.x, 0.5f));
+    _guideSequence.Append(guideZoomImage.DOFade(1f, 1f));
+    _guideSequence.Join(guideZoomImage.rectTransform.DOLocalMoveX(zoomEndPos.x, 1f));
 
     // Giữ một khoảng thời gian
     _guideSequence.AppendInterval(durartion);
 
     // Zoom Guide biến mất
-    _guideSequence.Append(guideZoomImage.DOFade(0f, 0.5f));
-    _guideSequence.Join(guideZoomImage.rectTransform.DOLocalMoveX(zoomOutPos.x, 0.5f));
+    _guideSequence.Append(guideZoomImage.DOFade(0f, 1f));
+    _guideSequence.Join(guideZoomImage.rectTransform.DOLocalMoveX(zoomOutPos.x, 1f));
     _guideSequence.AppendCallback(() => guideZoomImage.gameObject.SetActive(false));
 
     // Kết thúc
