@@ -19,6 +19,8 @@ namespace UI
         [field: SerializeField] private Button startBtn;
         
         [field: SerializeField] private Canvas settingCanvas;
+
+        [field: SerializeField] private Animator _animator;
         private Sequence _animationSequence;
         private Sequence _hideSequence;
         
@@ -44,7 +46,9 @@ namespace UI
                 startBtn.interactable = true;
                 startBtn.onClick.AddListener(() =>
                 {
+                    startBtn.interactable = false;
                     UIManager.Instance.DisableUI("UI_START");
+                    if(settingCanvas == null) return;
                     settingCanvas.gameObject.SetActive(true);
                     //UIManager.Instance.EnableUI("UI_GAME");
                 });

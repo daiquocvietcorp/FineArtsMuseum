@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,10 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
 {
     public float rotationSpeed = 100f;
     public float zoomSpeed = 0.01f;
+
+    public float rotationSpeedMobile = 80f;
+    public float zoomSpeedMobile = 0.015f;
+
     public float minScale = 0.2f;
     public float maxScale = 3f;
     public float resetDuration = 0.5f;
@@ -28,6 +33,26 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
     private Vector2 lastPointerPosition;
 
     public bool canRotate = true;
+
+    private float CurrentRotationSpeed
+    {
+        get
+        {
+            if (PlatformManager.Instance.IsCloud || PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsTomko)
+                return rotationSpeedMobile;
+            return rotationSpeed;
+        }
+    }
+
+    private float CurrentZoomSpeed
+    {
+        get
+        {
+            if (PlatformManager.Instance.IsCloud || PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsTomko)
+                return zoomSpeedMobile;
+            return zoomSpeed;
+        }
+    }
 
     private void OnEnable()
     {
@@ -93,16 +118,17 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
         }
         else if (activeTouches.Count == 1)
         {
-            if(!canRotate) return;
+            if (!canRotate) return;
+
             Vector2 delta = eventData.position - lastPointerPosition;
             lastPointerPosition = eventData.position;
 
-            float rotateAmountX = delta.x * rotationSpeed * Time.deltaTime * 0.5f;
+            float rotateAmountX = delta.x * CurrentRotationSpeed * Time.deltaTime * 0.5f;
             transform.Rotate(Vector3.up, -rotateAmountX, Space.World);
 
             if (CanRotateUpDown)
             {
-                float rotateAmountY = delta.y * rotationSpeed * Time.deltaTime * 0.5f;
+                float rotateAmountY = delta.y * CurrentRotationSpeed * Time.deltaTime * 0.5f;
                 transform.Rotate(Vector3.right, rotateAmountY, Space.World);
             }
         }
@@ -121,7 +147,7 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
         if (scroll != 0f)
         {
             Vector3 scale = transform.localScale;
-            scale += Vector3.one * scroll * zoomSpeed * 10f;
+            scale += Vector3.one * scroll * CurrentZoomSpeed * 10f;
             scale = ClampScale(scale);
             transform.localScale = scale;
 

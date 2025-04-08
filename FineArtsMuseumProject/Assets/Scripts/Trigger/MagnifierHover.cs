@@ -64,7 +64,7 @@ public class MagnifierHover : MonoBehaviour
         if (Physics.Raycast(ray, out hit, 100f, targetLayer))
         {
             if (hit.transform.tag == "Player") return;
-            
+
             // Show kính lúp
             magnifierImage.gameObject.SetActive(true);
             if (magnifierFrame != null)
@@ -74,13 +74,23 @@ public class MagnifierHover : MonoBehaviour
             if (magnifierFrame != null)
                 magnifierFrame.position = mousePos;
 
-            // Đặt vị trí camera zoom
             Vector3 hitPos = hit.point;
-            zoomCamera.transform.position = hitPos + hit.normal * cameraOffset;
-            zoomCamera.transform.rotation = Quaternion.LookRotation(-hit.normal);
+            Vector3 normal = hit.normal;
 
-            // Zoom
-            zoomCamera.fieldOfView = mainCamera.fieldOfView / zoomFactor;
+            if (!mainCamera.orthographic)
+            {
+                // Với Perspective
+                zoomCamera.transform.position = hitPos + normal * cameraOffset;
+                zoomCamera.transform.rotation = Quaternion.LookRotation(-normal);
+                zoomCamera.fieldOfView = mainCamera.fieldOfView / zoomFactor;
+            }
+            else
+            {
+                // Với Orthographic
+                zoomCamera.transform.position = hitPos + normal * cameraOffset;
+                zoomCamera.transform.rotation = Quaternion.LookRotation(-normal);
+                zoomCamera.orthographicSize = mainCamera.orthographicSize / zoomFactor;
+            }
         }
         else
         {

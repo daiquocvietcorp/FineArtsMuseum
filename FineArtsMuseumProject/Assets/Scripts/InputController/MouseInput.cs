@@ -102,7 +102,7 @@ namespace InputController
                 }
             }
 
-            if (PlatformManager.Instance.IsMobile)
+            if (PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsTomko)
             {
                 if (Input.touchCount > 0)
                 {
@@ -116,14 +116,26 @@ namespace InputController
                     {
                         _isClick = true;
                         _isHold = false;
-
-                        //_onClick?.Invoke(touch.position);
+                        
+                        //ShowGoToPointer(touch.position);
+                        _onClick?.Invoke(touch.position);
                     }
                     else if (touch.phase == TouchPhase.Moved && Time.time - _holdTimer > 0.2f)
                     {
                         _isClick = false;
 
                         if (IsPointerOverUI() || _isDragImage) return;
+                        var ray = _mainCamera.ScreenPointToRay(touch.position);
+                        if (Physics.Raycast(ray, out var hit, data.View3RdGoToPointLimitDistance,
+                                LayerManager.Instance.groundLayer))
+                        {
+                            goToPointer.gameObject.SetActive(true);
+                            goToPointer.position = hit.point;
+                        }
+                        else
+                        {
+                            goToPointer.gameObject.SetActive(false);
+                        }
                         _isHold = true;
                     }
                     else
@@ -131,6 +143,10 @@ namespace InputController
                         _isClick = false;
                         _isHold = false;
                     }
+                }
+                else
+                {
+                    goToPointer.gameObject.SetActive(false);
                 }
             }
 

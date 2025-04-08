@@ -12,6 +12,7 @@ namespace Camera
         [SerializeField] private Transform player;
         [SerializeField] private CameraFollowData data;
         [SerializeField] private DirectionFirstView directionFirstView;
+        [SerializeField] private bool isEditorMode;
         
         private float _currentYaw;
         private float _currentPitch;
@@ -83,7 +84,7 @@ namespace Camera
                 _currentAreaPitch = Mathf.Clamp(_currentAreaPitch + mouseY, data.MinPitch, data.MaxPitch);
             }
             
-            if (PlatformManager.Instance.IsMobile && false)
+            if (PlatformManager.Instance.IsTomko)
             {
                 if (!MouseInput.Instance.IsHold || JoystickInput.Instance.IsMoving) return;
                 _isActive = true;
@@ -98,9 +99,12 @@ namespace Camera
                         mouseY = delta.y * data.Sensitivity * 0.1f;
                     }
                 }
-            
+                
                 _currentYaw += mouseX;
                 _currentPitch = Mathf.Clamp(_currentPitch - mouseY, data.MinPitch, data.MaxPitch);
+                
+                _currentAreaYaw += mouseX;
+                _currentAreaPitch = Mathf.Clamp(_currentAreaPitch - mouseY, data.MinPitch, data.MaxPitch);
             }
 
             if (PlatformManager.Instance.IsCloud || PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsTomko)
@@ -287,6 +291,7 @@ namespace Camera
 
         public void SetCameraData(Vector3 position, Quaternion rotation)
         {
+            if(isEditorMode) return;
             _currentTargetPosition = position;
             _currentTargetRotation = rotation;
             _isActive = false;
@@ -309,6 +314,7 @@ namespace Camera
 
         public void EnterPainting(float distance, float height)
         {
+            if(isEditorMode) return;
             _isLockFollowView = true;
             //Nếu là góc nhìn thứ nhất thì bỏ qua
             if (_isFirstPerson)
@@ -334,6 +340,7 @@ namespace Camera
 
         public void ExitPainting()
         {
+            if(isEditorMode) return;
             _isLockFollowView = false;
             _isActive = true;
             //Nếu ra ngoài mà là góc nhìn thứ nhất thì bỏ qua

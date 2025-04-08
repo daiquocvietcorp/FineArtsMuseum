@@ -21,6 +21,7 @@ public class UIButtonHoverSprite : MonoBehaviour, IPointerEnterHandler, IPointer
 
     private void UpdateSprite()
     {
+        Debug.Log("IsGetSelected: " + isSelected);
         if (targetImage != null)
         {
             if (isSelected)
@@ -33,6 +34,7 @@ public class UIButtonHoverSprite : MonoBehaviour, IPointerEnterHandler, IPointer
                 }
                 else
                 {
+                    Debug.Log("Default sprite");
                     targetImage.sprite = defaultSprite;
                 }
             }

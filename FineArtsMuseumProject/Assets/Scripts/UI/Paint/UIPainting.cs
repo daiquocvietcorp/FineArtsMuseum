@@ -296,6 +296,8 @@ private void SetGuideImageOff()
 
 private void StartGuideSequence()
 {
+    isGuide = true; // Bật flag ngay khi bắt đầu sequence
+    
     string currentLanguage = PlayerPrefs.GetString("Language", "vi");
     if (currentLanguage == "vi")
     {
@@ -366,31 +368,33 @@ private void StartGuideSequence()
     _guideSequence.AppendCallback(() => guideZoomImage.gameObject.SetActive(false));
 
     // Kết thúc
-    
-    if(PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
-    {
-        guideButton.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
-    }
-    
-    if(PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud)
-    {
-        guideButton_mobile.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
-    }
-    
-    if(PlatformManager.Instance.IsVR)
-    {
-        guideButton_vr.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
-    }
-    
-    if(PlatformManager.Instance.IsTomko)
-    {
-        guideButton_tomko.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
-    }
-    
     _guideSequence.AppendCallback(() => isGuide = false);
     _guideSequence.AppendCallback(() => paintRotateAndZoom.SmoothAverageResetTransform());
     _guideSequence.AppendCallback(() => paintRotateAndZoom.enabled = true);
 
+// Di chuyển update UI vào đây
+    _guideSequence.AppendCallback(() =>
+    {
+        if (PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
+        {
+            guideButton.GetComponent<UIButtonHoverSprite>().SetSelected(false);
+        }
+    
+        if (PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud)
+        {
+            guideButton_mobile.GetComponent<UIButtonHoverSprite>().SetSelected(false);
+        }
+    
+        if (PlatformManager.Instance.IsVR)
+        {
+            guideButton_vr.GetComponent<UIButtonHoverSprite>().SetSelected(false);
+        }
+    
+        if (PlatformManager.Instance.IsTomko)
+        {
+            guideButton_tomko.GetComponent<UIButtonHoverSprite>().SetSelected(false);
+        }
+    });
     _guideSequence.SetAutoKill(true);
 }
     
