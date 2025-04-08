@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using InputController;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
@@ -31,6 +32,7 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
     private float initialDistance;
     private Vector3 initialScale;
     private Vector2 lastPointerPosition;
+    private BoxCollider _boxCollider;
 
     public bool canRotate = true;
 
@@ -56,6 +58,11 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
 
     private void OnEnable()
     {
+        var paintCollider = GetComponent<BoxCollider>();
+        if (paintCollider != null)
+        {
+            _boxCollider = paintCollider;
+        }
         if (zoomScrollbar != null)
             zoomScrollbar.gameObject.SetActive(true);
     }
@@ -80,6 +87,7 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if(MouseInput.Instance.IsHold) return;
         activeTouches[eventData.pointerId] = eventData.position;
 
         if (activeTouches.Count == 2)
@@ -90,10 +98,12 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
         }
 
         lastPointerPosition = eventData.position;
+        MouseInput.Instance.SetIsDragImage(true);
     }
 
     public void OnDrag(PointerEventData eventData)
     {
+        if(MouseInput.Instance.IsHold) return;
         if (!activeTouches.ContainsKey(eventData.pointerId))
             return;
 
@@ -136,12 +146,16 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        if(MouseInput.Instance.IsHold) return;
         if (activeTouches.ContainsKey(eventData.pointerId))
             activeTouches.Remove(eventData.pointerId);
+        if(activeTouches.Count > 0) return;
+        MouseInput.Instance.SetIsDragImage(false);
     }
 
     public void OnScroll(PointerEventData eventData)
     {
+        if(MouseInput.Instance.IsHold) return;
         float scroll = eventData.scrollDelta.y;
 
         if (scroll != 0f)
@@ -304,5 +318,11 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
     public float GetZoomScrollbarValue(float currentScale)
     {
         return Mathf.InverseLerp(minScale, maxScale, currentScale);
+    }
+
+    public void SetCollider(bool isActive)
+    {
+        if(_boxCollider == null) return;
+        _boxCollider.enabled = isActive;
     }
 }

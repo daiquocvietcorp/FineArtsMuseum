@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using AmazingAssets.DynamicRadialMasks;
 using Camera;
+using Trigger;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.VFX;
@@ -108,6 +109,7 @@ public class TriggerPainting : MonoBehaviour
                 var rotation = Quaternion.Euler(cameraRotationOffset); 
                 CameraManager.Instance.cameraFollowPlayer.SetCameraData(cameraPositionOffset, rotation);
             }
+            PaintingDetailManager.Instance.SetCurrentPainting(paintRotateAndZoom);
             //DrmGameObject.gameObject.SetActive(true);
             renderer.enabled = true;
             DrmGameObject.transform.position = transform.position;
@@ -161,6 +163,7 @@ public class TriggerPainting : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isEnter = false;    
+            PaintingDetailManager.Instance.RemoveCurrentPainting();
             fogVFX.Stop();
             paintRotateAndZoom.SmoothOriginResetTransform();
             paintRotateAndZoom.enabled = false;
