@@ -44,8 +44,10 @@ namespace UI
             _animationSequence.AppendCallback(() =>
             {
                 startBtn.interactable = true;
+                
                 startBtn.onClick.AddListener(() =>
                 {
+                    
                     startBtn.interactable = false;
                     UIManager.Instance.DisableUI("UI_START");
                     if(settingCanvas == null) return;
@@ -63,10 +65,16 @@ namespace UI
             _hideSequence.Join(subTitleImg.DOFade(0, 1));
             _hideSequence.Append(appNameImg.DOFade(0, 1));
             _hideSequence.Join(descriptionImg.DOFade(0, 1));
-            _hideSequence.Append(startBtnImg.DOFade(0, 1));
             _hideSequence.AppendCallback(() =>
             {
+                _animator.SetBool("Clicked", true);
+            });
+            _hideSequence.Append(startBtnImg.DOFade(0, 1.75f));
+            _hideSequence.AppendCallback(() =>
+            {
+                
                 startBtn.interactable = false;
+                
                 gameObject.SetActive(false);
                 EnterMain();
             });
@@ -74,6 +82,7 @@ namespace UI
             _hideSequence.Pause();
             _hideSequence.SetAutoKill(false);
         }
+        
 
         public override void EnableUI()
         {
