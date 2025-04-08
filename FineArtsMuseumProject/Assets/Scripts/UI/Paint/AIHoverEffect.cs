@@ -8,6 +8,8 @@ using DG.Tweening;
 
 public class AIHoverEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+    
+    
     public RectTransform buttonTransform;
     public Image buttonImage;
     public TextMeshProUGUI buttonText;
@@ -52,6 +54,7 @@ public class AIHoverEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         buttonImage.sprite = defaultSprite;
         isSelected = false;
         isHovered = false;
+        
     }
     
     public void OnClickedButton()
@@ -112,92 +115,13 @@ public class AIHoverEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         {
             buttonImage.sprite = defaultSprite;
         }
-        
-        // _enterSequence = DOTween.Sequence();
-        // _enterSequence.Append(buttonTransform.DOSizeDelta(new Vector2(defaultWidth, height), duration));
-        // _enterSequence.AppendCallback(() =>
-        // {
-        //     if (buttonText != null) buttonText.text = hoverText;
-        //     if (!isSelected)
-        //     {
-        //         if (hoverSprite != null)
-        //         {
-        //             buttonImage.sprite = hoverSprite;
-        //         }
-        //     }
-        //     else
-        //     {
-        //         if (hoverSpriteSelected != null)
-        //         {
-        //             buttonImage.sprite = hoverSpriteSelected;
-        //         }
-        //     }
-        // });
-        // _enterSequence.Join(DOTween.To(() => buttonImage.pixelsPerUnitMultiplier,
-        //     x => buttonImage.pixelsPerUnitMultiplier = x,
-        //     defaultPPU,
-        //     duration));
-        // _enterSequence.SetAutoKill(false);
-        //
-        // _exitSequence = DOTween.Sequence();
-        // _exitSequence.AppendCallback(() =>
-        // {
-        //     buttonTransform.DOSizeDelta(originalSize, duration).SetEase(easing);
-        //     if (buttonText != null) buttonText.text = defaultText;
-        //
-        //     DOTween.To(() => buttonImage.pixelsPerUnitMultiplier,
-        //         x => buttonImage.pixelsPerUnitMultiplier = x,
-        //         defaultPPU,
-        //         duration).SetEase(easing);
-        //
-        //     if (!isSelected)
-        //     {
-        //         if (defaultSprite != null)
-        //         {
-        //             buttonImage.sprite = defaultSprite;
-        //         }
-        //     }
-        //     else
-        //     {
-        //         if (defaultSpriteSelected != null)
-        //         {
-        //             buttonImage.sprite = defaultSpriteSelected;
-        //         }
-        //     }
-        // });
     }
 
-    public void SetButtonTextLanguage(bool enter)
-    {
-        if (enter)
-        {
-            if (buttonText != null)
-            {
-                string currentLanguage = PlayerPrefs.GetString("Language", "vi");
-                if (currentLanguage == "vi")
-                {
-                    buttonText.text = hoverText;
-                }
-                else if (currentLanguage == "en")
-                {
-                    buttonText.text = hoverTextEnglish;
-                }
-            }
-        }
-        else
-        {
-            if (buttonText != null)
-            {
-                buttonText.text = defaultText;
-            }
-            
-        }
-        
-    }
+    
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if(PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud) return;
+        if(PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud || PlatformManager.Instance.IsTomko) return;
         
         isHovered = true;
 
