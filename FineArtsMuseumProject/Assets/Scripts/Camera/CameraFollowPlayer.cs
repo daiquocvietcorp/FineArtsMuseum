@@ -296,6 +296,12 @@ namespace Camera
             _currentTargetRotation = rotation;
             _isActive = false;
         }
+
+        public void ResetCameraInArea()
+        {
+            if(isEditorMode) return;
+            _isActive = false;
+        }
         
         private IEnumerator ChangeView(float distance, float height)
         {

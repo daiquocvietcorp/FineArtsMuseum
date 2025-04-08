@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Camera;
 using DesignPatterns;
 using InputController;
 using UI;
@@ -98,6 +99,13 @@ namespace Trigger
         {
             if(!_currentPainting) return;
             _currentPainting.SetCollider(isActive);
+        }
+
+        public void ResetView()
+        {
+            if(_currentPainting == null) return;
+            _currentPainting.SmoothAverageResetTransform();
+            CameraManager.Instance.cameraFollowPlayer.ResetCameraInArea();
         }
     }
 }
