@@ -69,15 +69,15 @@ namespace UI
             {
                 _animator.SetBool("Clicked", true);
             });
-            _hideSequence.Append(startBtnImg.DOFade(0, 1.75f));
-            _hideSequence.AppendCallback(() =>
-            {
-                
-                startBtn.interactable = false;
-                
-                gameObject.SetActive(false);
-                EnterMain();
-            });
+            //_hideSequence.Append(startBtnImg.DOFade(0, 1f));
+            // _hideSequence.AppendCallback(() =>
+            // {
+            //     
+            //     startBtn.interactable = false;
+            //     
+            //     gameObject.SetActive(false);
+            //     EnterMain();
+            // });
             
             _hideSequence.Pause();
             _hideSequence.SetAutoKill(false);
@@ -95,7 +95,7 @@ namespace UI
             _hideSequence.Restart();
         }
 
-        private void EnterMain()
+        public void EnterMain()
         {
             CharacterManager.Instance.StartControlCharacter();
             InputManager.Instance.EnableInput();
