@@ -11,7 +11,7 @@ namespace Trigger
     {
         [field: SerializeField] private List<AntiqueObject> antiqueObjects;
         private Dictionary<string, AntiqueObject> _antiqueDetailDict;
-        private AntiqueObject _currentAntiqueObject;
+        private PaintRotateAndZoom _currentAntiqueObject;
 
         private void Awake()
         {
@@ -49,8 +49,11 @@ namespace Trigger
                 }
             }
             Debug.Log("AntiqueId:"+ antiqueID);
-            _currentAntiqueObject = _antiqueDetailDict[antiqueID];
             _antiqueDetailDict[antiqueID].gameObject.SetActive(true);
+            if (_antiqueDetailDict[antiqueID].interactiveObject)
+            {
+                _currentAntiqueObject = _antiqueDetailDict[antiqueID].interactiveObject;
+            }
             UIManager.Instance.DisableUI("UI_NAVIGATION");
             
             if (!PlatformManager.Instance.IsMobile && !PlatformManager.Instance.IsCloud) return;
@@ -88,6 +91,12 @@ namespace Trigger
                     antiqueID += "_mobile";
                 }
             }
+        }
+
+        public void ResetView()
+        {
+            if(_currentAntiqueObject == null) return;
+            _currentAntiqueObject.SmoothAverageResetTransform();
         }
     }
 }
