@@ -144,6 +144,7 @@ namespace UI
                 thirdPersonImage.color = imageOnColor;
                 thirdPersonText.color = textOnColor;
             }
+            UIManager.Instance.DisableUI("UI_SETTING");
         }
         
         private void SwitchLanguage(bool isVietnamese)
@@ -162,6 +163,7 @@ namespace UI
                 englishImage.color = imageOnColor;
                 englishText.color = textOnColor;
             }
+            UIManager.Instance.DisableUI("UI_SETTING");
         }
 
         public override void SetData(IUIData data)

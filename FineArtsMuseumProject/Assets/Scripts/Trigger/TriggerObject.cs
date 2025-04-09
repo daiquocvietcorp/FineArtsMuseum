@@ -37,7 +37,7 @@ public class TriggerObject : MonoBehaviour, IPointerDownHandler
     private IEnumerator PlayObjectAnimation()
     {
         _hoverEffect.FakePointerEnter();
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1f);
         _hoverEffect.FakePointerExit();
         AntiqueManager.Instance.EnableAntiqueDetail(antiqueID);
     }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -23,6 +24,7 @@ public class MouseHoverActivator : MonoBehaviour,IPointerEnterHandler, IPointerE
 
     private void OnMouseExit()
     {
+        if (!PlatformManager.Instance.IsStandalone && !PlatformManager.Instance.IsWebGL) return;
         if (selectableObject != null)
         {
             selectableObject.SetActive(false);
