@@ -67,6 +67,15 @@ public class UIPainting : UIBasic
     public Image guideRotateImage;
     public Image guideZoomImage;
     
+    public Image guideRotateImage_mobile;
+    public Image guideZoomImage_mobile;
+    
+    public Image guideRotateImage_vr;
+    public Image guideZoomImage_vr;
+    
+    public Image guideRotateImage_tomko;
+    public Image guideZoomImage_tomko;
+    
     public MagnifierHover magnifierHover;
     
     public Vector3 guideRotateDefaultPosition;
@@ -97,6 +106,9 @@ public class UIPainting : UIBasic
             zoomButton.onClick.AddListener(ZoomPaintingClicked);
             aiButton.onClick.AddListener(AIPaintingClicked);
             refreshButton.onClick.AddListener(RefreshPaintingClicked);
+            
+            guideRotateDefaultPosition = guideRotateImage.transform.localPosition;
+            guideZoomDefaultPosition = guideZoomImage.transform.localPosition;
         }
         
         if (PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud)
@@ -105,6 +117,9 @@ public class UIPainting : UIBasic
             zoomButton_mobile.onClick.AddListener(ZoomPaintingClicked);
             aiButton_mobile.onClick.AddListener(AIPaintingClicked);
             refreshButton_mobile.onClick.AddListener(RefreshPaintingClicked);
+            
+            guideRotateDefaultPosition = guideRotateImage_mobile.transform.localPosition;
+            guideZoomDefaultPosition = guideZoomImage_mobile.transform.localPosition;
         }
         if (PlatformManager.Instance.IsVR)
         {
@@ -112,6 +127,9 @@ public class UIPainting : UIBasic
             zoomButton_vr.onClick.AddListener(ZoomPaintingClicked);
             aiButton_vr.onClick.AddListener(AIPaintingClicked);
             refreshButton_vr.onClick.AddListener(RefreshPaintingClicked);
+            
+            guideRotateDefaultPosition = guideRotateImage_vr.transform.localPosition;
+            guideZoomDefaultPosition = guideZoomImage_vr.transform.localPosition;
         }
         if (PlatformManager.Instance.IsTomko)
         {
@@ -119,9 +137,11 @@ public class UIPainting : UIBasic
             zoomButton_tomko.onClick.AddListener(ZoomPaintingClicked);
             aiButton_tomko.onClick.AddListener(AIPaintingClicked);
             refreshButton_tomko.onClick.AddListener(RefreshPaintingClicked);
+            
+            guideRotateDefaultPosition = guideRotateImage_tomko.transform.localPosition;
+            guideZoomDefaultPosition = guideZoomImage_tomko.transform.localPosition;
         }
-        guideRotateDefaultPosition = guideRotateImage.transform.localPosition;
-        guideZoomDefaultPosition = guideRotateImage.transform.localPosition;
+        
     }
 
     private Sequence _guideSequence;
@@ -190,6 +210,8 @@ public class UIPainting : UIBasic
             StopCoroutine(_blinkCoroutine);
             _blinkCoroutine = null;
         }
+        
+        TurnOffCautionTextAndImage();
     }
     
 public void GuidePaintingClicked()
@@ -305,17 +327,43 @@ private void StopGuideSequence()
 
 private void SetGuideImageOff()
 {
-    guideZoomImage.transform.localPosition = guideZoomDefaultPosition;
-    guideRotateImage.transform.localPosition = guideRotateDefaultPosition;
+    Image guideZoom = null;
+    Image guideRotate = null;
+    
+    if(PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
+    {
+        guideZoom = guideZoomImage;
+        guideRotate = guideRotateImage;
+    }
+        
+    if(PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud)
+    {
+        guideZoom = guideZoomImage_mobile;
+        guideRotate = guideRotateImage_mobile;
+    }
+    if(PlatformManager.Instance.IsVR)
+    {
+        guideZoom = guideZoomImage_vr;
+        guideRotate = guideRotateImage_vr;
+    }
 
-    guideZoomImage.DOKill();
-    guideRotateImage.DOKill();
+    if (PlatformManager.Instance.IsTomko)
+    {
+        guideZoom = guideZoomImage_tomko;
+        guideRotate = guideRotateImage_tomko;
+    }
+    
+    guideZoom.transform.localPosition = guideZoomDefaultPosition;
+    guideRotate.transform.localPosition = guideRotateDefaultPosition;
 
-    guideZoomImage.DOFade(1f, 0f);
-    guideRotateImage.DOFade(1f, 0f);
+    guideZoom.DOKill();
+    guideRotate.DOKill();
 
-    guideZoomImage.gameObject.SetActive(false);
-    guideRotateImage.gameObject.SetActive(false);
+    guideZoom.DOFade(1f, 0f);
+    guideRotate.DOFade(1f, 0f);
+
+    guideZoom.gameObject.SetActive(false);
+    guideRotate.gameObject.SetActive(false);
 }
 
 private void StartGuideSequence()
@@ -327,11 +375,29 @@ private void StartGuideSequence()
     {
         guideRotateImage.sprite = guideViSprite;
         guideZoomImage.sprite = zoomViSprite;
+        
+        guideRotateImage_mobile.sprite = guideViSprite;
+        guideZoomImage_mobile.sprite = zoomViSprite;
+        
+        // guideRotateImage_vr.sprite = guideViSprite;
+        // guideZoomImage_vr.sprite = zoomViSprite;
+        
+        guideRotateImage_tomko.sprite = guideViSprite;
+        guideZoomImage_tomko.sprite = zoomViSprite;
     }
     else if (currentLanguage == "en")
     {
         guideRotateImage.sprite = guideEnglishSprite;
         guideZoomImage.sprite = zoomEnglishSprite;
+        
+        guideRotateImage_mobile.sprite = guideViSprite;
+        guideZoomImage_mobile.sprite = zoomViSprite;
+        
+        // guideRotateImage_vr.sprite = guideViSprite;
+        // guideZoomImage_vr.sprite = zoomViSprite;
+        
+        guideRotateImage_tomko.sprite = guideViSprite;
+        guideZoomImage_tomko.sprite = zoomViSprite;
     }
     
     // Tính toán vị trí cho hiệu ứng trục X
@@ -350,46 +416,72 @@ private void StartGuideSequence()
     zoomOutPos.x += 5f;
 
     // Reset trạng thái ban đầu
-    guideRotateImage.transform.localPosition = rotateStartPos;
-    guideZoomImage.transform.localPosition = zoomStartPos;
+    Image guideZoom = null;
+    Image guideRotate = null;
+    
+    if(PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
+    {
+        guideZoom = guideZoomImage;
+        guideRotate = guideRotateImage;
+    }
+        
+    if(PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud)
+    {
+        guideZoom = guideZoomImage_mobile;
+        guideRotate = guideRotateImage_mobile;
+    }
+    if(PlatformManager.Instance.IsVR)
+    {
+        guideZoom = guideZoomImage_vr;
+        guideRotate = guideRotateImage_vr;
+    }
 
-    guideRotateImage.DOFade(0f, 0f);
-    guideZoomImage.DOFade(0f, 0f);
+    if (PlatformManager.Instance.IsTomko)
+    {
+        guideZoom = guideZoomImage_tomko;
+        guideRotate = guideRotateImage_tomko;
+    }
+    
+    guideZoom.transform.localPosition = guideZoomDefaultPosition;
+    guideRotate.transform.localPosition = guideRotateDefaultPosition;
 
-    guideRotateImage.gameObject.SetActive(true);
-    guideZoomImage.gameObject.SetActive(false);
+    guideZoom.DOFade(0f, 0f);
+    guideRotate.DOFade(0f, 0f);
+
+    guideZoom.gameObject.SetActive(false);
+    guideRotate.gameObject.SetActive(true);
 
     _guideSequence = DOTween.Sequence();
 
     // Rotate Guide xuất hiện
-    _guideSequence.Append(guideRotateImage.DOFade(1f, 1f));
-    _guideSequence.Join(guideRotateImage.rectTransform.DOLocalMoveX(rotateEndPos.x, 1f));
+    _guideSequence.Append(guideRotate.DOFade(1f, 1f));
+    _guideSequence.Join(guideRotate.rectTransform.DOLocalMoveX(rotateEndPos.x, 1f));
 
     // Giữ một khoảng thời gian
     _guideSequence.AppendInterval(durartion);
 
     // Rotate Guide biến mất
-    _guideSequence.Append(guideRotateImage.DOFade(0f, 1f));
-    _guideSequence.Join(guideRotateImage.rectTransform.DOLocalMoveX(rotateOutPos.x, 1f));
-    _guideSequence.AppendCallback(() => guideRotateImage.gameObject.SetActive(false));
+    _guideSequence.Append(guideRotate.DOFade(0f, 1f));
+    _guideSequence.Join(guideRotate.rectTransform.DOLocalMoveX(rotateOutPos.x, 1f));
+    _guideSequence.AppendCallback(() => guideRotate.gameObject.SetActive(false));
 
     // Zoom Guide xuất hiện
     _guideSequence.AppendCallback(() =>
     {
-        guideZoomImage.transform.localPosition = zoomStartPos;
-        guideZoomImage.DOFade(0f, 0f);
-        guideZoomImage.gameObject.SetActive(true);
+        guideZoom.transform.localPosition = zoomStartPos;
+        guideZoom.DOFade(0f, 0f);
+        guideZoom.gameObject.SetActive(true);
     });
-    _guideSequence.Append(guideZoomImage.DOFade(1f, 1f));
-    _guideSequence.Join(guideZoomImage.rectTransform.DOLocalMoveX(zoomEndPos.x, 1f));
+    _guideSequence.Append(guideZoom.DOFade(1f, 1f));
+    _guideSequence.Join(guideZoom.rectTransform.DOLocalMoveX(zoomEndPos.x, 1f));
 
     // Giữ một khoảng thời gian
     _guideSequence.AppendInterval(durartion);
 
     // Zoom Guide biến mất
-    _guideSequence.Append(guideZoomImage.DOFade(0f, 1f));
-    _guideSequence.Join(guideZoomImage.rectTransform.DOLocalMoveX(zoomOutPos.x, 1f));
-    _guideSequence.AppendCallback(() => guideZoomImage.gameObject.SetActive(false));
+    _guideSequence.Append(guideZoom.DOFade(0f, 1f));
+    _guideSequence.Join(guideZoom.rectTransform.DOLocalMoveX(zoomOutPos.x, 1f));
+    _guideSequence.AppendCallback(() => guideZoom.gameObject.SetActive(false));
 
     // Kết thúc
     _guideSequence.AppendCallback(() => isGuide = false);
@@ -758,10 +850,13 @@ private void StartGuideSequence()
         VideoPlayer.gameObject.SetActive(false);
 
         yield return new WaitForSeconds(3f);
-        // Khởi chạy hiệu ứng cảnh báo của AI dựa trên nền tảng (fade in, hold, fade out, delay) lặp lại 3 lần
-        _aiCautionCoroutine = StartCoroutine(StartAICautionAnimation());
         tranh.GetComponent<Renderer>().material.mainTexture = videoRenderTexture;
         tranh.GetComponent<Renderer>().material.SetTexture("_EmissionMap", videoRenderTexture);
+        yield return new WaitForSeconds(3f);
+        // Khởi chạy hiệu ứng cảnh báo của AI dựa trên nền tảng (fade in, hold, fade out, delay) lặp lại 3 lần
+        _aiCautionCoroutine = StartCoroutine(StartAICautionAnimation());
+        // tranh.GetComponent<Renderer>().material.mainTexture = videoRenderTexture;
+        // tranh.GetComponent<Renderer>().material.SetTexture("_EmissionMap", videoRenderTexture);
         BlinkCanvas.SetActive(false);
 
         if (VideoClips.Count > 0)
