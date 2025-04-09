@@ -5,6 +5,7 @@ using UI;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using TMPro;
 using UnityEngine.Serialization;
 using UnityEngine.Video;
 
@@ -13,22 +14,35 @@ public class UIPainting : UIBasic
     public Button guideButton;
     public Button zoomButton;
     public Button aiButton;
+    public Button refreshButton;
 
     public Button guideButton_mobile;
     public Button zoomButton_mobile;
     public Button aiButton_mobile;
+    public Button refreshButton_mobile;
     
     public Button guideButton_vr;
     public Button zoomButton_vr;
     public Button aiButton_vr;
+    public Button refreshButton_vr;
     
     public Button guideButton_tomko;
     public Button zoomButton_tomko;
     public Button aiButton_tomko;
+    public Button refreshButton_tomko;
     
     public bool isGuide = false;
     public bool isZoom = false;
     public bool isAI = false;
+
+    public TextMeshProUGUI AIAnimationCautionText;
+    public Image AIAnimationIcon;
+    public TextMeshProUGUI AIAnimationCautionText_mobile;
+    public Image AIAnimationIcon_mobile;
+    public TextMeshProUGUI AIAnimationCautionText_vr;
+    public Image AIAnimationIcon_vr;
+    public TextMeshProUGUI AIAnimationCautionText_tomko;
+    public Image AIAnimationIcon_tomko;
 
     [SerializeField] private GameObject MagnifierCanvas;
     
@@ -80,6 +94,7 @@ public class UIPainting : UIBasic
             guideButton.onClick.AddListener(GuidePaintingClicked);
             zoomButton.onClick.AddListener(ZoomPaintingClicked);
             aiButton.onClick.AddListener(AIPaintingClicked);
+            refreshButton.onClick.AddListener(RefreshPaintingClicked);
         }
         
         if (PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud)
@@ -87,18 +102,21 @@ public class UIPainting : UIBasic
             guideButton_mobile.onClick.AddListener(GuidePaintingClicked);
             zoomButton_mobile.onClick.AddListener(ZoomPaintingClicked);
             aiButton_mobile.onClick.AddListener(AIPaintingClicked);
+            refreshButton_mobile.onClick.AddListener(RefreshPaintingClicked);
         }
         if (PlatformManager.Instance.IsVR)
         {
             guideButton_vr.onClick.AddListener(GuidePaintingClicked);
             zoomButton_vr.onClick.AddListener(ZoomPaintingClicked);
             aiButton_vr.onClick.AddListener(AIPaintingClicked);
+            refreshButton_vr.onClick.AddListener(RefreshPaintingClicked);
         }
         if (PlatformManager.Instance.IsTomko)
         {
             guideButton_tomko.onClick.AddListener(GuidePaintingClicked);
             zoomButton_tomko.onClick.AddListener(ZoomPaintingClicked);
             aiButton_tomko.onClick.AddListener(AIPaintingClicked);
+            refreshButton_tomko.onClick.AddListener(RefreshPaintingClicked);
         }
         guideRotateDefaultPosition = guideRotateImage.transform.localPosition;
         guideZoomDefaultPosition = guideRotateImage.transform.localPosition;
@@ -397,6 +415,14 @@ private void StartGuideSequence()
     });
     _guideSequence.SetAutoKill(true);
 }
+
+    public void RefreshPaintingClicked()
+    {
+        SetDefaultAll();
+        paintRotateAndZoom.SmoothAverageResetTransform();
+        paintRotateAndZoom.enabled = true;
+        
+    }
     
     public void ZoomPaintingClicked()
     {
