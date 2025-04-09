@@ -110,6 +110,7 @@ namespace UI
             UIManager.Instance.EnableUI("UI_NAVIGATION");
             UIManager.Instance.ActionUI("UI_SOUND");
             UIManager.Instance.EnableUI("UI_GUIDE");
+            gameObject.SetActive(false);
         }
     }
 }

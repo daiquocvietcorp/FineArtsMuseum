@@ -59,10 +59,14 @@ public class UIPainting : UIBasic
 
     public GameObject BlinkCanvas;
     
-    public Sprite guideViSprite;
-    public Sprite guideEnglishSprite;
+    public Sprite guideRotateViSprite;
+    public Sprite guideRotateEnglishSprite;
     public Sprite zoomViSprite;
     public Sprite zoomEnglishSprite;
+    public Sprite guideZoomKinhViSprite;
+    public Sprite guideZoomKinhEnglishSprite;
+    public Sprite guideAIGenViSprite;
+    public Sprite guideAIGenEnglishSprite;
 
     public Image guideRotateImage;
     public Image guideZoomImage;
@@ -75,6 +79,18 @@ public class UIPainting : UIBasic
     
     public Image guideRotateImage_tomko;
     public Image guideZoomImage_tomko;
+    
+    public Image guideZoomKinhImage;
+    public Image guideAIGenImage; 
+    
+    public Image guideZoomKinhImage_mobile;
+    public Image guideAIGenImage_mobile;
+    
+    public Image guideZoomKinhImage_vr;
+    public Image guideAIGenImage_vr;
+    
+    public Image guideZoomKinhImage_tomko;
+    public Image guideAIGenImage_tomko; 
     
     public MagnifierHover magnifierHover;
     
@@ -329,190 +345,242 @@ private void SetGuideImageOff()
 {
     Image guideZoom = null;
     Image guideRotate = null;
+    Image zoomKinh = null;
+    Image aiGen    = null;
     
     if(PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
     {
         guideZoom = guideZoomImage;
         guideRotate = guideRotateImage;
+        zoomKinh = guideZoomKinhImage;
+        aiGen = guideAIGenImage;
+
     }
         
     if(PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud)
     {
         guideZoom = guideZoomImage_mobile;
         guideRotate = guideRotateImage_mobile;
+        zoomKinh = guideZoomKinhImage_mobile;
+        aiGen = guideAIGenImage_mobile;
     }
     if(PlatformManager.Instance.IsVR)
     {
         guideZoom = guideZoomImage_vr;
         guideRotate = guideRotateImage_vr;
+        zoomKinh = guideZoomKinhImage_vr;
+        aiGen = guideAIGenImage_vr;
     }
 
     if (PlatformManager.Instance.IsTomko)
     {
         guideZoom = guideZoomImage_tomko;
         guideRotate = guideRotateImage_tomko;
+        zoomKinh = guideZoomKinhImage_tomko;
+        aiGen = guideAIGenImage_tomko;
     }
     
     guideZoom.transform.localPosition = guideZoomDefaultPosition;
     guideRotate.transform.localPosition = guideRotateDefaultPosition;
+    zoomKinh.transform.localPosition = guideZoomDefaultPosition;
+    aiGen.transform.localPosition = guideRotateDefaultPosition;
+    
 
     guideZoom.DOKill();
     guideRotate.DOKill();
+    zoomKinh.DOKill();
+    aiGen.DOKill();
 
     guideZoom.DOFade(1f, 0f);
     guideRotate.DOFade(1f, 0f);
-
+    zoomKinh.DOFade(1f, 0f);
+    aiGen.DOFade(1f, 0f);
+    
     guideZoom.gameObject.SetActive(false);
     guideRotate.gameObject.SetActive(false);
+    zoomKinh.gameObject.SetActive(false);
+    aiGen.gameObject.SetActive(false);
 }
 
 private void StartGuideSequence()
 {
     isGuide = true; // Bật flag ngay khi bắt đầu sequence
     
+    // Thiết lập sprite cho các ảnh theo ngôn ngữ
     string currentLanguage = PlayerPrefs.GetString("Language", "vi");
     if (currentLanguage == "vi")
     {
-        guideRotateImage.sprite = guideViSprite;
+        // Ảnh chính
+        guideRotateImage.sprite = guideRotateViSprite;
         guideZoomImage.sprite = zoomViSprite;
+        guideZoomKinhImage.sprite = guideZoomKinhViSprite;
+        guideAIGenImage.sprite = guideAIGenViSprite;
         
-        guideRotateImage_mobile.sprite = guideViSprite;
+        guideRotateImage_mobile.sprite = guideRotateViSprite;
         guideZoomImage_mobile.sprite = zoomViSprite;
+        guideZoomKinhImage_mobile.sprite = guideZoomKinhViSprite;
+        guideAIGenImage_mobile.sprite = guideAIGenViSprite;
         
-        // guideRotateImage_vr.sprite = guideViSprite;
-        // guideZoomImage_vr.sprite = zoomViSprite;
-        
-        guideRotateImage_tomko.sprite = guideViSprite;
+        guideRotateImage_tomko.sprite = guideRotateViSprite;
         guideZoomImage_tomko.sprite = zoomViSprite;
+        guideZoomKinhImage_tomko.sprite = guideZoomKinhViSprite;
+        guideAIGenImage_tomko.sprite = guideAIGenViSprite;
+        // Ảnh phụ (giả sử bạn đã gán sprite từ Inspector)
+        // Nếu cần xử lý riêng theo ngôn ngữ thì bổ sung tại đây
     }
     else if (currentLanguage == "en")
     {
-        guideRotateImage.sprite = guideEnglishSprite;
+        guideRotateImage.sprite = guideRotateEnglishSprite;
         guideZoomImage.sprite = zoomEnglishSprite;
+        guideZoomKinhImage.sprite = guideZoomKinhViSprite;
+        guideAIGenImage.sprite = guideAIGenViSprite;
         
-        guideRotateImage_mobile.sprite = guideViSprite;
-        guideZoomImage_mobile.sprite = zoomViSprite;
+        guideRotateImage_mobile.sprite = guideRotateEnglishSprite;
+        guideZoomImage_mobile.sprite = zoomEnglishSprite;
+        guideZoomKinhImage_mobile.sprite = guideZoomKinhViSprite;
+        guideAIGenImage_mobile.sprite = guideAIGenViSprite;
         
-        // guideRotateImage_vr.sprite = guideViSprite;
-        // guideZoomImage_vr.sprite = zoomViSprite;
-        
-        guideRotateImage_tomko.sprite = guideViSprite;
-        guideZoomImage_tomko.sprite = zoomViSprite;
+        guideRotateImage_tomko.sprite = guideRotateEnglishSprite;
+        guideZoomImage_tomko.sprite = zoomEnglishSprite;
+        guideZoomKinhImage_tomko.sprite = guideZoomKinhViSprite;
+        guideAIGenImage_tomko.sprite = guideAIGenViSprite;
     }
     
-    // Tính toán vị trí cho hiệu ứng trục X
+    // Chọn đối tượng theo nền tảng cho 4 nhóm
+    Image _rotateImage = null, _zoomImage = null, _zoomKinhImage = null, _aiGenImage = null;
+    if (PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
+    {
+        _rotateImage = guideRotateImage;
+        _zoomImage = guideZoomImage;
+        _zoomKinhImage = guideZoomKinhImage;
+        _aiGenImage = guideAIGenImage;
+    }
+    else if (PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud)
+    {
+        _rotateImage = guideRotateImage_mobile;
+        _zoomImage = guideZoomImage_mobile;
+        _zoomKinhImage = guideZoomKinhImage_mobile;
+        _aiGenImage = guideAIGenImage_mobile;
+    }
+    else if (PlatformManager.Instance.IsVR)
+    {
+        _rotateImage = guideRotateImage_vr;
+        _zoomImage = guideZoomImage_vr;
+        _zoomKinhImage = guideZoomKinhImage_vr;
+        _aiGenImage = guideAIGenImage_vr;
+    }
+    else if (PlatformManager.Instance.IsTomko)
+    {
+        _rotateImage = guideRotateImage_tomko;
+        _zoomImage = guideZoomImage_tomko;
+        _zoomKinhImage = guideZoomKinhImage_tomko;
+        _aiGenImage = guideAIGenImage_tomko;
+    }
+
+    // Xác định các vị trí cho hiệu ứng của từng nhóm.
+    // Nhóm 1 và nhóm 4 sử dụng vị trí dựa trên guideRotateDefaultPosition
+    // Nhóm 2 và nhóm 3 sử dụng vị trí dựa trên guideZoomDefaultPosition
     Vector3 rotateStartPos = guideRotateDefaultPosition;
     rotateStartPos.x -= 5f;
-
     Vector3 rotateEndPos = guideRotateDefaultPosition;
     Vector3 rotateOutPos = guideRotateDefaultPosition;
     rotateOutPos.x += 5f;
-
+    
     Vector3 zoomStartPos = guideZoomDefaultPosition;
     zoomStartPos.x -= 5f;
-
     Vector3 zoomEndPos = guideZoomDefaultPosition;
     Vector3 zoomOutPos = guideZoomDefaultPosition;
     zoomOutPos.x += 5f;
 
-    // Reset trạng thái ban đầu
-    Image guideZoom = null;
-    Image guideRotate = null;
+    // Reset trạng thái ban đầu cho 4 nhóm: đặt vị trí và alpha = 0, ẩn GameObject
+    _rotateImage.transform.localPosition = guideRotateDefaultPosition;
+    _rotateImage.DOFade(0f, 0f);
+    _rotateImage.gameObject.SetActive(false);
     
-    if(PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
-    {
-        guideZoom = guideZoomImage;
-        guideRotate = guideRotateImage;
-    }
-        
-    if(PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud)
-    {
-        guideZoom = guideZoomImage_mobile;
-        guideRotate = guideRotateImage_mobile;
-    }
-    if(PlatformManager.Instance.IsVR)
-    {
-        guideZoom = guideZoomImage_vr;
-        guideRotate = guideRotateImage_vr;
-    }
+    _zoomImage.transform.localPosition = guideZoomDefaultPosition;
+    _zoomImage.DOFade(0f, 0f);
+    _zoomImage.gameObject.SetActive(false);
 
-    if (PlatformManager.Instance.IsTomko)
-    {
-        guideZoom = guideZoomImage_tomko;
-        guideRotate = guideRotateImage_tomko;
-    }
-    
-    guideZoom.transform.localPosition = guideZoomDefaultPosition;
-    guideRotate.transform.localPosition = guideRotateDefaultPosition;
+    _zoomKinhImage.transform.localPosition = guideZoomDefaultPosition;
+    _zoomKinhImage.DOFade(0f, 0f);
+    _zoomKinhImage.gameObject.SetActive(false);
 
-    guideZoom.DOFade(0f, 0f);
-    guideRotate.DOFade(0f, 0f);
+    _aiGenImage.transform.localPosition = guideRotateDefaultPosition;
+    _aiGenImage.DOFade(0f, 0f);
+    _aiGenImage.gameObject.SetActive(false);
 
-    guideZoom.gameObject.SetActive(false);
-    guideRotate.gameObject.SetActive(true);
-
+    // Tạo DOTween Sequence chính, chạy 4 nhóm nối tiếp
     _guideSequence = DOTween.Sequence();
 
-    // Rotate Guide xuất hiện
-    _guideSequence.Append(guideRotate.DOFade(1f, 1f));
-    _guideSequence.Join(guideRotate.rectTransform.DOLocalMoveX(rotateEndPos.x, 1f));
-
-    // Giữ một khoảng thời gian
-    _guideSequence.AppendInterval(durartion);
-
-    // Rotate Guide biến mất
-    _guideSequence.Append(guideRotate.DOFade(0f, 1f));
-    _guideSequence.Join(guideRotate.rectTransform.DOLocalMoveX(rotateOutPos.x, 1f));
-    _guideSequence.AppendCallback(() => guideRotate.gameObject.SetActive(false));
-
-    // Zoom Guide xuất hiện
-    _guideSequence.AppendCallback(() =>
-    {
-        guideZoom.transform.localPosition = zoomStartPos;
-        guideZoom.DOFade(0f, 0f);
-        guideZoom.gameObject.SetActive(true);
+    // ========== Nhóm 1: guideRotate ==========
+    _guideSequence.AppendCallback(() => {
+        _rotateImage.gameObject.SetActive(true);
+        _rotateImage.transform.localPosition = rotateStartPos;
     });
-    _guideSequence.Append(guideZoom.DOFade(1f, 1f));
-    _guideSequence.Join(guideZoom.rectTransform.DOLocalMoveX(zoomEndPos.x, 1f));
-
-    // Giữ một khoảng thời gian
+    _guideSequence.Append(_rotateImage.DOFade(1f, 1f));
+    _guideSequence.Join(_rotateImage.rectTransform.DOLocalMoveX(rotateEndPos.x, 1f));
     _guideSequence.AppendInterval(durartion);
+    _guideSequence.Append(_rotateImage.DOFade(0f, 1f));
+    _guideSequence.Join(_rotateImage.rectTransform.DOLocalMoveX(rotateOutPos.x, 1f));
+    _guideSequence.AppendCallback(() => { _rotateImage.gameObject.SetActive(false); });
 
-    // Zoom Guide biến mất
-    _guideSequence.Append(guideZoom.DOFade(0f, 1f));
-    _guideSequence.Join(guideZoom.rectTransform.DOLocalMoveX(zoomOutPos.x, 1f));
-    _guideSequence.AppendCallback(() => guideZoom.gameObject.SetActive(false));
+    // ========== Nhóm 2: guideZoom ==========
+    _guideSequence.AppendCallback(() => {
+        _zoomImage.gameObject.SetActive(true);
+        _zoomImage.transform.localPosition = zoomStartPos;
+    });
+    _guideSequence.Append(_zoomImage.DOFade(1f, 1f));
+    _guideSequence.Join(_zoomImage.rectTransform.DOLocalMoveX(zoomEndPos.x, 1f));
+    _guideSequence.AppendInterval(durartion);
+    _guideSequence.Append(_zoomImage.DOFade(0f, 1f));
+    _guideSequence.Join(_zoomImage.rectTransform.DOLocalMoveX(zoomOutPos.x, 1f));
+    _guideSequence.AppendCallback(() => { _zoomImage.gameObject.SetActive(false); });
 
-    // Kết thúc
-    _guideSequence.AppendCallback(() => isGuide = false);
-    _guideSequence.AppendCallback(() => paintRotateAndZoom.SmoothAverageResetTransform());
-    _guideSequence.AppendCallback(() => paintRotateAndZoom.enabled = true);
+    // ========== Nhóm 3: guideZoomKinh ==========
+    _guideSequence.AppendCallback(() => {
+        _zoomKinhImage.gameObject.SetActive(true);
+        _zoomKinhImage.transform.localPosition = zoomStartPos;
+    });
+    _guideSequence.Append(_zoomKinhImage.DOFade(1f, 1f));
+    _guideSequence.Join(_zoomKinhImage.rectTransform.DOLocalMoveX(zoomEndPos.x, 1f));
+    _guideSequence.AppendInterval(durartion);
+    _guideSequence.Append(_zoomKinhImage.DOFade(0f, 1f));
+    _guideSequence.Join(_zoomKinhImage.rectTransform.DOLocalMoveX(zoomOutPos.x, 1f));
+    _guideSequence.AppendCallback(() => { _zoomKinhImage.gameObject.SetActive(false); });
 
-// Di chuyển update UI vào đây
+    // ========== Nhóm 4: guideAIGen ==========
+    _guideSequence.AppendCallback(() => {
+        _aiGenImage.gameObject.SetActive(true);
+        _aiGenImage.transform.localPosition = rotateStartPos; // Sử dụng vị trí của rotate, có thể thay đổi nếu cần
+    });
+    _guideSequence.Append(_aiGenImage.DOFade(1f, 1f));
+    _guideSequence.Join(_aiGenImage.rectTransform.DOLocalMoveX(rotateEndPos.x, 1f));
+    _guideSequence.AppendInterval(durartion);
+    _guideSequence.Append(_aiGenImage.DOFade(0f, 1f));
+    _guideSequence.Join(_aiGenImage.rectTransform.DOLocalMoveX(rotateOutPos.x, 1f));
+    _guideSequence.AppendCallback(() => { _aiGenImage.gameObject.SetActive(false); });
+
+    // Sau khi kết thúc sequence, reset lại trạng thái
+    _guideSequence.AppendCallback(() => {
+        isGuide = false;
+        paintRotateAndZoom.SmoothAverageResetTransform();
+        paintRotateAndZoom.enabled = true;
+    });
+    // Cập nhật lại trạng thái của button guide
     _guideSequence.AppendCallback(() =>
     {
         if (PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
-        {
             guideButton.GetComponent<UIButtonHoverSprite>().SetSelected(false);
-        }
-    
         if (PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud)
-        {
             guideButton_mobile.GetComponent<UIButtonHoverSprite>().SetSelected(false);
-        }
-    
         if (PlatformManager.Instance.IsVR)
-        {
             guideButton_vr.GetComponent<UIButtonHoverSprite>().SetSelected(false);
-        }
-    
         if (PlatformManager.Instance.IsTomko)
-        {
             guideButton_tomko.GetComponent<UIButtonHoverSprite>().SetSelected(false);
-        }
     });
     _guideSequence.SetAutoKill(true);
 }
+
 
     public void RefreshPaintingClicked()
     {
@@ -849,22 +917,17 @@ private void StartGuideSequence()
         BlinkCanvas.SetActive(true);
         VideoPlayer.gameObject.SetActive(false);
 
+        if (VideoClips.Count <= 0) yield break;
+        VideoPlayer.gameObject.SetActive(true);
+        VideoPlayer.clip = VideoClips[UnityEngine.Random.Range(0, VideoClips.Count)];
+        VideoPlayer.Prepare();
+        yield return new WaitUntil(() => VideoPlayer.isPrepared);
         yield return new WaitForSeconds(3f);
+        BlinkCanvas.SetActive(false);
+        _aiCautionCoroutine = StartCoroutine(StartAICautionAnimation());
+        VideoPlayer.Play();
         tranh.GetComponent<Renderer>().material.mainTexture = videoRenderTexture;
         tranh.GetComponent<Renderer>().material.SetTexture("_EmissionMap", videoRenderTexture);
-        yield return new WaitForSeconds(3f);
-        // Khởi chạy hiệu ứng cảnh báo của AI dựa trên nền tảng (fade in, hold, fade out, delay) lặp lại 3 lần
-        _aiCautionCoroutine = StartCoroutine(StartAICautionAnimation());
-        // tranh.GetComponent<Renderer>().material.mainTexture = videoRenderTexture;
-        // tranh.GetComponent<Renderer>().material.SetTexture("_EmissionMap", videoRenderTexture);
-        BlinkCanvas.SetActive(false);
-
-        if (VideoClips.Count > 0)
-        {
-            VideoPlayer.clip = VideoClips[UnityEngine.Random.Range(0, VideoClips.Count)];
-            VideoPlayer.gameObject.SetActive(true);
-            VideoPlayer.Play();
-        }
     }
 
     // Update is called once per frame

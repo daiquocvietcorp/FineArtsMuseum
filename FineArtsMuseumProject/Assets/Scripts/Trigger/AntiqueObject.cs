@@ -23,6 +23,7 @@ public class AntiqueObject : MonoBehaviour
     public PaintRotateAndZoom interactiveObject;
     public Button CloseButton;
     public Button ShowGuideButton;
+    public Button RefreshButton;
     public Image RotateImage;
     public Sprite RotateSpriteVi;
     public Sprite RotateSpriteEng;
@@ -44,7 +45,7 @@ public class AntiqueObject : MonoBehaviour
 
     [Header("Dependencies")]
     public CharacterStateMachine CharacterStateMachine;
-    public  TriggerZoneStatic triggerZoneStatic;
+    public TriggerZoneStatic triggerZoneStatic;
 
     private bool isBlur = false;
     private bool isGuidePlaying = false;
@@ -61,6 +62,7 @@ public class AntiqueObject : MonoBehaviour
         CloseButton.onClick.AddListener(TurnOffBlur);
         ShowGuideButton.onClick.AddListener(ToggleGuide);
         SoundButton.onClick.AddListener(ToggleSound);
+        RefreshButton.onClick.AddListener(Refresh);
 
         //triggerZoneStatic = GetComponent<TriggerZoneStatic>();
         SetInitialUIState();
@@ -68,6 +70,11 @@ public class AntiqueObject : MonoBehaviour
         //CloseButton.gameObject.SetActive(false);
     }
 
+    public void Refresh()
+    {
+        interactiveObject.SmoothAverageResetTransform();
+    }
+    
     private void OnEnable()
     {
         ActivateInteractiveMode();
