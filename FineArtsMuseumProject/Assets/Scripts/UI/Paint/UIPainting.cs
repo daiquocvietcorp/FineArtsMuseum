@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
+using Trigger;
 using UnityEngine.Serialization;
 using UnityEngine.Video;
 
@@ -419,9 +420,10 @@ private void StartGuideSequence()
     public void RefreshPaintingClicked()
     {
         SetDefaultAll();
-        paintRotateAndZoom.SmoothAverageResetTransform();
-        paintRotateAndZoom.enabled = true;
-        
+        //paintRotateAndZoom.SmoothAverageResetTransform();
+        //paintRotateAndZoom.enabled = true;
+        SetDefaultZoom();
+        PaintingDetailManager.Instance.ResetView();
     }
     
     public void ZoomPaintingClicked()
