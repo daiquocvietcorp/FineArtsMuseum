@@ -80,7 +80,7 @@ public class AudioSubtitleManager : MonoSingleton<AudioSubtitleManager>
         toggleVietnamese.onValueChanged.AddListener((isOn) => OnToggleChanged(isOn, "vi"));
         _isPlayingAmbientSound = false;
         _isPlayingAudio = false;
-        //TurnAmbientSound();
+        //TurnAmbientSoundTurnAmbientSound();
     }
     // void AssignButtonEvents()
     // {
@@ -192,7 +192,6 @@ public class AudioSubtitleManager : MonoSingleton<AudioSubtitleManager>
         if (_isPlayingAmbientSound)
         {
             audioSource.Stop();
-            _isPlayingAmbientSound = false;
         }
 
         currentPlayingAudioId = id;
