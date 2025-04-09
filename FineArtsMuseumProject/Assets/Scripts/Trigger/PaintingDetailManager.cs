@@ -56,6 +56,7 @@ namespace Trigger
             Debug.Log("paintID:"+ paintID);
             UIManager.Instance.DisableUI("UI_SETTING");
             UIManager.Instance.DisableUI("UI_GUIDE");
+            UIManager.Instance.DisableUI("UI_VR");
             _paintDetailDict[paintID].gameObject.SetActive(true);
             _currentPaintDetail = _paintDetailDict[paintID];
 
