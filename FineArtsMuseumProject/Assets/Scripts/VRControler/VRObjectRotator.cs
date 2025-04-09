@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.XR;
 using UnityEngine.XR.Interaction.Toolkit;
 
 public class VRObjectRotator : MonoBehaviour
@@ -7,91 +8,69 @@ public class VRObjectRotator : MonoBehaviour
     [Tooltip("Tốc độ xoay (độ/giây)")]
     public float rotationSpeed = 45f;
 
-    [Header("XR Interactors")]
-    public XRRayInteractor leftRayInteractor;
-    public XRRayInteractor rightRayInteractor;
-    public bool isPicture;
+    [Header("XR Ray Interactors - Controller")]
+    public XRRayInteractor leftControllerRay;
+    public XRRayInteractor rightControllerRay;
+
+    [Header("XR Ray Interactors - Hand Tracking")]
+    public XRRayInteractor leftHandRay;
+    public XRRayInteractor rightHandRay;
 
     private XRRayInteractor activeInteractor = null;
     private bool isRotating = false;
 
-    // Lưu rotation ban đầu của object và rotation ban đầu của tay khi bắt đầu xoay
     private Quaternion initialObjectRotation;
     private Quaternion initialHandRotation;
 
+    private float leftGripValue = 0f;
+    private float rightGripValue = 0f;
+
     void Update()
     {
-        // Ưu tiên tay trái
-        if (!TryHandleInteractor(leftRayInteractor))
+        UpdateGripValues();
+
+        if (!TryHandleInteractor(leftControllerRay, leftGripValue))
         {
-            // Nếu tay trái không hit object, để tay phải xử lý
-            TryHandleInteractor(rightRayInteractor);
+            if (!TryHandleInteractor(leftHandRay, leftGripValue))
+            {
+                if (!TryHandleInteractor(rightControllerRay, rightGripValue))
+                {
+                    TryHandleInteractor(rightHandRay, rightGripValue);
+                }
+            }
         }
     }
 
-    // bool TryHandleInteractor(XRRayInteractor interactor)
-    // {
-    //     if (interactor == null || !interactor.enabled) return false;
-    //
-    //     // Kiểm tra tia ray trúng object này
-    //     if (interactor.TryGetCurrent3DRaycastHit(out RaycastHit hit))
-    //     {
-    //         // Nếu object gắn script này
-    //         if (hit.transform == transform)
-    //         {
-    //             // Kiểm tra trigger (isSelectActive)
-    //             if (interactor.isSelectActive)
-    //             {
-    //                 // Nếu chưa xoay => lưu rotation
-    //                 if (!isRotating)
-    //                 {
-    //                     StartRotate(interactor);
-    //                 }
-    //             }
-    //             else
-    //             {
-    //                 // Nếu nhả trigger, dừng xoay
-    //                 if (activeInteractor == interactor)
-    //                 {
-    //                     StopRotate();
-    //                 }
-    //             }
-    //             return true;
-    //         }
-    //     }
-    //     else
-    //     {
-    //         // Nếu interactor này đang activeInteractor => dừng xoay
-    //         if (activeInteractor == interactor)
-    //         {
-    //             StopRotate();
-    //         }
-    //     }
-    //
-    //     return false;
-    // }
-
-    bool TryHandleInteractor(XRRayInteractor interactor)
+    bool TryHandleInteractor(XRRayInteractor interactor, float gripValue)
     {
         if (interactor == null || !interactor.enabled) return false;
 
-        // Nếu đang xoay bởi interactor này
-        if (activeInteractor == interactor)
+        if (interactor.TryGetCurrent3DRaycastHit(out RaycastHit hit))
         {
-            if (!interactor.isSelectActive)
+            if (hit.transform == transform)
             {
-                StopRotate(); // Thả nút → dừng xoay
-            }
-            return true;
-        }
-
-        // Nếu chưa xoay và raycast trúng object này
-        if (!isRotating && interactor.TryGetCurrent3DRaycastHit(out RaycastHit hit))
-        {
-            if (hit.transform == transform && interactor.isSelectActive)
-            {
-                StartRotate(interactor);
+                if (gripValue > 0.5f)
+                {
+                    if (!isRotating)
+                    {
+                        StartRotate(interactor);
+                    }
+                }
+                else
+                {
+                    if (activeInteractor == interactor)
+                    {
+                        StopRotate();
+                    }
+                }
                 return true;
+            }
+        }
+        else
+        {
+            if (activeInteractor == interactor)
+            {
+                StopRotate();
             }
         }
 
@@ -118,19 +97,26 @@ public class VRObjectRotator : MonoBehaviour
         {
             Quaternion currentHandRotation = activeInteractor.transform.rotation;
             Quaternion deltaRot = currentHandRotation * Quaternion.Inverse(initialHandRotation);
-
-            // Xoay object theo deltaRot
             transform.rotation = initialObjectRotation * deltaRot;
-
-            // Nếu muốn chỉ xoay trục Y:
-            if (isPicture)
-            {
-                Vector3 euler = (initialObjectRotation * deltaRot).eulerAngles;
-                euler.x = 0;
-                euler.z = 0;
-                transform.rotation = Quaternion.Euler(euler);
-            }
-            
         }
+    }
+
+    void UpdateGripValues()
+    {
+        leftGripValue = GetGripValue(InputDeviceRole.LeftHanded);
+        rightGripValue = GetGripValue(InputDeviceRole.RightHanded);
+    }
+
+    float GetGripValue(InputDeviceRole role)
+    {
+        InputDevice device = InputDevices.GetDeviceAtXRNode(
+            role == InputDeviceRole.LeftHanded ? XRNode.LeftHand : XRNode.RightHand);
+
+        if (device.TryGetFeatureValue(CommonUsages.grip, out float value))
+        {
+            return value;
+        }
+
+        return 0f;
     }
 }
