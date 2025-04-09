@@ -40,9 +40,9 @@ namespace UI
             
             _animationSequence.Append(titleImg.DOFade(1, 1));
             _animationSequence.Join(subTitleImg.DOFade(1, 1));
-            _animationSequence.Append(appNameImg.DOFade(1, 1));
+            _animationSequence.Join(appNameImg.DOFade(1, 1));
             _animationSequence.Join(descriptionImg.DOFade(1, 1));
-            _animationSequence.Append(startBtnImg.DOFade(1, 1));
+            _animationSequence.Join(startBtnImg.DOFade(1, 1));
             _animationSequence.AppendCallback(() =>
             {
                 startBtn.interactable = true;
@@ -69,7 +69,7 @@ namespace UI
             
             _hideSequence.Append(titleImg.DOFade(0, 1));
             _hideSequence.Join(subTitleImg.DOFade(0, 1));
-            _hideSequence.Append(appNameImg.DOFade(0, 1));
+            _hideSequence.Join(appNameImg.DOFade(0, 1));
             _hideSequence.Join(descriptionImg.DOFade(0, 1));
             _hideSequence.AppendCallback(() =>
             {

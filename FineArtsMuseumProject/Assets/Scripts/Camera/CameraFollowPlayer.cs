@@ -115,7 +115,7 @@ namespace Camera
                 _isActive = true;
                 
                 mouseX = _joystickDirection.x * data.Sensitivity;
-                mouseY = _joystickDirection.y * data.Sensitivity;
+                mouseY = -_joystickDirection.y * data.Sensitivity;
                 
                 _currentYaw += mouseX;
                 _currentPitch = Mathf.Clamp(_currentPitch - mouseY, data.MinPitch, data.MaxPitch);

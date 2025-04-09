@@ -92,7 +92,10 @@ public class UIPainting : UIBasic
     public Image guideZoomKinhImage_tomko;
     public Image guideAIGenImage_tomko; 
     
-    public MagnifierHover magnifierHover;
+    public MagnifierHover magnifierHover_mobile;
+    public MagnifierHover magnifierHover_other;
+    
+    [HideInInspector]public MagnifierHover magnifierHover;
     
     public Vector3 guideRotateDefaultPosition;
     public Vector3 guideZoomDefaultPosition;
@@ -116,6 +119,8 @@ public class UIPainting : UIBasic
     // Start is called before the first frame update
     void Start()
     {
+        
+        
         if (PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
         {
             guideButton.onClick.AddListener(GuidePaintingClicked);
@@ -125,6 +130,7 @@ public class UIPainting : UIBasic
             
             guideRotateDefaultPosition = guideRotateImage.transform.localPosition;
             guideZoomDefaultPosition = guideZoomImage.transform.localPosition;
+            magnifierHover = magnifierHover_other;
         }
         
         if (PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud)
@@ -136,6 +142,7 @@ public class UIPainting : UIBasic
             
             guideRotateDefaultPosition = guideRotateImage_mobile.transform.localPosition;
             guideZoomDefaultPosition = guideZoomImage_mobile.transform.localPosition;
+            magnifierHover = magnifierHover_mobile;
         }
         if (PlatformManager.Instance.IsVR)
         {
@@ -146,6 +153,7 @@ public class UIPainting : UIBasic
             
             guideRotateDefaultPosition = guideRotateImage_vr.transform.localPosition;
             guideZoomDefaultPosition = guideZoomImage_vr.transform.localPosition;
+            //magnifierHover = magnifierHover_other;
         }
         if (PlatformManager.Instance.IsTomko)
         {
@@ -156,6 +164,7 @@ public class UIPainting : UIBasic
             
             guideRotateDefaultPosition = guideRotateImage_tomko.transform.localPosition;
             guideZoomDefaultPosition = guideZoomImage_tomko.transform.localPosition;
+            magnifierHover = magnifierHover_other;
         }
         
     }
@@ -432,18 +441,18 @@ private void StartGuideSequence()
     {
         guideRotateImage.sprite = guideRotateEnglishSprite;
         guideZoomImage.sprite = zoomEnglishSprite;
-        guideZoomKinhImage.sprite = guideZoomKinhViSprite;
-        guideAIGenImage.sprite = guideAIGenViSprite;
+        guideZoomKinhImage.sprite = guideZoomKinhEnglishSprite;
+        guideAIGenImage.sprite = guideAIGenEnglishSprite;
         
         guideRotateImage_mobile.sprite = guideRotateEnglishSprite;
         guideZoomImage_mobile.sprite = zoomEnglishSprite;
-        guideZoomKinhImage_mobile.sprite = guideZoomKinhViSprite;
-        guideAIGenImage_mobile.sprite = guideAIGenViSprite;
+        guideZoomKinhImage_mobile.sprite = guideZoomKinhEnglishSprite;
+        guideAIGenImage_mobile.sprite = guideAIGenEnglishSprite;
         
         guideRotateImage_tomko.sprite = guideRotateEnglishSprite;
         guideZoomImage_tomko.sprite = zoomEnglishSprite;
-        guideZoomKinhImage_tomko.sprite = guideZoomKinhViSprite;
-        guideAIGenImage_tomko.sprite = guideAIGenViSprite;
+        guideZoomKinhImage_tomko.sprite = guideZoomKinhEnglishSprite;
+        guideAIGenImage_tomko.sprite = guideAIGenEnglishSprite;
     }
     
     // Chọn đối tượng theo nền tảng cho 4 nhóm

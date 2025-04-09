@@ -97,6 +97,7 @@ namespace UI
             vietnameseToggle.isOn = true;
             englishToggle.isOn = false;
             _isVietnamese = true;
+            UIManager.Instance.DisableUI("UI_SETTING");
         }
 
         private void OnEnglishButtonClicked()
@@ -107,6 +108,7 @@ namespace UI
             vietnameseToggle.isOn = false;
             englishToggle.isOn = true;
             _isVietnamese = false;
+            UIManager.Instance.DisableUI("UI_SETTING");
         }
 
         private void OnFirstPersonButtonClicked()
@@ -116,6 +118,7 @@ namespace UI
             ClickChangeFirstPerson();
             SwitchView(true);
             _isFirstPerson = true;
+            UIManager.Instance.DisableUI("UI_SETTING");
         }
 
         private void OnThirdPersonButtonClicked()
@@ -125,6 +128,7 @@ namespace UI
             ClickChangeThirdPerson();
             SwitchView(false);
             _isFirstPerson = false;
+            UIManager.Instance.DisableUI("UI_SETTING");
         }
         
         private void SwitchView(bool isFirstPerson)
@@ -144,7 +148,7 @@ namespace UI
                 thirdPersonImage.color = imageOnColor;
                 thirdPersonText.color = textOnColor;
             }
-            UIManager.Instance.DisableUI("UI_SETTING");
+            //UIManager.Instance.DisableUI("UI_SETTING");
         }
         
         private void SwitchLanguage(bool isVietnamese)
@@ -163,7 +167,7 @@ namespace UI
                 englishImage.color = imageOnColor;
                 englishText.color = textOnColor;
             }
-            UIManager.Instance.DisableUI("UI_SETTING");
+            //UIManager.Instance.DisableUI("UI_SETTING");
         }
 
         public override void SetData(IUIData data)
