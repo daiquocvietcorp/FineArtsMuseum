@@ -78,6 +78,7 @@ public class UIPainting : UIBasic
     
     private Coroutine _guideRotateCoroutine;
     private Coroutine _blinkCoroutine;
+    private Coroutine _aiCautionCoroutine;
     
     [field: Header("Paint ID")]
     [field: SerializeField] private string PaintID { get; set; }
@@ -223,6 +224,8 @@ public void GuidePaintingClicked()
         aiButton_tomko.GetComponent<AIHoverEffect>().SetDefaultSprite();
     }
     
+    TurnOffCautionTextAndImage();
+    
     magnifierHover.enabled = false;
 
     BlinkCanvas.SetActive(false);
@@ -236,6 +239,8 @@ public void GuidePaintingClicked()
         StopCoroutine(_blinkCoroutine);
         _blinkCoroutine = null;
     }
+    
+    
     
     if (isGuide)
     {
@@ -423,13 +428,94 @@ private void StartGuideSequence()
         //paintRotateAndZoom.SmoothAverageResetTransform();
         //paintRotateAndZoom.enabled = true;
         SetDefaultZoom();
+        TurnOffCautionTextAndImage();
         PaintingDetailManager.Instance.ResetView();
+        
+    }
+    
+    private IEnumerator StartAICautionAnimation()
+    {
+        // Lấy đối tượng UI dựa trên nền tảng
+        TextMeshProUGUI cautionText = null;
+        Image cautionIcon = null;
+
+        if (PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
+        {
+            cautionText = AIAnimationCautionText;
+            cautionIcon = AIAnimationIcon;
+        }
+        else if (PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud)
+        {
+            cautionText = AIAnimationCautionText_mobile;
+            cautionIcon = AIAnimationIcon_mobile;
+        }
+        else if (PlatformManager.Instance.IsVR)
+        {
+            cautionText = AIAnimationCautionText_vr;
+            cautionIcon = AIAnimationIcon_vr;
+        }
+        else if (PlatformManager.Instance.IsTomko)
+        {
+            cautionText = AIAnimationCautionText_tomko;
+            cautionIcon = AIAnimationIcon_tomko;
+        }
+
+        // Đảm bảo các đối tượng được kích hoạt và đặt alpha ban đầu là 0
+        if (cautionText != null)
+        {
+            cautionText.gameObject.SetActive(true);
+            Color textColor = cautionText.color;
+            textColor.a = 0f;
+            cautionText.color = textColor;
+        }
+        if (cautionIcon != null)
+        {
+            cautionIcon.gameObject.SetActive(true);
+            Color iconColor = cautionIcon.color;
+            iconColor.a = 0f;
+            cautionIcon.color = iconColor;
+        }
+
+        int repeatCount = 3;
+        for (int i = 0; i < repeatCount; i++)
+        {
+            // Fade in trong 1 giây
+            if (cautionText != null)
+                cautionText.DOFade(1f, 1f);
+            if (cautionIcon != null)
+                cautionIcon.DOFade(1f, 1f);
+            yield return new WaitForSeconds(1f);
+
+            // Giữ nguyên trong 5 giây
+            yield return new WaitForSeconds(5f);
+
+            // Fade out trong 1 giây
+            if (cautionText != null)
+                cautionText.DOFade(0f, 1f);
+            if (cautionIcon != null)
+                cautionIcon.DOFade(0f, 1f);
+            yield return new WaitForSeconds(1f);
+
+            // Nếu chưa phải lần lặp cuối, đợi 3 giây trước khi lặp lại
+            if (i < repeatCount - 1)
+            {
+                yield return new WaitForSeconds(3f);
+            }
+        }
+        // Sau 3 lần, đảm bảo các đối tượng được ẩn
+        if (cautionText != null)
+            cautionText.DOFade(0f, 0.5f);
+        if (cautionIcon != null)
+            cautionIcon.DOFade(0f, 0.5f);
+        yield break;
     }
     
     public void ZoomPaintingClicked()
     {
         isGuide = false;
         isAI = false;
+        
+        TurnOffCautionTextAndImage();
         
         if(PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
         {
@@ -532,6 +618,26 @@ private void StartGuideSequence()
             }
         }
     }
+
+    public void TurnOffCautionTextAndImage()
+    {
+        if (_aiCautionCoroutine != null)
+        {
+            StopCoroutine(_aiCautionCoroutine);
+            
+            _aiCautionCoroutine = null;
+        }
+        
+        if(AIAnimationCautionText) AIAnimationCautionText.gameObject.SetActive(false);
+        if(AIAnimationCautionText_mobile) AIAnimationCautionText_mobile.gameObject.SetActive(false);
+        if(AIAnimationCautionText_vr) AIAnimationCautionText_vr.gameObject.SetActive(false);
+        if(AIAnimationCautionText_tomko) AIAnimationCautionText_tomko.gameObject.SetActive(false);
+                
+        if(AIAnimationIcon) AIAnimationIcon.gameObject.SetActive(false);
+        if(AIAnimationIcon_mobile) AIAnimationIcon_mobile.gameObject.SetActive(false);
+        if(AIAnimationIcon_vr) AIAnimationIcon_vr.gameObject.SetActive(false);
+        if(AIAnimationIcon_tomko) AIAnimationIcon_tomko.gameObject.SetActive(false);
+    }
     
     public void AIPaintingClicked()
     {
@@ -540,57 +646,50 @@ private void StartGuideSequence()
 
         paintRotateAndZoom.canRotate = true;
         
-        if(PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
+        if (PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
         {
             guideButton.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
             zoomButton.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
         }
-        
-        if(PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud)
+        if (PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud)
         {
             guideButton_mobile.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
             zoomButton_mobile.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
         }
-        
-        if(PlatformManager.Instance.IsVR)
+        if (PlatformManager.Instance.IsVR)
         {
             guideButton_vr.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
             zoomButton_vr.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
         }
-        
-        if(PlatformManager.Instance.IsTomko)
+        if (PlatformManager.Instance.IsTomko)
         {
             guideButton_tomko.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
             zoomButton_tomko.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
         }
 
         magnifierHover.enabled = false;
-
         StopGuideSequence();
         SetGuideImageOff();
 
         if (isAI)
         {
-            
-            if(PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
+            // Nếu AI đang bật thì tắt chức năng
+            if (PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
             {
                 aiButton.GetComponent<AIHoverEffect>().isSelected = false;
                 aiButton.GetComponent<AIHoverEffect>().OnClickedButton();
             }
-            
-            if(PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud)
+            if (PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud)
             {
                 aiButton_mobile.GetComponent<AIHoverEffect>().isSelected = false;
                 aiButton_mobile.GetComponent<AIHoverEffect>().OnClickedButton();
             }
-            
-            if(PlatformManager.Instance.IsVR)
+            if (PlatformManager.Instance.IsVR)
             {
                 aiButton_vr.GetComponent<AIHoverEffect>().isSelected = false;
                 aiButton_vr.GetComponent<AIHoverEffect>().OnClickedButton();
             }
-            
-            if(PlatformManager.Instance.IsTomko)
+            if (PlatformManager.Instance.IsTomko)
             {
                 aiButton_tomko.GetComponent<AIHoverEffect>().isSelected = false;
                 aiButton_tomko.GetComponent<AIHoverEffect>().OnClickedButton();
@@ -602,10 +701,7 @@ private void StartGuideSequence()
             BlinkCanvas.SetActive(false);
             VideoPlayer.Stop();
             VideoPlayer.gameObject.SetActive(false);
-            
             tranh.GetComponent<Renderer>().material.mainTexture = tranhDefaultSprite;
-            
-            // Gán texture phát sáng
             tranh.GetComponent<Renderer>().material.SetTexture("_EmissionMap", tranhDefaultSprite);
 
             if (_blinkCoroutine != null)
@@ -613,29 +709,29 @@ private void StartGuideSequence()
                 StopCoroutine(_blinkCoroutine);
                 _blinkCoroutine = null;
             }
+            TurnOffCautionTextAndImage();
+            
         }
         else
         {
+            // Bật chế độ AI
             UIPaintingManager.Instance.EnableUIPainting(PaintID);
-            if(PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
+            if (PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
             {
                 aiButton.GetComponent<AIHoverEffect>().isSelected = true;
                 aiButton.GetComponent<AIHoverEffect>().OnClickedButton();
             }
-            
-            if(PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud)
+            if (PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud)
             {
                 aiButton_mobile.GetComponent<AIHoverEffect>().isSelected = true;
                 aiButton_mobile.GetComponent<AIHoverEffect>().OnClickedButton();
             }
-            
-            if(PlatformManager.Instance.IsVR)
+            if (PlatformManager.Instance.IsVR)
             {
                 aiButton_vr.GetComponent<AIHoverEffect>().isSelected = true;
                 aiButton_vr.GetComponent<AIHoverEffect>().OnClickedButton();
             }
-            
-            if(PlatformManager.Instance.IsTomko)
+            if (PlatformManager.Instance.IsTomko)
             {
                 aiButton_tomko.GetComponent<AIHoverEffect>().isSelected = true;
                 aiButton_tomko.GetComponent<AIHoverEffect>().OnClickedButton();
@@ -644,6 +740,8 @@ private void StartGuideSequence()
             isAI = true;
             paintRotateAndZoom.SmoothAverageResetTransform();
             paintRotateAndZoom.enabled = true;
+
+            
 
             if (_blinkCoroutine != null)
             {
@@ -660,6 +758,8 @@ private void StartGuideSequence()
         VideoPlayer.gameObject.SetActive(false);
 
         yield return new WaitForSeconds(3f);
+        // Khởi chạy hiệu ứng cảnh báo của AI dựa trên nền tảng (fade in, hold, fade out, delay) lặp lại 3 lần
+        _aiCautionCoroutine = StartCoroutine(StartAICautionAnimation());
         tranh.GetComponent<Renderer>().material.mainTexture = videoRenderTexture;
         tranh.GetComponent<Renderer>().material.SetTexture("_EmissionMap", videoRenderTexture);
         BlinkCanvas.SetActive(false);
