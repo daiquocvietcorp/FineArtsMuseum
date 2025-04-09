@@ -1,9 +1,27 @@
-using System.Collections;
-using System.Collections.Generic;
-using UI;
+using System;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class VRConnectManager : UIBasic
+namespace UI
 {
-    
+    public class VRConnectManager : UIBasic
+    {
+        [field: SerializeField] private Button closeBtn;
+
+        public override void SetData(IUIData data)
+        {
+            base.SetData(data);
+            if(data is not UivrData uivrData) return;
+            closeBtn.onClick.AddListener(() =>
+            {
+                uivrData.CloseAction?.Invoke();
+                DisableUI();
+            });
+        }
+    }
+
+    public class UivrData : IUIData
+    {
+        public Action CloseAction;
+    }
 }

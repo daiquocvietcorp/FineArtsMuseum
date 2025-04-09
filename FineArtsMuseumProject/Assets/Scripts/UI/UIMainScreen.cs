@@ -89,6 +89,18 @@ namespace UI
                 }
             };
             UIManager.Instance.SetDataUI("UI_GUIDE", guideCallback);
+            
+            var vrCallback = new UivrData()
+            {
+                CloseAction = () =>
+                {
+                    vrToggle.isOn = false;
+                    vrToggle.image.sprite = vrOffSprite;
+                    _isVROn = false;
+                }
+            };
+            
+            UIManager.Instance.SetDataUI("UI_VR", vrCallback);
         }
 
         private void OnSettingsToggleValueChanged(bool arg0)

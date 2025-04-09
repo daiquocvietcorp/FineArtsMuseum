@@ -87,7 +87,6 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if(MouseInput.Instance.IsHold) return;
         activeTouches[eventData.pointerId] = eventData.position;
 
         if (activeTouches.Count == 2)
@@ -103,7 +102,6 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
 
     public void OnDrag(PointerEventData eventData)
     {
-        if(MouseInput.Instance.IsHold) return;
         if (!activeTouches.ContainsKey(eventData.pointerId))
             return;
 
@@ -146,7 +144,6 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        if(MouseInput.Instance.IsHold) return;
         if (activeTouches.ContainsKey(eventData.pointerId))
             activeTouches.Remove(eventData.pointerId);
         if(activeTouches.Count > 0) return;
@@ -155,7 +152,6 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
 
     public void OnScroll(PointerEventData eventData)
     {
-        if(MouseInput.Instance.IsHold) return;
         float scroll = eventData.scrollDelta.y;
 
         if (scroll != 0f)
