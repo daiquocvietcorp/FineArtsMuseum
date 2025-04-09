@@ -108,6 +108,7 @@ public class AudioSubtitleManager : MonoSingleton<AudioSubtitleManager>
             TriggerButton.gameObject.SetActive(true);
             TriggerButton.onClick.AddListener(() => PlayAudioWithSubtitle(id));
             PlayAudioWithSubtitle(id);
+            _isPlayingAudio = true;
         }
         else
         {
@@ -345,9 +346,17 @@ public class AudioSubtitleManager : MonoSingleton<AudioSubtitleManager>
     }
     public void StopAudioAndClearSubtitle()
     {
-        if (audioSource.isPlaying)
+        if(_isPlayingAudio)
         {
             audioSource.Stop();
+            _isPlayingAudio = false;
+            if (_isPlayingAmbientSound)
+            {
+                audioSource.clip = ambientSound;
+                audioSource.volume = ambientVolume;
+                audioSource.loop = true;
+                audioSource.Play();
+            }
         }
 
         if (subtitleCoroutine != null)
