@@ -121,7 +121,7 @@ namespace InputController
                         _isHold = false;
                         
                         //ShowGoToPointer(touch.position);
-                        _onClick?.Invoke(touch.position);
+                        //_onClick?.Invoke(touch.position);
                     }
                     else if (touch.phase == TouchPhase.Moved && Time.time - _holdTimer > 0.2f)
                     {
@@ -129,7 +129,7 @@ namespace InputController
 
                         if (IsPointerOverUI() || _isDragImage) return;
                         PaintingDetailManager.Instance.SetColliderPainting(false);
-                        var ray = _mainCamera.ScreenPointToRay(touch.position);
+                        /*var ray = _mainCamera.ScreenPointToRay(touch.position);
                         if (Physics.Raycast(ray, out var hit, data.View3RdGoToPointLimitDistance,
                                 LayerManager.Instance.groundLayer))
                         {
@@ -139,7 +139,7 @@ namespace InputController
                         else
                         {
                             goToPointer.gameObject.SetActive(false);
-                        }
+                        }*/
                         _isHold = true;
                     }
                     else if (touch.phase == TouchPhase.Stationary && Time.time - _holdTimer > 0.2f)
