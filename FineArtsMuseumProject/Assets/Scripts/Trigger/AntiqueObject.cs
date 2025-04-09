@@ -111,6 +111,7 @@ public class AntiqueObject : MonoBehaviour
         }
         else
         {
+            InteractiveObjectLocation.gameObject.SetActive(true);
             interactiveObject.transform.SetParent(InteractiveObjectLocation);
             interactiveObject.transform.localPosition = new Vector3(0, 0, 0);
             Debug.Log(interactObjectLocalPosition);
@@ -133,6 +134,9 @@ public class AntiqueObject : MonoBehaviour
     {
         CharacterStateMachine.gameObject.layer = LayerMask.NameToLayer("Default");
         //objectDetail.SetActive(false);
+        if (PlatformManager.Instance.IsVR)
+            InteractiveObjectLocation.gameObject.SetActive(false);
+
         CloseButton.gameObject.SetActive(false);
         if (!PlatformManager.Instance.IsVR)
             blurGameObject.SetActive(false);
