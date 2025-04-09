@@ -106,7 +106,7 @@ public class AntiqueObject : MonoBehaviour
             // 👉 Gán scale theo trung bình giữa min và max
             float avgScale = (interactiveObject.minScale + interactiveObject.maxScale) / 2f;
             interactiveObject.transform.localScale = new Vector3(avgScale, avgScale, avgScale);
-            interactiveObject.zoomScrollbar.value = interactiveObject.GetZoomScrollbarValue(avgScale);
+            if(interactiveObject.zoomScrollbar) interactiveObject.zoomScrollbar.value = interactiveObject.GetZoomScrollbarValue(avgScale);
             isBlur = true;
         }
         else

@@ -4,6 +4,7 @@ using Camera;
 using DesignPatterns;
 using LayerMasks;
 using Player;
+using Trigger;
 using Unity.VisualScripting;
 using Unity.XR.CoreUtils;
 using UnityEngine;
@@ -93,12 +94,14 @@ namespace InputController
                     _isClick = false;
 
                     if (IsPointerOverUI() || _isDragImage) return;
+                    PaintingDetailManager.Instance.SetColliderPainting(false);
                     _isHold = true;
                 }
                 else
                 {
                     _isClick = false;
                     _isHold = false;
+                    PaintingDetailManager.Instance.SetColliderPainting(true);
                 }
             }
 
@@ -116,7 +119,63 @@ namespace InputController
                     {
                         _isClick = true;
                         _isHold = false;
+                        
+                        //ShowGoToPointer(touch.position);
+                        _onClick?.Invoke(touch.position);
+                    }
+                    else if (touch.phase == TouchPhase.Moved && Time.time - _holdTimer > 0.2f)
+                    {
+                        _isClick = false;
 
+                        if (IsPointerOverUI() || _isDragImage) return;
+                        PaintingDetailManager.Instance.SetColliderPainting(false);
+                        var ray = _mainCamera.ScreenPointToRay(touch.position);
+                        if (Physics.Raycast(ray, out var hit, data.View3RdGoToPointLimitDistance,
+                                LayerManager.Instance.groundLayer))
+                        {
+                            goToPointer.gameObject.SetActive(true);
+                            goToPointer.position = hit.point;
+                        }
+                        else
+                        {
+                            goToPointer.gameObject.SetActive(false);
+                        }
+                        _isHold = true;
+                    }
+                    else if (touch.phase == TouchPhase.Stationary && Time.time - _holdTimer > 0.2f)
+                    {
+                        if (IsPointerOverUI() || _isDragImage) return;
+                        PaintingDetailManager.Instance.SetColliderPainting(false);
+                    }
+                    else
+                    {
+                        _isClick = false;
+                        _isHold = false;
+                        PaintingDetailManager.Instance.SetColliderPainting(true);
+                    }
+                }
+                else
+                {
+                    goToPointer.gameObject.SetActive(false);
+                }
+            }
+            
+            if (PlatformManager.Instance.IsTomko)
+            {
+                if (Input.touchCount > 0)
+                {
+                    var touch = Input.GetTouch(0);
+                    if (touch.phase == TouchPhase.Began)
+                    {
+                        _holdTimer = Time.time;
+                    }
+
+                    if (touch.phase == TouchPhase.Ended && Time.time - _holdTimer < 0.2f)
+                    {
+                        _isClick = true;
+                        _isHold = false;
+                        
+                        //ShowGoToPointer(touch.position);
                         //_onClick?.Invoke(touch.position);
                     }
                     else if (touch.phase == TouchPhase.Moved && Time.time - _holdTimer > 0.2f)
@@ -124,13 +183,24 @@ namespace InputController
                         _isClick = false;
 
                         if (IsPointerOverUI() || _isDragImage) return;
+                        PaintingDetailManager.Instance.SetColliderPainting(false);
                         _isHold = true;
+                    }
+                    else if (touch.phase == TouchPhase.Stationary && Time.time - _holdTimer > 0.2f)
+                    {
+                        if (IsPointerOverUI() || _isDragImage) return;
+                        PaintingDetailManager.Instance.SetColliderPainting(false);
                     }
                     else
                     {
                         _isClick = false;
                         _isHold = false;
+                        PaintingDetailManager.Instance.SetColliderPainting(true);
                     }
+                }
+                else
+                {
+                    goToPointer.gameObject.SetActive(false);
                 }
             }
 
@@ -190,7 +260,7 @@ namespace InputController
                 return EventSystem.current.IsPointerOverGameObject();
             }
 
-            if (PlatformManager.Instance.IsMobile)
+            if (PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsTomko)
             {
                 if (EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId)) return true;
             }

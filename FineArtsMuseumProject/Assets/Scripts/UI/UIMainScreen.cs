@@ -199,13 +199,16 @@ namespace UI
         
         private void VROff()
         {
-            
+            UIPaintingManager.Instance.ForceDisableUIPaintingZoom();
+            DisablePainting();
+            UIManager.Instance.DisableUI("UI_VR");
         }
 
         private void VROn()
         {
             UIPaintingManager.Instance.ForceDisableUIPaintingZoom();
             DisablePainting();
+            UIManager.Instance.EnableUI("UI_VR");
         }
         
         private void GuideOff()

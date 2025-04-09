@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using InputController;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
@@ -8,6 +10,10 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
 {
     public float rotationSpeed = 100f;
     public float zoomSpeed = 0.01f;
+
+    public float rotationSpeedMobile = 80f;
+    public float zoomSpeedMobile = 0.015f;
+
     public float minScale = 0.2f;
     public float maxScale = 3f;
     public float resetDuration = 0.5f;
@@ -26,11 +32,37 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
     private float initialDistance;
     private Vector3 initialScale;
     private Vector2 lastPointerPosition;
+    private BoxCollider _boxCollider;
 
     public bool canRotate = true;
 
+    private float CurrentRotationSpeed
+    {
+        get
+        {
+            if (PlatformManager.Instance.IsCloud || PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsTomko)
+                return rotationSpeedMobile;
+            return rotationSpeed;
+        }
+    }
+
+    private float CurrentZoomSpeed
+    {
+        get
+        {
+            if (PlatformManager.Instance.IsCloud || PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsTomko)
+                return zoomSpeedMobile;
+            return zoomSpeed;
+        }
+    }
+
     private void OnEnable()
     {
+        var paintCollider = GetComponent<BoxCollider>();
+        if (paintCollider != null)
+        {
+            _boxCollider = paintCollider;
+        }
         if (zoomScrollbar != null)
             zoomScrollbar.gameObject.SetActive(true);
     }
@@ -55,6 +87,7 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if(MouseInput.Instance.IsHold) return;
         activeTouches[eventData.pointerId] = eventData.position;
 
         if (activeTouches.Count == 2)
@@ -65,10 +98,12 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
         }
 
         lastPointerPosition = eventData.position;
+        MouseInput.Instance.SetIsDragImage(true);
     }
 
     public void OnDrag(PointerEventData eventData)
     {
+        if(MouseInput.Instance.IsHold) return;
         if (!activeTouches.ContainsKey(eventData.pointerId))
             return;
 
@@ -93,16 +128,17 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
         }
         else if (activeTouches.Count == 1)
         {
-            if(!canRotate) return;
+            if (!canRotate) return;
+
             Vector2 delta = eventData.position - lastPointerPosition;
             lastPointerPosition = eventData.position;
 
-            float rotateAmountX = delta.x * rotationSpeed * Time.deltaTime * 0.5f;
+            float rotateAmountX = delta.x * CurrentRotationSpeed * Time.deltaTime * 0.5f;
             transform.Rotate(Vector3.up, -rotateAmountX, Space.World);
 
             if (CanRotateUpDown)
             {
-                float rotateAmountY = delta.y * rotationSpeed * Time.deltaTime * 0.5f;
+                float rotateAmountY = delta.y * CurrentRotationSpeed * Time.deltaTime * 0.5f;
                 transform.Rotate(Vector3.right, rotateAmountY, Space.World);
             }
         }
@@ -110,18 +146,22 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        if(MouseInput.Instance.IsHold) return;
         if (activeTouches.ContainsKey(eventData.pointerId))
             activeTouches.Remove(eventData.pointerId);
+        if(activeTouches.Count > 0) return;
+        MouseInput.Instance.SetIsDragImage(false);
     }
 
     public void OnScroll(PointerEventData eventData)
     {
+        if(MouseInput.Instance.IsHold) return;
         float scroll = eventData.scrollDelta.y;
 
         if (scroll != 0f)
         {
             Vector3 scale = transform.localScale;
-            scale += Vector3.one * scroll * zoomSpeed * 10f;
+            scale += Vector3.one * scroll * CurrentZoomSpeed * 10f;
             scale = ClampScale(scale);
             transform.localScale = scale;
 
@@ -278,5 +318,11 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
     public float GetZoomScrollbarValue(float currentScale)
     {
         return Mathf.InverseLerp(minScale, maxScale, currentScale);
+    }
+
+    public void SetCollider(bool isActive)
+    {
+        if(_boxCollider == null) return;
+        _boxCollider.enabled = isActive;
     }
 }

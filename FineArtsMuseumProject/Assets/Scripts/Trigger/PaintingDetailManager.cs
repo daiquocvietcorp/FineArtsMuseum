@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Camera;
 using DesignPatterns;
 using InputController;
 using UI;
@@ -13,6 +14,7 @@ namespace Trigger
         private Dictionary<string, PaintDetail> _paintDetailDict;
         
         private PaintDetail _currentPaintDetail;
+        private PaintRotateAndZoom _currentPainting;
 
         private void Awake()
         {
@@ -81,6 +83,29 @@ namespace Trigger
                 _currentPaintDetail.ClosePanel();
                 _currentPaintDetail = null;
             }
+        }
+        
+        public void SetCurrentPainting(PaintRotateAndZoom currentPainting)
+        {
+            _currentPainting = currentPainting;
+        }
+
+        public void RemoveCurrentPainting()
+        {
+            _currentPainting = null;
+        }
+
+        public void SetColliderPainting(bool isActive)
+        {
+            if(!_currentPainting) return;
+            _currentPainting.SetCollider(isActive);
+        }
+
+        public void ResetView()
+        {
+            if(_currentPainting == null) return;
+            _currentPainting.SmoothAverageResetTransform();
+            CameraManager.Instance.cameraFollowPlayer.ResetCameraInArea();
         }
     }
 }
