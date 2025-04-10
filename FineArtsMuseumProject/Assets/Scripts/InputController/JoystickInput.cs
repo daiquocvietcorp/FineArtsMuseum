@@ -13,6 +13,8 @@ namespace InputController
 
         private Vector2 _inputVector;
         private Action<Vector2> _onMove;
+        
+        private int _joystickFingerId = -1;
 
         public Vector2 InputVector => _inputVector;
         
@@ -48,6 +50,7 @@ namespace InputController
 
         public void OnPointerDown(PointerEventData eventData)
         {
+            if (!eventData.pointerId.Equals(_joystickFingerId)) _joystickFingerId = eventData.pointerId;
             OnDrag(eventData);
         }
         
@@ -58,11 +61,22 @@ namespace InputController
 
         public void OnPointerUp(PointerEventData eventData)
         {
+            if (eventData.pointerId.Equals(_joystickFingerId)) _joystickFingerId = -1;
             handle.anchoredPosition = Vector2.zero;
             _inputVector = Vector2.zero;
             _onMove?.Invoke(_inputVector);
         }
         
         public bool IsMoving => _inputVector.magnitude > 0.1f;
+
+        public int JoystickFingerId()
+        {
+            if (PlatformManager.Instance.IsTomko)
+            {
+                return _joystickFingerId;
+            }
+
+            return -1;
+        }
     }
 }
