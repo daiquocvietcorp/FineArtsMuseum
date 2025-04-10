@@ -17,6 +17,7 @@ namespace InputController
         private bool _isClick;
         private bool _isHold;
         private bool _isAvailable;
+        private bool _isDragSlider;
 
         public bool IsClick => _isClick;
         public bool IsHold => _isHold;
@@ -89,7 +90,7 @@ namespace InputController
                     _onClick?.Invoke(Input.mousePosition);
                     //_onClick?.Invoke(goToPointer.position);
                 }
-                else if (Input.GetMouseButton(0) && Time.time - _holdTimer > 0.2f)
+                else if (Input.GetMouseButton(0) && Time.time - _holdTimer > 0.1f)
                 {
                     _isClick = false;
 
@@ -121,7 +122,7 @@ namespace InputController
                         _isHold = false;
                         
                         //ShowGoToPointer(touch.position);
-                        _onClick?.Invoke(touch.position);
+                        //_onClick?.Invoke(touch.position);
                     }
                     else if (touch.phase == TouchPhase.Moved && Time.time - _holdTimer > 0.2f)
                     {
@@ -129,7 +130,7 @@ namespace InputController
 
                         if (IsPointerOverUI() || _isDragImage) return;
                         PaintingDetailManager.Instance.SetColliderPainting(false);
-                        var ray = _mainCamera.ScreenPointToRay(touch.position);
+                        /*var ray = _mainCamera.ScreenPointToRay(touch.position);
                         if (Physics.Raycast(ray, out var hit, data.View3RdGoToPointLimitDistance,
                                 LayerManager.Instance.groundLayer))
                         {
@@ -139,7 +140,7 @@ namespace InputController
                         else
                         {
                             goToPointer.gameObject.SetActive(false);
-                        }
+                        }*/
                         _isHold = true;
                     }
                     else if (touch.phase == TouchPhase.Stationary && Time.time - _holdTimer > 0.2f)
@@ -165,6 +166,22 @@ namespace InputController
                 if (Input.touchCount > 0)
                 {
                     var touch = Input.GetTouch(0);
+
+                    if (Input.touchCount > 1)
+                    {
+                        var joystickFingerId = JoystickInput.Instance.JoystickFingerId();
+                        for (var i = 0; i < Input.touchCount; i++)
+                        {
+                            var touchCheck = Input.GetTouch(i);
+                            if (touchCheck.fingerId != joystickFingerId)
+                            {
+                                continue;
+                            }
+                            touch = touchCheck;
+                            break;
+                        }
+                    }
+                    
                     if (touch.phase == TouchPhase.Began)
                     {
                         _holdTimer = Time.time;
@@ -182,13 +199,13 @@ namespace InputController
                     {
                         _isClick = false;
 
-                        if (IsPointerOverUI() || _isDragImage) return;
+                        if (IsPointerOverUI(touch.fingerId) || _isDragImage || _isDragSlider) return;
                         PaintingDetailManager.Instance.SetColliderPainting(false);
                         _isHold = true;
                     }
                     else if (touch.phase == TouchPhase.Stationary && Time.time - _holdTimer > 0.2f)
                     {
-                        if (IsPointerOverUI() || _isDragImage) return;
+                        if (IsPointerOverUI() || _isDragImage || _isDragSlider) return;
                         PaintingDetailManager.Instance.SetColliderPainting(false);
                     }
                     else
@@ -251,7 +268,7 @@ namespace InputController
             _onClick = action;
         }
 
-        public bool IsPointerOverUI()
+        public bool IsPointerOverUI(int fingerId = 0)
         {
             if (!EventSystem.current) return false;
 
@@ -262,7 +279,7 @@ namespace InputController
 
             if (PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsTomko)
             {
-                if (EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId)) return true;
+                if (EventSystem.current.IsPointerOverGameObject(Input.GetTouch(fingerId).fingerId)) return true;
             }
 
             return false;
@@ -281,6 +298,11 @@ namespace InputController
         public void SetIsDragImage(bool isDragImage)
         {
             _isDragImage = isDragImage;
+        }
+        
+        public void SetSliderDrag(bool isDrag)
+        {
+            _isDragSlider = isDrag;
         }
     }
 }

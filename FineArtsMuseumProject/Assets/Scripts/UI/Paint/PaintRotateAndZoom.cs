@@ -87,7 +87,6 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if(MouseInput.Instance.IsHold) return;
         activeTouches[eventData.pointerId] = eventData.position;
 
         if (activeTouches.Count == 2)
@@ -103,7 +102,6 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
 
     public void OnDrag(PointerEventData eventData)
     {
-        if(MouseInput.Instance.IsHold) return;
         if (!activeTouches.ContainsKey(eventData.pointerId))
             return;
 
@@ -111,6 +109,7 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
 
         if (activeTouches.Count == 2)
         {
+            if(PlatformManager.Instance.IsTomko) return;
             var positions = new List<Vector2>(activeTouches.Values);
             float currentDistance = Vector2.Distance(positions[0], positions[1]);
             float scaleFactor = currentDistance / initialDistance;
@@ -146,7 +145,6 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        if(MouseInput.Instance.IsHold) return;
         if (activeTouches.ContainsKey(eventData.pointerId))
             activeTouches.Remove(eventData.pointerId);
         if(activeTouches.Count > 0) return;
@@ -155,7 +153,6 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
 
     public void OnScroll(PointerEventData eventData)
     {
-        if(MouseInput.Instance.IsHold) return;
         float scroll = eventData.scrollDelta.y;
 
         if (scroll != 0f)
@@ -325,4 +322,23 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
         if(_boxCollider == null) return;
         _boxCollider.enabled = isActive;
     }
+    
+    public void ZoomByPercentage(float percentage)
+    {
+        //from  0 to 1
+        var targetScale = Mathf.Lerp(minScale, maxScale, percentage);
+        transform.localScale = new Vector3(targetScale, targetScale, targetScale);
+        
+        if (zoomScrollbar != null)
+        {
+            updatingFromScroll = true;
+            zoomScrollbar.value = GetZoomScrollbarValue(targetScale);
+            updatingFromScroll = false;
+        }
+    }
+    
+    public float GetOriginalScalePercent()
+    {
+        return (Vector3.one * ((minScale + maxScale) / 2f)).x/maxScale;
+    } 
 }

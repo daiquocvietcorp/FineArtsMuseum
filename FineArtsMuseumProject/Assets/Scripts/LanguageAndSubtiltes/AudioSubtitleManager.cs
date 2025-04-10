@@ -80,7 +80,7 @@ public class AudioSubtitleManager : MonoSingleton<AudioSubtitleManager>
         toggleVietnamese.onValueChanged.AddListener((isOn) => OnToggleChanged(isOn, "vi"));
         _isPlayingAmbientSound = false;
         _isPlayingAudio = false;
-        //TurnAmbientSound();
+        //TurnAmbientSoundTurnAmbientSound();
     }
     // void AssignButtonEvents()
     // {
@@ -108,6 +108,7 @@ public class AudioSubtitleManager : MonoSingleton<AudioSubtitleManager>
             TriggerButton.gameObject.SetActive(true);
             TriggerButton.onClick.AddListener(() => PlayAudioWithSubtitle(id));
             PlayAudioWithSubtitle(id);
+            _isPlayingAudio = true;
         }
         else
         {
@@ -191,7 +192,6 @@ public class AudioSubtitleManager : MonoSingleton<AudioSubtitleManager>
         if (_isPlayingAmbientSound)
         {
             audioSource.Stop();
-            _isPlayingAmbientSound = false;
         }
 
         currentPlayingAudioId = id;
@@ -345,9 +345,17 @@ public class AudioSubtitleManager : MonoSingleton<AudioSubtitleManager>
     }
     public void StopAudioAndClearSubtitle()
     {
-        if (audioSource.isPlaying)
+        if(_isPlayingAudio)
         {
             audioSource.Stop();
+            _isPlayingAudio = false;
+            if (_isPlayingAmbientSound)
+            {
+                audioSource.clip = ambientSound;
+                audioSource.volume = ambientVolume;
+                audioSource.loop = true;
+                audioSource.Play();
+            }
         }
 
         if (subtitleCoroutine != null)

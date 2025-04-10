@@ -8,6 +8,11 @@ namespace System
 {
     public class StartController : MonoBehaviour
     {
+        private void Awake()
+        {
+            Shader.WarmupAllShaders();
+        }
+
         private void Start()
         {
             StartCoroutine(RunApplication());
@@ -26,6 +31,7 @@ namespace System
             
             UIManager.Instance.EnableUI("UI_SOUND");
             UIManager.Instance.EnableUI("UI_START");
+            
         }
     }
 }
