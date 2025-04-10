@@ -22,6 +22,11 @@ public class MagnifierHover : MonoBehaviour
     [Header("XR Settings")]
     public XRRayInteractor leftRayInteractor;
     public XRRayInteractor rightRayInteractor;
+    
+    [Header("Hand Tracking Rays")]
+    public XRRayInteractor leftHandRayInteractor;
+    public XRRayInteractor rightHandRayInteractor;
+
 
     public Transform ignoredRoot;
 
@@ -44,9 +49,16 @@ public class MagnifierHover : MonoBehaviour
     {
         if (PlatformManager.Instance.IsVR)
         {
-            if (!TryHandleRayInteractor(leftRayInteractor))
+            if (!TryHandleRayInteractor(leftHandRayInteractor))
             {
-                TryHandleRayInteractor(rightRayInteractor);
+                if (!TryHandleRayInteractor(rightHandRayInteractor))
+                {
+                    // Nếu không có hand ray trúng thì thử controller ray
+                    if (!TryHandleRayInteractor(leftRayInteractor))
+                    {
+                        TryHandleRayInteractor(rightRayInteractor);
+                    }
+                }
             }
         }
         else

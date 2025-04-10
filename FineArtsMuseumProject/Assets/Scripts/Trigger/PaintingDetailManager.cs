@@ -122,7 +122,9 @@ namespace Trigger
             if(_currentPainting == null) return;
             arcSlider.ResetSlider();
             _currentPainting.SmoothAverageResetTransform();
-            CameraManager.Instance.cameraFollowPlayer.ResetCameraInArea();
+            if (!PlatformManager.Instance.IsVR)
+                CameraManager.Instance.cameraFollowPlayer.ResetCameraInArea();
+            
         }
         
         public void ZoomPainting(float percent)

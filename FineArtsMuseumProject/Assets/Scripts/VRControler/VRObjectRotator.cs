@@ -1,12 +1,11 @@
 using UnityEngine;
-using UnityEngine.XR;
 using UnityEngine.XR.Interaction.Toolkit;
 
 public class VRObjectRotator : MonoBehaviour
 {
-    [Header("Cài đặt xoay")]
-    [Tooltip("Tốc độ xoay (độ/giây)")]
-    public float rotationSpeed = 45f;
+    [Header("Tốc độ xoay")]
+    public float rotationSpeedFromPosition = 200f;
+    public float rotationSpeedFromRotation = 1f;
 
     [Header("XR Ray Interactors - Controller")]
     public XRRayInteractor leftControllerRay;
@@ -16,52 +15,65 @@ public class VRObjectRotator : MonoBehaviour
     public XRRayInteractor leftHandRay;
     public XRRayInteractor rightHandRay;
 
+    // Để lưu Interactor nào đang xoay
     private XRRayInteractor activeInteractor = null;
     private bool isRotating = false;
 
+    // Lưu trạng thái ban đầu
     private Quaternion initialObjectRotation;
     private Quaternion initialHandRotation;
+    private Vector3 initialHandPosition;
 
-    private float leftGripValue = 0f;
-    private float rightGripValue = 0f;
+    [Header("Chỉ xoay quanh trục Y (tranh ảnh)")]
+    public bool isPicture = false;
 
     void Update()
     {
-        UpdateGripValues();
-
-        if (!TryHandleInteractor(leftControllerRay, leftGripValue))
+        // Lần lượt kiểm tra leftController, leftHand, rightController, rightHand
+        if (!TryHandleInteractor(leftControllerRay))
         {
-            if (!TryHandleInteractor(leftHandRay, leftGripValue))
+            if (!TryHandleInteractor(leftHandRay))
             {
-                if (!TryHandleInteractor(rightControllerRay, rightGripValue))
+                if (!TryHandleInteractor(rightControllerRay))
                 {
-                    TryHandleInteractor(rightHandRay, rightGripValue);
+                    TryHandleInteractor(rightHandRay);
                 }
             }
         }
     }
 
-    bool TryHandleInteractor(XRRayInteractor interactor, float gripValue)
+    bool TryHandleInteractor(XRRayInteractor interactor)
     {
-        if (interactor == null || !interactor.enabled) return false;
+        if (interactor == null || !interactor.enabled)
+            return false;
 
-        if (interactor.TryGetCurrent3DRaycastHit(out RaycastHit hit))
+        // Lấy ActionBasedController
+        var abc = interactor.GetComponentInParent<ActionBasedController>();
+        if (abc == null)
+            return false; // nếu không có ABC => không xử lý
+
+        // Đọc giá trị trigger
+        float triggerValue = abc.activateActionValue.action.ReadValue<float>();
+        bool isTriggerPressed = (triggerValue > 0.1f);
+
+        // 1) Nếu đang xoay bởi interactor này
+        if (activeInteractor == interactor)
+        {
+            if (!isTriggerPressed)
+            {
+                StopRotate();
+            }
+            return true;
+        }
+
+        // 2) Nếu chưa xoay, thử raycast
+        if (!isRotating && interactor.TryGetCurrent3DRaycastHit(out RaycastHit hit))
         {
             if (hit.transform == transform)
             {
-                if (gripValue > 0.5f)
+                if (isTriggerPressed)
                 {
-                    if (!isRotating)
-                    {
-                        StartRotate(interactor);
-                    }
-                }
-                else
-                {
-                    if (activeInteractor == interactor)
-                    {
-                        StopRotate();
-                    }
+                    StartRotate(interactor);
                 }
                 return true;
             }
@@ -77,12 +89,14 @@ public class VRObjectRotator : MonoBehaviour
         return false;
     }
 
+
     void StartRotate(XRRayInteractor interactor)
     {
         isRotating = true;
         activeInteractor = interactor;
         initialObjectRotation = transform.rotation;
         initialHandRotation = interactor.transform.rotation;
+        initialHandPosition = interactor.transform.position;
     }
 
     void StopRotate()
@@ -97,26 +111,23 @@ public class VRObjectRotator : MonoBehaviour
         {
             Quaternion currentHandRotation = activeInteractor.transform.rotation;
             Quaternion deltaRot = currentHandRotation * Quaternion.Inverse(initialHandRotation);
-            transform.rotation = initialObjectRotation * deltaRot;
+
+            Vector3 currentHandPosition = activeInteractor.transform.position;
+            float deltaX = Vector3.Dot(currentHandPosition - initialHandPosition, activeInteractor.transform.right);
+            float rotationFromPosition = deltaX * rotationSpeedFromPosition;
+
+            if (isPicture)
+            {
+                // Chỉ xoay quanh Y nếu isPicture = true
+                float angleFromHand = Quaternion.Angle(initialHandRotation, currentHandRotation);
+                float finalYaw = rotationFromPosition + (angleFromHand * rotationSpeedFromRotation);
+                transform.rotation = initialObjectRotation * Quaternion.Euler(0f, finalYaw, 0f);
+            }
+            else
+            {
+                // Xoay tự do
+                transform.rotation = initialObjectRotation * deltaRot;
+            }
         }
-    }
-
-    void UpdateGripValues()
-    {
-        leftGripValue = GetGripValue(InputDeviceRole.LeftHanded);
-        rightGripValue = GetGripValue(InputDeviceRole.RightHanded);
-    }
-
-    float GetGripValue(InputDeviceRole role)
-    {
-        InputDevice device = InputDevices.GetDeviceAtXRNode(
-            role == InputDeviceRole.LeftHanded ? XRNode.LeftHand : XRNode.RightHand);
-
-        if (device.TryGetFeatureValue(CommonUsages.grip, out float value))
-        {
-            return value;
-        }
-
-        return 0f;
     }
 }
