@@ -31,39 +31,55 @@ namespace UI
             _animationSequence = DOTween.Sequence();
 
             
-                titleImg.color = new Color(titleImg.color.r, titleImg.color.g, titleImg.color.b, 0);
-                subTitleImg.color = new Color(subTitleImg.color.r, subTitleImg.color.g, subTitleImg.color.b, 0);
-                appNameImg.color = new Color(appNameImg.color.r, appNameImg.color.g, appNameImg.color.b, 0);
-                descriptionImg.color = new Color(descriptionImg.color.r, descriptionImg.color.g, descriptionImg.color.b, 0);
-                startBtnImg.color = new Color(startBtnImg.color.r, startBtnImg.color.g, startBtnImg.color.b, 0);
+            //titleImg.color = new Color(titleImg.color.r, titleImg.color.g, titleImg.color.b, 0);
+            //subTitleImg.color = new Color(subTitleImg.color.r, subTitleImg.color.g, subTitleImg.color.b, 0);
+            //appNameImg.color = new Color(appNameImg.color.r, appNameImg.color.g, appNameImg.color.b, 0);
+            //descriptionImg.color = new Color(descriptionImg.color.r, descriptionImg.color.g, descriptionImg.color.b, 0);
+            //startBtnImg.color = new Color(startBtnImg.color.r, startBtnImg.color.g, startBtnImg.color.b, 0);
             
             
-            _animationSequence.Append(titleImg.DOFade(1, 1));
-            _animationSequence.Join(subTitleImg.DOFade(1, 1));
-            _animationSequence.Join(appNameImg.DOFade(1, 1));
-            _animationSequence.Join(descriptionImg.DOFade(1, 1));
-            _animationSequence.Join(startBtnImg.DOFade(1, 1));
-            _animationSequence.AppendCallback(() =>
-            {
-                startBtn.interactable = true;
+            //_animationSequence.Append(titleImg.DOFade(1, 0));
+            //_animationSequence.Join(subTitleImg.DOFade(1, 0));
+            //_animationSequence.Join(appNameImg.DOFade(1, 0));
+            //_animationSequence.Join(descriptionImg.DOFade(1, 0));
+            //_animationSequence.Join(startBtnImg.DOFade(1, 0));
+            //_animationSequence.AppendCallback(() =>
+            //{
+            //    startBtn.interactable = true;
+            //    
+            //    startBtn.onClick.AddListener(() =>
+            //    {
+            //        
+            //        startBtn.interactable = false;
+            //        UIManager.Instance.DisableUI("UI_START");
+            //        if(settingCanvas == null) return;
+            //        settingCanvas.gameObject.SetActive(true);
+            //        if (PlatformManager.Instance.IsVR)
+            //        {
+            //            StartRoom.SetActive(false);
+            //        }
+            //        //UIManager.Instance.EnableUI("UI_GAME");
+            //    });
+            //});
+//
+            //_animationSequence.Pause();
+            //_animationSequence.SetAutoKill(false);
+            
+            startBtn.interactable = true;
                 
-                startBtn.onClick.AddListener(() =>
-                {
+            startBtn.onClick.AddListener(() =>
+            {
                     
-                    startBtn.interactable = false;
-                    UIManager.Instance.DisableUI("UI_START");
-                    if(settingCanvas == null) return;
-                    settingCanvas.gameObject.SetActive(true);
-                    if (PlatformManager.Instance.IsVR)
-                    {
-                        StartRoom.SetActive(false);
-                    }
-                    //UIManager.Instance.EnableUI("UI_GAME");
-                });
+                startBtn.interactable = false;
+                UIManager.Instance.DisableUI("UI_START");
+                if(settingCanvas == null) return;
+                settingCanvas.gameObject.SetActive(true);
+                if (PlatformManager.Instance.IsVR)
+                {
+                    StartRoom.SetActive(false);
+                }
+                //UIManager.Instance.EnableUI("UI_GAME");
             });
-
-            _animationSequence.Pause();
-            _animationSequence.SetAutoKill(false);
             
             _hideSequence = DOTween.Sequence();
             

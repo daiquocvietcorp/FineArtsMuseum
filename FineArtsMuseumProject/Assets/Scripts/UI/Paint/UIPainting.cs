@@ -119,8 +119,6 @@ public class UIPainting : UIBasic
     // Start is called before the first frame update
     void Start()
     {
-        
-        
         if (PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
         {
             guideButton.onClick.AddListener(GuidePaintingClicked);

@@ -55,15 +55,21 @@ namespace Trigger
             _antiqueDetailDict[antiqueID].gameObject.SetActive(true);
             if (_antiqueDetailDict[antiqueID].interactiveObject)
             {
-                sliderTransform.gameObject.SetActive(true);
                 _currentAntiqueObject = _antiqueDetailDict[antiqueID].interactiveObject;
-                ResetSlider();
+
+                if (PlatformManager.Instance.IsTomko)
+                {
+                    sliderTransform.gameObject.SetActive(true);
+                    ResetSlider();
+                }
             }
             UIManager.Instance.DisableUI("UI_NAVIGATION");
             
-            if (!PlatformManager.Instance.IsMobile && !PlatformManager.Instance.IsCloud) return;
-            InputManager.Instance.DisableJoystickRotation();
+            if (!PlatformManager.Instance.IsMobile && !PlatformManager.Instance.IsCloud && !PlatformManager.Instance.IsTomko) return;
             InputManager.Instance.DisableJoystick();
+            
+            if(PlatformManager.Instance.IsTomko) return;
+            InputManager.Instance.DisableJoystickRotation();
         }
 
         public void ResetSlider()
@@ -77,12 +83,16 @@ namespace Trigger
             if (_antiqueDetailDict.ContainsKey(antiqueID))
             {
                 _currentAntiqueObject = null;
-                sliderTransform.gameObject.SetActive(false);
                 _antiqueDetailDict[antiqueID].gameObject.SetActive(false);
+                
+                if (PlatformManager.Instance.IsTomko)
+                    sliderTransform.gameObject.SetActive(false);
             }
             
-            if (!PlatformManager.Instance.IsMobile && !PlatformManager.Instance.IsCloud) return;
+            if (!PlatformManager.Instance.IsMobile && !PlatformManager.Instance.IsCloud && !PlatformManager.Instance.IsTomko) return;
             InputManager.Instance.EnableJoystick();
+            
+            if(PlatformManager.Instance.IsTomko) return;
             InputManager.Instance.EnableJoystickRotation();
         }
 

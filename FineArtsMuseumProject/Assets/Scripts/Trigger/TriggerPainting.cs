@@ -134,20 +134,24 @@ public class TriggerPainting : MonoBehaviour
 
             if (PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
             {
+                PaintingDetailManager.Instance.SetButtonGroup(ButtonGroupCanvas_pc);
                 ButtonGroupCanvas_pc.gameObject.SetActive(true);
             }
             
             if (PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud)
             {
+                PaintingDetailManager.Instance.SetButtonGroup(ButtonGroupCanvas_mobile);
                 ButtonGroupCanvas_mobile.gameObject.SetActive(true);
             }
             if (PlatformManager.Instance.IsVR)
             {
+                PaintingDetailManager.Instance.SetButtonGroup(ButtonGroupCanvas_vr);
                 ButtonGroupCanvas_vr.gameObject.SetActive(true);
                 ScrollBar.gameObject.SetActive(true);
             }
             if (PlatformManager.Instance.IsTomko)
             {
+                PaintingDetailManager.Instance.SetButtonGroup(ButtonGroupCanvas_tomko);
                 ButtonGroupCanvas_tomko.gameObject.SetActive(true);
             }
             

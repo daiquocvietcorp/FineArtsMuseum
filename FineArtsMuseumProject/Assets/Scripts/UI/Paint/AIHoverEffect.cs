@@ -51,6 +51,7 @@ public class AIHoverEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public void SetDefaultSprite()
     {
+        DisposePanel();
         buttonImage.sprite = defaultSprite;
         isSelected = false;
         isHovered = false;
@@ -61,7 +62,7 @@ public class AIHoverEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         if (!isSelected)
         {
-            if (isHovered)
+            /*if (isHovered)
             {
                 if (hoverSprite != null)
                 {
@@ -74,12 +75,13 @@ public class AIHoverEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
                 {
                     buttonImage.sprite = defaultSprite;
                 }
-            }
-                
+            }*/
+            DisposePanel();
+            buttonImage.sprite = defaultSprite;
         }
         else
         {
-            if (isHovered)
+            /*if (isHovered)
             {
                 if (hoverSpriteSelected != null)
                 {
@@ -92,9 +94,9 @@ public class AIHoverEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
                 {
                     buttonImage.sprite = defaultSpriteSelected;
                 }
-            }
-            
-            
+            }*/
+            ExpandPanel();
+            buttonImage.sprite = hoverSpriteSelected;
         }
     }
 
@@ -121,8 +123,14 @@ public class AIHoverEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if(PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud || PlatformManager.Instance.IsTomko) return;
+        //if(PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud || PlatformManager.Instance.IsTomko) return;
         
+        return;
+        ExpandPanel();
+    }
+
+    private void ExpandPanel()
+    {
         isHovered = true;
 
         // Stop coroutine nếu đang chạy
@@ -154,6 +162,9 @@ public class AIHoverEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             hoverPPU,
             duration).SetEase(easing);
 
+        if (hoverSpriteSelected != null) buttonImage.sprite = hoverSpriteSelected;
+        
+        return;
         // Sprite change
         if (!isSelected)
         {
@@ -164,6 +175,7 @@ public class AIHoverEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
             if (hoverSpriteSelected != null) buttonImage.sprite = hoverSpriteSelected;
         }
     }
+
     private Coroutine typingCoroutine;
 
     private IEnumerator AnimateTypingText(string fullText, float totalDuration)
@@ -181,6 +193,12 @@ public class AIHoverEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     }
 
     public void OnPointerExit(PointerEventData eventData)
+    {
+        return;
+        DisposePanel();
+    }
+
+    private void DisposePanel()
     {
         isHovered = false;
 
@@ -206,7 +224,10 @@ public class AIHoverEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         {
             buttonText.text = defaultText;
         }
-
+        
+        if (defaultSprite != null) buttonImage.sprite = defaultSprite;
+        
+        return;
         if (!isSelected)
         {
             if (defaultSprite != null) buttonImage.sprite = defaultSprite;

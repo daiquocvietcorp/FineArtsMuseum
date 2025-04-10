@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
 
 public class IdleScreenManager : MonoBehaviour
 {
@@ -42,6 +43,8 @@ public class IdleScreenManager : MonoBehaviour
     public Button exitButton;
     public Animator idleScreenAnimator;
     
+    public StartController startController;
+    
     [Header("Fade Out Settings")]
     public float fadeOutDuration = 0.5f;
     public Vector3 targetScale = new Vector3(1.2f, 1.2f, 1f);
@@ -51,11 +54,24 @@ public class IdleScreenManager : MonoBehaviour
 
     void Start()
     {
-        HideIdleScreen();
+        idleScreen.SetActive(true);
         nextButton.onClick.AddListener(OnNextButtonClicked);
+        exitButton.onClick.AddListener(StartApplication);
+        if(PlatformManager.Instance.IsTomko) return;
+        exitButton.onClick.RemoveAllListeners();
         exitButton.onClick.AddListener(OnExitButtonClicked);
+        HideIdleScreen();
     }
-    
+
+    private void StartApplication()
+    {
+        startController.StartApplication();
+        HideIdleScreen();
+        exitButton.onClick.RemoveAllListeners();
+        exitButton.onClick.AddListener(OnExitButtonClicked);
+        
+    }
+
     void OnExitButtonClicked()
     {
         if (idleScreenAnimator != null)

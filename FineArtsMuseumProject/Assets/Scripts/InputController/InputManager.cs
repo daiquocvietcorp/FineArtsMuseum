@@ -1,5 +1,6 @@
 using System;
 using DesignPatterns;
+using Player;
 using UnityEngine;
 
 namespace InputController

@@ -17,6 +17,8 @@ namespace Trigger
         private Dictionary<string, PaintDetail> _paintDetailDict;
         private PaintDetail _currentPaintDetail;
         private PaintRotateAndZoom _currentPainting;
+        private GameObject _buttonGroup;
+        private float _avarageScale = -1f;
         
         private void Awake()
         {
@@ -90,16 +92,23 @@ namespace Trigger
         
         public void SetCurrentPainting(PaintRotateAndZoom currentPainting)
         {
-            sliderTransform.gameObject.SetActive(true);
             _currentPainting = currentPainting;
+            
+            if(!PlatformManager.Instance.IsTomko) return;
+            sliderTransform.gameObject.SetActive(true);
             var originalScale = _currentPainting.GetOriginalScalePercent();
             arcSlider.SetValue(originalScale);
+            _avarageScale = originalScale;
         }
 
         public void RemoveCurrentPainting()
         {
-            sliderTransform.gameObject.SetActive(false);
             _currentPainting = null;
+            
+            if(!PlatformManager.Instance.IsTomko) return;
+            _buttonGroup = null;
+            _avarageScale = -1;
+            sliderTransform.gameObject.SetActive(false);
         }
 
         public void SetColliderPainting(bool isActive)
@@ -122,6 +131,14 @@ namespace Trigger
         {
             if(_currentPainting == null) return;
             _currentPainting.ZoomByPercentage(percent);
+            if(Mathf.Approximately(_avarageScale, -1)) return;
+            if(!_buttonGroup) return;
+            _buttonGroup.SetActive(percent <= _avarageScale);
+        }
+
+        public void SetButtonGroup(GameObject buttonGroupCanvas)
+        {
+            _buttonGroup = buttonGroupCanvas;
         }
     }
 }
