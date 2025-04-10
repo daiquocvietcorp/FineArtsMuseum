@@ -35,6 +35,7 @@ namespace InputController
         [field: SerializeField] private Transform goToPointer;
 
         private GoToPointCloud _goToPointCloud;
+        private int _currentFingerId = -1;
 
         private void Awake()
         {
@@ -165,54 +166,46 @@ namespace InputController
             {
                 if (Input.touchCount > 0)
                 {
-                    var touch = Input.GetTouch(0);
-
-                    if (Input.touchCount > 1)
+                    foreach (var touchItem in Input.touches)
                     {
-                        var joystickFingerId = JoystickInput.Instance.JoystickFingerId();
-                        for (var i = 0; i < Input.touchCount; i++)
-                        {
-                            var touchCheck = Input.GetTouch(i);
-                            if (touchCheck.fingerId != joystickFingerId)
-                            {
-                                continue;
-                            }
-                            touch = touchCheck;
-                            break;
-                        }
-                    }
-                    
-                    if (touch.phase == TouchPhase.Began)
-                    {
-                        _holdTimer = Time.time;
-                    }
-
-                    if (touch.phase == TouchPhase.Ended && Time.time - _holdTimer < 0.2f)
-                    {
-                        _isClick = true;
-                        _isHold = false;
+                        if(touchItem.fingerId == JoystickInput.Instance.JoystickFingerId()) continue;
+                        var touch = touchItem;
+                        _currentFingerId = touch.fingerId;
                         
-                        //ShowGoToPointer(touch.position);
-                        //_onClick?.Invoke(touch.position);
-                    }
-                    else if (touch.phase == TouchPhase.Moved && Time.time - _holdTimer > 0.2f)
-                    {
-                        _isClick = false;
+                    
+                        if (touch.phase == TouchPhase.Began)
+                        {
+                            _holdTimer = Time.time;
+                        }
 
-                        if (IsPointerOverUI(touch.fingerId) || _isDragImage || _isDragSlider) return;
-                        PaintingDetailManager.Instance.SetColliderPainting(false);
-                        _isHold = true;
-                    }
-                    else if (touch.phase == TouchPhase.Stationary && Time.time - _holdTimer > 0.2f)
-                    {
-                        if (IsPointerOverUI() || _isDragImage || _isDragSlider) return;
-                        PaintingDetailManager.Instance.SetColliderPainting(false);
-                    }
-                    else
-                    {
-                        _isClick = false;
-                        _isHold = false;
-                        PaintingDetailManager.Instance.SetColliderPainting(true);
+                        if (touch.phase == TouchPhase.Ended && Time.time - _holdTimer < 0.2f)
+                        {
+                            _isClick = true;
+                            _isHold = false;
+                        
+                            //ShowGoToPointer(touch.position);
+                            //_onClick?.Invoke(touch.position);
+                        }
+                        else if (touch.phase == TouchPhase.Moved && Time.time - _holdTimer > 0.2f)
+                        {
+                            _isClick = false;
+
+                            if (IsPointerOverUI(touch.fingerId) || _isDragImage || _isDragSlider) return;
+                            PaintingDetailManager.Instance.SetColliderPainting(false);
+                            _isHold = true;
+                        }
+                        else if (touch.phase == TouchPhase.Stationary && Time.time - _holdTimer > 0.2f)
+                        {
+                            if (IsPointerOverUI(touch.fingerId) || _isDragImage || _isDragSlider) return;
+                            PaintingDetailManager.Instance.SetColliderPainting(false);
+                        }
+                        else
+                        {
+                            _isClick = false;
+                            _isHold = false;
+                            PaintingDetailManager.Instance.SetColliderPainting(true);
+                        }
+                        return;
                     }
                 }
                 else
@@ -303,6 +296,16 @@ namespace InputController
         public void SetSliderDrag(bool isDrag)
         {
             _isDragSlider = isDrag;
+        }
+        
+        public int GetCurrentFingerId() 
+        {
+            if (PlatformManager.Instance.IsTomko)
+            {
+                return _currentFingerId;
+            }
+
+            return -1;
         }
     }
 }

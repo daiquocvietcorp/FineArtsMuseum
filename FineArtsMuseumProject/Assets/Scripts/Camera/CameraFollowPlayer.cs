@@ -86,12 +86,12 @@ namespace Camera
             
             if (PlatformManager.Instance.IsTomko)
             {
-                if (!MouseInput.Instance.IsHold || JoystickInput.Instance.IsMoving) return;
+                if (!MouseInput.Instance.IsHold) return;
                 _isActive = true;
                 
                 if (Input.touchCount > 0)
                 {
-                    var touch = Input.GetTouch(0);
+                    var touch = Input.GetTouch(MouseInput.Instance.GetCurrentFingerId());
                     if (touch.phase == TouchPhase.Moved)
                     {
                         var delta = touch.deltaPosition;
