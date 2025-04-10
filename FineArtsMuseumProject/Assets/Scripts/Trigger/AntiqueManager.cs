@@ -12,6 +12,9 @@ namespace Trigger
         [field: SerializeField] private List<AntiqueObject> antiqueObjects;
         private Dictionary<string, AntiqueObject> _antiqueDetailDict;
         private PaintRotateAndZoom _currentAntiqueObject;
+        
+        [field: SerializeField] private ArcSlider arcSlider;
+        [field: SerializeField] private Transform sliderTransform;
 
         private void Awake()
         {
@@ -52,7 +55,9 @@ namespace Trigger
             _antiqueDetailDict[antiqueID].gameObject.SetActive(true);
             if (_antiqueDetailDict[antiqueID].interactiveObject)
             {
+                sliderTransform.gameObject.SetActive(true);
                 _currentAntiqueObject = _antiqueDetailDict[antiqueID].interactiveObject;
+                ResetSlider();
             }
             UIManager.Instance.DisableUI("UI_NAVIGATION");
             
@@ -60,13 +65,20 @@ namespace Trigger
             InputManager.Instance.DisableJoystickRotation();
             InputManager.Instance.DisableJoystick();
         }
-        
+
+        public void ResetSlider()
+        {
+            var valuePercent = _currentAntiqueObject.GetOriginalScalePercent();
+            arcSlider.SetValue(valuePercent);
+        }
+
         public void DisableAntiqueDetail(string antiqueID)
         {
             if (_antiqueDetailDict.ContainsKey(antiqueID))
             {
-                _antiqueDetailDict[antiqueID].gameObject.SetActive(false);
                 _currentAntiqueObject = null;
+                sliderTransform.gameObject.SetActive(false);
+                _antiqueDetailDict[antiqueID].gameObject.SetActive(false);
             }
             
             if (!PlatformManager.Instance.IsMobile && !PlatformManager.Instance.IsCloud) return;
@@ -97,6 +109,12 @@ namespace Trigger
         {
             if(_currentAntiqueObject == null) return;
             _currentAntiqueObject.SmoothAverageResetTransform();
+        }
+
+        public void ZoomAntique(float f)
+        {
+            if(_currentAntiqueObject == null) return;
+            _currentAntiqueObject.ZoomByPercentage(f);
         }
     }
 }

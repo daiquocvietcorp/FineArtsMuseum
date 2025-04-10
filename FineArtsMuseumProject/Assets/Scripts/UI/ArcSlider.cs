@@ -66,6 +66,7 @@ namespace UI
         private void OnValueChanged(float f)
         {
             PaintingDetailManager.Instance.ZoomPainting(f);
+            AntiqueManager.Instance.ZoomAntique(f);
         }
 
         public void OnPointerUp(PointerEventData eventData)
