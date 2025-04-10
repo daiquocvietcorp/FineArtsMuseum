@@ -14,6 +14,9 @@ namespace Camera
         [SerializeField] private DirectionFirstView directionFirstView;
         [SerializeField] private bool isEditorMode;
         
+        [SerializeField] private LayerMask blockingLayerMask;
+        [SerializeField] private float collisionOffset = 0.2f;
+        
         private float _currentYaw;
         private float _currentPitch;
         private float _currentAreaYaw;
@@ -207,9 +210,18 @@ namespace Camera
 
             if (!_isLockFollowView)
             {
-                var rotation = Quaternion.Euler(_currentPitch, _currentYaw, 0);
+                /*var rotation = Quaternion.Euler(_currentPitch, _currentYaw, 0);
                 var targetPosition = player.position + Vector3.up * data.Height;
                 var position = targetPosition - (rotation * Vector3.forward * data.Distance);
+                
+                var direction = (position - _currentTargetPosition).normalized;
+                var distance = data.Distance;
+
+                if (Physics.Raycast(targetPosition, direction, out var hit, distance, blockingLayerMask))
+                {
+                    position = hit.point + hit.normal * collisionOffset;
+                }
+                
                 transform.position = position;
                 
                 if(!_isFirstPerson)
@@ -218,7 +230,31 @@ namespace Camera
                     return;
                 }
             
-                transform.rotation = rotation;
+                transform.rotation = rotation;*/
+                
+                var targetPosition = player.position + Vector3.up * data.Height;
+                var rotation = Quaternion.Euler(_currentPitch, _currentYaw, 0);
+                var desiredDistance = data.Distance;
+                var desiredPos = targetPosition - (rotation * Vector3.forward * desiredDistance);
+                var direction = (desiredPos - targetPosition).normalized;
+                var maxDistance = Vector3.Distance(targetPosition, desiredPos);
+
+                if (Physics.Raycast(targetPosition, direction, out var hit, maxDistance, blockingLayerMask))
+                {
+                    var newDistance = hit.distance - collisionOffset;
+                    newDistance = Mathf.Max(newDistance, 0.5f);
+                    desiredPos = targetPosition - (rotation * Vector3.forward * newDistance);
+                }
+                
+                transform.position = desiredPos;
+                if (!_isFirstPerson)
+                {
+                    transform.LookAt(targetPosition);
+                }
+                else
+                {
+                    transform.rotation = rotation;
+                }
             }
             else
             {

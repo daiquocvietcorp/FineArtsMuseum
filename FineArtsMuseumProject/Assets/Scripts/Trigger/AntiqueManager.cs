@@ -23,7 +23,7 @@ namespace Trigger
             foreach (var pair in antiqueObjects)
             {
                 pair.gameObject.SetActive(false);
-                _antiqueDetailDict.Add(pair.GetAntiqueID(), pair);
+                _antiqueDetailDict.TryAdd(pair.GetAntiqueID(), pair);
             }
         }
 
