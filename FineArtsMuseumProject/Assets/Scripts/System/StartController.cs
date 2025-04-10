@@ -15,12 +15,18 @@ namespace System
 
         private void Start()
         {
+            InputManager.Instance.DisableInput();
+            if(PlatformManager.Instance.IsTomko) return;
+            StartApplication();
+        }
+        
+        public void StartApplication()
+        {
             StartCoroutine(RunApplication());
         }
 
         private IEnumerator RunApplication()
         {
-            InputManager.Instance.DisableInput();
             CanvasManager.Instance.EnableCanvas("MAIN_CANVAS");
             if ((PlatformManager.Instance.IsCloud && PlatformManager.Instance.IsTomkoDevice) || PlatformManager.Instance.IsTomko)
             {
