@@ -73,6 +73,7 @@ public class AntiqueObject : MonoBehaviour
     public void Refresh()
     {
         interactiveObject.SmoothAverageResetTransform();
+        AntiqueManager.Instance.ResetSlider();
     }
     
     private void OnEnable()
