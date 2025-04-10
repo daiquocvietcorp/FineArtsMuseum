@@ -11,11 +11,13 @@ namespace Trigger
     public class PaintingDetailManager : MonoSingleton<PaintingDetailManager>
     {
         [field: SerializeField] private List<PaintDetail> paintDetails;
-        private Dictionary<string, PaintDetail> _paintDetailDict;
+        [field: SerializeField] private ArcSlider arcSlider;
+        [field: SerializeField] private Transform sliderTransform;
         
+        private Dictionary<string, PaintDetail> _paintDetailDict;
         private PaintDetail _currentPaintDetail;
         private PaintRotateAndZoom _currentPainting;
-
+        
         private void Awake()
         {
             _paintDetailDict = new Dictionary<string, PaintDetail>();
@@ -88,11 +90,15 @@ namespace Trigger
         
         public void SetCurrentPainting(PaintRotateAndZoom currentPainting)
         {
+            sliderTransform.gameObject.SetActive(true);
             _currentPainting = currentPainting;
+            var originalScale = _currentPainting.GetOriginalScalePercent();
+            arcSlider.SetValue(originalScale);
         }
 
         public void RemoveCurrentPainting()
         {
+            sliderTransform.gameObject.SetActive(false);
             _currentPainting = null;
         }
 
@@ -105,8 +111,15 @@ namespace Trigger
         public void ResetView()
         {
             if(_currentPainting == null) return;
+            arcSlider.ResetSlider();
             _currentPainting.SmoothAverageResetTransform();
             CameraManager.Instance.cameraFollowPlayer.ResetCameraInArea();
+        }
+        
+        public void ZoomPainting(float percent)
+        {
+            if(_currentPainting == null) return;
+            _currentPainting.ZoomByPercentage(percent);
         }
     }
 }

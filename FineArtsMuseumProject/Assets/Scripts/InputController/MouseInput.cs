@@ -17,6 +17,7 @@ namespace InputController
         private bool _isClick;
         private bool _isHold;
         private bool _isAvailable;
+        private bool _isDragSlider;
 
         public bool IsClick => _isClick;
         public bool IsHold => _isHold;
@@ -182,13 +183,13 @@ namespace InputController
                     {
                         _isClick = false;
 
-                        if (IsPointerOverUI() || _isDragImage) return;
+                        if (IsPointerOverUI() || _isDragImage || _isDragSlider) return;
                         PaintingDetailManager.Instance.SetColliderPainting(false);
                         _isHold = true;
                     }
                     else if (touch.phase == TouchPhase.Stationary && Time.time - _holdTimer > 0.2f)
                     {
-                        if (IsPointerOverUI() || _isDragImage) return;
+                        if (IsPointerOverUI() || _isDragImage || _isDragSlider) return;
                         PaintingDetailManager.Instance.SetColliderPainting(false);
                     }
                     else
@@ -281,6 +282,11 @@ namespace InputController
         public void SetIsDragImage(bool isDragImage)
         {
             _isDragImage = isDragImage;
+        }
+        
+        public void SetSliderDrag(bool isDrag)
+        {
+            _isDragSlider = isDrag;
         }
     }
 }
