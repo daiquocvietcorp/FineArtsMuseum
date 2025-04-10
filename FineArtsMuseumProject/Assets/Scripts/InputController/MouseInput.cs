@@ -166,6 +166,22 @@ namespace InputController
                 if (Input.touchCount > 0)
                 {
                     var touch = Input.GetTouch(0);
+
+                    if (Input.touchCount > 1)
+                    {
+                        var joystickFingerId = JoystickInput.Instance.JoystickFingerId();
+                        for (var i = 0; i < Input.touchCount; i++)
+                        {
+                            var touchCheck = Input.GetTouch(i);
+                            if (touchCheck.fingerId != joystickFingerId)
+                            {
+                                continue;
+                            }
+                            touch = touchCheck;
+                            break;
+                        }
+                    }
+                    
                     if (touch.phase == TouchPhase.Began)
                     {
                         _holdTimer = Time.time;
@@ -183,7 +199,7 @@ namespace InputController
                     {
                         _isClick = false;
 
-                        if (IsPointerOverUI() || _isDragImage || _isDragSlider) return;
+                        if (IsPointerOverUI(touch.fingerId) || _isDragImage || _isDragSlider) return;
                         PaintingDetailManager.Instance.SetColliderPainting(false);
                         _isHold = true;
                     }
@@ -252,7 +268,7 @@ namespace InputController
             _onClick = action;
         }
 
-        public bool IsPointerOverUI()
+        public bool IsPointerOverUI(int fingerId = 0)
         {
             if (!EventSystem.current) return false;
 
@@ -263,7 +279,7 @@ namespace InputController
 
             if (PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsTomko)
             {
-                if (EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId)) return true;
+                if (EventSystem.current.IsPointerOverGameObject(Input.GetTouch(fingerId).fingerId)) return true;
             }
 
             return false;
