@@ -1,13 +1,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Camera;
 using InputController;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandler, IScrollHandler, IPointerUpHandler
+public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandler, IScrollHandler, IPointerUpHandler, IBeginDragHandler, IEndDragHandler
 {
+    [field: SerializeField] private bool isPaint = true;
+    
     public float rotationSpeed = 100f;
     public float zoomSpeed = 0.01f;
 
@@ -128,19 +131,94 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
         else if (activeTouches.Count == 1)
         {
             if (!canRotate) return;
-
-            Vector2 delta = eventData.position - lastPointerPosition;
+            
+            var delta = eventData.position - lastPointerPosition;
             lastPointerPosition = eventData.position;
-
-            float rotateAmountX = delta.x * CurrentRotationSpeed * Time.deltaTime * 0.5f;
-            transform.Rotate(Vector3.up, -rotateAmountX, Space.World);
-
-            if (CanRotateUpDown)
+            var rotateAmountX = delta.x * CurrentRotationSpeed * Time.deltaTime * 0.5f;
+            
+            if (isPaint)
             {
-                float rotateAmountY = delta.y * CurrentRotationSpeed * Time.deltaTime * 0.5f;
+                transform.Rotate(Vector3.up, -rotateAmountX, Space.World);
+
+                if (!CanRotateUpDown) return;
+                var rotateAmountY = delta.y * CurrentRotationSpeed * Time.deltaTime * 0.5f;
                 transform.Rotate(Vector3.right, rotateAmountY, Space.World);
             }
+            else
+            {
+                /*var cameraUp = CameraManager.Instance.mainCamera.transform.up;
+                var cameraRight = CameraManager.Instance.mainCamera.transform.right;
+                
+                var horizontalRotation = delta.x * CurrentRotationSpeed * Time.deltaTime;
+                var verticalRotation = delta.y * CurrentRotationSpeed * Time.deltaTime;
+                
+                transform.Rotate(cameraUp, -horizontalRotation, Space.World);
+                transform.Rotate(cameraRight, verticalRotation, Space.World);*/
+                
+                if (lastArcballVector.HasValue)
+                {
+                    var currentVector = GetArcballVector(eventData.position);
+
+                    // Tính vector xoay bằng cách lấy tích chéo giữa vector ban đầu và vector hiện tại
+                    var rotationAxis = Vector3.Cross(lastArcballVector.Value, currentVector);
+
+                    // Tính góc xoay dựa trên dot product
+                    var dot = Vector3.Dot(lastArcballVector.Value, currentVector);
+                    dot = Mathf.Clamp(dot, -1.0f, 1.0f);
+                    var angle = Mathf.Acos(dot) * Mathf.Rad2Deg; // chuyển sang độ
+
+                    // Nhân với -1 để đảo chiều xoay (giúp kéo lên -> xoay lên, kéo trái -> xoay trái)
+                    angle *= -1;
+
+                    if (rotationAxis.sqrMagnitude > 1e-6f) // Kiểm tra để tránh xoay khi vector quá nhỏ
+                    {
+                        Quaternion rotation = Quaternion.AngleAxis(angle, rotationAxis.normalized);
+                        transform.rotation = rotation * transform.rotation;
+                    }
+            
+                    // Cập nhật vector cho lần kéo tiếp theo
+                    lastArcballVector = currentVector;
+                }
+            }
         }
+    }
+    
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        if(isPaint) return;
+        lastArcballVector = GetArcballVector(eventData.position);
+    }
+    
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        if(isPaint) return;
+        lastArcballVector = null;
+    }
+    
+    private Vector3? lastArcballVector = null;
+    
+    private Vector3 GetArcballVector(Vector2 screenPoint)
+    {
+        float x = (screenPoint.x - Screen.width * 0.5f) / (Screen.width * 0.5f);
+        float y = (screenPoint.y - Screen.height * 0.5f) / (Screen.height * 0.5f);
+        Vector3 v = new Vector3(x, y, 0);
+
+        // Tính thành phần z để điểm nằm trên mặt cầu ảo
+        float mag = v.x * v.x + v.y * v.y;
+        if (mag > 1.0f)
+        {
+            v.Normalize();
+        }
+        else
+        {
+            v.z = Mathf.Sqrt(1.0f - mag);
+        }
+        
+        // Chuyển đổi vector từ không gian màn hình sang không gian của camera
+        Vector3 vWorld = CameraManager.Instance.mainCamera.transform.right * v.x +
+                         CameraManager.Instance.mainCamera.transform.up * v.y +
+                         CameraManager.Instance.mainCamera.transform.forward * v.z;
+        return vWorld;
     }
 
     public void OnPointerUp(PointerEventData eventData)
@@ -340,5 +418,5 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
     public float GetOriginalScalePercent()
     {
         return (Vector3.one * ((minScale + maxScale) / 2f)).x/maxScale;
-    } 
+    }
 }
