@@ -112,7 +112,7 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
 
         if (activeTouches.Count == 2)
         {
-            if(PlatformManager.Instance.IsTomko) return;
+            if(PlatformManager.Instance.IsTomko && isPaint) return;
             var positions = new List<Vector2>(activeTouches.Values);
             float currentDistance = Vector2.Distance(positions[0], positions[1]);
             float scaleFactor = currentDistance / initialDistance;
