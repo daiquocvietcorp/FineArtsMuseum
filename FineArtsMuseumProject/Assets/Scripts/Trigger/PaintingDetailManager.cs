@@ -105,7 +105,9 @@ namespace Trigger
         {
             if(_currentPainting == null) return;
             _currentPainting.SmoothAverageResetTransform();
-            CameraManager.Instance.cameraFollowPlayer.ResetCameraInArea();
+            if (!PlatformManager.Instance.IsVR)
+                CameraManager.Instance.cameraFollowPlayer.ResetCameraInArea();
+            
         }
     }
 }

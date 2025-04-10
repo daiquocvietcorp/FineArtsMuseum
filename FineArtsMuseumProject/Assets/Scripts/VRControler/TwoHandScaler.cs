@@ -1,48 +1,44 @@
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.XR;
+using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit;
 
 public class TwoHandScaler : MonoBehaviour
 {
-    [Header("XR Ray Interactors")]
+    [Header("XR Ray Interactors - Controller")]
     public XRRayInteractor leftControllerRay;
     public XRRayInteractor rightControllerRay;
-    
+
     [Header("XR Ray Interactors - Hand Tracking")]
     public XRRayInteractor leftHandRay;
     public XRRayInteractor rightHandRay;
-    
-    [Header("Target to scale")]
+
+    [Header("Input Actions (Pinch Strength)")]
+    public InputActionProperty leftControllerPinchAction;
+    public InputActionProperty rightControllerPinchAction;
+    public InputActionProperty leftHandPinchAction;
+    public InputActionProperty rightHandPinchAction;
+
+    [Header("Object to Scale")]
     public Transform targetObject;
 
-    [Header("Smooth Settings")]
+    [Header("Settings")]
+    public float pinchThreshold = 0.8f;
     public float smoothFactor = 8f;
-
-    private float leftGripValue = 0f;
-    private float rightGripValue = 0f;
 
     private float initialDistance = 0f;
     private Vector3 initialScale;
 
     void Update()
     {
-        UpdateScale();
-    }
+        var activeInteractors = GetPinchingInteractors();
 
-    private void UpdateScale()
-    {
-        
-        UpdateGripValues();
-
-        XRRayInteractor leftRay = GetActiveRay(leftControllerRay, leftHandRay, leftGripValue);
-        XRRayInteractor rightRay = GetActiveRay(rightControllerRay, rightHandRay, rightGripValue);
-
-        if (leftRay != null && rightRay != null)
+        if (activeInteractors.Count == 2)
         {
-            Vector3 leftPos = leftRay.transform.position;
-            Vector3 rightPos = rightRay.transform.position;
+            Vector3 posA = activeInteractors[0].transform.position;
+            Vector3 posB = activeInteractors[1].transform.position;
 
-            float currentDistance = Vector3.Distance(leftPos, rightPos);
+            float currentDistance = Vector3.Distance(posA, posB);
 
             if (initialDistance == 0f)
             {
@@ -51,44 +47,40 @@ public class TwoHandScaler : MonoBehaviour
             }
 
             float scaleRatio = currentDistance / initialDistance;
-            targetObject.localScale = Vector3.Lerp(targetObject.localScale, initialScale * scaleRatio, Time.deltaTime * 8f);
+            Vector3 targetScale = initialScale * scaleRatio;
+            targetObject.localScale = Vector3.Lerp(targetObject.localScale, targetScale, Time.deltaTime * smoothFactor);
         }
         else
         {
             initialDistance = 0f;
         }
     }
-    XRRayInteractor GetActiveRay(XRRayInteractor controllerRay, XRRayInteractor handRay, float gripValue)
+
+    List<XRRayInteractor> GetPinchingInteractors()
     {
-        if (controllerRay != null && controllerRay.TryGetCurrent3DRaycastHit(out _) && gripValue > 0.5f)
-        {
-            return controllerRay;
-        }
+        List<XRRayInteractor> list = new List<XRRayInteractor>();
 
-        if (handRay != null && handRay.TryGetCurrent3DRaycastHit(out _) && gripValue > 0.5f)
-        {
-            return handRay;
-        }
+        CheckInteractor(leftControllerRay, leftControllerPinchAction.action.ReadValue<float>(), list);
+        CheckInteractor(rightControllerRay, rightControllerPinchAction.action.ReadValue<float>(), list);
+        CheckInteractor(leftHandRay, leftHandPinchAction.action.ReadValue<float>(), list);
+        CheckInteractor(rightHandRay, rightHandPinchAction.action.ReadValue<float>(), list);
 
-        return null;
+        return list;
     }
 
-    void UpdateGripValues()
+    void CheckInteractor(XRRayInteractor interactor, float pinchValue, List<XRRayInteractor> list)
     {
-        leftGripValue = GetGripValue(InputDeviceRole.LeftHanded);
-        rightGripValue = GetGripValue(InputDeviceRole.RightHanded);
-    }
+        if (interactor == null || !interactor.enabled) return;
 
-    float GetGripValue(InputDeviceRole role)
-    {
-        InputDevice device = InputDevices.GetDeviceAtXRNode(
-            role == InputDeviceRole.LeftHanded ? XRNode.LeftHand : XRNode.RightHand);
-
-        if (device.TryGetFeatureValue(CommonUsages.grip, out float value))
+        if (pinchValue > pinchThreshold)
         {
-            return value;
+            if (interactor.TryGetCurrent3DRaycastHit(out RaycastHit hit))
+            {
+                if (hit.transform == transform)
+                {
+                    list.Add(interactor);
+                }
+            }
         }
-
-        return 0f;
     }
 }

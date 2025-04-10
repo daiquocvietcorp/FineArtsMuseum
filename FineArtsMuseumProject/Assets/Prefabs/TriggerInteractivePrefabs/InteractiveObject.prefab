@@ -99,9 +99,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74cb171135444f54aaec62cd74b75889, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 45
-  leftRayInteractor: {fileID: 0}
-  rightRayInteractor: {fileID: 0}
+  rotationSpeedFromPosition: 200
+  rotationSpeedFromRotation: 1
+  leftControllerRay: {fileID: 0}
+  rightControllerRay: {fileID: 0}
+  leftHandRay: {fileID: 0}
+  rightHandRay: {fileID: 0}
   isPicture: 0
 --- !u!65 &2880025201065570786
 BoxCollider:
@@ -130,12 +133,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationSpeed: 100
   zoomSpeed: 0.01
+  rotationSpeedMobile: 80
+  zoomSpeedMobile: 0.015
   minScale: 0.2
   maxScale: 3
   resetDuration: 0.5
   zoomScrollbar: {fileID: 0}
   CanRotateUpDown: 0
   originalScale: {x: 0, y: 0, z: 0}
+  canRotate: 1
 --- !u!114 &4797042783778674282
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -155,7 +161,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   m_InteractionLayers:
-    m_Bits: 65
+    m_Bits: 4294967295
   m_DistanceCalculationMode: 1
   m_SelectMode: 0
   m_FocusMode: 1

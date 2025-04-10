@@ -25,6 +25,8 @@ public class TriggerPainting : MonoBehaviour
     public GameObject ScreenOutlineEffect;
     public GameObject Player;
     
+    public GameObject ScrollBar;
+    
     public GameObject VRPlayer;
     public Collider detailCollider;
     public TriggerPaintDetail triggerPaintDetail;
@@ -142,6 +144,7 @@ public class TriggerPainting : MonoBehaviour
             if (PlatformManager.Instance.IsVR)
             {
                 ButtonGroupCanvas_vr.gameObject.SetActive(true);
+                ScrollBar.gameObject.SetActive(true);
             }
             if (PlatformManager.Instance.IsTomko)
             {
@@ -215,6 +218,7 @@ public class TriggerPainting : MonoBehaviour
             if(PlatformManager.Instance.IsVR)
             {
                 ButtonGroupCanvas_vr.gameObject.SetActive(false);
+                ScrollBar.gameObject.SetActive(false);
             }
             if(PlatformManager.Instance.IsTomko)
             {

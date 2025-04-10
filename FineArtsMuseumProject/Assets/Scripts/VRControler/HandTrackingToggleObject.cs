@@ -8,10 +8,12 @@ public class HandTrackingToggleObject : MonoBehaviour
 
     public GameObject HandtrackingController;
 
-    
+
+    public bool test;
 
     void Update()
     {
+        if (test) return;
         if (leftHandTracking.activeSelf == false)
         {
             HandtrackingController.SetActive(false);
