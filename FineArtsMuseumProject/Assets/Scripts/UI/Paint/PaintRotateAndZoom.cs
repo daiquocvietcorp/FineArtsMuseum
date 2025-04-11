@@ -10,6 +10,7 @@ using UnityEngine.EventSystems;
 public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandler, IScrollHandler, IPointerUpHandler, IBeginDragHandler, IEndDragHandler
 {
     [field: SerializeField] private bool isPaint = true;
+    [field: SerializeField] private bool isObject = false;
     
     public float rotationSpeed = 100f;
     public float zoomSpeed = 0.01f;
@@ -138,6 +139,35 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
 
             
             var rotateAmountX = delta.x * CurrentRotationSpeed * Time.deltaTime * 0.5f;
+
+            if (isObject)
+            {
+                if (lastArcballVector.HasValue)
+                {
+                    var currentVector = GetArcballVector(eventData.position);
+
+                    // Tính vector xoay bằng cách lấy tích chéo giữa vector ban đầu và vector hiện tại
+                    var rotationAxis = Vector3.Cross(lastArcballVector.Value, currentVector);
+
+                    // Tính góc xoay dựa trên dot product
+                    var dot = Vector3.Dot(lastArcballVector.Value, currentVector);
+                    dot = Mathf.Clamp(dot, -1.0f, 1.0f);
+                    var angle = Mathf.Acos(dot) * Mathf.Rad2Deg; // chuyển sang độ
+
+                    // Nhân với -1 để đảo chiều xoay (giúp kéo lên -> xoay lên, kéo trái -> xoay trái)
+                    angle *= -1;
+
+                    if (rotationAxis.sqrMagnitude > 1e-6f) // Kiểm tra để tránh xoay khi vector quá nhỏ
+                    {
+                        Quaternion rotation = Quaternion.AngleAxis(angle, rotationAxis.normalized);
+                        transform.rotation = rotation * transform.rotation;
+                    }
+            
+                    // Cập nhật vector cho lần kéo tiếp theo
+                    lastArcballVector = currentVector;
+                }
+                return;
+            }
             
             if (isRotateOneDirect)
             {
