@@ -1,4 +1,5 @@
 using System;
+using InputController;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -21,6 +22,7 @@ namespace Slider
 
         public void OnDrag(PointerEventData eventData)
         {
+            MouseInput.Instance.SetIsDragImage(true);
             _clickAction?.Invoke(false);
         }
 
@@ -49,6 +51,7 @@ namespace Slider
 
             _isSwiping = false;
             _clickAction?.Invoke(true);
+            MouseInput.Instance.SetIsDragImage(false);
         }
 
         public void RegisterDragAction(Action<int> changePage)

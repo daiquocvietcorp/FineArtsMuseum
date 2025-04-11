@@ -52,7 +52,7 @@ namespace Slider
             sliderSubtitle.text = sliderData.Subtitle;
         }
 
-        private void OnClickNextButton()
+        public void OnClickNextButton()
         {
             _currentIndex++;
             if (_currentIndex >= _totalSlides)
@@ -62,7 +62,7 @@ namespace Slider
             ShowImage(_currentIndex);
         }
 
-        private void OnClickPrevButton()
+        public void OnClickPrevButton()
         {
             _currentIndex--;
             if (_currentIndex < 0)

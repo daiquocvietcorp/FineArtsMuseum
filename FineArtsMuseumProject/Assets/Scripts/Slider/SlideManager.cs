@@ -38,22 +38,32 @@ namespace Slider
         
         private void ShowNewsTopPaper()
         {
-            
+            Debug.Log("ShowNewsTopPaper");
         }
         
         private void ShowNewsBottomPaper()
         {
-            
+            Debug.Log("ShowNewsBottomPaper");
         }
 
         private void ChangeTopPage(int next)
         {
-            Debug.Log("ChangeTopPage" + next);
+            if(next == -1)
+            {
+                topSlideHolder.OnClickPrevButton();
+                return;
+            }
+            topSlideHolder.OnClickNextButton();
         }
         
         private void ChangeBottomPage(int next)
         {
-            Debug.Log("ChangeBottomPage" + next);
+            if(next == -1)
+            {
+                bottomSlideHolder.OnClickPrevButton();
+                return;
+            }
+            bottomSlideHolder.OnClickNextButton();
         }
 
         private void OnEnterButtonClicked()
