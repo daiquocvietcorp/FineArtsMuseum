@@ -57,7 +57,7 @@ namespace Trigger
             {
                 _currentAntiqueObject = _antiqueDetailDict[antiqueID].interactiveObject;
 
-                if (PlatformManager.Instance.IsTomko)
+                if (PlatformManager.Instance.IsTomko || PlatformManager.Instance.IsVR)
                 {
                     sliderTransform.gameObject.SetActive(true);
                     ResetSlider();
@@ -85,7 +85,7 @@ namespace Trigger
                 _currentAntiqueObject = null;
                 _antiqueDetailDict[antiqueID].gameObject.SetActive(false);
                 
-                if (PlatformManager.Instance.IsTomko)
+                if (PlatformManager.Instance.IsTomko || PlatformManager.Instance.IsVR)
                     sliderTransform.gameObject.SetActive(false);
             }
             
