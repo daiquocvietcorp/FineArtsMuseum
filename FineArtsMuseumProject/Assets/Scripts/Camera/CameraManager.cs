@@ -21,14 +21,14 @@ namespace Camera
         public void SetCameraWhenEnterPainting(float distance, float height)
         {
             if (PlatformManager.Instance.IsVR) return;
-            cameraFollowPlayer.EnterPainting(distance, height);
+            cameraFollowPlayer.EnterArea(distance, height);
             _isLockFollowView = true;
         }
 
         public void SetCameraWhenExitPainting()
         {
             if (PlatformManager.Instance.IsVR) return;
-            cameraFollowPlayer.ExitPainting();
+            cameraFollowPlayer.ExitArea();
             _isLockFollowView = false;
         }
         

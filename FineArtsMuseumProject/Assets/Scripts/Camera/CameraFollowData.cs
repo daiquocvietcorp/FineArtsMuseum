@@ -19,9 +19,9 @@ namespace Camera
     public class CameraFollowDistance
     {
         [field: SerializeField]
-        public float Distance { get; private set; }
+        public float Distance { get; set; }
         
         [field: SerializeField]
-        public float Height { get; private set; }
+        public float Height { get; set; }
     }
 }
