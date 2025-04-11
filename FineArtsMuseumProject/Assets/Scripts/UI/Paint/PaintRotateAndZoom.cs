@@ -23,6 +23,7 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
 
     public Scrollbar zoomScrollbar;
     public bool CanRotateUpDown = false;
+    [SerializeField] private bool isRotateOneDirect;
 
     public Vector3 originalScale;
     private Quaternion originalRotation;
@@ -131,55 +132,38 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
         else if (activeTouches.Count == 1)
         {
             if (!canRotate) return;
-            
+
             var delta = eventData.position - lastPointerPosition;
             lastPointerPosition = eventData.position;
+
+            
             var rotateAmountX = delta.x * CurrentRotationSpeed * Time.deltaTime * 0.5f;
             
-            if (isPaint)
+            if (isRotateOneDirect)
             {
-                transform.Rotate(Vector3.up, -rotateAmountX, Space.World);
-
-                if (!CanRotateUpDown) return;
-                var rotateAmountY = delta.y * CurrentRotationSpeed * Time.deltaTime * 0.5f;
-                transform.Rotate(Vector3.right, rotateAmountY, Space.World);
+                transform.Rotate(Vector3.up, -rotateAmountX, Space.Self);   
             }
             else
-            {
-                /*var cameraUp = CameraManager.Instance.mainCamera.transform.up;
-                var cameraRight = CameraManager.Instance.mainCamera.transform.right;
-                
-                var horizontalRotation = delta.x * CurrentRotationSpeed * Time.deltaTime;
-                var verticalRotation = delta.y * CurrentRotationSpeed * Time.deltaTime;
-                
-                transform.Rotate(cameraUp, -horizontalRotation, Space.World);
-                transform.Rotate(cameraRight, verticalRotation, Space.World);*/
-                
-                if (lastArcballVector.HasValue)
+            { 
+                // Lấy giá trị Euler angles hiện tại
+                Vector3 currentEuler = transform.eulerAngles;
+
+                // Tính góc xoay theo kéo ngang (dành cho trục Y)
+                float rotateHorizontal = delta.x * CurrentRotationSpeed * Time.deltaTime * 0.5f;
+                currentEuler.y += rotateHorizontal;
+
+                // Nếu cho phép xoay lên/xuống thì xử lý kéo dọc (thay đổi trục Z)
+                if (CanRotateUpDown)
                 {
-                    var currentVector = GetArcballVector(eventData.position);
-
-                    // Tính vector xoay bằng cách lấy tích chéo giữa vector ban đầu và vector hiện tại
-                    var rotationAxis = Vector3.Cross(lastArcballVector.Value, currentVector);
-
-                    // Tính góc xoay dựa trên dot product
-                    var dot = Vector3.Dot(lastArcballVector.Value, currentVector);
-                    dot = Mathf.Clamp(dot, -1.0f, 1.0f);
-                    var angle = Mathf.Acos(dot) * Mathf.Rad2Deg; // chuyển sang độ
-
-                    // Nhân với -1 để đảo chiều xoay (giúp kéo lên -> xoay lên, kéo trái -> xoay trái)
-                    angle *= -1;
-
-                    if (rotationAxis.sqrMagnitude > 1e-6f) // Kiểm tra để tránh xoay khi vector quá nhỏ
-                    {
-                        Quaternion rotation = Quaternion.AngleAxis(angle, rotationAxis.normalized);
-                        transform.rotation = rotation * transform.rotation;
-                    }
-            
-                    // Cập nhật vector cho lần kéo tiếp theo
-                    lastArcballVector = currentVector;
+                    float rotateVertical = delta.y * CurrentRotationSpeed * Time.deltaTime * 0.5f;
+                    currentEuler.z += rotateVertical;
                 }
+
+                lastPointerPosition = eventData.position;
+                // Gán lại giá trị Euler angles mới vào đối tượng
+                transform.eulerAngles = currentEuler;
             }
+
         }
     }
     
