@@ -50,6 +50,7 @@ public class AntiqueObject : MonoBehaviour
     private bool isBlur = false;
     private bool isGuidePlaying = false;
     private bool isSoundOn = true;
+    public bool openInfomationUI = true;
     private Coroutine guideCoroutine;
 
     public RectTransform rect;
@@ -107,6 +108,8 @@ public class AntiqueObject : MonoBehaviour
         interactiveObject.gameObject.SetActive(true);
         CloseButton.gameObject.SetActive(true);
 
+        
+        
         if (!PlatformManager.Instance.IsVR)
         {
             interactiveObject.transform.SetParent(Camera.main.transform);
@@ -127,9 +130,14 @@ public class AntiqueObject : MonoBehaviour
 
         }
         
-
-        
-
+        if (openInfomationUI)
+        {
+            rect.gameObject.SetActive(true);
+        }
+        else
+        {
+            rect.gameObject.SetActive(false);
+        }
         
         CharacterManager.Instance.DisableCharacter();
         InputManager.Instance.DisableInput();
