@@ -210,28 +210,6 @@ namespace Camera
 
             if (!_isLockFollowView)
             {
-                /*var rotation = Quaternion.Euler(_currentPitch, _currentYaw, 0);
-                var targetPosition = player.position + Vector3.up * data.Height;
-                var position = targetPosition - (rotation * Vector3.forward * data.Distance);
-                
-                var direction = (position - _currentTargetPosition).normalized;
-                var distance = data.Distance;
-
-                if (Physics.Raycast(targetPosition, direction, out var hit, distance, blockingLayerMask))
-                {
-                    position = hit.point + hit.normal * collisionOffset;
-                }
-                
-                transform.position = position;
-                
-                if(!_isFirstPerson)
-                {
-                    transform.LookAt(targetPosition);
-                    return;
-                }
-            
-                transform.rotation = rotation;*/
-                
                 var targetPosition = player.position + Vector3.up * data.Height;
                 var rotation = Quaternion.Euler(_currentPitch, _currentYaw, 0);
                 var desiredDistance = data.Distance;
@@ -260,6 +238,21 @@ namespace Camera
             {
                 var rotation = Quaternion.Euler(_currentAreaPitch, _currentAreaYaw, 0);
                 transform.rotation = rotation;
+                
+                //follow player
+                var targetPosition = player.position + Vector3.up * data.Height;
+                var desiredDistance = data.Distance;
+                var desiredPos = targetPosition - (rotation * Vector3.forward * desiredDistance);
+                var direction = (desiredPos - targetPosition).normalized;
+                var maxDistance = Vector3.Distance(targetPosition, desiredPos);
+                if (Physics.Raycast(targetPosition, direction, out var hit, maxDistance, blockingLayerMask))
+                {
+                    var newDistance = hit.distance - collisionOffset;
+                    newDistance = Mathf.Max(newDistance, 0.5f);
+                    desiredPos = targetPosition - (rotation * Vector3.forward * newDistance);
+                }
+                
+                transform.position = desiredPos;
             }
         }
 
@@ -268,7 +261,7 @@ namespace Camera
             
         }
         
-        public void SetFirstPersonView()
+        public void SetFirstPersonView(float distance = -1, float height = -1)
         {
             if(_isFirstPerson) return;
             _isFirstPerson = true;
@@ -280,7 +273,20 @@ namespace Camera
                 StopCoroutine(_changeViewCoroutine);
             }
             
-            _changeViewCoroutine = StartCoroutine(ChangeView(data.View3RdPerson, data.View1StPerson));
+            if(!Mathf.Approximately(distance, -1) && !Mathf.Approximately(height, -1))
+            {
+                var dataView = new CameraFollowDistance()
+                {
+                    Distance = distance,
+                    Height = height
+                };
+                _changeViewCoroutine = StartCoroutine(ChangeView(data.View3RdPerson, dataView));
+            }
+            else
+            {
+                _changeViewCoroutine = StartCoroutine(ChangeView(data.View3RdPerson, data.View1StPerson));
+            }
+            
             directionFirstView.EnableDirectionFirstView();
         }
         
@@ -313,7 +319,22 @@ namespace Camera
                 StopCoroutine(_changeViewCoroutine);
             }
             
-            _changeViewCoroutine = StartCoroutine(ChangeView(data.View1StPerson, data.View3RdPerson));
+            if(!Mathf.Approximately(_exitPaintingCameraDistance, -1) && !Mathf.Approximately(_exitPaintingCameraHeight, -1))
+            {
+                var dataView = new CameraFollowDistance()
+                {
+                    Distance = _exitPaintingCameraDistance,
+                    Height = _exitPaintingCameraHeight
+                };
+                _exitPaintingCameraDistance = -1;
+                _exitPaintingCameraHeight = -1;
+                _changeViewCoroutine = StartCoroutine(ChangeView(dataView, data.View3RdPerson));
+            }
+            else
+            {
+                _changeViewCoroutine = StartCoroutine(ChangeView(data.View1StPerson, data.View3RdPerson));
+            }
+
             directionFirstView.DisableDirectionFirstView();
         }
 
@@ -354,7 +375,7 @@ namespace Camera
             }
         }
 
-        public void EnterPainting(float distance, float height)
+        public void EnterArea(float distance = -1, float height = -1)
         {
             if(isEditorMode) return;
             _isLockFollowView = true;
@@ -366,10 +387,10 @@ namespace Camera
             }
             _isExitFirstView = false;
             
-            _exitPaintingCameraDistance = data.Distance;
-            _exitPaintingCameraHeight = data.Height;
+            _exitPaintingCameraDistance = distance;
+            _exitPaintingCameraHeight = height;
             
-            SetFirstPersonView();
+            SetFirstPersonView(distance, height);
 
             /*if (_changeViewCoroutine != null)
             {
@@ -380,7 +401,7 @@ namespace Camera
             if(!_isFirstPerson) directionFirstView.EnableDirectionFirstView();*/
         }
 
-        public void ExitPainting()
+        public void ExitArea()
         {
             if(isEditorMode) return;
             _isLockFollowView = false;

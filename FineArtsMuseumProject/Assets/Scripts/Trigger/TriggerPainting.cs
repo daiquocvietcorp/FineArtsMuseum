@@ -189,6 +189,24 @@ public class TriggerPainting : MonoBehaviour
             detailCollider.GetComponent<TriggerPaintDetail>().paintDescription.SetActive(false);
             UIPainting.SetDefaultAll();
             
+            if (PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
+            {
+                ButtonGroupCanvas_pc.gameObject.SetActive(false);
+            }
+            
+            if (PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud)
+            {
+                ButtonGroupCanvas_mobile.gameObject.SetActive(false);
+            }
+            if (PlatformManager.Instance.IsVR)
+            {
+                ButtonGroupCanvas_vr.gameObject.SetActive(false);
+            }
+            if (PlatformManager.Instance.IsTomko)
+            {
+                ButtonGroupCanvas_tomko.gameObject.SetActive(false);
+            }
+            
             CameraManager.Instance.SetCameraWhenExitPainting();
         }
     }
