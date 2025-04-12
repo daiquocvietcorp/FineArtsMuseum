@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Camera;
 using InputController;
 using LayerMasks;
@@ -22,7 +23,9 @@ namespace Player
         [field: SerializeField] private Animator animator;
         [field: SerializeField] private CharacterData data;
         [field: SerializeField] private SkinnedMeshRenderer skinnedMeshRenderer;
-        
+        [field: SerializeField] private List<CharacterDefault> characterDefaults;
+
+        private Dictionary<int, CharacterDefault> _characterDefaultDictionary;
         private UnityEngine.Camera _cameraMain;
         private bool _isStarted;
 
@@ -38,10 +41,29 @@ namespace Player
         {
             _isActive = true;
             _isStarted = false;
+            _characterDefaultDictionary = new Dictionary<int, CharacterDefault>();
+            foreach (var characterDefault in characterDefaults)
+            {
+                _characterDefaultDictionary.TryAdd(characterDefault.sceneId, characterDefault);
+            }
+            SetCharacterDefault();
             if (PlatformManager.Instance.IsVR)
             {
                 gameObject.SetActive(false);
             }
+        }
+
+        private void SetCharacterDefault()
+        {
+            if(!SceneLog.IsFirstScene)
+            {
+                if(!_characterDefaultDictionary.TryGetValue(SceneLog.PreviousSceneId, out var dDefault)) return;
+                transform.position = dDefault.position;
+                transform.rotation = Quaternion.Euler(dDefault.rotation);
+                return;
+            }
+            transform.position = data.DefaultPosition;
+            transform.rotation = Quaternion.Euler(data.DefaultRotation);
         }
 
         private void Start()
@@ -282,5 +304,19 @@ namespace Player
         {
             skinnedMeshRenderer.enabled = false;
         }
+        
+        public void SetCharacter(Vector3 position, Vector3 rotation)
+        {
+            transform.position = position;
+            transform.rotation = Quaternion.Euler(rotation);
+        }
+    }
+
+    [Serializable]
+    public class CharacterDefault
+    {
+        public int sceneId;
+        public Vector3 position;
+        public Vector3 rotation;
     }
 }

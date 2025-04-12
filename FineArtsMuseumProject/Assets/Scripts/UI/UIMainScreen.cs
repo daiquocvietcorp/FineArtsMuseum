@@ -56,11 +56,20 @@ namespace UI
             settingsToggle.onValueChanged.AddListener(OnSettingsToggleValueChanged);
             
             _isVROn = false;
-            _isGuideOn = true;
             _isSettingsOn = false;
             
-            guideToggle.isOn = true;
             settingsToggle.isOn = false;
+
+            if (SceneLog.IsFirstScene)
+            {
+                _isGuideOn = true;
+                guideToggle.isOn = true;
+            }
+            else
+            {
+                _isGuideOn = false;
+                guideToggle.isOn = false;
+            }
             
             guideToggle.image.sprite = guideOnSprite;
             settingsToggle.image.sprite = settingsOffSprite;

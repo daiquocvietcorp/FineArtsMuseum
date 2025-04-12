@@ -13,6 +13,9 @@ namespace Camera
         [field: SerializeField] public float Height { get; set; } = 2f;
         [field: SerializeField] public CameraFollowDistance View1StPerson { get; private set; }
         [field: SerializeField] public CameraFollowDistance View3RdPerson { get; private set; }
+        
+        [field: SerializeField] public Vector3 DefaultPosition { get; private set; }
+        [field: SerializeField] public Vector3 DefaultRotation { get; private set; }
     }
 
     [Serializable]

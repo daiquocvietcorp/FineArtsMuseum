@@ -54,6 +54,12 @@ public class IdleScreenManager : MonoBehaviour
 
     void Start()
     {
+        if (!SceneLog.IsFirstScene)
+        {
+            idleScreen.SetActive(false);
+            startController.StartApplication();
+            return;
+        }
         idleScreen.SetActive(true);
         nextButton.onClick.AddListener(OnNextButtonClicked);
         exitButton.onClick.AddListener(StartApplication);

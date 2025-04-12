@@ -7,7 +7,6 @@ namespace System
     {
         [field: SerializeField] private PlatformType platformType;
         [field: SerializeField] private DeviceType deviceType;
-
         private void Awake()
         {
             
