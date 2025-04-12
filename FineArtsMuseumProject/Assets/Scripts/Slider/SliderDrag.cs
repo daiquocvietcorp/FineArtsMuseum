@@ -7,12 +7,41 @@ namespace Slider
 {
     public class SliderDrag : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
     {
+        [field: SerializeField] private bool isRealTime = false;
+        
         private Vector2 _startTouchPosition;
         private Vector2 _endTouchPosition;
         private bool _isSwiping = false;
         
         private Action<int> _changePage;
         private Action<bool> _clickAction;
+        
+        private BoxCollider _boxCollider;
+        private bool _isHoldInputPrevious;
+
+        private void Start()
+        {
+            if(!isRealTime) return;
+            _boxCollider = GetComponent<BoxCollider>();
+            if (_boxCollider)
+                _boxCollider.enabled = false;
+        }
+
+        private void Update()
+        {
+            if(!isRealTime) return;
+            if (MouseInput.Instance.IsHold)
+            {
+                if(_isHoldInputPrevious) return;
+                _boxCollider.enabled = false;
+                _isHoldInputPrevious = true;
+                return;
+            }
+            
+            if(!_isHoldInputPrevious) return;
+            _boxCollider.enabled = true;
+            _isHoldInputPrevious = false;
+        }
 
         public void OnPointerDown(PointerEventData eventData)
         {
@@ -57,6 +86,7 @@ namespace Slider
         public void RegisterDragAction(Action<int> changePage)
         {
             _changePage = changePage;
+            _boxCollider.enabled = true;
         }
         
         public void RegisterClickAction(Action<bool> clickAction)

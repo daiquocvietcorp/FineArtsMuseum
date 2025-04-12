@@ -17,6 +17,9 @@ namespace Camera
         [SerializeField] private LayerMask blockingLayerMask;
         [SerializeField] private float collisionOffset = 0.2f;
         
+        [SerializeField] private Vector3 defaultPosition;
+        [SerializeField] private Vector3 defaultRotation;
+        
         private float _currentYaw;
         private float _currentPitch;
         private float _currentAreaYaw;
@@ -43,8 +46,8 @@ namespace Camera
             data.Height = data.View3RdPerson.Height;
             _isActive = true;
             _joystickDirection = Vector2.zero;
-            
             directionFirstView.DisableDirectionFirstView();
+            SetCameraFirstView();
         }
 
         private void Start()
@@ -59,6 +62,17 @@ namespace Camera
         public void RegisterRotationAction()
         {
             JoystickRotationInput.Instance.RegisterActionRotate(UpdateJoystickDirection);
+        }
+
+        private void SetCameraFirstView()
+        {
+            if (isEditorMode) return;
+            if (player == null) return;
+            _currentTarget = player;
+            _currentTargetPosition = player.position + Vector3.up * data.Height;
+            _currentTargetRotation = Quaternion.Euler(data.DefaultRotation);
+            transform.position = data.DefaultPosition;
+            transform.rotation = Quaternion.Euler(data.DefaultRotation);
         }
 
         private void Update()
