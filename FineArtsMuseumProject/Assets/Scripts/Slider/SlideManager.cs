@@ -2,13 +2,15 @@ using System;
 using System.Collections.Generic;
 using DesignPatterns;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Slider
 {
     public class SlideManager : MonoSingleton<SlideManager>
     {
-        [SerializeField] private SliderScriptableObject sliderScriptableObject;
+        [SerializeField] private List<SliderData> topSliderSprites;
+        [SerializeField] private List<SliderData> bottomSliderSprites;
         [SerializeField] private SlideHolder topSlideHolder;
         [SerializeField] private SlideHolder bottomSlideHolder;
         
@@ -23,15 +25,13 @@ namespace Slider
         [SerializeField] private SliderDrag bottomSliderDrag;
         
         [SerializeField] private List<BoxCollider> pointerColliders;
-
-        
         
         private void Start()
         {
             if(!topSlideHolder) return;
             if (!bottomSlideHolder) return;
-            topSlideHolder.Initialize(sliderScriptableObject.TopSliderSprites);
-            bottomSlideHolder.Initialize(sliderScriptableObject.BottomSliderSprites);
+            topSlideHolder.Initialize(topSliderSprites);
+            bottomSlideHolder.Initialize(bottomSliderSprites);
             topStaticImage.gameObject.SetActive(true);
             bottomStaticImage.gameObject.SetActive(true);
             enterButton.gameObject.SetActive(false);
@@ -40,14 +40,12 @@ namespace Slider
         
         private void ShowNewsTopPaper()
         {
-            topSlideHolder.PresentImage();
-            SetPointerCollider(false);
+            Debug.Log("ShowNewsTopPaper");
         }
         
         private void ShowNewsBottomPaper()
         {
-            bottomSlideHolder.PresentImage();
-            SetPointerCollider(false);
+            Debug.Log("ShowNewsBottomPaper");
         }
 
         private void ChangeTopPage(int next)
@@ -111,12 +109,22 @@ namespace Slider
             SetPointerCollider(false);
         }
 
-        public void SetPointerCollider(bool pointer)
+        private void SetPointerCollider(bool pointer)
         {
             foreach(var point in pointerColliders)
             {
                 point.enabled = pointer;
             }
         }
+    }
+    
+    [Serializable]
+    public class SliderData
+    {
+        [SerializeField] public Sprite sliderSprite;
+        [SerializeField] public string title;
+        [SerializeField] public string subtitle;
+        [SerializeField] public string titleEnglish;
+        [SerializeField] public string subtitleEnglish;
     }
 }
