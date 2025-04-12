@@ -37,5 +37,10 @@ namespace Player
         {
             defaultCharacterStateMachine.HideCharacter();
         }
+
+        public void SetCharacterInfo(Vector3 valuePlayerPosition, Vector3 valuePlayerRotation)
+        {
+            defaultCharacterStateMachine.SetCharacter(valuePlayerPosition, valuePlayerRotation);
+        }
     }
 }

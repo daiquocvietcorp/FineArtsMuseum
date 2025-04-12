@@ -108,8 +108,15 @@ namespace UI
 
         public override void EnableUI()
         {
-            gameObject.SetActive(true);
-            _animationSequence.Restart();
+            if (SceneLog.IsFirstScene)
+            {
+                gameObject.SetActive(true);
+                _animationSequence.Restart();
+            }
+            else
+            {
+                EnterMain();
+            }
         }
 
         public override void DisableUI()
@@ -125,7 +132,10 @@ namespace UI
             InputManager.Instance.EnableJoystickRotation();
             UIManager.Instance.EnableUI("UI_NAVIGATION");
             UIManager.Instance.ActionUI("UI_SOUND");
-            UIManager.Instance.EnableUI("UI_GUIDE");
+            
+            if(SceneLog.IsFirstScene)
+                UIManager.Instance.EnableUI("UI_GUIDE");
+            
             gameObject.SetActive(false);
         }
     }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using DG.Tweening;
 using InputController;
 using Player;
@@ -17,8 +18,9 @@ namespace Camera
         [SerializeField] private LayerMask blockingLayerMask;
         [SerializeField] private float collisionOffset = 0.2f;
         
-        [SerializeField] private Vector3 defaultPosition;
-        [SerializeField] private Vector3 defaultRotation;
+        [SerializeField] private List<CameraDefault> cameraDefaultList;
+        
+        private Dictionary<int, CameraDefault> _cameraDefaultDictionary;
         
         private float _currentYaw;
         private float _currentPitch;
@@ -47,7 +49,14 @@ namespace Camera
             _isActive = true;
             _joystickDirection = Vector2.zero;
             directionFirstView.DisableDirectionFirstView();
+            _cameraDefaultDictionary = new Dictionary<int, CameraDefault>();
+            foreach (var cameraDefault in cameraDefaultList)
+            {
+                _cameraDefaultDictionary.TryAdd(cameraDefault.sceneId, cameraDefault);
+            }
+            
             SetCameraFirstView();
+                
         }
 
         private void Start()
@@ -67,12 +76,29 @@ namespace Camera
         private void SetCameraFirstView()
         {
             if (isEditorMode) return;
-            if (player == null) return;
-            _currentTarget = player;
-            _currentTargetPosition = player.position + Vector3.up * data.Height;
-            _currentTargetRotation = Quaternion.Euler(data.DefaultRotation);
-            transform.position = data.DefaultPosition;
-            transform.rotation = Quaternion.Euler(data.DefaultRotation);
+            if (SceneLog.IsFirstScene)
+            {
+                _currentTargetPosition = data.DefaultPosition;
+                _currentTargetRotation = Quaternion.Euler(data.DefaultRotation);
+                transform.position = data.DefaultPosition;
+                transform.rotation = Quaternion.Euler(data.DefaultRotation);
+            }
+            else
+            {
+                if(!_cameraDefaultDictionary.TryGetValue(SceneLog.PreviousSceneId, out var cameraDefault)) return;
+                _currentTargetPosition = cameraDefault.position;
+                _currentTargetRotation = Quaternion.Euler(cameraDefault.rotation);
+                transform.position = cameraDefault.position;
+                transform.rotation = Quaternion.Euler(cameraDefault.rotation);
+            }
+        }
+        
+        public void SetCamera(Vector3 position, Vector3 rotation)
+        {
+            transform.position = position;
+            transform.rotation = Quaternion.Euler(rotation);
+            _currentTargetPosition = position;
+            _currentTargetRotation = Quaternion.Euler(rotation);
         }
 
         private void Update()
@@ -432,5 +458,13 @@ namespace Camera
             _changeViewCoroutine = StartCoroutine(ChangeView(_exitPaintingCameraDistance, _exitPaintingCameraHeight));
             if(!_isFirstPerson) directionFirstView.DisableDirectionFirstView();*/
         }
+    }
+    
+    [Serializable]
+    public class CameraDefault
+    {
+        public int sceneId;
+        public Vector3 position;
+        public Vector3 rotation;
     }
 }

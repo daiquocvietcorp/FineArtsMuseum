@@ -30,8 +30,11 @@ namespace System
             CanvasManager.Instance.EnableCanvas("MAIN_CANVAS");
             if ((PlatformManager.Instance.IsCloud && PlatformManager.Instance.IsTomkoDevice) || PlatformManager.Instance.IsTomko)
             {
-                UIManager.Instance.EnableUI("UI_LOADING");
-                yield return new WaitForSeconds(7f);
+                if (SceneLog.IsFirstScene)
+                {
+                    UIManager.Instance.EnableUI("UI_LOADING");
+                    yield return new WaitForSeconds(7f);
+                }
             }
             yield return new WaitForSeconds(.1f);
             
