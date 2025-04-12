@@ -21,8 +21,8 @@ namespace Slider
 
         private void Start()
         {
-            if(!isRealTime) return;
             _boxCollider = GetComponent<BoxCollider>();
+            if(!isRealTime) return;
             if (_boxCollider)
                 _boxCollider.enabled = false;
         }

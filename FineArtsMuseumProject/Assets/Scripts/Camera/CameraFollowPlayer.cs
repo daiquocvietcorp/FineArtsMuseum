@@ -303,7 +303,7 @@ namespace Camera
         
         public void SetFirstPersonView(float distance = -1, float height = -1)
         {
-            if(_isFirstPerson) return;
+            //if(_isFirstPerson) return;
             _isFirstPerson = true;
             MouseInput.Instance.ChangeView(_isFirstPerson);
             CharacterManager.Instance.HideCharacterSkin();
@@ -349,7 +349,7 @@ namespace Camera
 
         public void SetThirdPersonView()
         {
-            if(!_isFirstPerson) return;
+            //if(!_isFirstPerson) return;
             _isFirstPerson = false;
             MouseInput.Instance.ChangeView(_isFirstPerson);
             CharacterManager.Instance.ShowCharacterSkin();
@@ -431,6 +431,10 @@ namespace Camera
             _exitPaintingCameraHeight = height;
             
             SetFirstPersonView(distance, height);
+            if (!_isExitFirstView)
+            {
+                _isFirstPerson = false;
+            }
 
             /*if (_changeViewCoroutine != null)
             {
