@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using TMPro;
+using Trigger;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -17,6 +18,7 @@ namespace Slider
         [field: SerializeField] private TMP_Text sliderSubtitle;
         
         private List<SliderData> _sliderDataList;
+        [SerializeField] private List<TriggerObject> listTriggerObject;
         private int _currentIndex;
         private int _totalSlides;
 
@@ -84,6 +86,11 @@ namespace Slider
             prevButton.gameObject.SetActive(false);
             nextButton.gameObject.SetActive(false);
             sliderImage.gameObject.SetActive(false);
+        }
+
+        public void PresentImage()
+        {
+            AntiqueManager.Instance.EnableAntiqueDetail(listTriggerObject[_currentIndex].antiqueID);
         }
     }
 }

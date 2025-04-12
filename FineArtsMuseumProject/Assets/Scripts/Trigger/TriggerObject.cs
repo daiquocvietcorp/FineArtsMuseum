@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 public class TriggerObject : MonoBehaviour, IPointerDownHandler
 {
-    [field: SerializeField] private string antiqueID;
+    public string antiqueID;
     
     //private MouseHoverActivator _hoverEffect;
     private Coroutine _playAnimationCoroutine;

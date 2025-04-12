@@ -7,5 +7,6 @@ namespace LayerMasks
     {
         [field: SerializeField] public LayerMask groundLayer;
         [field: SerializeField] public LayerMask pointCloudLayer;
+        [field: SerializeField] public LayerMask blockingLayer;
     }
 }

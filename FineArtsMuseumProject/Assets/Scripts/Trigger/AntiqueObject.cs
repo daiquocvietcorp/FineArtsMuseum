@@ -2,6 +2,7 @@
 
 using System;
 using DG.Tweening;
+using Slider;
 using UI;
 
 namespace Trigger
@@ -183,7 +184,7 @@ public class AntiqueObject : MonoBehaviour
         AudioSubtitleManager.Instance.StopAudioAndClearSubtitle();
         UIManager.Instance.EnableUI("UI_NAVIGATION");
         AntiqueManager.Instance.DisableAntiqueDetail(AntiqueID);
-
+        SlideManager.Instance.SetPointerCollider(true);
     }
 
     private void ToggleSound()

@@ -267,11 +267,21 @@ namespace InputController
 
             if (PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
             {
-                return EventSystem.current.IsPointerOverGameObject();
+                RaycastHit hit;
+                var ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
+                return !Physics.Raycast(ray, out hit, data.View3RdGoToPointLimitDistance,
+                    LayerManager.Instance.blockingLayer) && EventSystem.current.IsPointerOverGameObject();
             }
 
             if (PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsTomko)
             {
+                RaycastHit hit;
+                var ray = _mainCamera.ScreenPointToRay(Input.GetTouch(fingerId).position);
+                if (Physics.Raycast(ray, out hit, data.View3RdGoToPointLimitDistance,
+                        LayerManager.Instance.blockingLayer))
+                {
+                    return false;
+                }
                 if (EventSystem.current.IsPointerOverGameObject(Input.GetTouch(fingerId).fingerId)) return true;
             }
 
