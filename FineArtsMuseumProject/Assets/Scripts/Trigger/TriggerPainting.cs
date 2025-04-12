@@ -62,6 +62,10 @@ public class TriggerPainting : MonoBehaviour
     
     private BoxCollider _objectCollider;
 
+    [SerializeField] private List<Transform> listOtherLights;
+    [SerializeField] private Transform paintingLightObject;
+    
+    [SerializeField] private bool IsMainPainting = true;
     
 
     private void Start()
@@ -111,6 +115,23 @@ public class TriggerPainting : MonoBehaviour
                 var rotation = Quaternion.Euler(cameraRotationOffset); 
                 CameraManager.Instance.cameraFollowPlayer.SetCameraData(cameraPositionOffset, rotation);
             }
+
+            if (IsMainPainting)
+            {
+                if (listOtherLights != null && listOtherLights.Count > 0)
+                {
+                    foreach (var light in listOtherLights)
+                    {
+                        light.gameObject.SetActive(false);
+                    }
+                }
+
+                if (paintingLightObject != null)
+                {
+                    paintingLightObject.gameObject.SetActive(true);
+                }
+            }
+            
             PaintingDetailManager.Instance.SetCurrentPainting(paintRotateAndZoom);
             //DrmGameObject.gameObject.SetActive(true);
             renderer.enabled = true;
@@ -256,6 +277,22 @@ public class TriggerPainting : MonoBehaviour
             
             currentTrigger = false;
             renderer.enabled = false;
+            
+            if (IsMainPainting)
+            {
+                if (listOtherLights != null && listOtherLights.Count > 0)
+                {
+                    foreach (var light in listOtherLights)
+                    {
+                        light.gameObject.SetActive(true);
+                    }
+                }
+
+                if (paintingLightObject != null)
+                {
+                    paintingLightObject.gameObject.SetActive(false);
+                }
+            }
         }
         
         if (isEnter && DrmGameObject.radius < maxScanRadius && currentTrigger)

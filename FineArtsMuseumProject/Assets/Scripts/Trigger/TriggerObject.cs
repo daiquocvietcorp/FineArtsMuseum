@@ -8,12 +8,12 @@ public class TriggerObject : MonoBehaviour, IPointerDownHandler
 {
     [field: SerializeField] private string antiqueID;
     
-    private MouseHoverActivator _hoverEffect;
+    //private MouseHoverActivator _hoverEffect;
     private Coroutine _playAnimationCoroutine;
 
     private void Start()
     {
-        _hoverEffect = GetComponent<MouseHoverActivator>();
+        //_hoverEffect = GetComponent<MouseHoverActivator>();
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -36,9 +36,10 @@ public class TriggerObject : MonoBehaviour, IPointerDownHandler
 
     private IEnumerator PlayObjectAnimation()
     {
-        _hoverEffect.FakePointerEnter();
-        yield return new WaitForSeconds(1f);
-        _hoverEffect.FakePointerExit();
+        //_hoverEffect.FakePointerEnter();
+        //yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0f);
+        //_hoverEffect.FakePointerExit();
         AntiqueManager.Instance.EnableAntiqueDetail(antiqueID);
     }
 

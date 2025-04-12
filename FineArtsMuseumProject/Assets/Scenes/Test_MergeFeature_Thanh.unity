@@ -16813,6 +16813,85 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 485237585}
   m_CullTransparentMesh: 1
+--- !u!1001 &485266492
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 7910371729408833968, guid: 39649eca60ca96c4e8bf76f7c308deba,
+        type: 3}
+      propertyPath: m_Name
+      value: SliderTemplate
+      objectReference: {fileID: 0}
+    - target: {fileID: 7910371729408833975, guid: 39649eca60ca96c4e8bf76f7c308deba,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 79
+      objectReference: {fileID: 0}
+    - target: {fileID: 7910371729408833975, guid: 39649eca60ca96c4e8bf76f7c308deba,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7910371729408833975, guid: 39649eca60ca96c4e8bf76f7c308deba,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7910371729408833975, guid: 39649eca60ca96c4e8bf76f7c308deba,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7910371729408833975, guid: 39649eca60ca96c4e8bf76f7c308deba,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7910371729408833975, guid: 39649eca60ca96c4e8bf76f7c308deba,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7910371729408833975, guid: 39649eca60ca96c4e8bf76f7c308deba,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7910371729408833975, guid: 39649eca60ca96c4e8bf76f7c308deba,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7910371729408833975, guid: 39649eca60ca96c4e8bf76f7c308deba,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7910371729408833975, guid: 39649eca60ca96c4e8bf76f7c308deba,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7910371729408833975, guid: 39649eca60ca96c4e8bf76f7c308deba,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7910371730233770579, guid: 39649eca60ca96c4e8bf76f7c308deba,
+        type: 3}
+      propertyPath: topMirror
+      value: 
+      objectReference: {fileID: 1768405474}
+    - target: {fileID: 7910371730233770579, guid: 39649eca60ca96c4e8bf76f7c308deba,
+        type: 3}
+      propertyPath: bottomMirror
+      value: 
+      objectReference: {fileID: 1213893439}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 39649eca60ca96c4e8bf76f7c308deba, type: 3}
 --- !u!1 &486244440
 GameObject:
   m_ObjectHideFlags: 0
@@ -27241,7 +27320,7 @@ RectTransform:
   - {fileID: 746825266}
   - {fileID: 1990890957}
   m_Father: {fileID: 0}
-  m_RootOrder: 79
+  m_RootOrder: 80
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -32320,6 +32399,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPaint: 1
+  isObject: 0
   rotationSpeed: 70
   zoomSpeed: 0.01
   rotationSpeedMobile: 2
@@ -32329,6 +32409,7 @@ MonoBehaviour:
   resetDuration: 0.5
   zoomScrollbar: {fileID: 0}
   CanRotateUpDown: 0
+  isRotateOneDirect: 0
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 1
 --- !u!64 &948018377
@@ -57335,6 +57416,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPaint: 1
+  isObject: 0
   rotationSpeed: 100
   zoomSpeed: 0.01
   rotationSpeedMobile: 2.5
@@ -57344,6 +57426,7 @@ MonoBehaviour:
   resetDuration: 0.5
   zoomScrollbar: {fileID: 0}
   CanRotateUpDown: 0
+  isRotateOneDirect: 0
   originalScale: {x: 0.2, y: 0.2, z: 0.2}
   canRotate: 1
 --- !u!64 &1608284412

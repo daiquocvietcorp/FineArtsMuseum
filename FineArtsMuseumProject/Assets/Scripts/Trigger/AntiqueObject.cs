@@ -42,6 +42,7 @@ public class AntiqueObject : MonoBehaviour
     [Header("Settings")]
     public float instructionDuration = 10f;
     public Vector3 interactObjectLocalPosition = Vector3.forward;
+    public Vector3 interactObjectLocalRotation = Vector3.zero;
     
     public Vector2 animationImageAnchoredPos;
 
@@ -54,6 +55,9 @@ public class AntiqueObject : MonoBehaviour
     private bool isSoundOn = true;
     
     public bool openInfomationUI = true;
+    
+    public bool isSetRotation = false;
+    
     private Coroutine guideCoroutine;
 
     public RectTransform rect;
@@ -123,7 +127,10 @@ public class AntiqueObject : MonoBehaviour
             isBlur = true;
             interactiveObject.transform.SetParent(Camera.main.transform, false);
             interactiveObject.transform.localPosition = interactObjectLocalPosition;
-            
+            if (isSetRotation)
+            {
+                interactiveObject.transform.localEulerAngles = interactObjectLocalRotation;
+            }
         }
         else
         {
