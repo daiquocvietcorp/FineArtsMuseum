@@ -47,9 +47,9 @@ namespace Slider
             if (currentIndex < 0 || currentIndex >= _sliderDataList.Count) return;
             var sliderData = _sliderDataList[currentIndex];
             if (sliderData == null) return;
-            sliderImage.sprite = sliderData.SliderSprite;
-            sliderTitle.text = sliderData.Title;
-            sliderSubtitle.text = sliderData.Subtitle;
+            sliderImage.sprite = sliderData.sliderSprite;
+            sliderTitle.text = sliderData.title;
+            sliderSubtitle.text = sliderData.subtitle;
         }
 
         public void OnClickNextButton()

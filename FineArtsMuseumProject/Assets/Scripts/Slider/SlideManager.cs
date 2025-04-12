@@ -2,13 +2,15 @@ using System;
 using System.Collections.Generic;
 using DesignPatterns;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Slider
 {
     public class SlideManager : MonoSingleton<SlideManager>
     {
-        [SerializeField] private SliderScriptableObject sliderScriptableObject;
+        [SerializeField] private List<SliderData> topSliderSprites;
+        [SerializeField] private List<SliderData> bottomSliderSprites;
         [SerializeField] private SlideHolder topSlideHolder;
         [SerializeField] private SlideHolder bottomSlideHolder;
         
@@ -28,8 +30,8 @@ namespace Slider
         {
             if(!topSlideHolder) return;
             if (!bottomSlideHolder) return;
-            topSlideHolder.Initialize(sliderScriptableObject.TopSliderSprites);
-            bottomSlideHolder.Initialize(sliderScriptableObject.BottomSliderSprites);
+            topSlideHolder.Initialize(topSliderSprites);
+            bottomSlideHolder.Initialize(bottomSliderSprites);
             topStaticImage.gameObject.SetActive(true);
             bottomStaticImage.gameObject.SetActive(true);
             enterButton.gameObject.SetActive(false);
@@ -112,5 +114,15 @@ namespace Slider
                 point.enabled = pointer;
             }
         }
+    }
+    
+    [Serializable]
+    public class SliderData
+    {
+        [SerializeField] public Sprite sliderSprite;
+        [SerializeField] public string title;
+        [SerializeField] public string subtitle;
+        [SerializeField] public string titleEnglish;
+        [SerializeField] public string subtitleEnglish;
     }
 }
