@@ -10,6 +10,7 @@ using UnityEngine.EventSystems;
 public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandler, IScrollHandler, IPointerUpHandler, IBeginDragHandler, IEndDragHandler
 {
     [field: SerializeField] private bool isPaint = true;
+    [field: SerializeField] private bool isObject = false;
     
     public float rotationSpeed = 100f;
     public float zoomSpeed = 0.01f;
@@ -23,6 +24,7 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
 
     public Scrollbar zoomScrollbar;
     public bool CanRotateUpDown = false;
+    [SerializeField] private bool isRotateOneDirect;
 
     public Vector3 originalScale;
     private Quaternion originalRotation;
@@ -131,30 +133,15 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
         else if (activeTouches.Count == 1)
         {
             if (!canRotate) return;
-            
+
             var delta = eventData.position - lastPointerPosition;
             lastPointerPosition = eventData.position;
-            var rotateAmountX = delta.x * CurrentRotationSpeed * Time.deltaTime * 0.5f;
-            
-            if (isPaint)
-            {
-                transform.Rotate(Vector3.up, -rotateAmountX, Space.World);
 
-                if (!CanRotateUpDown) return;
-                var rotateAmountY = delta.y * CurrentRotationSpeed * Time.deltaTime * 0.5f;
-                transform.Rotate(Vector3.right, rotateAmountY, Space.World);
-            }
-            else
+            
+            var rotateAmountX = delta.x * CurrentRotationSpeed * Time.deltaTime * 0.5f;
+
+            if (isObject)
             {
-                /*var cameraUp = CameraManager.Instance.mainCamera.transform.up;
-                var cameraRight = CameraManager.Instance.mainCamera.transform.right;
-                
-                var horizontalRotation = delta.x * CurrentRotationSpeed * Time.deltaTime;
-                var verticalRotation = delta.y * CurrentRotationSpeed * Time.deltaTime;
-                
-                transform.Rotate(cameraUp, -horizontalRotation, Space.World);
-                transform.Rotate(cameraRight, verticalRotation, Space.World);*/
-                
                 if (lastArcballVector.HasValue)
                 {
                     var currentVector = GetArcballVector(eventData.position);
@@ -179,7 +166,34 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
                     // Cập nhật vector cho lần kéo tiếp theo
                     lastArcballVector = currentVector;
                 }
+                return;
             }
+            
+            if (isRotateOneDirect)
+            {
+                transform.Rotate(Vector3.up, -rotateAmountX, Space.Self);   
+            }
+            else
+            { 
+                // Lấy giá trị Euler angles hiện tại
+                Vector3 currentEuler = transform.eulerAngles;
+
+                // Tính góc xoay theo kéo ngang (dành cho trục Y)
+                float rotateHorizontal = delta.x * CurrentRotationSpeed * Time.deltaTime * 0.5f;
+                currentEuler.y += rotateHorizontal;
+
+                // Nếu cho phép xoay lên/xuống thì xử lý kéo dọc (thay đổi trục Z)
+                if (CanRotateUpDown)
+                {
+                    float rotateVertical = delta.y * CurrentRotationSpeed * Time.deltaTime * 0.5f;
+                    currentEuler.z += rotateVertical;
+                }
+
+                lastPointerPosition = eventData.position;
+                // Gán lại giá trị Euler angles mới vào đối tượng
+                transform.eulerAngles = currentEuler;
+            }
+
         }
     }
     

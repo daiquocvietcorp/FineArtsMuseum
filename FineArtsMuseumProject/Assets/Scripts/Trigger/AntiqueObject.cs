@@ -1,6 +1,7 @@
 
 
 using System;
+using DG.Tweening;
 using UI;
 
 namespace Trigger
@@ -41,6 +42,7 @@ public class AntiqueObject : MonoBehaviour
     [Header("Settings")]
     public float instructionDuration = 10f;
     public Vector3 interactObjectLocalPosition = Vector3.forward;
+    
     public Vector2 animationImageAnchoredPos;
 
     [Header("Dependencies")]
@@ -50,6 +52,7 @@ public class AntiqueObject : MonoBehaviour
     private bool isBlur = false;
     private bool isGuidePlaying = false;
     private bool isSoundOn = true;
+    
     public bool openInfomationUI = true;
     private Coroutine guideCoroutine;
 
@@ -112,13 +115,15 @@ public class AntiqueObject : MonoBehaviour
         
         if (!PlatformManager.Instance.IsVR)
         {
-            interactiveObject.transform.SetParent(Camera.main.transform);
-            interactiveObject.transform.localPosition = interactObjectLocalPosition;
+            
             // 👉 Gán scale theo trung bình giữa min và max
             float avgScale = (interactiveObject.minScale + interactiveObject.maxScale) / 2f;
             interactiveObject.transform.localScale = new Vector3(avgScale, avgScale, avgScale);
             if(interactiveObject.zoomScrollbar) interactiveObject.zoomScrollbar.value = interactiveObject.GetZoomScrollbarValue(avgScale);
             isBlur = true;
+            interactiveObject.transform.SetParent(Camera.main.transform, false);
+            interactiveObject.transform.localPosition = interactObjectLocalPosition;
+            
         }
         else
         {
@@ -148,6 +153,9 @@ public class AntiqueObject : MonoBehaviour
 
     public void TurnOffBlur()
     {
+        interactiveObject.transform.SetParent(null);
+        // interactiveObject.GetComponent<BoxCollider>().enabled = false;
+        // interactiveObject.transform.GetChild(0).transform.gameObject.SetActive(false);
         CharacterStateMachine.gameObject.layer = LayerMask.NameToLayer("Default");
         //objectDetail.SetActive(false);
         if (PlatformManager.Instance.IsVR)

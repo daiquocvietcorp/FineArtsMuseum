@@ -105,6 +105,8 @@ namespace Slider
             bottomSlideHolder.ExitSlide();
             topStaticImage.gameObject.SetActive(true);
             bottomStaticImage.gameObject.SetActive(true);
+            enterButton.gameObject.SetActive(false);
+            SetPointerCollider(false);
         }
 
         private void SetPointerCollider(bool pointer)
