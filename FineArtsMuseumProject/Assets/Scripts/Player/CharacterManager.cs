@@ -22,6 +22,11 @@ namespace Player
         {
             defaultCharacterStateMachine.StartCharacter();
         }
+        
+        public void StopControlCharacter()
+        {
+            defaultCharacterStateMachine.StopCharacter();
+        }
 
         public void RegisterActionDefault()
         {
