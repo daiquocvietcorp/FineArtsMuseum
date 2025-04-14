@@ -29,10 +29,14 @@ public class AntiqueObject : MonoBehaviour
     public Image RotateImage;
     public Sprite RotateSpriteVi;
     public Sprite RotateSpriteEng;
+    
 
     public Image ZoomImage;
     public Image ZoomFingerImage;
     public Image ZoomArrowImage;
+    
+    public Sprite ZoomSpriteVi;
+    public Sprite ZoomSpriteEng;
     public TextMeshProUGUI ZoomText;
     public Button SoundButton;
     public Sprite SoundOn;
