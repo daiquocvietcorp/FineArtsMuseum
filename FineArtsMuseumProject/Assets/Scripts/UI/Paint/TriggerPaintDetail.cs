@@ -136,9 +136,9 @@ public class TriggerPaintDetail : MonoBehaviour,IPointerDownHandler
 
     public void ResetFade()
     {
-        SetLayerRecursively(paintObject,"IgnoreBlur", true);
-        SetLayerRecursively(playerObject,"IgnoreBlur", true);
-        SetLayerRecursively(wsObject,"IgnoreBlur", true);
+        SetLayerRecursively(paintObject,"Default", true);
+        SetLayerRecursively(playerObject,"Default", true);
+        SetLayerRecursively(wsObject,"Default", true);
         SetLayerRecursively(this.gameObject,"Highlighter", true);
         
         timer = 0f;

@@ -54,19 +54,24 @@ public class IdleScreenManager : MonoBehaviour
 
     void Start()
     {
-        if (!SceneLog.IsFirstScene)
+        if (SceneLog.IsFirstScene)
         {
-            idleScreen.SetActive(false);
-            startController.StartApplication();
-            return;
+            idleScreen.SetActive(true);
+            nextButton.onClick.AddListener(OnNextButtonClicked);
+            exitButton.onClick.AddListener(StartApplication);
+            if(PlatformManager.Instance.IsTomko) return;
+            exitButton.onClick.RemoveAllListeners();
+            exitButton.onClick.AddListener(OnExitButtonClicked);
+            HideIdleScreen();
         }
-        idleScreen.SetActive(true);
-        nextButton.onClick.AddListener(OnNextButtonClicked);
-        exitButton.onClick.AddListener(StartApplication);
-        if(PlatformManager.Instance.IsTomko) return;
-        exitButton.onClick.RemoveAllListeners();
-        exitButton.onClick.AddListener(OnExitButtonClicked);
-        HideIdleScreen();
+        else
+        {
+            startController.StartApplication();
+            idleScreen.SetActive(true);
+            exitButton.onClick.RemoveAllListeners();
+            exitButton.onClick.AddListener(OnExitButtonClicked);
+            HideIdleScreen();
+        }
     }
 
     private void StartApplication()

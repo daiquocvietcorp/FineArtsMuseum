@@ -40,12 +40,14 @@ namespace Slider
         
         private void ShowNewsTopPaper()
         {
-            Debug.Log("ShowNewsTopPaper");
+            topSlideHolder.PresentImage();
+            SetPointerCollider(false);
         }
         
         private void ShowNewsBottomPaper()
         {
-            Debug.Log("ShowNewsBottomPaper");
+            bottomSlideHolder.PresentImage();
+            SetPointerCollider(false);
         }
 
         private void ChangeTopPage(int next)
@@ -109,7 +111,7 @@ namespace Slider
             SetPointerCollider(false);
         }
 
-        private void SetPointerCollider(bool pointer)
+        public void SetPointerCollider(bool pointer)
         {
             foreach(var point in pointerColliders)
             {
