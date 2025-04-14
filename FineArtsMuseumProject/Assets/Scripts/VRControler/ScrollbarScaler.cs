@@ -29,6 +29,7 @@ public class ScrollbarScaler : MonoBehaviour
         if (targetObject != null)
         {
             float scale = Mathf.Lerp(minScale, maxScale, value);
+            Debug.Log("scale: " + scale);
             targetObject.localScale = Vector3.one * scale;
         }
     }

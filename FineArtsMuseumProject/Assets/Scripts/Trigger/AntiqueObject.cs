@@ -126,9 +126,9 @@ public class AntiqueObject : MonoBehaviour
         {
             
             // 👉 Gán scale theo trung bình giữa min và max
-            float avgScale = (interactiveObject.minScale + interactiveObject.maxScale) / 2f;
-            interactiveObject.transform.localScale = new Vector3(avgScale, avgScale, avgScale);
-            if(interactiveObject.zoomScrollbar) interactiveObject.zoomScrollbar.value = interactiveObject.GetZoomScrollbarValue(avgScale);
+            float startScale = (interactiveObject.minScale);
+            interactiveObject.transform.localScale = new Vector3(startScale, startScale, startScale);
+            if(interactiveObject.zoomScrollbar) interactiveObject.zoomScrollbar.value = interactiveObject.GetZoomScrollbarValue(startScale);
             isBlur = true;
             interactiveObject.transform.SetParent(Camera.main.transform, false);
             interactiveObject.transform.localPosition = interactObjectLocalPosition;

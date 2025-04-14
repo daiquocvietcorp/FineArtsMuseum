@@ -81,7 +81,7 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
     void Start()
     {
         originalRotation = transform.rotation;
-        averageScale = Vector3.one * ((minScale + maxScale) / 2f);
+        averageScale = Vector3.one * (minScale);
 
         if (zoomScrollbar != null)
         {
@@ -273,7 +273,7 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
     {
         Vector3 startScale = transform.localScale;
         float elapsed = 0f;
-        Vector3 targetScale = Vector3.one * ((minScale + maxScale) / 2f);
+        Vector3 targetScale = Vector3.one * (minScale);
 
         while (elapsed < resetDuration)
         {
@@ -431,6 +431,7 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
     
     public float GetOriginalScalePercent()
     {
-        return (Vector3.one * ((minScale + maxScale) / 2f)).x/maxScale;
+        //return (Vector3.one * ((minScale + maxScale) / 2f)).x/maxScale;
+        return 0;
     }
 }
