@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Camera;
 using DesignPatterns;
+using InputController;
 using Player;
 using Trigger;
 using UnityEngine;
@@ -40,6 +41,10 @@ namespace System
             {
                 StopCoroutine(_loadSceneCoroutine);
             }
+            
+            InputManager.Instance.DisableInput();
+            CharacterManager.Instance.StopControlCharacter();
+            
             _loadSceneCoroutine = StartCoroutine(LoadScene(exitDataObject));
         }
 

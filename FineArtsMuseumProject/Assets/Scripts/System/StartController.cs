@@ -40,7 +40,6 @@ namespace System
             
             UIManager.Instance.EnableUI("UI_SOUND");
             UIManager.Instance.EnableUI("UI_START");
-            
         }
     }
 }

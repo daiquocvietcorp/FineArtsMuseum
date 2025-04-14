@@ -37,6 +37,11 @@ namespace Player
             _isStarted = true;
         }
         
+        public void StopCharacter()
+        {
+            _isStarted = false;
+        }
+        
         private void Awake()
         {
             _isActive = true;

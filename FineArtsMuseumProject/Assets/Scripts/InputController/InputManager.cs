@@ -17,6 +17,7 @@ namespace InputController
 
         public void DisableInput()
         {
+            if (PlatformManager.Instance.IsVR) return;
             mouseInput.DisableMouseOrTouchInput();
         }
         

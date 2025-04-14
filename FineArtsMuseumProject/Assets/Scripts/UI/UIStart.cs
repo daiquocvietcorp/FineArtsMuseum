@@ -23,13 +23,9 @@ namespace UI
         [field: SerializeField] private Animator _animator;
         private Sequence _animationSequence;
         private Sequence _hideSequence;
-
-
-        public GameObject StartRoom;
         private void Awake()
         {
-            _animationSequence = DOTween.Sequence();
-
+            //_animationSequence = DOTween.Sequence();
             
             //titleImg.color = new Color(titleImg.color.r, titleImg.color.g, titleImg.color.b, 0);
             //subTitleImg.color = new Color(subTitleImg.color.r, subTitleImg.color.g, subTitleImg.color.b, 0);
@@ -61,7 +57,7 @@ namespace UI
             //        //UIManager.Instance.EnableUI("UI_GAME");
             //    });
             //});
-//
+            
             //_animationSequence.Pause();
             //_animationSequence.SetAutoKill(false);
             
@@ -69,15 +65,12 @@ namespace UI
                 
             startBtn.onClick.AddListener(() =>
             {
-                    
+                if (PlatformManager.Instance.IsVR) return;
                 startBtn.interactable = false;
                 UIManager.Instance.DisableUI("UI_START");
                 if(settingCanvas == null) return;
                 settingCanvas.gameObject.SetActive(true);
-                if (PlatformManager.Instance.IsVR)
-                {
-                    StartRoom.SetActive(false);
-                }
+                
                 //UIManager.Instance.EnableUI("UI_GAME");
             });
             
@@ -103,6 +96,13 @@ namespace UI
             
             _hideSequence.Pause();
             _hideSequence.SetAutoKill(false);
+
+            if (SceneLog.IsFirstScene) return;
+            titleImg.gameObject.SetActive(false);
+            subTitleImg.gameObject.SetActive(false);
+            appNameImg.gameObject.SetActive(false);
+            descriptionImg.gameObject.SetActive(false);
+            startBtnImg.gameObject.SetActive(false);
         }
         
 
@@ -116,6 +116,7 @@ namespace UI
             else
             {
                 EnterMain();
+                
             }
         }
 
