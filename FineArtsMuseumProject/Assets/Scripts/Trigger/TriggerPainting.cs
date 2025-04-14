@@ -24,9 +24,6 @@ public class TriggerPainting : MonoBehaviour
     public GameObject ButtonGroupCanvas_tomko;
     public GameObject ScreenOutlineEffect;
     public GameObject Player;
-    
-    public GameObject ScrollBar;
-    
     public GameObject VRPlayer;
     public Collider detailCollider;
     public TriggerPaintDetail triggerPaintDetail;
@@ -168,7 +165,6 @@ public class TriggerPainting : MonoBehaviour
             {
                 PaintingDetailManager.Instance.SetButtonGroup(ButtonGroupCanvas_vr);
                 ButtonGroupCanvas_vr.gameObject.SetActive(true);
-                ScrollBar.gameObject.SetActive(true);
             }
             if (PlatformManager.Instance.IsTomko)
             {
@@ -239,9 +235,10 @@ public class TriggerPainting : MonoBehaviour
             fogVFX.SetVector3("ColliderPosition", transform.position);
         }
         
-        if (DrmGameObject.radius == maxScanRadius && isEnter && DrmGameObject.gameObject.activeSelf && currentTrigger)
+        if (DrmGameObject.radius == maxScanRadius && isEnter && DrmGameObject.gameObject.activeSelf && currentTrigger )
         {
-            renderer.enabled = false;
+            if (!PlatformManager.Instance.IsVR)
+                renderer.enabled = false;
         }
         
         if(DrmGameObject.radius <= 0f && !isEnter && DrmGameObject.gameObject.activeSelf && currentTrigger) 
@@ -261,7 +258,6 @@ public class TriggerPainting : MonoBehaviour
             if(PlatformManager.Instance.IsVR)
             {
                 ButtonGroupCanvas_vr.gameObject.SetActive(false);
-                ScrollBar.gameObject.SetActive(false);
             }
             if(PlatformManager.Instance.IsTomko)
             {

@@ -23,9 +23,6 @@ namespace UI
         [field: SerializeField] private Animator _animator;
         private Sequence _animationSequence;
         private Sequence _hideSequence;
-
-
-        public GameObject StartRoom;
         private void Awake()
         {
             _animationSequence = DOTween.Sequence();
@@ -69,15 +66,12 @@ namespace UI
                 
             startBtn.onClick.AddListener(() =>
             {
-                    
+                if (PlatformManager.Instance.IsVR) return;
                 startBtn.interactable = false;
                 UIManager.Instance.DisableUI("UI_START");
                 if(settingCanvas == null) return;
                 settingCanvas.gameObject.SetActive(true);
-                if (PlatformManager.Instance.IsVR)
-                {
-                    StartRoom.SetActive(false);
-                }
+                
                 //UIManager.Instance.EnableUI("UI_GAME");
             });
             

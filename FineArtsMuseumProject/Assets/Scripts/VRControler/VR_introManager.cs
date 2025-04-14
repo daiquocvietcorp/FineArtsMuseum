@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class VR_introManager : MonoBehaviour
 {
     [Header("Canvas")]
-    [SerializeField] private GameObject startCanvas;   // Canvas sẽ được bật sau khi toàn bộ chuỗi kết thúc
     [SerializeField] private GameObject introCanvas;   // Intro Canvas, sẽ chỉ tắt sau khi chạy xong fade out của GameObject cuối trong sequence
     [Header("Chuỗi GameObject & Audio cho từng ngôn ngữ")]
     public GameObject[] sequenceObjects;
@@ -58,15 +57,7 @@ public class VR_introManager : MonoBehaviour
         }
 
         // Lấy hoặc thêm CanvasGroup cho startCanvas; khởi đầu alpha = 0
-        if (startCanvas != null)
-        {
-            startCanvasGroup = startCanvas.GetComponent<CanvasGroup>();
-            if (startCanvasGroup == null)
-                startCanvasGroup = startCanvas.AddComponent<CanvasGroup>();
-            startCanvasGroup.alpha = 0f;
-            startCanvas.SetActive(true);  // Cần active để hiệu ứng fade UI hoạt động
-        }
-
+       
         StartCoroutine(PlayIntroAndSequence());
     }
 
@@ -230,14 +221,6 @@ public class VR_introManager : MonoBehaviour
         }
 
         // Bật startCanvas ngay lập tức
-        if (startCanvas != null)
-        {
-            startCanvas.SetActive(true);
-            if (startCanvasGroup != null)
-            {
-                startCanvasGroup.alpha = 1f;
-            }
-        }
     }
 
 
