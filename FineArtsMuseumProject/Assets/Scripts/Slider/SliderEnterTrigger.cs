@@ -26,8 +26,12 @@ namespace Slider
             if (!other.CompareTag("Player")) return;
             CameraManager.Instance.cameraFollowPlayer.EnterArea(distanceView, heightView);
             CameraManager.Instance.cameraFollowPlayer.SetCameraData(cameraPosition, _targetRotation);
-            topMirror.gameObject.SetActive(false);
-            bottomMirror.gameObject.SetActive(false);
+            
+            if(topMirror != null)
+                topMirror.gameObject.SetActive(false);
+            
+            if(bottomMirror != null)
+                bottomMirror.gameObject.SetActive(false);
             SlideManager.Instance.EnterSlideArea();
         }
 
@@ -35,8 +39,12 @@ namespace Slider
         {
             if (!other.CompareTag("Player")) return;
             CameraManager.Instance.cameraFollowPlayer.ExitArea();
-            topMirror.gameObject.SetActive(true);
-            bottomMirror.gameObject.SetActive(true);
+            
+            if(topMirror != null)
+                topMirror.gameObject.SetActive(true);
+            
+            if(bottomMirror != null)
+                bottomMirror.gameObject.SetActive(true);
             SlideManager.Instance.ExitSlideArea();
         }
     }
