@@ -50,8 +50,17 @@ namespace Slider
             var sliderData = _sliderDataList[currentIndex];
             if (sliderData == null) return;
             sliderImage.sprite = sliderData.sliderSprite;
-            sliderTitle.text = sliderData.title;
-            sliderSubtitle.text = sliderData.subtitle;
+
+            if (AudioSubtitleManager.Instance.currentLanguage == "vi")
+            {
+                sliderTitle.text = sliderData.title;
+                sliderSubtitle.text = sliderData.subtitle;
+            }
+            else
+            {
+                sliderTitle.text = sliderData.titleEnglish;
+                sliderSubtitle.text = sliderData.subtitleEnglish;
+            }
         }
 
         public void OnClickNextButton()
@@ -91,6 +100,23 @@ namespace Slider
         public void PresentImage()
         {
             AntiqueManager.Instance.EnableAntiqueDetail(listTriggerObject[_currentIndex].antiqueID);
+        }
+
+        public void ChangeLanguage(string currentLanguage)
+        {
+            if(_sliderDataList == null || _sliderDataList.Count == 0) return;
+            if(_sliderDataList[_currentIndex] == null) return;
+            
+            if (currentLanguage == "vi")
+            {
+                sliderTitle.text = _sliderDataList[_currentIndex].title;
+                sliderSubtitle.text = _sliderDataList[_currentIndex].subtitle;
+            }
+            else
+            {
+                sliderTitle.text = _sliderDataList[_currentIndex].titleEnglish;
+                sliderSubtitle.text = _sliderDataList[_currentIndex].subtitleEnglish;
+            }
         }
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DesignPatterns;
+using Slider;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -46,7 +47,7 @@ public class AudioSubtitleManager : MonoSingleton<AudioSubtitleManager>
     [SerializeField] private Button TriggerButton;
     
     private AudioDataList audioData;
-    private string currentLanguage;
+    public string currentLanguage;
     private Coroutine subtitleCoroutine;
     private string currentPlayingAudioId = "";
     
@@ -55,7 +56,7 @@ public class AudioSubtitleManager : MonoSingleton<AudioSubtitleManager>
     public Toggle toggleVietnamese;
     
     public AudioClip ambientSound;
-    public float ambientVolume = 0.5f;
+    public float ambientVolume = 0.6f;
     private bool _isPlayingAmbientSound = false;
     private bool _isPlayingAudio = false;
     
@@ -140,6 +141,7 @@ public class AudioSubtitleManager : MonoSingleton<AudioSubtitleManager>
         PlayerPrefs.Save();
         Debug.Log("Language changed to: " + currentLanguage);
         ShowStaticSubtitle();
+        SlideManager.Instance.ChangeLanguage(currentLanguage);
         
         if (audioSource.isPlaying)
         {
@@ -177,7 +179,6 @@ public class AudioSubtitleManager : MonoSingleton<AudioSubtitleManager>
         toggleEnglish.isOn = (currentLanguage == "en");
         toggleVietnamese.isOn = (currentLanguage == "vi");
         ShowStaticSubtitle();
-        
     }
 
     

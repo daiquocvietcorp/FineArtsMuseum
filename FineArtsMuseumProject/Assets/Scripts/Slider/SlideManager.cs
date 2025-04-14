@@ -118,6 +118,14 @@ namespace Slider
                 point.enabled = pointer;
             }
         }
+
+        public void ChangeLanguage(string currentLanguage)
+        {
+            if(topSlideHolder == null) return;
+            if(bottomSlideHolder == null) return;
+            topSlideHolder.ChangeLanguage(currentLanguage);
+            bottomSlideHolder.ChangeLanguage(currentLanguage);
+        }
     }
     
     [Serializable]

@@ -331,6 +331,7 @@ namespace Camera
         }
         
         public bool IsFirstPerson => _isFirstPerson;
+        public bool IsLocked => _isLockFollowView;
 
         private IEnumerator ChangeView(CameraFollowDistance dataView3RdPerson, CameraFollowDistance dataView1StPerson)
         {

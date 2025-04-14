@@ -470,4 +470,10 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
         //return (Vector3.one * ((minScale + maxScale) / 2f)).x/maxScale;
         return 0;
     }
+    
+    public float GetAvarageScalePercent()
+    {
+        return (Vector3.one * ((minScale + maxScale) / 2f)).x/maxScale;
+        //return 0;
+    }
 }

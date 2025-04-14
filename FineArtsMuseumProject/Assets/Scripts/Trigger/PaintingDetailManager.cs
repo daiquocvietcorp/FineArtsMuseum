@@ -98,7 +98,9 @@ namespace Trigger
             sliderTransform.gameObject.SetActive(true);
             var originalScale = _currentPainting.GetOriginalScalePercent();
             arcSlider.SetValue(originalScale);
-            _avarageScale = originalScale;
+            
+            var avarageScale = _currentPainting.GetAvarageScalePercent();
+            _avarageScale = avarageScale;
         }
 
         public void RemoveCurrentPainting()

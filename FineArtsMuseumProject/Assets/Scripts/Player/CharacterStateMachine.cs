@@ -290,13 +290,13 @@ namespace Player
         public void DisableCharacter()
         {
             _isActive = false;
-            gameObject.SetActive(false);
+            skinnedMeshRenderer.gameObject.SetActive(false);
         }
         
         public void EnableCharacter()
         {
             _isActive = true;
-            gameObject.SetActive(true);
+            skinnedMeshRenderer.gameObject.SetActive(true);
             SwitchState(new CharacterIdleState());
         }
         
