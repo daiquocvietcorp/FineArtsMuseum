@@ -55,6 +55,7 @@ public class AntiqueObject : MonoBehaviour
     public CharacterStateMachine CharacterStateMachine;
     public TriggerZoneStatic triggerZoneStatic;
 
+    public bool isAntique = true;
     private bool isBlur = false;
     private bool isGuidePlaying = false;
     private bool isSoundOn = true;
@@ -66,6 +67,8 @@ public class AntiqueObject : MonoBehaviour
     private Coroutine guideCoroutine;
 
     public RectTransform rect;
+    
+    public bool hasInformationUI = false;
 
 
     [SerializeField] private Transform InteractiveObjectLocation;
@@ -160,7 +163,9 @@ public class AntiqueObject : MonoBehaviour
         InputManager.Instance.DisableInput();
 
         Debug.Log("triggerZoneStatic.triggerId:" + triggerZoneStatic.triggerId);
-        AudioSubtitleManager.Instance.PlayAudioWithSubtitle(triggerZoneStatic.triggerId);
+        
+        if(hasInformationUI)
+            AudioSubtitleManager.Instance.PlayAudioWithSubtitle(triggerZoneStatic.triggerId);
     }
 
     public void TurnOffBlur()
@@ -185,14 +190,26 @@ public class AntiqueObject : MonoBehaviour
 
         CharacterManager.Instance.EnableCharacter();
         InputManager.Instance.EnableInput();
-        AudioSubtitleManager.Instance.StopAudioAndClearSubtitle();
+        
+        if(hasInformationUI)
+            AudioSubtitleManager.Instance.StopAudioAndClearSubtitle();
+        
         UIManager.Instance.EnableUI("UI_NAVIGATION");
         AntiqueManager.Instance.DisableAntiqueDetail(AntiqueID);
-        SlideManager.Instance.SetPointerCollider(true);
+        
+        if(!isAntique)
+            SlideManager.Instance.SetPointerCollider(true);
     }
 
     private void ToggleSound()
     {
+        if(!hasInformationUI)
+        {
+            SoundButton.image.sprite = SoundOff;
+            isSoundOn = false;
+            return;
+        }
+        
         if (isSoundOn)
         {
             AudioSubtitleManager.Instance.StopAudioAndClearSubtitle();
