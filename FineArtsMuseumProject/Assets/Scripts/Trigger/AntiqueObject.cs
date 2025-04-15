@@ -70,6 +70,7 @@ public class AntiqueObject : MonoBehaviour
     
     public bool hasInformationUI = false;
 
+    public bool hasGuide = true;
 
     [SerializeField] private Transform InteractiveObjectLocation;
     
@@ -95,7 +96,12 @@ public class AntiqueObject : MonoBehaviour
     private void OnEnable()
     {
         ActivateInteractiveMode();
-        StartCoroutine(DelayedStartGuide());
+        if(hasGuide)
+            StartCoroutine(DelayedStartGuide());
+        else
+        {
+            ShowGuideButton.gameObject.SetActive(false);
+        }
         if (!PlatformManager.Instance.IsVR)
         {
             rect.transform.position += new Vector3(0f, 0f, 0f);

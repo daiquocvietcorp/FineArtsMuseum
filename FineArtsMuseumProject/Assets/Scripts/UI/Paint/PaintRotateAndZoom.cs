@@ -138,9 +138,69 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
             lastPointerPosition = eventData.position;
 
             
-            var rotateAmountX = delta.x * CurrentRotationSpeed * Time.deltaTime * 0.5f;
-            var rotateAmountY = delta.y * CurrentRotationSpeed * Time.deltaTime * 0.5f;
+            var rotateAmountX = delta.x * CurrentRotationSpeed * Time.deltaTime;
+            var rotateAmountY = delta.y * CurrentRotationSpeed * Time.deltaTime;
 
+            // if (isObject)
+            // {
+            //     if (!lastArcballVector.HasValue) return;
+            //     var currentVector = GetArcballVector(eventData.position);
+            //
+            //     // Tính vector xoay bằng cách lấy tích chéo giữa vector ban đầu và vector hiện tại
+            //     var rotationAxis = Vector3.Cross(lastArcballVector.Value, currentVector);
+            //
+            //     switch (_currentDragMode)
+            //     {
+            //         case DragMode.None:
+            //         {
+            //             if (rotationAxis != Vector3.zero)
+            //             {
+            //                 _currentDragMode = Mathf.Abs(rotationAxis.x) > Mathf.Abs(rotationAxis.y)
+            //                                    ? DragMode.Horizontal
+            //                                    : DragMode.Vertical;
+            //                 switch (_currentDragMode)
+            //                 {
+            //                     case DragMode.Horizontal:
+            //                         rotationAxis.y = 0;
+            //                         break;
+            //                     case DragMode.Vertical:
+            //                         rotationAxis.x = 0;
+            //                         break;
+            //                 }
+            //             }
+            //             break;
+            //         }
+            //         case DragMode.Horizontal:
+            //             rotationAxis.y = 0;
+            //             break;
+            //         case DragMode.Vertical:
+            //             rotationAxis.x = 0;
+            //             break;
+            //     }
+            //         
+            //     rotationAxis.z = 0;
+            //
+            //     // Tính góc xoay dựa trên dot product
+            //     var dot = Vector3.Dot(lastArcballVector.Value, currentVector);
+            //     dot = Mathf.Clamp(dot, -1.0f, 1.0f);
+            //     var angle = Mathf.Acos(dot) * Mathf.Rad2Deg; // chuyển sang độ
+            //
+            //     // Nhân với -1 để đảo chiều xoay
+            //     angle *= -1;
+            //
+            //     // Điều chỉnh độ nhạy xoay bằng rotationSpeed (hoặc phiên bản mobile) và Time.deltaTime
+            //     angle *= Time.deltaTime * CurrentRotationSpeed;
+            //
+            //     if (rotationAxis.sqrMagnitude > 1e-6f) // Kiểm tra để tránh xoay khi vector quá nhỏ
+            //     {
+            //         Quaternion rotation = Quaternion.AngleAxis(angle, rotationAxis.normalized);
+            //         transform.rotation = rotation * transform.rotation;
+            //     }
+            //
+            //     // Cập nhật vector cho lần kéo tiếp theo
+            //     lastArcballVector = currentVector;
+            //     return;
+            // }
             if (isObject)
             {
                 if (!lastArcballVector.HasValue) return;
@@ -155,8 +215,9 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
                     {
                         if (rotationAxis != Vector3.zero)
                         {
-                            _currentDragMode = Mathf.Abs(rotationAxis.x) > Mathf.Abs(rotationAxis.y) ? DragMode.Horizontal : DragMode.Vertical;
-
+                            _currentDragMode = Mathf.Abs(rotationAxis.x) > Mathf.Abs(rotationAxis.y)
+                                ? DragMode.Horizontal
+                                : DragMode.Vertical;
                             switch (_currentDragMode)
                             {
                                 case DragMode.Horizontal:
@@ -167,19 +228,16 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
                                     break;
                             }
                         }
-
                         break;
                     }
                     case DragMode.Horizontal:
                         rotationAxis.y = 0;
-                        //rotationAxis.x = Mathf.Abs(rotationAxis.x);
                         break;
                     case DragMode.Vertical:
                         rotationAxis.x = 0;
-                        //rotationAxis.y = Mathf.Abs(rotationAxis.y);
                         break;
                 }
-                    
+        
                 rotationAxis.z = 0;
 
                 // Tính góc xoay dựa trên dot product
@@ -187,15 +245,18 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
                 dot = Mathf.Clamp(dot, -1.0f, 1.0f);
                 var angle = Mathf.Acos(dot) * Mathf.Rad2Deg; // chuyển sang độ
 
-                // Nhân với -1 để đảo chiều xoay (giúp kéo lên -> xoay lên, kéo trái -> xoay trái)
+                // Nhân với -1 để đảo chiều xoay
                 angle *= -1;
+
+                // Điều chỉnh độ nhạy xoay bằng rotationSpeed (hoặc phiên bản mobile) và Time.deltaTime
+                angle *= Time.deltaTime * CurrentRotationSpeed;
 
                 if (rotationAxis.sqrMagnitude > 1e-6f) // Kiểm tra để tránh xoay khi vector quá nhỏ
                 {
                     Quaternion rotation = Quaternion.AngleAxis(angle, rotationAxis.normalized);
                     transform.rotation = rotation * transform.rotation;
                 }
-            
+
                 // Cập nhật vector cho lần kéo tiếp theo
                 lastArcballVector = currentVector;
                 return;

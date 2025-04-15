@@ -53,6 +53,7 @@ namespace Trigger
             }
             Debug.Log("AntiqueId:"+ antiqueID);
             _antiqueDetailDict[antiqueID].gameObject.SetActive(true);
+            TriggerManager.Instance.DisableTriggerColliders();
             if (_antiqueDetailDict[antiqueID].interactiveObject)
             {
                 _currentAntiqueObject = _antiqueDetailDict[antiqueID].interactiveObject;
@@ -82,6 +83,7 @@ namespace Trigger
         {
             if (_antiqueDetailDict.ContainsKey(antiqueID))
             {
+                TriggerManager.Instance.EnableTriggerColliders();
                 _currentAntiqueObject = null;
                 _antiqueDetailDict[antiqueID].gameObject.SetActive(false);
                 

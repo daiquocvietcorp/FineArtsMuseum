@@ -68,6 +68,7 @@ public class IdleScreenManager : MonoBehaviour
         {
             startController.StartApplication();
             idleScreen.SetActive(true);
+            nextButton.onClick.AddListener(OnNextButtonClicked);
             exitButton.onClick.RemoveAllListeners();
             exitButton.onClick.AddListener(OnExitButtonClicked);
             HideIdleScreen();

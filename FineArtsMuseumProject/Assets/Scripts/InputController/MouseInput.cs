@@ -91,7 +91,7 @@ namespace InputController
                     _onClick?.Invoke(Input.mousePosition);
                     //_onClick?.Invoke(goToPointer.position);
                 }
-                else if (Input.GetMouseButton(0) && Time.time - _holdTimer > 0.1f)
+                else if (Input.GetMouseButton(0) && Time.time - _holdTimer > 0.2f)
                 {
                     _isClick = false;
 

@@ -26,21 +26,23 @@ namespace Sound
             _isPlaying = !_isPlaying;
             if (_isPlaying)
             {
-                onSound.gameObject.SetActive(true);
-                offSound.gameObject.SetActive(false);
                 //AudioSubtitleManager.Instance.
                 //AudioManager.Instance
                 // Play sound
                 
-                AudioSubtitleManager.Instance.TurnAmbientSound();
+                var result = AudioSubtitleManager.Instance.TurnAmbientSound();
+                if (!result) return;
+                onSound.gameObject.SetActive(true);
+                offSound.gameObject.SetActive(false);
             }
             else
             {
-                onSound.gameObject.SetActive(false);
-                offSound.gameObject.SetActive(true);
                 // Stop sound
                 
-                AudioSubtitleManager.Instance.TurnAmbientSound();
+                var result = AudioSubtitleManager.Instance.TurnAmbientSound();
+                if (!result) return;
+                onSound.gameObject.SetActive(false);
+                offSound.gameObject.SetActive(true);
             }
         }
     }

@@ -245,22 +245,24 @@ public class AudioSubtitleManager : MonoSingleton<AudioSubtitleManager>
         PlayAudioWithSubtitle(id);
     }
     
-    public void TurnAmbientSound()
+    public bool TurnAmbientSound()
     {
         if (_isPlayingAmbientSound)
         {
-            if(_isPlayingAudio) return;
+            if(_isPlayingAudio) return false;
             audioSource.Stop();
             _isPlayingAmbientSound = false;
+            return true;
         }
         else
         {
-            if(_isPlayingAudio) return;
+            if(_isPlayingAudio) return false;
             audioSource.clip = ambientSound;
             audioSource.volume = ambientVolume;
             audioSource.loop = true;
             audioSource.Play();
             _isPlayingAmbientSound = true;
+            return true;
         }
     }
 

@@ -32,6 +32,9 @@ namespace Slider
             
             if(bottomMirror != null)
                 bottomMirror.gameObject.SetActive(false);
+            
+            if(topMirror == null || bottomMirror == null)
+                return;
             SlideManager.Instance.EnterSlideArea();
         }
 
@@ -45,6 +48,9 @@ namespace Slider
             
             if(bottomMirror != null)
                 bottomMirror.gameObject.SetActive(true);
+            
+            if(topMirror == null || bottomMirror == null)
+                return;
             SlideManager.Instance.ExitSlideArea();
         }
     }
