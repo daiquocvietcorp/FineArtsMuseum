@@ -20,6 +20,7 @@ namespace Slider
 
         public bool IsDisableForOptimize = false;
         public List<GameObject> disableObjects;
+        public List<GameObject> enableObjects;
         private void Start()
         {
             _targetRotation = Quaternion.Euler(cameraRotation);
@@ -40,6 +41,17 @@ namespace Slider
                         if (obj != null)
                         {
                             obj.SetActive(false);
+                        }
+                    }
+                }
+                
+                if(enableObjects != null && enableObjects.Count > 0)
+                {
+                    foreach (var obj in enableObjects)
+                    {
+                        if (obj != null)
+                        {
+                            obj.SetActive(true);
                         }
                     }
                 }
@@ -70,6 +82,17 @@ namespace Slider
                         if (obj != null)
                         {
                             obj.SetActive(true);
+                        }
+                    }
+                }
+                
+                if(enableObjects != null && enableObjects.Count > 0)
+                {
+                    foreach (var obj in enableObjects)
+                    {
+                        if (obj != null)
+                        {
+                            obj.SetActive(false);
                         }
                     }
                 }
