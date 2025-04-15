@@ -136,6 +136,11 @@ public class AudioSubtitleManager : MonoSingleton<AudioSubtitleManager>
     }
     public void ChangeLanguage(string lang)
     {
+        if(lang == "vi")
+            SceneLog.IsVietnamese = true;
+        else
+            SceneLog.IsVietnamese = false;
+        
         currentLanguage = lang;
         PlayerPrefs.SetString("Language", currentLanguage);
         PlayerPrefs.Save();
@@ -143,7 +148,7 @@ public class AudioSubtitleManager : MonoSingleton<AudioSubtitleManager>
         ShowStaticSubtitle();
         SlideManager.Instance.ChangeLanguage(currentLanguage);
         
-        if (audioSource.isPlaying)
+        if (audioSource.isPlaying && _isPlayingAudio)
         {
             string currentAudioId = GetCurrentPlayingAudioId();
             StopAudioAndClearSubtitle(); // Dừng audio hiện tại
@@ -175,7 +180,7 @@ public class AudioSubtitleManager : MonoSingleton<AudioSubtitleManager>
     {
         // Mặc định là Tiếng Việt nếu chưa chọn
         //currentLanguage = PlayerPrefs.GetString("Language", "vi");
-        currentLanguage = "vi";
+        currentLanguage = SceneLog.IsVietnamese ? "vi" : "en";
         toggleEnglish.isOn = (currentLanguage == "en");
         toggleVietnamese.isOn = (currentLanguage == "vi");
         ShowStaticSubtitle();

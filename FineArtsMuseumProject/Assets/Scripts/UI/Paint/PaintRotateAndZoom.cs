@@ -81,6 +81,7 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
         if(isObject && PlatformManager.Instance.IsTomko)
         {
             MouseInput.Instance.SetIsDragImage(true);
+            SmoothAverageResetTransform();
             _isDragObject = true;
         }
     }
@@ -106,9 +107,12 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
     {
         if(!isObject || !PlatformManager.Instance.IsTomko) return;
 
-        if(Time.time - _dragTime > 3f && !_isDragObject)
+        if (!canRotate) return;
+
+        if(Time.time - _dragTime > 10f && !_isDragObject)
         {
             SmoothAverageResetTransform();
+            AntiqueManager.Instance.ResetSlider();
             _isDragObject = true;
         }
         
@@ -147,6 +151,7 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
                                 rotationAxis.y = 0;
                                 break;
                             case DragMode.Vertical:
+                                rotationAxis.y *= 0.66f;
                                 rotationAxis.x = 0;
                                 break;
                         }
@@ -324,7 +329,6 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
             // }
             if (isObject)
             {
-                return;
                 if (!lastArcballVector.HasValue) return;
                 var currentVector = GetArcballVector(eventData.position);
 

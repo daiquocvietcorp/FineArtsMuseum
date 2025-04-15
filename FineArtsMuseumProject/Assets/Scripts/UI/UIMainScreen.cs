@@ -1,4 +1,5 @@
 using System;
+using InputController;
 using Trigger;
 using UnityEngine;
 using UnityEngine.UI;
@@ -57,7 +58,6 @@ namespace UI
             
             _isVROn = false;
             _isSettingsOn = false;
-            
             settingsToggle.isOn = false;
 
             if (SceneLog.IsFirstScene)
@@ -96,6 +96,9 @@ namespace UI
                     guideToggle.isOn = false;
                     guideToggle.image.sprite = guideOffSprite;
                     _isGuideOn = false;
+                    
+                    InputManager.Instance.EnableJoystick();
+                    InputManager.Instance.EnableJoystickRotation();
                 }
             };
             UIManager.Instance.SetDataUI("UI_GUIDE", guideCallback);

@@ -8,4 +8,5 @@ public class SceneLog : MonoBehaviour
     public static bool IsFirstScene = true;
     public static bool IsShowedGuideObject = false;
     public static bool IsShowedGuideImage = false;
+    public static bool IsVietnamese = true;
 }
