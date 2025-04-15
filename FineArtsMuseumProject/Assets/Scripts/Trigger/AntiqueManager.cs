@@ -134,5 +134,10 @@ namespace Trigger
             if(_currentAntiqueObject == null) return;
             _currentAntiqueObject.ZoomByPercentage(f);
         }
+
+        public bool IsChangeArcSlider()
+        {
+            return arcSlider.IsChangeValue();
+        }
     }
 }

@@ -22,6 +22,8 @@ namespace UI
         private bool _isDragging = false;
         private float _currentOriginalScale;
 
+        private bool _isChange = false;
+
         void Start()
         {
             UpdateThumbPosition();
@@ -71,6 +73,7 @@ namespace UI
 
         public void OnPointerUp(PointerEventData eventData)
         {
+            _isChange = false;
             if (!_isDragging) return;
             _isDragging = false;
             MouseInput.Instance.SetSliderDrag(false);
@@ -78,6 +81,7 @@ namespace UI
 
         public void OnPointerDown(PointerEventData eventData)
         {
+            _isChange = true;
             _isDragging = true;
             MouseInput.Instance.SetSliderDrag(true);
         }
@@ -85,6 +89,11 @@ namespace UI
         public void ResetSlider()
         {
             t = _currentOriginalScale;
+        }
+        
+        public bool IsChangeValue()
+        {
+            return _isChange;
         }
     }
 }

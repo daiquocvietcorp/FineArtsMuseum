@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Camera;
 using InputController;
+using Trigger;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -73,8 +74,9 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
             zoomScrollbar.gameObject.SetActive(true);
         
         //new
-        if(!isObject) return;
-        MouseInput.Instance.SetIsDragImage(true);
+        
+        if(isObject && PlatformManager.Instance.IsTomko)
+            MouseInput.Instance.SetIsDragImage(true);
     }
 
     private void OnDisable()
@@ -82,8 +84,8 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
         if (zoomScrollbar != null)
             zoomScrollbar.gameObject.SetActive(false);
         
-        if(!isObject) return;
-        MouseInput.Instance.SetIsDragImage(false);
+        if(isObject && PlatformManager.Instance.IsTomko)
+            MouseInput.Instance.SetIsDragImage(false);
     }
 
     private float _holdTimer;
@@ -96,6 +98,7 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
     private Direction _holdDirection = Direction.None;
     private void Update()
     {
+        if(!isObject || !PlatformManager.Instance.IsTomko) return;
         if (Input.touchCount <= 0) return;
         if (!isObject) return;
         Touch touch = Input.GetTouch(0);
@@ -108,6 +111,7 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
         
         if (touch.phase == TouchPhase.Moved)
         {
+            if(AntiqueManager.Instance.IsChangeArcSlider()) return;
             if (!lastArcballVector.HasValue) return;
             var currentVector = GetArcballVector(touch.position);
 
@@ -120,6 +124,7 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
                 {
                     if (rotationAxis != Vector3.zero)
                     {
+                        if(Mathf.Approximately(Mathf.Abs(rotationAxis.x), Mathf.Abs(rotationAxis.y))) return;
                         _currentDragMode = Mathf.Abs(rotationAxis.x) > Mathf.Abs(rotationAxis.y)
                             ? DragMode.Horizontal
                             : DragMode.Vertical;
@@ -186,7 +191,7 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if(!isObject) return;
+        if(isObject && PlatformManager.Instance.IsTomko) return;
         
         
         activeTouches[eventData.pointerId] = eventData.position;
@@ -204,6 +209,9 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
 
     public void OnDrag(PointerEventData eventData)
     {
+        if(isObject && PlatformManager.Instance.IsTomko) return;
+        
+        
         if (!activeTouches.ContainsKey(eventData.pointerId))
             return;
 
@@ -393,7 +401,7 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
     
     public void OnBeginDrag(PointerEventData eventData)
     {
-        if(isObject) return;
+        if(isObject && PlatformManager.Instance.IsTomko) return;
         
         if(isPaint) return;
         lastArcballVector = GetArcballVector(eventData.position);
@@ -401,7 +409,7 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
     
     public void OnEndDrag(PointerEventData eventData)
     {
-        if(isObject) return;
+        if(isObject && PlatformManager.Instance.IsTomko) return;
         
         if(isPaint) return;
         lastArcballVector = null;
@@ -438,7 +446,7 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        if(isObject) return;
+        if(isObject && PlatformManager.Instance.IsTomko) return;
         
         if (activeTouches.ContainsKey(eventData.pointerId))
             activeTouches.Remove(eventData.pointerId);
@@ -449,6 +457,7 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
 
     public void OnScroll(PointerEventData eventData)
     {
+        if(isObject && PlatformManager.Instance.IsTomko) return;
         float scroll = eventData.scrollDelta.y;
 
         if (scroll != 0f)
