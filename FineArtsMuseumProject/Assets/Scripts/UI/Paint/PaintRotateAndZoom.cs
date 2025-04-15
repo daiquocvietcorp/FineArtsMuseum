@@ -40,7 +40,10 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
     private Vector3 initialScale;
     private Vector2 lastPointerPosition;
     private BoxCollider _boxCollider;
-
+    
+    private float _dragTime;
+    private bool _isDragObject;    
+    
     public bool canRotate = true;
 
     private float CurrentRotationSpeed
@@ -76,7 +79,10 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
         //new
         
         if(isObject && PlatformManager.Instance.IsTomko)
+        {
             MouseInput.Instance.SetIsDragImage(true);
+            _isDragObject = true;
+        }
     }
 
     private void OnDisable()
@@ -99,6 +105,13 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
     private void Update()
     {
         if(!isObject || !PlatformManager.Instance.IsTomko) return;
+
+        if(Time.time - _dragTime > 3f && !_isDragObject)
+        {
+            SmoothAverageResetTransform();
+            _isDragObject = true;
+        }
+        
         if (Input.touchCount <= 0) return;
         if (!isObject) return;
         Touch touch = Input.GetTouch(0);
@@ -167,12 +180,15 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
             transform.rotation = rotation * transform.rotation;
             // Cập nhật vector cho lần kéo tiếp theo
             lastArcballVector = currentVector;
+            _isDragObject = true;
             return;
         }
 
         if (touch.phase == TouchPhase.Ended)
         {
             _currentDragMode = DragMode.None;
+            _dragTime = Time.time;
+            _isDragObject = false;
             lastArcballVector = null;
         }
     }
