@@ -14,6 +14,7 @@ namespace System
             foreach (var triggerCollider in TriggerColliders)
             {
                 triggerCollider.enabled = true;
+                //triggerCollider.gameObject.SetActive(true);
             }
         }
         
@@ -23,6 +24,7 @@ namespace System
             foreach (var triggerCollider in TriggerColliders)
             {
                 triggerCollider.enabled = false;
+                //triggerCollider.gameObject.SetActive(false);
             }
         }
     }
