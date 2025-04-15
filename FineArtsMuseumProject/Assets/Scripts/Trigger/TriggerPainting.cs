@@ -63,8 +63,11 @@ public class TriggerPainting : MonoBehaviour
     [SerializeField] private Transform paintingLightObject;
     
     [SerializeField] private bool IsMainPainting = true;
-    
 
+    public GameObject volumeObject;
+    public GameObject volumeObject2;
+    public bool IsDisableVolume = false;
+    
     private void Start()
     {
         // Thiết lập Fog Mode
@@ -111,6 +114,19 @@ public class TriggerPainting : MonoBehaviour
                 //CameraManager.Instance.cameraFollowPlayer.RotateCamera(otherObject.transform);
                 var rotation = Quaternion.Euler(cameraRotationOffset); 
                 CameraManager.Instance.cameraFollowPlayer.SetCameraData(cameraPositionOffset, rotation);
+            }
+
+            if (IsDisableVolume)
+            {
+                if (volumeObject)
+                {
+                    volumeObject.SetActive(false);
+                }
+
+                if (volumeObject2)
+                {
+                    volumeObject2.SetActive(false);
+                }
             }
 
             if (IsMainPainting)
@@ -289,6 +305,21 @@ public class TriggerPainting : MonoBehaviour
                     paintingLightObject.gameObject.SetActive(false);
                 }
             }
+            
+            if (IsDisableVolume)
+            {
+                if (volumeObject)
+                {
+                    volumeObject.SetActive(true);
+                }
+                
+                if (volumeObject2)
+                {
+                    volumeObject2.SetActive(true);
+                }
+            }
+            
+            
         }
         
         if (isEnter && DrmGameObject.radius < maxScanRadius && currentTrigger)
