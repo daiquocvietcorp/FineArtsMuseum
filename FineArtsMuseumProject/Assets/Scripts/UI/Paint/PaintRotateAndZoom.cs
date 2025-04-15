@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Camera;
 using InputController;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
@@ -70,12 +71,105 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
         }
         if (zoomScrollbar != null)
             zoomScrollbar.gameObject.SetActive(true);
+        
+        //new
+        if(!isObject) return;
+        MouseInput.Instance.SetIsDragImage(true);
     }
 
     private void OnDisable()
     {
         if (zoomScrollbar != null)
             zoomScrollbar.gameObject.SetActive(false);
+        
+        if(!isObject) return;
+        MouseInput.Instance.SetIsDragImage(false);
+    }
+
+    private float _holdTimer;
+    private enum Direction
+    {
+        Horizontal,
+        Vertical,
+        None
+    }
+    private Direction _holdDirection = Direction.None;
+    private void Update()
+    {
+        if (Input.touchCount <= 0) return;
+        if (!isObject) return;
+        Touch touch = Input.GetTouch(0);
+
+        if (touch.phase == TouchPhase.Began)
+        {
+            lastArcballVector = GetArcballVector(touch.position);
+            _currentDragMode = DragMode.None;
+        }
+        
+        if (touch.phase == TouchPhase.Moved)
+        {
+            if (!lastArcballVector.HasValue) return;
+            var currentVector = GetArcballVector(touch.position);
+
+            // Tính vector xoay bằng cách lấy tích chéo giữa vector ban đầu và vector hiện tại
+            var rotationAxis = Vector3.Cross(lastArcballVector.Value, currentVector);
+
+            switch (_currentDragMode)
+            {
+                case DragMode.None:
+                {
+                    if (rotationAxis != Vector3.zero)
+                    {
+                        _currentDragMode = Mathf.Abs(rotationAxis.x) > Mathf.Abs(rotationAxis.y)
+                            ? DragMode.Horizontal
+                            : DragMode.Vertical;
+                        switch (_currentDragMode)
+                        {
+                            case DragMode.Horizontal:
+                                rotationAxis.y = 0;
+                                break;
+                            case DragMode.Vertical:
+                                rotationAxis.x = 0;
+                                break;
+                        }
+                    }
+                    break;
+                }
+                case DragMode.Horizontal:
+                    rotationAxis.y = 0;
+                    break;
+                case DragMode.Vertical:
+                    rotationAxis.x = 0;
+                    break;
+            }
+    
+            rotationAxis.z = 0;
+            // Tính góc xoay dựa trên dot product
+            var dot = Vector3.Dot(lastArcballVector.Value, currentVector);
+            dot = Mathf.Clamp(dot, -1.0f, 1.0f);
+            var angle = Mathf.Acos(dot) * Mathf.Rad2Deg; // chuyển sang độ
+            // Nhân với -1 để đảo chiều xoay
+            angle *= -1;
+            // Điều chỉnh độ nhạy xoay bằng rotationSpeed (hoặc phiên bản mobile) và Time.deltaTime
+            angle *= Time.deltaTime * CurrentRotationSpeed;
+            /*if (rotationAxis.sqrMagnitude > 1e-6f) // Kiểm tra để tránh xoay khi vector quá nhỏ
+            {
+                Quaternion rotation = Quaternion.AngleAxis(angle, rotationAxis.normalized);
+                transform.rotation = rotation * transform.rotation;
+            }*/
+            
+            Quaternion rotation = Quaternion.AngleAxis(angle, rotationAxis.normalized);
+            transform.rotation = rotation * transform.rotation;
+            // Cập nhật vector cho lần kéo tiếp theo
+            lastArcballVector = currentVector;
+            return;
+        }
+
+        if (touch.phase == TouchPhase.Ended)
+        {
+            _currentDragMode = DragMode.None;
+            lastArcballVector = null;
+        }
     }
 
     void Start()
@@ -92,6 +186,9 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if(!isObject) return;
+        
+        
         activeTouches[eventData.pointerId] = eventData.position;
 
         if (activeTouches.Count == 2)
@@ -203,6 +300,7 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
             // }
             if (isObject)
             {
+                return;
                 if (!lastArcballVector.HasValue) return;
                 var currentVector = GetArcballVector(eventData.position);
 
@@ -251,11 +349,14 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
                 // Điều chỉnh độ nhạy xoay bằng rotationSpeed (hoặc phiên bản mobile) và Time.deltaTime
                 angle *= Time.deltaTime * CurrentRotationSpeed;
 
-                if (rotationAxis.sqrMagnitude > 1e-6f) // Kiểm tra để tránh xoay khi vector quá nhỏ
+                /*if (rotationAxis.sqrMagnitude > 1e-6f) // Kiểm tra để tránh xoay khi vector quá nhỏ
                 {
                     Quaternion rotation = Quaternion.AngleAxis(angle, rotationAxis.normalized);
                     transform.rotation = rotation * transform.rotation;
-                }
+                }*/
+                
+                Quaternion rotation = Quaternion.AngleAxis(angle, rotationAxis.normalized);
+                transform.rotation = rotation * transform.rotation;
 
                 // Cập nhật vector cho lần kéo tiếp theo
                 lastArcballVector = currentVector;
@@ -292,12 +393,16 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
     
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if(isObject) return;
+        
         if(isPaint) return;
         lastArcballVector = GetArcballVector(eventData.position);
     }
     
     public void OnEndDrag(PointerEventData eventData)
     {
+        if(isObject) return;
+        
         if(isPaint) return;
         lastArcballVector = null;
         _currentDragMode = DragMode.None;
@@ -333,6 +438,8 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        if(isObject) return;
+        
         if (activeTouches.ContainsKey(eventData.pointerId))
             activeTouches.Remove(eventData.pointerId);
         if(activeTouches.Count > 0) return;
