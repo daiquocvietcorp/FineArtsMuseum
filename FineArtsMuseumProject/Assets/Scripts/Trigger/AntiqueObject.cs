@@ -55,6 +55,7 @@ public class AntiqueObject : MonoBehaviour
     public CharacterStateMachine CharacterStateMachine;
     public TriggerZoneStatic triggerZoneStatic;
 
+    public bool isAntique = true;
     private bool isBlur = false;
     private bool isGuidePlaying = false;
     private bool isSoundOn = true;
@@ -66,7 +67,10 @@ public class AntiqueObject : MonoBehaviour
     private Coroutine guideCoroutine;
 
     public RectTransform rect;
+    
+    public bool hasInformationUI = false;
 
+    public bool hasGuide = true;
 
     [SerializeField] private Transform InteractiveObjectLocation;
     
@@ -92,7 +96,12 @@ public class AntiqueObject : MonoBehaviour
     private void OnEnable()
     {
         ActivateInteractiveMode();
-        StartCoroutine(DelayedStartGuide());
+        if(hasGuide)
+            StartCoroutine(DelayedStartGuide());
+        else
+        {
+            ShowGuideButton.gameObject.SetActive(false);
+        }
         if (!PlatformManager.Instance.IsVR)
         {
             rect.transform.position += new Vector3(0f, 0f, 0f);
@@ -126,9 +135,9 @@ public class AntiqueObject : MonoBehaviour
         {
             
             // 👉 Gán scale theo trung bình giữa min và max
-            float avgScale = (interactiveObject.minScale + interactiveObject.maxScale) / 2f;
-            interactiveObject.transform.localScale = new Vector3(avgScale, avgScale, avgScale);
-            if(interactiveObject.zoomScrollbar) interactiveObject.zoomScrollbar.value = interactiveObject.GetZoomScrollbarValue(avgScale);
+            float startScale = (interactiveObject.minScale);
+            interactiveObject.transform.localScale = new Vector3(startScale, startScale, startScale);
+            if(interactiveObject.zoomScrollbar) interactiveObject.zoomScrollbar.value = interactiveObject.GetZoomScrollbarValue(startScale);
             isBlur = true;
             interactiveObject.transform.SetParent(Camera.main.transform, false);
             interactiveObject.transform.localPosition = interactObjectLocalPosition;
@@ -160,7 +169,9 @@ public class AntiqueObject : MonoBehaviour
         InputManager.Instance.DisableInput();
 
         Debug.Log("triggerZoneStatic.triggerId:" + triggerZoneStatic.triggerId);
-        AudioSubtitleManager.Instance.PlayAudioWithSubtitle(triggerZoneStatic.triggerId);
+        
+        if(hasInformationUI)
+            AudioSubtitleManager.Instance.PlayAudioWithSubtitle(triggerZoneStatic.triggerId);
     }
 
     public void TurnOffBlur()
@@ -185,14 +196,26 @@ public class AntiqueObject : MonoBehaviour
 
         CharacterManager.Instance.EnableCharacter();
         InputManager.Instance.EnableInput();
-        AudioSubtitleManager.Instance.StopAudioAndClearSubtitle();
+        
+        if(hasInformationUI)
+            AudioSubtitleManager.Instance.StopAudioAndClearSubtitle();
+        
         UIManager.Instance.EnableUI("UI_NAVIGATION");
         AntiqueManager.Instance.DisableAntiqueDetail(AntiqueID);
-        SlideManager.Instance.SetPointerCollider(true);
+        
+        if(!isAntique)
+            SlideManager.Instance.SetPointerCollider(true);
     }
 
     private void ToggleSound()
     {
+        if(!hasInformationUI)
+        {
+            SoundButton.image.sprite = SoundOff;
+            isSoundOn = false;
+            return;
+        }
+        
         if (isSoundOn)
         {
             AudioSubtitleManager.Instance.StopAudioAndClearSubtitle();

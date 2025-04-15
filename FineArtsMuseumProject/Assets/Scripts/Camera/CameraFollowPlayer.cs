@@ -114,7 +114,6 @@ namespace Camera
             if (PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
             {
                 if (!MouseInput.Instance.IsHold) return;
-
                 _isActive = true;
                 
                 mouseX = Input.GetAxis("Mouse X") * data.Sensitivity;
@@ -196,8 +195,8 @@ namespace Camera
                 _currentYaw = Mathf.LerpAngle(_currentYaw, targetYaw, Time.deltaTime * data.Sensitivity);
                 _currentPitch = Mathf.LerpAngle(_currentPitch, -targetPitch/3f, Time.deltaTime * data.Sensitivity);
                 
-                if (Mathf.Abs(Mathf.DeltaAngle(_currentYaw, targetYaw)) < 0.5f
-                    && Mathf.Abs(Mathf.DeltaAngle(_currentPitch, -targetPitch/3)) < 0.5f)
+                if (Mathf.Abs(Mathf.DeltaAngle(_currentYaw, targetYaw)) < 0.1f
+                    && Mathf.Abs(Mathf.DeltaAngle(_currentPitch, targetPitch)) < 0.1f)
                 {
                     _isActive = true;
                 }
@@ -331,6 +330,7 @@ namespace Camera
         }
         
         public bool IsFirstPerson => _isFirstPerson;
+        public bool IsLocked => _isLockFollowView;
 
         private IEnumerator ChangeView(CameraFollowDistance dataView3RdPerson, CameraFollowDistance dataView1StPerson)
         {

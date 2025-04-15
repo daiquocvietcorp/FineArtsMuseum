@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Camera;
 using InputController;
+using Trigger;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
@@ -38,7 +40,10 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
     private Vector3 initialScale;
     private Vector2 lastPointerPosition;
     private BoxCollider _boxCollider;
-
+    
+    private float _dragTime;
+    private bool _isDragObject;    
+    
     public bool canRotate = true;
 
     private float CurrentRotationSpeed
@@ -70,18 +75,128 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
         }
         if (zoomScrollbar != null)
             zoomScrollbar.gameObject.SetActive(true);
+        
+        //new
+        
+        if(isObject && PlatformManager.Instance.IsTomko)
+        {
+            MouseInput.Instance.SetIsDragImage(true);
+            _isDragObject = true;
+        }
     }
 
     private void OnDisable()
     {
         if (zoomScrollbar != null)
             zoomScrollbar.gameObject.SetActive(false);
+        
+        if(isObject && PlatformManager.Instance.IsTomko)
+            MouseInput.Instance.SetIsDragImage(false);
+    }
+
+    private float _holdTimer;
+    private enum Direction
+    {
+        Horizontal,
+        Vertical,
+        None
+    }
+    private Direction _holdDirection = Direction.None;
+    private void Update()
+    {
+        if(!isObject || !PlatformManager.Instance.IsTomko) return;
+
+        if(Time.time - _dragTime > 3f && !_isDragObject)
+        {
+            SmoothAverageResetTransform();
+            _isDragObject = true;
+        }
+        
+        if (Input.touchCount <= 0) return;
+        if (!isObject) return;
+        Touch touch = Input.GetTouch(0);
+
+        if (touch.phase == TouchPhase.Began)
+        {
+            lastArcballVector = GetArcballVector(touch.position);
+            _currentDragMode = DragMode.None;
+        }
+        
+        if (touch.phase == TouchPhase.Moved)
+        {
+            if(AntiqueManager.Instance.IsChangeArcSlider()) return;
+            if (!lastArcballVector.HasValue) return;
+            var currentVector = GetArcballVector(touch.position);
+
+            // Tính vector xoay bằng cách lấy tích chéo giữa vector ban đầu và vector hiện tại
+            var rotationAxis = Vector3.Cross(lastArcballVector.Value, currentVector);
+
+            switch (_currentDragMode)
+            {
+                case DragMode.None:
+                {
+                    if (rotationAxis != Vector3.zero)
+                    {
+                        if(Mathf.Approximately(Mathf.Abs(rotationAxis.x), Mathf.Abs(rotationAxis.y))) return;
+                        _currentDragMode = Mathf.Abs(rotationAxis.x) > Mathf.Abs(rotationAxis.y)
+                            ? DragMode.Horizontal
+                            : DragMode.Vertical;
+                        switch (_currentDragMode)
+                        {
+                            case DragMode.Horizontal:
+                                rotationAxis.y = 0;
+                                break;
+                            case DragMode.Vertical:
+                                rotationAxis.x = 0;
+                                break;
+                        }
+                    }
+                    break;
+                }
+                case DragMode.Horizontal:
+                    rotationAxis.y = 0;
+                    break;
+                case DragMode.Vertical:
+                    rotationAxis.x = 0;
+                    break;
+            }
+    
+            rotationAxis.z = 0;
+            // Tính góc xoay dựa trên dot product
+            var dot = Vector3.Dot(lastArcballVector.Value, currentVector);
+            dot = Mathf.Clamp(dot, -1.0f, 1.0f);
+            var angle = Mathf.Acos(dot) * Mathf.Rad2Deg; // chuyển sang độ
+            // Nhân với -1 để đảo chiều xoay
+            angle *= -1;
+            // Điều chỉnh độ nhạy xoay bằng rotationSpeed (hoặc phiên bản mobile) và Time.deltaTime
+            angle *= Time.deltaTime * CurrentRotationSpeed;
+            /*if (rotationAxis.sqrMagnitude > 1e-6f) // Kiểm tra để tránh xoay khi vector quá nhỏ
+            {
+                Quaternion rotation = Quaternion.AngleAxis(angle, rotationAxis.normalized);
+                transform.rotation = rotation * transform.rotation;
+            }*/
+            
+            Quaternion rotation = Quaternion.AngleAxis(angle, rotationAxis.normalized);
+            transform.rotation = rotation * transform.rotation;
+            // Cập nhật vector cho lần kéo tiếp theo
+            lastArcballVector = currentVector;
+            _isDragObject = true;
+            return;
+        }
+
+        if (touch.phase == TouchPhase.Ended)
+        {
+            _currentDragMode = DragMode.None;
+            _dragTime = Time.time;
+            _isDragObject = false;
+            lastArcballVector = null;
+        }
     }
 
     void Start()
     {
         originalRotation = transform.rotation;
-        averageScale = Vector3.one * ((minScale + maxScale) / 2f);
+        averageScale = Vector3.one * (minScale);
 
         if (zoomScrollbar != null)
         {
@@ -92,6 +207,9 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if(isObject && PlatformManager.Instance.IsTomko) return;
+        
+        
         activeTouches[eventData.pointerId] = eventData.position;
 
         if (activeTouches.Count == 2)
@@ -107,6 +225,9 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
 
     public void OnDrag(PointerEventData eventData)
     {
+        if(isObject && PlatformManager.Instance.IsTomko) return;
+        
+        
         if (!activeTouches.ContainsKey(eventData.pointerId))
             return;
 
@@ -138,34 +259,131 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
             lastPointerPosition = eventData.position;
 
             
-            var rotateAmountX = delta.x * CurrentRotationSpeed * Time.deltaTime * 0.5f;
+            var rotateAmountX = delta.x * CurrentRotationSpeed * Time.deltaTime;
+            var rotateAmountY = delta.y * CurrentRotationSpeed * Time.deltaTime;
 
+            // if (isObject)
+            // {
+            //     if (!lastArcballVector.HasValue) return;
+            //     var currentVector = GetArcballVector(eventData.position);
+            //
+            //     // Tính vector xoay bằng cách lấy tích chéo giữa vector ban đầu và vector hiện tại
+            //     var rotationAxis = Vector3.Cross(lastArcballVector.Value, currentVector);
+            //
+            //     switch (_currentDragMode)
+            //     {
+            //         case DragMode.None:
+            //         {
+            //             if (rotationAxis != Vector3.zero)
+            //             {
+            //                 _currentDragMode = Mathf.Abs(rotationAxis.x) > Mathf.Abs(rotationAxis.y)
+            //                                    ? DragMode.Horizontal
+            //                                    : DragMode.Vertical;
+            //                 switch (_currentDragMode)
+            //                 {
+            //                     case DragMode.Horizontal:
+            //                         rotationAxis.y = 0;
+            //                         break;
+            //                     case DragMode.Vertical:
+            //                         rotationAxis.x = 0;
+            //                         break;
+            //                 }
+            //             }
+            //             break;
+            //         }
+            //         case DragMode.Horizontal:
+            //             rotationAxis.y = 0;
+            //             break;
+            //         case DragMode.Vertical:
+            //             rotationAxis.x = 0;
+            //             break;
+            //     }
+            //         
+            //     rotationAxis.z = 0;
+            //
+            //     // Tính góc xoay dựa trên dot product
+            //     var dot = Vector3.Dot(lastArcballVector.Value, currentVector);
+            //     dot = Mathf.Clamp(dot, -1.0f, 1.0f);
+            //     var angle = Mathf.Acos(dot) * Mathf.Rad2Deg; // chuyển sang độ
+            //
+            //     // Nhân với -1 để đảo chiều xoay
+            //     angle *= -1;
+            //
+            //     // Điều chỉnh độ nhạy xoay bằng rotationSpeed (hoặc phiên bản mobile) và Time.deltaTime
+            //     angle *= Time.deltaTime * CurrentRotationSpeed;
+            //
+            //     if (rotationAxis.sqrMagnitude > 1e-6f) // Kiểm tra để tránh xoay khi vector quá nhỏ
+            //     {
+            //         Quaternion rotation = Quaternion.AngleAxis(angle, rotationAxis.normalized);
+            //         transform.rotation = rotation * transform.rotation;
+            //     }
+            //
+            //     // Cập nhật vector cho lần kéo tiếp theo
+            //     lastArcballVector = currentVector;
+            //     return;
+            // }
             if (isObject)
             {
-                if (lastArcballVector.HasValue)
+                return;
+                if (!lastArcballVector.HasValue) return;
+                var currentVector = GetArcballVector(eventData.position);
+
+                // Tính vector xoay bằng cách lấy tích chéo giữa vector ban đầu và vector hiện tại
+                var rotationAxis = Vector3.Cross(lastArcballVector.Value, currentVector);
+
+                switch (_currentDragMode)
                 {
-                    var currentVector = GetArcballVector(eventData.position);
-
-                    // Tính vector xoay bằng cách lấy tích chéo giữa vector ban đầu và vector hiện tại
-                    var rotationAxis = Vector3.Cross(lastArcballVector.Value, currentVector);
-
-                    // Tính góc xoay dựa trên dot product
-                    var dot = Vector3.Dot(lastArcballVector.Value, currentVector);
-                    dot = Mathf.Clamp(dot, -1.0f, 1.0f);
-                    var angle = Mathf.Acos(dot) * Mathf.Rad2Deg; // chuyển sang độ
-
-                    // Nhân với -1 để đảo chiều xoay (giúp kéo lên -> xoay lên, kéo trái -> xoay trái)
-                    angle *= -1;
-
-                    if (rotationAxis.sqrMagnitude > 1e-6f) // Kiểm tra để tránh xoay khi vector quá nhỏ
+                    case DragMode.None:
                     {
-                        Quaternion rotation = Quaternion.AngleAxis(angle, rotationAxis.normalized);
-                        transform.rotation = rotation * transform.rotation;
+                        if (rotationAxis != Vector3.zero)
+                        {
+                            _currentDragMode = Mathf.Abs(rotationAxis.x) > Mathf.Abs(rotationAxis.y)
+                                ? DragMode.Horizontal
+                                : DragMode.Vertical;
+                            switch (_currentDragMode)
+                            {
+                                case DragMode.Horizontal:
+                                    rotationAxis.y = 0;
+                                    break;
+                                case DragMode.Vertical:
+                                    rotationAxis.x = 0;
+                                    break;
+                            }
+                        }
+                        break;
                     }
-            
-                    // Cập nhật vector cho lần kéo tiếp theo
-                    lastArcballVector = currentVector;
+                    case DragMode.Horizontal:
+                        rotationAxis.y = 0;
+                        break;
+                    case DragMode.Vertical:
+                        rotationAxis.x = 0;
+                        break;
                 }
+        
+                rotationAxis.z = 0;
+
+                // Tính góc xoay dựa trên dot product
+                var dot = Vector3.Dot(lastArcballVector.Value, currentVector);
+                dot = Mathf.Clamp(dot, -1.0f, 1.0f);
+                var angle = Mathf.Acos(dot) * Mathf.Rad2Deg; // chuyển sang độ
+
+                // Nhân với -1 để đảo chiều xoay
+                angle *= -1;
+
+                // Điều chỉnh độ nhạy xoay bằng rotationSpeed (hoặc phiên bản mobile) và Time.deltaTime
+                angle *= Time.deltaTime * CurrentRotationSpeed;
+
+                /*if (rotationAxis.sqrMagnitude > 1e-6f) // Kiểm tra để tránh xoay khi vector quá nhỏ
+                {
+                    Quaternion rotation = Quaternion.AngleAxis(angle, rotationAxis.normalized);
+                    transform.rotation = rotation * transform.rotation;
+                }*/
+                
+                Quaternion rotation = Quaternion.AngleAxis(angle, rotationAxis.normalized);
+                transform.rotation = rotation * transform.rotation;
+
+                // Cập nhật vector cho lần kéo tiếp theo
+                lastArcballVector = currentVector;
                 return;
             }
             
@@ -199,17 +417,24 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
     
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if(isObject && PlatformManager.Instance.IsTomko) return;
+        
         if(isPaint) return;
         lastArcballVector = GetArcballVector(eventData.position);
     }
     
     public void OnEndDrag(PointerEventData eventData)
     {
+        if(isObject && PlatformManager.Instance.IsTomko) return;
+        
         if(isPaint) return;
         lastArcballVector = null;
+        _currentDragMode = DragMode.None;
     }
     
     private Vector3? lastArcballVector = null;
+    private enum DragMode { None, Horizontal, Vertical }
+    private DragMode _currentDragMode = DragMode.None;
     
     private Vector3 GetArcballVector(Vector2 screenPoint)
     {
@@ -237,14 +462,18 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        if(isObject && PlatformManager.Instance.IsTomko) return;
+        
         if (activeTouches.ContainsKey(eventData.pointerId))
             activeTouches.Remove(eventData.pointerId);
         if(activeTouches.Count > 0) return;
         MouseInput.Instance.SetIsDragImage(false);
+        _currentDragMode = DragMode.None;
     }
 
     public void OnScroll(PointerEventData eventData)
     {
+        if(isObject && PlatformManager.Instance.IsTomko) return;
         float scroll = eventData.scrollDelta.y;
 
         if (scroll != 0f)
@@ -273,7 +502,7 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
     {
         Vector3 startScale = transform.localScale;
         float elapsed = 0f;
-        Vector3 targetScale = Vector3.one * ((minScale + maxScale) / 2f);
+        Vector3 targetScale = Vector3.one * (minScale);
 
         while (elapsed < resetDuration)
         {
@@ -431,6 +660,13 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
     
     public float GetOriginalScalePercent()
     {
+        //return (Vector3.one * ((minScale + maxScale) / 2f)).x/maxScale;
+        return 0;
+    }
+    
+    public float GetAvarageScalePercent()
+    {
         return (Vector3.one * ((minScale + maxScale) / 2f)).x/maxScale;
+        //return 0;
     }
 }

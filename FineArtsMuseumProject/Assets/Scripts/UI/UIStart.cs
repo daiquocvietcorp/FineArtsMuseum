@@ -25,8 +25,7 @@ namespace UI
         private Sequence _hideSequence;
         private void Awake()
         {
-            _animationSequence = DOTween.Sequence();
-
+            //_animationSequence = DOTween.Sequence();
             
             //titleImg.color = new Color(titleImg.color.r, titleImg.color.g, titleImg.color.b, 0);
             //subTitleImg.color = new Color(subTitleImg.color.r, subTitleImg.color.g, subTitleImg.color.b, 0);
@@ -58,7 +57,7 @@ namespace UI
             //        //UIManager.Instance.EnableUI("UI_GAME");
             //    });
             //});
-//
+            
             //_animationSequence.Pause();
             //_animationSequence.SetAutoKill(false);
             
@@ -97,6 +96,13 @@ namespace UI
             
             _hideSequence.Pause();
             _hideSequence.SetAutoKill(false);
+
+            if (SceneLog.IsFirstScene) return;
+            titleImg.gameObject.SetActive(false);
+            subTitleImg.gameObject.SetActive(false);
+            appNameImg.gameObject.SetActive(false);
+            descriptionImg.gameObject.SetActive(false);
+            startBtnImg.gameObject.SetActive(false);
         }
         
 
@@ -110,6 +116,7 @@ namespace UI
             else
             {
                 EnterMain();
+                
             }
         }
 

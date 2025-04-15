@@ -15,6 +15,10 @@ namespace Trigger
         
         [field: SerializeField] private ArcSlider arcSlider;
         [field: SerializeField] private Transform sliderTransform;
+        
+        private bool _isShowAntiqueDetail;
+        
+        public bool IsShowAntiqueDetail => _isShowAntiqueDetail;
 
         private void Awake()
         {
@@ -53,6 +57,8 @@ namespace Trigger
             }
             Debug.Log("AntiqueId:"+ antiqueID);
             _antiqueDetailDict[antiqueID].gameObject.SetActive(true);
+            TriggerManager.Instance.DisableTriggerColliders();
+            _isShowAntiqueDetail = true;
             if (_antiqueDetailDict[antiqueID].interactiveObject)
             {
                 _currentAntiqueObject = _antiqueDetailDict[antiqueID].interactiveObject;
@@ -82,6 +88,8 @@ namespace Trigger
         {
             if (_antiqueDetailDict.ContainsKey(antiqueID))
             {
+                TriggerManager.Instance.EnableTriggerColliders();
+                _isShowAntiqueDetail = false;
                 _currentAntiqueObject = null;
                 _antiqueDetailDict[antiqueID].gameObject.SetActive(false);
                 
@@ -125,6 +133,11 @@ namespace Trigger
         {
             if(_currentAntiqueObject == null) return;
             _currentAntiqueObject.ZoomByPercentage(f);
+        }
+
+        public bool IsChangeArcSlider()
+        {
+            return arcSlider.IsChangeValue();
         }
     }
 }

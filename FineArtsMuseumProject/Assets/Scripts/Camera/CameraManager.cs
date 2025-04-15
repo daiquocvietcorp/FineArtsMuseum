@@ -32,6 +32,6 @@ namespace Camera
             _isLockFollowView = false;
         }
         
-        public bool IsLockFollowView => _isLockFollowView;
+        public bool IsLockFollowView => _isLockFollowView || cameraFollowPlayer.IsLocked;
     }
 }

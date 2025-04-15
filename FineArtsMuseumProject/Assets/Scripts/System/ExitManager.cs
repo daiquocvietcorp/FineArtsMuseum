@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using Camera;
 using DesignPatterns;
+using InputController;
 using Player;
 using Trigger;
+using UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -40,6 +42,10 @@ namespace System
             {
                 StopCoroutine(_loadSceneCoroutine);
             }
+            
+            InputManager.Instance.DisableInput();
+            CharacterManager.Instance.StopControlCharacter();
+            
             _loadSceneCoroutine = StartCoroutine(LoadScene(exitDataObject));
         }
 
@@ -49,8 +55,7 @@ namespace System
             
             while (loadSceneAsync is { isDone: false })
             {
-                // Bạn có thể hiển thị thanh tiến trình tại đây, ví dụ:
-                // Debug.Log(asyncLoad.progress);
+                UIManager.Instance.EnableUI("UI_LOADSCENE");
                 yield return null;
             }
             

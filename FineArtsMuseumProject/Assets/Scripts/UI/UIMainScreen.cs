@@ -64,14 +64,15 @@ namespace UI
             {
                 _isGuideOn = true;
                 guideToggle.isOn = true;
+                guideToggle.image.sprite = guideOnSprite;
             }
             else
             {
                 _isGuideOn = false;
                 guideToggle.isOn = false;
+                guideToggle.image.sprite = guideOffSprite;
             }
             
-            guideToggle.image.sprite = guideOnSprite;
             settingsToggle.image.sprite = settingsOffSprite;
         }
 

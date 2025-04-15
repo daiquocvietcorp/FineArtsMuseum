@@ -63,14 +63,17 @@ public class TriggerPainting : MonoBehaviour
     [SerializeField] private Transform paintingLightObject;
     
     [SerializeField] private bool IsMainPainting = true;
-    
 
+    public GameObject volumeObject;
+    public GameObject volumeObject2;
+    public bool IsDisableVolume = false;
+    
     private void Start()
     {
         // Thiết lập Fog Mode
         // RenderSettings.fog = true;
         // RenderSettings.fogMode = FogMode.ExponentialSquared;
-        fogVFX.Stop();
+        if(fogVFX) fogVFX.Stop();
         //paintRotateAndZoom = paintingObject.GetComponent<PaintRotateAndZoom>();
         //ButtonGroupCanvas.gameObject.SetActive(false);
         
@@ -113,6 +116,19 @@ public class TriggerPainting : MonoBehaviour
                 CameraManager.Instance.cameraFollowPlayer.SetCameraData(cameraPositionOffset, rotation);
             }
 
+            if (IsDisableVolume)
+            {
+                if (volumeObject)
+                {
+                    volumeObject.SetActive(false);
+                }
+
+                if (volumeObject2)
+                {
+                    volumeObject2.SetActive(false);
+                }
+            }
+
             if (IsMainPainting)
             {
                 if (listOtherLights != null && listOtherLights.Count > 0)
@@ -133,7 +149,7 @@ public class TriggerPainting : MonoBehaviour
             //DrmGameObject.gameObject.SetActive(true);
             renderer.enabled = true;
             DrmGameObject.transform.position = transform.position;
-            fogVFX.transform.position = new Vector3(transform.position.x, 2, transform.position.z);
+            if(fogVFX) fogVFX.transform.position = new Vector3(transform.position.x, 2, transform.position.z);
 
             SetLayerRecursively(detailCollider.gameObject, "Default", true);
             SetLayerRecursively(paintingObject, "IgnoreBlur", true);
@@ -175,7 +191,7 @@ public class TriggerPainting : MonoBehaviour
             SubtitleObject.SetActive(true);
             isEnter = true;
             currentTrigger = true;
-            fogVFX.Play();
+            if(fogVFX) fogVFX.Play();
             
             CameraManager.Instance.SetCameraWhenEnterPainting(distanceCamera, heightCamera);
         }
@@ -188,7 +204,7 @@ public class TriggerPainting : MonoBehaviour
         {
             isEnter = false;    
             PaintingDetailManager.Instance.RemoveCurrentPainting();
-            fogVFX.Stop();
+            if(fogVFX) fogVFX.Stop();
             paintRotateAndZoom.SmoothOriginResetTransform();
             paintRotateAndZoom.enabled = false;
             SetLayerRecursively(ScreenOutlineEffect, "Default", true);
@@ -230,10 +246,10 @@ public class TriggerPainting : MonoBehaviour
 
     private void Update()
     {
-        if (fogVFX && fogVFX.isActiveAndEnabled)
-        {
-            fogVFX.SetVector3("ColliderPosition", transform.position);
-        }
+        // if (fogVFX && fogVFX.isActiveAndEnabled)
+        // {
+        //     fogVFX.SetVector3("ColliderPosition", transform.position);
+        // }
         
         if (DrmGameObject.radius == maxScanRadius && isEnter && DrmGameObject.gameObject.activeSelf && currentTrigger )
         {
@@ -289,6 +305,21 @@ public class TriggerPainting : MonoBehaviour
                     paintingLightObject.gameObject.SetActive(false);
                 }
             }
+            
+            if (IsDisableVolume)
+            {
+                if (volumeObject)
+                {
+                    volumeObject.SetActive(true);
+                }
+                
+                if (volumeObject2)
+                {
+                    volumeObject2.SetActive(true);
+                }
+            }
+            
+            
         }
         
         if (isEnter && DrmGameObject.radius < maxScanRadius && currentTrigger)

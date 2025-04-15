@@ -15,8 +15,8 @@ public class IdleScreenManager : MonoBehaviour
     [Header("Tranh 1")]
     public CanvasGroup group1;
     public Image image1;
-    public TMP_Text artworkNameText1;
-    public TMP_Text authorNameText1;
+    public TextMeshProUGUI artworkNameText1;
+    public TextMeshProUGUI authorNameText1;
     public Sprite artworkSprite1;
     public string artworkName1;
     public string authorName1;
@@ -24,8 +24,8 @@ public class IdleScreenManager : MonoBehaviour
     [Header("Tranh 2")]
     public CanvasGroup group2;
     public Image image2;
-    public TMP_Text artworkNameText2;
-    public TMP_Text authorNameText2;
+    public TextMeshProUGUI artworkNameText2;
+    public TextMeshProUGUI authorNameText2;
     public Sprite artworkSprite2;
     public string artworkName2;
     public string authorName2;
@@ -54,6 +54,28 @@ public class IdleScreenManager : MonoBehaviour
 
     void Start()
     {
+        // if (PlatformManager.Instance.IsTomko || PlatformManager.Instance.IsStandalone)
+        // {
+        //     //Set RectTransform PosX of TextMeshProUGUI artworkNameText2 to value
+        //     RectTransform rectTransform = artworkNameText2.GetComponent<RectTransform>();
+        //     RectTransform rectTransform2 = authorNameText2.GetComponent<RectTransform>();
+        //     Vector2 newPos = rectTransform.anchoredPosition;
+        //     newPos.x = -390.9f; // Set to desired value
+        //     rectTransform.anchoredPosition = newPos;
+        //     rectTransform2.anchoredPosition = newPos;
+        // }
+        //
+        // if (PlatformManager.Instance.IsCloud || PlatformManager.Instance.IsMobile)
+        // {
+        //     //Set RectTransform PosX of TextMeshProUGUI artworkNameText2 to value
+        //     RectTransform rectTransform = artworkNameText2.GetComponent<RectTransform>();
+        //     RectTransform rectTransform2 = authorNameText2.GetComponent<RectTransform>();
+        //     Vector2 newPos = rectTransform.anchoredPosition;
+        //     newPos.x = -390.9f; // Set to desired value
+        //     rectTransform.anchoredPosition = newPos;
+        //     rectTransform2.anchoredPosition = newPos;
+        // }
+        
         if (SceneLog.IsFirstScene)
         {
             idleScreen.SetActive(true);
@@ -68,6 +90,7 @@ public class IdleScreenManager : MonoBehaviour
         {
             startController.StartApplication();
             idleScreen.SetActive(true);
+            nextButton.onClick.AddListener(OnNextButtonClicked);
             exitButton.onClick.RemoveAllListeners();
             exitButton.onClick.AddListener(OnExitButtonClicked);
             HideIdleScreen();
