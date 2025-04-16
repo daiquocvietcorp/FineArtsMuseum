@@ -2,6 +2,7 @@ using System;
 using DesignPatterns;
 using InputController;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Player
 {
@@ -48,6 +49,11 @@ namespace Player
         public void SetCharacterInfo(Vector3 valuePlayerPosition, Vector3 valuePlayerRotation)
         {
             defaultCharacterStateMachine.SetCharacter(valuePlayerPosition, valuePlayerRotation);
+        }
+
+        public System.Action<InputAction.CallbackContext> GetActionMove()
+        {
+            return defaultCharacterStateMachine.MoveByNewInput;
         }
     }
 }

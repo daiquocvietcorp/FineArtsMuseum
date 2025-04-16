@@ -138,6 +138,36 @@ public class AntiqueObject : MonoBehaviour
 
 
         }
+
+        if (PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
+        {
+            var closeRect = CloseButton.GetComponent<RectTransform>();
+            closeRect.anchoredPosition = new Vector2(-159.8477f, -80.69809f);
+            closeRect.sizeDelta = new Vector2(36.2659f, 35.8804f);
+            
+            var refreshRect = RefreshButton.GetComponent<RectTransform>();
+            refreshRect.anchoredPosition = new Vector2(-208.7518f, -80.69809f);
+            refreshRect.sizeDelta = new Vector2(36.2659f, 35.8804f);
+            
+            var guideRect = ShowGuideButton.GetComponent<RectTransform>();
+            guideRect.anchoredPosition = new Vector2(-257.402f, -80.69809f);
+            guideRect.sizeDelta = new Vector2(36.2659f, 35.8804f);
+        }
+        else
+        {
+            var closeRect = CloseButton.GetComponent<RectTransform>();
+            closeRect.anchoredPosition = new Vector2(-98.1f, -80.69809f);
+            closeRect.sizeDelta = new Vector2(70f, 70f);
+            
+            var refreshRect = RefreshButton.GetComponent<RectTransform>();
+            refreshRect.anchoredPosition = new Vector2(-183.3f, -80.69809f);
+            refreshRect.sizeDelta = new Vector2(70f, 70f);
+            
+            var guideRect = ShowGuideButton.GetComponent<RectTransform>();
+            guideRect.anchoredPosition = new Vector2(-268.3f, -80.69809f);
+            guideRect.sizeDelta = new Vector2(70f, 70f);
+        }
+        
         interactiveObject.gameObject.SetActive(true);
         CloseButton.gameObject.SetActive(true);
 

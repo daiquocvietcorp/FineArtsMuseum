@@ -2,13 +2,15 @@ using UnityEngine;
 using System;
 using System.Collections;
 using System.Linq;
+using DesignPatterns;
+using Player;
 using TMPro;
 using Unity.RenderStreaming;
 using Unity.WebRTC;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
 
-public class WebRTCManager : MonoBehaviour
+public class WebRTCManager : MonoSingleton<WebRTCManager>
 {
     [field: SerializeField] private SignalingManager signalingManager;
     
@@ -20,7 +22,10 @@ public class WebRTCManager : MonoBehaviour
     [field: SerializeField] private AudioStreamReceiver audioStreamReceiver;
     [field: SerializeField] private Broadcast broadcast;
     
-    private int _listenPort = -1;
+    [Header("Debug")]
+    [field: SerializeField] private bool debugMode;
+    
+    private string _listenPort = "";
     
     private void Awake()
     {
@@ -29,15 +34,22 @@ public class WebRTCManager : MonoBehaviour
     
     void Start()
     {
-        StartCoroutine(ListenPort());
-        //TestScript();
+        if(!PlatformManager.Instance.IsWebGL && !PlatformManager.Instance.IsCloud) return;
+        if (debugMode)
+        {
+            TestScript();
+        }
+        else
+        {
+            StartCoroutine(ListenPort());
+        }
     }
 
     private void TestScript()
     {
-        _listenPort = 80;
+        const int port = 80;
 
-        var signalingURL = $"ws://127.0.0.1:{_listenPort}";
+        var signalingURL = $"ws://127.0.0.1:{port}";
 
         signalingManager.Stop();
 
@@ -50,11 +62,10 @@ public class WebRTCManager : MonoBehaviour
         );
 
         signalingManager.SetSignalingSettings(setting);
-                    
+        
         videoStreamSender.source = VideoStreamSource.Screen;
         videoStreamSender.SetTextureSize(new Vector2Int(Screen.width, Screen.height));
         broadcast.AddComponent(videoStreamSender);
-                    
         audioStreamSender.source = AudioStreamSource.AudioListener;
         broadcast.AddComponent(audioStreamSender);
         broadcast.AddComponent(inputReceiver);
@@ -66,7 +77,7 @@ public class WebRTCManager : MonoBehaviour
 
     private IEnumerator ListenPort()
     {
-        while (_listenPort == -1)
+        while (_listenPort == "")
         {
             string[] args = Environment.GetCommandLineArgs();
 
@@ -75,10 +86,10 @@ public class WebRTCManager : MonoBehaviour
                 if (!arg.StartsWith("--webrtc-port=")) continue;
                 try
                 {
-                    var webrtcPort = int.Parse(arg.Split('=')[1]);
-                    _listenPort = webrtcPort;
-
-                    var signalingURL = $"wss://streaming.daiquocviet.vn:{_listenPort}";
+                   //var webrtcPort = int.Parse(arg.Split('=')[1]);
+                   //_listenPort = webrtcPort;
+                   _listenPort = arg.Split('=')[1];
+                    var signalingURL = $"wss://{_listenPort}";
 
                     signalingManager.Stop();
 
@@ -115,8 +126,17 @@ public class WebRTCManager : MonoBehaviour
             yield return new WaitForSeconds(1f);
         }
         
-        if(_listenPort != -1) yield break;
+        if(_listenPort != "") yield break;
 
         yield return new WaitForSeconds(1f);
+    }
+
+    public void RegisterMoveInput(System.Action<InputAction.CallbackContext> onMovePerformed)
+    {
+        if (!inputReceiver) return;
+        var moveAction = inputReceiver.actions;
+        if (!moveAction) return;
+        moveAction["Move"].performed += onMovePerformed;
+        moveAction["Move"].canceled += onMovePerformed;
     }
 }
