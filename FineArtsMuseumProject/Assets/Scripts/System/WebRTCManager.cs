@@ -25,7 +25,7 @@ public class WebRTCManager : MonoSingleton<WebRTCManager>
     [Header("Debug")]
     [field: SerializeField] private bool debugMode;
     
-    private int _listenPort = -1;
+    private string _listenPort = "";
     
     private void Awake()
     {
@@ -47,9 +47,9 @@ public class WebRTCManager : MonoSingleton<WebRTCManager>
 
     private void TestScript()
     {
-        _listenPort = 80;
+        const int port = 80;
 
-        var signalingURL = $"ws://127.0.0.1:{_listenPort}";
+        var signalingURL = $"ws://127.0.0.1:{port}";
 
         signalingManager.Stop();
 
@@ -77,7 +77,7 @@ public class WebRTCManager : MonoSingleton<WebRTCManager>
 
     private IEnumerator ListenPort()
     {
-        while (_listenPort == -1)
+        while (_listenPort == "")
         {
             string[] args = Environment.GetCommandLineArgs();
 
@@ -86,9 +86,9 @@ public class WebRTCManager : MonoSingleton<WebRTCManager>
                 if (!arg.StartsWith("--webrtc-port=")) continue;
                 try
                 {
-                    var webrtcPort = int.Parse(arg.Split('=')[1]);
-                    _listenPort = webrtcPort;
-
+                   //var webrtcPort = int.Parse(arg.Split('=')[1]);
+                   //_listenPort = webrtcPort;
+                   _listenPort = arg.Split('=')[1];
                     var signalingURL = $"wss://{_listenPort}";
 
                     signalingManager.Stop();
@@ -126,7 +126,7 @@ public class WebRTCManager : MonoSingleton<WebRTCManager>
             yield return new WaitForSeconds(1f);
         }
         
-        if(_listenPort != -1) yield break;
+        if(_listenPort != "") yield break;
 
         yield return new WaitForSeconds(1f);
     }
