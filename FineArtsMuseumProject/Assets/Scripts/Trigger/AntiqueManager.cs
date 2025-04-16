@@ -47,6 +47,7 @@ namespace Trigger
                 
                 if (PlatformManager.Instance.IsVR)
                 {
+                    Debug.Log("VR Detected");
                     antiqueID += "_vr";
                 }
 
