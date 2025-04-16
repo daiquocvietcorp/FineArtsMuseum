@@ -131,9 +131,13 @@ public class AntiqueObject : MonoBehaviour
 
     public void ActivateInteractiveMode()
     {
-        CharacterStateMachine.gameObject.layer = LayerMask.NameToLayer("Default");
         if (!PlatformManager.Instance.IsVR)
+        {
+            CharacterStateMachine.gameObject.layer = LayerMask.NameToLayer("Default");
             blurGameObject.SetActive(true);
+
+
+        }
         interactiveObject.gameObject.SetActive(true);
         CloseButton.gameObject.SetActive(true);
 

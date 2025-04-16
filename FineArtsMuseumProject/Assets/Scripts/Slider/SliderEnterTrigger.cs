@@ -29,8 +29,12 @@ namespace Slider
         private void OnTriggerEnter(Collider other)
         {
             if (!other.CompareTag("Player")) return;
-            CameraManager.Instance.cameraFollowPlayer.EnterArea(distanceView, heightView);
-            CameraManager.Instance.cameraFollowPlayer.SetCameraData(cameraPosition, _targetRotation);
+            if (!PlatformManager.Instance.IsVR)
+            {
+                CameraManager.Instance.cameraFollowPlayer.EnterArea(distanceView, heightView);
+                CameraManager.Instance.cameraFollowPlayer.SetCameraData(cameraPosition, _targetRotation);
+            }
+            
             
             if (IsDisableForOptimize)
             {
