@@ -128,6 +128,12 @@ namespace UI
         public void EnterMain()
         {
             CharacterManager.Instance.StartControlCharacter();
+
+            if (PlatformManager.Instance.IsWebGL)
+            {
+                WebRTCManager.Instance.RegisterMoveInput(CharacterManager.Instance.GetActionMove());
+            }
+            
             InputManager.Instance.EnableInput();
             InputManager.Instance.EnableJoystick();
             InputManager.Instance.EnableJoystickRotation();
