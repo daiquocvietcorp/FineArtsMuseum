@@ -1,3 +1,4 @@
+using System;
 using DesignPatterns;
 using InputController;
 using UnityEngine;
@@ -10,6 +11,7 @@ namespace Player
         
         public void DisableCharacter()
         {
+            if (PlatformManager.Instance.IsVR) return;
             defaultCharacterStateMachine.DisableCharacter();
         }
         
