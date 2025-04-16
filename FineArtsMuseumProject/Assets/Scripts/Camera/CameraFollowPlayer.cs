@@ -111,7 +111,7 @@ namespace Camera
             float mouseX = 0;
             float mouseY = 0;
 
-            if (PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
+            if (PlatformManager.Instance.IsStandalone)
             {
                 if (!MouseInput.Instance.IsHold) return;
                 _isActive = true;
@@ -149,7 +149,7 @@ namespace Camera
                 _currentAreaPitch = Mathf.Clamp(_currentAreaPitch - mouseY, data.MinPitch, data.MaxPitch);
             }
 
-            if (PlatformManager.Instance.IsCloud || PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsTomko)
+            if (PlatformManager.Instance.IsCloud || PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsTomko || PlatformManager.Instance.IsWebGL)
             {
                 //if(_joystickDirection.magnitude < 0.1f) return;
                 if(_joystickDirection == Vector2.zero) return;

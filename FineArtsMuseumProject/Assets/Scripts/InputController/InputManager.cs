@@ -39,7 +39,7 @@ namespace InputController
         
         public void EnableJoystickRotation()
         {
-            if(!PlatformManager.Instance.IsCloud && !PlatformManager.Instance.IsMobile) return;
+            if(!PlatformManager.Instance.IsCloud && !PlatformManager.Instance.IsMobile && !PlatformManager.Instance.IsWebGL) return;
             joystickRotationInput.gameObject.SetActive(true);
         }
         

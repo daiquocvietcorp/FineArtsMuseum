@@ -20,6 +20,7 @@ namespace System
         public bool IsTomko => platformType == PlatformType.Tomko;
         public bool IsTomkoDevice => deviceType == DeviceType.Tomko;
         public bool IsMobileDevice => deviceType == DeviceType.Mobile;
+        public bool IsDesktopDevice => deviceType == DeviceType.Desktop;
     }
     
     public enum PlatformType

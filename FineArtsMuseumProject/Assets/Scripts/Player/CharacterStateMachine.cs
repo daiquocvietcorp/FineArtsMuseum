@@ -4,6 +4,7 @@ using Camera;
 using InputController;
 using LayerMasks;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Player
 {
@@ -19,6 +20,8 @@ namespace Player
         
         private bool _isUsingJoystick;
         private Vector2 _joystickDirection;
+
+        private Vector2 _newInputMove;
         
         [field: SerializeField] private Animator animator;
         [field: SerializeField] private CharacterData data;
@@ -140,7 +143,19 @@ namespace Player
 
         public bool IsMoving()
         {
-            return Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0;
+            return (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0) || _newInputMove.magnitude > 0.1f;
+        }
+
+        public void MoveByNewInput(InputAction.CallbackContext move)
+        {
+            if (move.canceled)
+            {
+                _newInputMove = Vector2.zero;
+                Debug.Log("Move canceled");
+                return;
+            }
+            _newInputMove = move.ReadValue<Vector2>();
+            Debug.Log("Move is " + _newInputMove);
         }
 
         public bool IsGrounded()
@@ -152,6 +167,12 @@ namespace Player
         {
             var moveX = Input.GetAxis("Horizontal");
             var moveZ = Input.GetAxis("Vertical");
+
+            if (PlatformManager.Instance.IsWebGL)
+            {
+                moveX = _newInputMove.x;
+                moveZ = _newInputMove.y;
+            }
             
             var moveDirection = new Vector3(moveX, 0, moveZ).normalized;
 
