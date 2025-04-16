@@ -19,6 +19,7 @@ namespace System
         public bool IsCloud => platformType == PlatformType.Cloud;
         public bool IsTomko => platformType == PlatformType.Tomko;
         public bool IsTomkoDevice => deviceType == DeviceType.Tomko;
+        public bool IsMobileDevice => deviceType == DeviceType.Mobile;
     }
     
     public enum PlatformType

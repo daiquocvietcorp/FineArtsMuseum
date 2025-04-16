@@ -34,7 +34,7 @@ public class AudioSubtitleManager : MonoSingleton<AudioSubtitleManager>
 {
     private void OnApplicationQuit()
     {
-        PlayerPrefs.SetString("Language", "vi");
+        //PlayerPrefs.SetString("Language", "vi");
     }
 
     public static AudioSubtitleManager Instance; // Singleton để dễ gọi từ TriggerZone
@@ -136,14 +136,9 @@ public class AudioSubtitleManager : MonoSingleton<AudioSubtitleManager>
     }
     public void ChangeLanguage(string lang)
     {
-        if(lang == "vi")
-            SceneLog.IsVietnamese = true;
-        else
-            SceneLog.IsVietnamese = false;
+        SceneLog.IsVietnamese = lang == "vi";
         
         currentLanguage = lang;
-        PlayerPrefs.SetString("Language", currentLanguage);
-        PlayerPrefs.Save();
         Debug.Log("Language changed to: " + currentLanguage);
         ShowStaticSubtitle();
         SlideManager.Instance.ChangeLanguage(currentLanguage);

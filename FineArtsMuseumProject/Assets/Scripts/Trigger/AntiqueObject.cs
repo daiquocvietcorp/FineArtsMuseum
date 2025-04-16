@@ -273,7 +273,7 @@ public class AntiqueObject : MonoBehaviour
 
     private IEnumerator PlayGuideSequence()
     {
-        string currentLanguage = PlayerPrefs.GetString("Language", "vi");
+        string currentLanguage = SceneLog.IsVietnamese ? "vi" : "en";
         RotateImage.sprite = currentLanguage == "en" ? RotateSpriteEng : RotateSpriteVi;
 
         yield return FadeImageIn(RotateImage);

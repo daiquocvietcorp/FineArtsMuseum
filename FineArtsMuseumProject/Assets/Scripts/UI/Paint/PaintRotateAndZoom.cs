@@ -46,6 +46,9 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
     
     public bool canRotate = true;
 
+    public bool IsUseOnPointerDown = false;
+    public MagnifierHover mobileMagnifierHover;
+
     private float CurrentRotationSpeed
     {
         get
@@ -212,6 +215,17 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if (IsUseOnPointerDown)
+        {
+            if (PlatformManager.Instance.IsCloud)
+            {
+                if (mobileMagnifierHover != null)
+                {
+                    mobileMagnifierHover.OnPointerDown(eventData);
+                }
+            }
+        }
+        
         if(isObject && PlatformManager.Instance.IsTomko) return;
         
         
@@ -230,6 +244,17 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
 
     public void OnDrag(PointerEventData eventData)
     {
+        if (IsUseOnPointerDown)
+        {
+            if (PlatformManager.Instance.IsCloud)
+            {
+                if (mobileMagnifierHover != null)
+                {
+                    mobileMagnifierHover.OnDrag(eventData);
+                }
+            }
+        }
+        
         if(isObject && PlatformManager.Instance.IsTomko) return;
         
         
@@ -466,6 +491,17 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        if (IsUseOnPointerDown)
+        {
+            if (PlatformManager.Instance.IsCloud)
+            {
+                if (mobileMagnifierHover != null)
+                {
+                    mobileMagnifierHover.OnPointerUp(eventData);
+                }
+            }
+        }
+        
         if(isObject && PlatformManager.Instance.IsTomko) return;
         
         if (activeTouches.ContainsKey(eventData.pointerId))

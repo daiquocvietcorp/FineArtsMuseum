@@ -414,7 +414,9 @@ private void StartGuideSequence()
     isGuide = true; // Bật flag ngay khi bắt đầu sequence
     
     // Thiết lập sprite cho các ảnh theo ngôn ngữ
-    string currentLanguage = PlayerPrefs.GetString("Language", "vi");
+
+    string currentLanguage = SceneLog.IsVietnamese ? "vi" : "en";
+    
     if (currentLanguage == "vi")
     {
         // Ảnh chính

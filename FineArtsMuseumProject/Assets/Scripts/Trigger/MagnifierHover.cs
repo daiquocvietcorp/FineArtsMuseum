@@ -1,10 +1,11 @@
 using System;
 using DesignPatterns;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.XR.Interaction.Toolkit;
 
-public class MagnifierHover : MonoBehaviour
+public class MagnifierHover : MonoBehaviour,IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
     [Header("Camera")]
     public UnityEngine.Camera mainCamera;
@@ -30,7 +31,6 @@ public class MagnifierHover : MonoBehaviour
 
     public Transform ignoredRoot;
 
-
     void Start()
     {
         magnifierImage.gameObject.SetActive(false);
@@ -44,6 +44,126 @@ public class MagnifierHover : MonoBehaviour
         if (magnifierFrame != null)
             magnifierFrame.gameObject.SetActive(false);
     }
+    
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        // Debug.Log("PointerDown");
+        // if (PlatformManager.Instance.IsCloud)
+        // {
+        //     HandlePointerEvent(eventData.position);
+        // }
+        if (PlatformManager.Instance.IsCloud)
+        {
+            var parentCanvas = magnifierImage.GetComponentInParent<Canvas>();
+            MoveMagnifierToPointer(parentCanvas, eventData.position);
+            HandlePointerEvent(eventData.position);
+        }
+        
+    }
+    
+    // Sự kiện khi pointer kéo (drag)
+    public void OnDrag(PointerEventData eventData)
+    {
+        if (PlatformManager.Instance.IsCloud)
+        {
+            HandlePointerEvent(eventData.position);
+        }
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        // Debug.Log("PointerUp");
+        if (PlatformManager.Instance.IsCloud)
+        {
+            HideMagnifier();
+        }
+    }
+    
+    private void MoveMagnifierToPointer(Canvas parentCanvas, Vector2 pointerPos)
+    {
+        if (!magnifierImage) return;
+
+        // Bật kính lúp
+        magnifierImage.gameObject.SetActive(true);
+        if (magnifierFrame != null)
+            magnifierFrame.gameObject.SetActive(true);
+
+        // Tuỳ thuộc vào renderMode của Canvas
+        if (parentCanvas.renderMode == RenderMode.ScreenSpaceOverlay)
+        {
+            // Screen Space Overlay: gán thẳng
+            magnifierImage.rectTransform.position = pointerPos;
+            if (magnifierFrame != null)
+                magnifierFrame.position = pointerPos;
+        }
+        else
+        {
+            // Screen Space Camera hoặc World Space: phải đổi toạ độ
+            RectTransform canvasRect = parentCanvas.transform as RectTransform;
+            if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                    canvasRect, 
+                    pointerPos, 
+                    parentCanvas.worldCamera, 
+                    out Vector2 localPoint))
+            {
+                magnifierImage.rectTransform.localPosition = localPoint;
+                if (magnifierFrame != null)
+                    magnifierFrame.localPosition = localPoint;
+            }
+        }
+    }
+    
+    /// <summary>
+    /// Xử lý các event pointer (pointer down và drag) cho chế độ Cloud
+    /// </summary>
+    /// <param name="pointerPos">Vị trí của pointer (màn hình)</param>
+    void HandlePointerEvent(Vector3 pointerPos)
+    {
+        Ray ray = mainCamera.ScreenPointToRay(pointerPos);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, 100f, targetLayer))
+        {
+            //magnifierImage.gameObject.SetActive(false);
+            // Nếu trúng đối tượng có tag "Player" thì không xử lý
+            if (hit.transform.tag == "Player") return;
+
+            // Hiển thị kính lúp
+            if (magnifierFrame != null)
+                magnifierFrame.gameObject.SetActive(true);
+
+            // Cập nhật vị trí của UI kính lúp theo vị trí pointer
+            magnifierImage.rectTransform.position = pointerPos;
+            if (magnifierFrame != null)
+                magnifierFrame.position = pointerPos;
+
+            Vector3 hitPos = hit.point;
+            Vector3 normal = hit.normal;
+
+            if (!mainCamera.orthographic)
+            {
+                // Với Perspective
+                zoomCamera.transform.position = hitPos + normal * cameraOffset;
+                zoomCamera.transform.rotation = Quaternion.LookRotation(-normal);
+                zoomCamera.fieldOfView = mainCamera.fieldOfView / zoomFactor;
+            }
+            else
+            {
+                // Với Orthographic
+                zoomCamera.transform.position = hitPos + normal * cameraOffset;
+                zoomCamera.transform.rotation = Quaternion.LookRotation(-normal);
+                zoomCamera.orthographicSize = mainCamera.orthographicSize / zoomFactor;
+            }
+            
+            magnifierImage.gameObject.SetActive(true);
+            
+        }
+        else
+        {
+            HideMagnifier();
+        }
+    }
+
+    
 
     void Update()
     {
@@ -61,7 +181,7 @@ public class MagnifierHover : MonoBehaviour
                 }
             }
         }
-        else
+        else if (!PlatformManager.Instance.IsCloud)
         {
             HandleMouseHover();
         }
@@ -106,10 +226,16 @@ public class MagnifierHover : MonoBehaviour
         }
         else
         {
-            magnifierImage.gameObject.SetActive(false);
-            if (magnifierFrame != null)
-                magnifierFrame.gameObject.SetActive(false);
+            HideMagnifier();
         }
+    }
+    
+    
+    void HideMagnifier()
+    {
+        magnifierImage.gameObject.SetActive(false);
+        if (magnifierFrame != null)
+            magnifierFrame.gameObject.SetActive(false);
     }
 
     bool TryHandleRayInteractor(XRRayInteractor interactor)
@@ -147,9 +273,7 @@ public class MagnifierHover : MonoBehaviour
             
         }else
         {
-            magnifierImage.gameObject.SetActive(false);
-            if (magnifierFrame != null)
-                magnifierFrame.gameObject.SetActive(false);
+            HideMagnifier();
         }
 
         return false;
@@ -172,4 +296,6 @@ public class MagnifierHover : MonoBehaviour
             targetRect.rotation = Quaternion.LookRotation(canvas.transform.forward);
         }
     }
+
+    
 }

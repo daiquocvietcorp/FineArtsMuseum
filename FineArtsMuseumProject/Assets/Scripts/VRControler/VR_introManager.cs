@@ -64,7 +64,7 @@ public class VR_introManager : MonoBehaviour
     IEnumerator PlayIntroAndSequence()
     {
         // Lấy ngôn ngữ từ PlayerPrefs ("vi" hoặc "en", mặc định là "vi")
-        string currentLanguage = PlayerPrefs.GetString("Language", "vi");
+        string currentLanguage = SceneLog.IsVietnamese ? "vi" : "en";
 
         // 1. Phát audio giới thiệu với hiệu ứng fade in/out
         AudioClip introClip = (currentLanguage == "vi") ? introAudioVI : introAudioEN;

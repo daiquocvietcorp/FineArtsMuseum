@@ -148,7 +148,7 @@ public class AIHoverEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         buttonText.text = "";
 
         // Bắt đầu typing
-        string currentLanguage = PlayerPrefs.GetString("Language", "vi");
+        string currentLanguage = SceneLog.IsVietnamese ? "vi" : "en";
         string targetText = (currentLanguage == "vi") ? hoverText : hoverTextEnglish;
         typingCoroutine = StartCoroutine(AnimateTypingText(targetText, duration));
 
