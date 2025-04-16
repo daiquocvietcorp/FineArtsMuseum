@@ -30,6 +30,29 @@ namespace System
 
         public void ChangeScene(int id)
         {
+            if (PlatformManager.Instance.IsVR)
+            {
+                
+                if(!_exitDataDictionary.TryGetValue(id, out var exitDataObjectVR)) return;
+                if(exitDataObjectVR.toSceneId == _currentSceneId) return;
+                
+                if(SceneLog.IsFirstScene)
+                    SceneLog.IsFirstScene = false;
+                
+                SceneLog.PreviousSceneId = _currentSceneId;
+                
+                if(_loadSceneCoroutine != null)
+                {
+                    StopCoroutine(_loadSceneCoroutine);
+                }
+            
+                // InputManager.Instance.DisableInput();
+                // CharacterManager.Instance.StopControlCharacter();
+            
+                _loadSceneCoroutine = StartCoroutine(LoadScene(exitDataObjectVR));
+                return;
+            }
+            
             if(!_exitDataDictionary.TryGetValue(id, out var exitDataObject)) return;
             if(exitDataObject.toSceneId == _currentSceneId) return;
             
