@@ -27,8 +27,6 @@ public class UIGuide : UIBasic
     {
         base.DisableUI();
         _onBackButtonClicked?.Invoke();
-        InputManager.Instance.EnableJoystick();
-        InputManager.Instance.EnableJoystickRotation();
     }
 
     // Start is called before the first frame update

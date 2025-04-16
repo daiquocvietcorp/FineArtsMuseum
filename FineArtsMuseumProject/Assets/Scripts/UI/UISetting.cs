@@ -77,10 +77,19 @@ namespace UI
             backButton.onClick.AddListener(OnBackButtonClicked);
             
             _isFirstPerson = false;
-            _isVietnamese = true;
+            if(SceneLog.IsVietnamese)
+            {
+                _isVietnamese = true;
+                SwitchLanguage(true);
+            }
+            else
+            {
+                _isVietnamese = false;
+                SwitchLanguage(false);
+            }
             
             SwitchView(false);
-            SwitchLanguage(true);
+            
         }
 
         private void OnBackButtonClicked()

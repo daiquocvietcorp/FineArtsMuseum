@@ -21,10 +21,16 @@ public class WebRTCManager : MonoBehaviour
     [field: SerializeField] private Broadcast broadcast;
     
     private int _listenPort = -1;
+    
+    private void Awake()
+    {
+        DontDestroyOnLoad(this.gameObject);
+    }
+    
     void Start()
     {
-        //StartCoroutine(ListenPort());
-        TestScript();
+        StartCoroutine(ListenPort());
+        //TestScript();
     }
 
     private void TestScript()

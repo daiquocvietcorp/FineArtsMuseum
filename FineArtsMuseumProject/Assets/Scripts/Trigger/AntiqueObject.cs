@@ -96,8 +96,16 @@ public class AntiqueObject : MonoBehaviour
     private void OnEnable()
     {
         ActivateInteractiveMode();
-        if(hasGuide)
-            StartCoroutine(DelayedStartGuide());
+
+        if (hasGuide)
+        {
+            if (!SceneLog.IsShowedGuideObject)
+            {
+                
+                StartCoroutine(DelayedStartGuide());
+                SceneLog.IsShowedGuideObject = true;
+            }
+        }
         else
         {
             ShowGuideButton.gameObject.SetActive(false);
