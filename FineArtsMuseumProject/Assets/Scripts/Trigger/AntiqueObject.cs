@@ -221,14 +221,17 @@ public class AntiqueObject : MonoBehaviour
         interactiveObject.transform.SetParent(null);
         // interactiveObject.GetComponent<BoxCollider>().enabled = false;
         // interactiveObject.transform.GetChild(0).transform.gameObject.SetActive(false);
-        CharacterStateMachine.gameObject.layer = LayerMask.NameToLayer("Default");
         //objectDetail.SetActive(false);
         if (PlatformManager.Instance.IsVR)
             InteractiveObjectLocation.gameObject.SetActive(false);
 
         CloseButton.gameObject.SetActive(false);
         if (!PlatformManager.Instance.IsVR)
+        {
             blurGameObject.SetActive(false);
+            CharacterStateMachine.gameObject.layer = LayerMask.NameToLayer("Default");
+        }
+        
         interactiveObject.gameObject.SetActive(false);
         isBlur = false;
 

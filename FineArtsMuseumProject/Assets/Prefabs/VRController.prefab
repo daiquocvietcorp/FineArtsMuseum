@@ -169,7 +169,7 @@ Transform:
   m_Children:
   - {fileID: 531716737473716205}
   m_Father: {fileID: 5367155998636476488}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &9108963693929688242
 MonoBehaviour:
@@ -2763,7 +2763,7 @@ GameObject:
   - component: {fileID: 7637658016099271189}
   - component: {fileID: 2819989399254273030}
   m_Layer: 6
-  m_Name: Ray Interactor
+  m_Name: RightControllerRay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3290,7 +3290,6 @@ Transform:
   m_Children:
   - {fileID: 3930811335408614481}
   - {fileID: 3930811336106441276}
-  - {fileID: 5979306927976027614}
   m_Father: {fileID: 5367155998636476488}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3748,7 +3747,7 @@ GameObject:
   - component: {fileID: 7658434991118622366}
   - component: {fileID: 2635958290103931021}
   m_Layer: 6
-  m_Name: Ray Interactor
+  m_Name: LeftControllerRay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5384,7 +5383,7 @@ Transform:
   - {fileID: 9198178108004060803}
   - {fileID: 5367155999332784158}
   m_Father: {fileID: 5367155998636476488}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &591213764862687354
 MonoBehaviour:
@@ -5726,6 +5725,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3930811334134354896}
+  - {fileID: 5979306927976027614}
   - {fileID: 5367155998235571211}
   - {fileID: 4866422004050634732}
   - {fileID: 5367155998747391210}
@@ -5772,7 +5772,7 @@ Transform:
   - {fileID: 8939694957075386888}
   - {fileID: 7747479551656803335}
   m_Father: {fileID: 5367155998636476488}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &351780754860127313
 MonoBehaviour:
@@ -9060,7 +9060,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5367155998636476488}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5979306927568115167
 MonoBehaviour:
@@ -9422,7 +9422,7 @@ GameObject:
   - component: {fileID: 5979306927606896907}
   - component: {fileID: 5979306927606896906}
   m_Layer: 6
-  m_Name: Ray Interactor
+  m_Name: RightHandRay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11251,13 +11251,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5979306927976027609}
-  m_LocalRotation: {x: -0.109734565, y: -0.0000005066395, z: 0.00000014901161, w: 0.993961}
-  m_LocalPosition: {x: -0.192, y: 0.0169, z: 0.4696}
+  m_LocalRotation: {x: -0.109734565, y: -0.0000005066394, z: 0.00000014528631, w: 0.993961}
+  m_LocalPosition: {x: -0.192, y: 0.13689995, z: 0.4696001}
   m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 3930811334134354896}
-  m_RootOrder: 2
+  m_Father: {fileID: 5367155998636476488}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &5979306927976027613
 BoxCollider:
@@ -14029,7 +14029,7 @@ Transform:
   - {fileID: 5979306929203774312}
   - {fileID: 5979306927845646042}
   m_Father: {fileID: 5367155998636476488}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5979306929132703912
 MonoBehaviour:
@@ -15010,7 +15010,7 @@ Transform:
   - {fileID: 5979306927894699512}
   - {fileID: 5979306928706418383}
   m_Father: {fileID: 5367155998636476488}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5979306929266339243
 MonoBehaviour:
@@ -15370,7 +15370,7 @@ GameObject:
   - component: {fileID: 5979306929328832266}
   - component: {fileID: 5979306929328832261}
   m_Layer: 6
-  m_Name: Ray Interactor
+  m_Name: LeftHandRay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17445,7 +17445,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6749929799314476342}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.28, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -19410,7 +19410,7 @@ Transform:
   m_Children:
   - {fileID: 5219236880598612192}
   m_Father: {fileID: 5367155998636476488}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6015189618947170964
 MonoBehaviour:

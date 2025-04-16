@@ -24,12 +24,15 @@ namespace Trigger
         {
             _paintDetailDict = new Dictionary<string, PaintDetail>();
             _currentPaintDetail = null;
-
-            foreach (var pair in paintDetails)
+            if (paintDetails != null && paintDetails.Count > 0)
             {
-                pair.gameObject.SetActive(false);
-                _paintDetailDict.Add(pair.GetPaintID(), pair);
+                foreach (var pair in paintDetails)
+                {
+                    pair.gameObject.SetActive(false);
+                    _paintDetailDict.Add(pair.GetPaintID(), pair);
+                }
             }
+            
         }
 
         public void EnablePaintDetail(string paintID)

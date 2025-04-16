@@ -39,7 +39,7 @@ public class AudioSubtitleManager : MonoSingleton<AudioSubtitleManager>
 
     public static AudioSubtitleManager Instance; // Singleton để dễ gọi từ TriggerZone
     public AudioSource audioSource;
-    public TMP_Text dynamicSubtitleText;
+    //public TMP_Text dynamicSubtitleText;
     public List<TMP_Text> staticSubtitleText;
     public float minTimePerLine = 1.0f; // Thời gian tối thiểu để hiển thị mỗi dòng
 
@@ -222,16 +222,17 @@ public class AudioSubtitleManager : MonoSingleton<AudioSubtitleManager>
         repeatCoroutine = StartCoroutine(RepeatAudioAfterDelay(id, clip.length));
 
         // Phụ đề
-        if (clipData.type == "dynamic")
+        if (clipData.type == "static")
         {
-            if (subtitleCoroutine != null)
-                StopCoroutine(subtitleCoroutine);
-            subtitleCoroutine = StartCoroutine(DisplayDynamicSubtitle(clipData.subtitle, clip.length));
-        }
-        else if (clipData.type == "static")
-        {
+            
             ShowStaticSubtitle();
         }
+        // else if (clipData.type == "dynamic")
+        // {
+        //     if (subtitleCoroutine != null)
+        //         StopCoroutine(subtitleCoroutine);
+        //     subtitleCoroutine = StartCoroutine(DisplayDynamicSubtitle(clipData.subtitle, clip.length));
+        // }
     }
 
     
@@ -265,56 +266,56 @@ public class AudioSubtitleManager : MonoSingleton<AudioSubtitleManager>
             return true;
         }
     }
-
-    IEnumerator DisplayDynamicSubtitle(SubtitleData subtitleData, float audioDuration)
-    {
-        dynamicSubtitleText.text = "";
-        string textToDisplay = currentLanguage == "vi" ? subtitleData.vi : subtitleData.en;
-        
-        List<string> subtitleLines = SplitSubtitleIntoLines(textToDisplay, dynamicSubtitleText);
-        float timePerLine = Mathf.Max(audioDuration / subtitleLines.Count, minTimePerLine);
-
-        foreach (string line in subtitleLines)
-        {
-            dynamicSubtitleText.text = line;
-            yield return new WaitForSeconds(timePerLine);
-        }
-
-        yield return new WaitForSeconds(0);
-        dynamicSubtitleText.text = "";
-    }
-
-    List<string> SplitSubtitleIntoLines(string text, TMP_Text textComponent)
-    {
-        List<string> lines = new List<string>();
-        string[] words = text.Split(' ');
-        string currentLine = "";
-
-        foreach (string word in words)
-        {
-            textComponent.text = currentLine + " " + word;
-            textComponent.ForceMeshUpdate();
-            float textHeight = textComponent.preferredHeight;
-            float maxHeight = textComponent.rectTransform.rect.height;
-
-            if (textHeight > maxHeight)
-            {
-                lines.Add(currentLine.Trim());
-                currentLine = word;
-            }
-            else
-            {
-                currentLine += " " + word;
-            }
-        }
-
-        if (!string.IsNullOrEmpty(currentLine.Trim()))
-        {
-            lines.Add(currentLine.Trim());
-        }
-
-        return lines;
-    }
+    //
+    // IEnumerator DisplayDynamicSubtitle(SubtitleData subtitleData, float audioDuration)
+    // {
+    //     dynamicSubtitleText.text = "";
+    //     string textToDisplay = currentLanguage == "vi" ? subtitleData.vi : subtitleData.en;
+    //     
+    //     List<string> subtitleLines = SplitSubtitleIntoLines(textToDisplay, dynamicSubtitleText);
+    //     float timePerLine = Mathf.Max(audioDuration / subtitleLines.Count, minTimePerLine);
+    //
+    //     foreach (string line in subtitleLines)
+    //     {
+    //         dynamicSubtitleText.text = line;
+    //         yield return new WaitForSeconds(timePerLine);
+    //     }
+    //
+    //     yield return new WaitForSeconds(0);
+    //     dynamicSubtitleText.text = "";
+    // }
+    //
+    // List<string> SplitSubtitleIntoLines(string text, TMP_Text textComponent)
+    // {
+    //     List<string> lines = new List<string>();
+    //     string[] words = text.Split(' ');
+    //     string currentLine = "";
+    //
+    //     foreach (string word in words)
+    //     {
+    //         textComponent.text = currentLine + " " + word;
+    //         textComponent.ForceMeshUpdate();
+    //         float textHeight = textComponent.preferredHeight;
+    //         float maxHeight = textComponent.rectTransform.rect.height;
+    //
+    //         if (textHeight > maxHeight)
+    //         {
+    //             lines.Add(currentLine.Trim());
+    //             currentLine = word;
+    //         }
+    //         else
+    //         {
+    //             currentLine += " " + word;
+    //         }
+    //     }
+    //
+    //     if (!string.IsNullOrEmpty(currentLine.Trim()))
+    //     {
+    //         lines.Add(currentLine.Trim());
+    //     }
+    //
+    //     return lines;
+    // }
 
     void ShowStaticSubtitle()
     {
@@ -374,7 +375,7 @@ public class AudioSubtitleManager : MonoSingleton<AudioSubtitleManager>
         }
 
         _isPlayingAudio = false;
-        dynamicSubtitleText.text = ""; // Xóa subtitle động
+        //dynamicSubtitleText.text = ""; // Xóa subtitle động
         currentPlayingAudioId = "";
     }
 

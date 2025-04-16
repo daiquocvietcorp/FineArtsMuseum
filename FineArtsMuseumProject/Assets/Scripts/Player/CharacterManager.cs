@@ -18,6 +18,7 @@ namespace Player
         
         public void EnableCharacter()
         {
+            if (PlatformManager.Instance.IsVR) return;
             defaultCharacterStateMachine.EnableCharacter();
         }
         

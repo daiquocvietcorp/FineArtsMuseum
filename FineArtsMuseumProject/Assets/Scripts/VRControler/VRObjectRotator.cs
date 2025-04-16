@@ -28,7 +28,7 @@ public class VRObjectRotator : MonoBehaviour
     // Lưu Interactor nào đang xoay object
     private XRRayInteractor activeInteractor = null;
     private bool isRotating = false;
-
+    
     // Lưu rotation/position ban đầu để tính delta
     private Quaternion initialObjectRotation;
     private Quaternion initialHandRotation;
