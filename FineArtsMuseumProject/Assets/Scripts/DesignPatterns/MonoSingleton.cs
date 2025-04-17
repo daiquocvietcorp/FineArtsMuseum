@@ -17,7 +17,7 @@ namespace DesignPatterns
                 var singletonObject = new GameObject();
                 _instance = singletonObject.AddComponent<T>();
                 singletonObject.name = typeof(T).ToString();
-                DontDestroyOnLoad(singletonObject);
+                //DontDestroyOnLoad(singletonObject);
 
                 return _instance;
             }

@@ -15,6 +15,7 @@ namespace System
 
         private void Start()
         {
+            if(PlatformManager.Instance.IsVR && SceneLog.IsOpeningScene) return;
             InputManager.Instance.DisableInput();
             if(PlatformManager.Instance.IsTomko) return;
             StartApplication();
