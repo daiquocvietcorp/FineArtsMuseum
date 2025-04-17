@@ -145,5 +145,11 @@ namespace Trigger
         {
             _buttonGroup = buttonGroupCanvas;
         }
+
+        public void SetZoomPainting(bool isActive)
+        {
+            if(_currentPainting == null) return;
+            _currentPainting.SetEnableZoom(isActive);
+        }
     }
 }

@@ -7,8 +7,10 @@ using UnityEngine.UI;
 using DG.Tweening;
 using TMPro;
 using Trigger;
+using Unity.VisualScripting;
 using UnityEngine.Serialization;
 using UnityEngine.Video;
+using Sequence = DG.Tweening.Sequence;
 
 public class UIPainting : UIBasic
 {
@@ -63,6 +65,8 @@ public class UIPainting : UIBasic
     public Sprite guideRotateEnglishSprite;
     public Sprite zoomViSprite;
     public Sprite zoomEnglishSprite;
+    public Sprite zoomViSpriteTomko;
+    public Sprite zoomEnglishSpriteTomko;
     public Sprite guideZoomKinhViSprite;
     public Sprite guideZoomKinhEnglishSprite;
     public Sprite guideAIGenViSprite;
@@ -107,6 +111,8 @@ public class UIPainting : UIBasic
     private Coroutine _guideRotateCoroutine;
     private Coroutine _blinkCoroutine;
     private Coroutine _aiCautionCoroutine;
+    
+    
     
     [field: Header("Paint ID")]
     [field: SerializeField] private string PaintID { get; set; }
@@ -177,6 +183,7 @@ public class UIPainting : UIBasic
         if(zoomButton_vr)zoomButton_vr.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
         if(zoomButton_tomko)zoomButton_tomko.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
         magnifierHover.enabled = false;
+        PaintingDetailManager.Instance.SetZoomPainting(false);
         paintRotateAndZoom.enabled = true;
         
     }
@@ -272,6 +279,7 @@ public void GuidePaintingClicked()
     TurnOffCautionTextAndImage();
     
     magnifierHover.enabled = false;
+    PaintingDetailManager.Instance.SetZoomPainting(false);
 
     BlinkCanvas.SetActive(false);
     VideoPlayer.Stop();
@@ -431,7 +439,7 @@ private void StartGuideSequence()
         guideAIGenImage_mobile.sprite = guideAIGenViSprite;
         
         guideRotateImage_tomko.sprite = guideRotateViSprite;
-        guideZoomImage_tomko.sprite = zoomViSprite;
+        guideZoomImage_tomko.sprite = zoomViSpriteTomko;
         guideZoomKinhImage_tomko.sprite = guideZoomKinhViSprite;
         guideAIGenImage_tomko.sprite = guideAIGenViSprite;
         // Ảnh phụ (giả sử bạn đã gán sprite từ Inspector)
@@ -450,7 +458,7 @@ private void StartGuideSequence()
         guideAIGenImage_mobile.sprite = guideAIGenEnglishSprite;
         
         guideRotateImage_tomko.sprite = guideRotateEnglishSprite;
-        guideZoomImage_tomko.sprite = zoomEnglishSprite;
+        guideZoomImage_tomko.sprite = zoomEnglishSpriteTomko;
         guideZoomKinhImage_tomko.sprite = guideZoomKinhEnglishSprite;
         guideAIGenImage_tomko.sprite = guideAIGenEnglishSprite;
     }
@@ -698,7 +706,7 @@ private void StartGuideSequence()
             aiButton_mobile.GetComponent<AIHoverEffect>().SetDefaultSprite();
         }
         
-        if(PlatformManager.Instance.IsVR || PlatformManager.Instance.IsWebGL)
+        if(PlatformManager.Instance.IsVR)
         {
             guideButton_vr.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
             aiButton_vr.GetComponent<AIHoverEffect>().SetDefaultSprite();
@@ -729,8 +737,10 @@ private void StartGuideSequence()
         
         if (isZoom)
         {
+            PaintingDetailManager.Instance.SetZoomPainting(false);
             UIPaintingManager.Instance.DisableUIPainting(PaintID);
             magnifierHover.enabled = false;
+            
             isZoom = false;
             paintRotateAndZoom.canRotate = true;
             if(PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
@@ -758,6 +768,7 @@ private void StartGuideSequence()
         }
         else
         {
+            PaintingDetailManager.Instance.SetZoomPainting(true);
             UIPaintingManager.Instance.EnableUIPainting(PaintID);
             magnifierHover.enabled = true;
             isZoom = true;
@@ -837,6 +848,7 @@ private void StartGuideSequence()
         }
 
         magnifierHover.enabled = false;
+        PaintingDetailManager.Instance.SetZoomPainting(false);
         StopGuideSequence();
         SetGuideImageOff();
 
