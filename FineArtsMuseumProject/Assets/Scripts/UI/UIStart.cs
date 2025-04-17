@@ -133,6 +133,11 @@ namespace UI
             {
                 WebRTCManager.Instance.RegisterMoveInput(CharacterManager.Instance.GetActionMove());
             }
+
+            if (PlatformManager.Instance.IsWebGL || PlatformManager.Instance.IsCloud)
+            {
+                WebRTCManager.Instance.RegisterAudioListener(AudioSubtitleManager.Instance.audioSource);
+            }
             
             InputManager.Instance.EnableInput();
             InputManager.Instance.EnableJoystick();
