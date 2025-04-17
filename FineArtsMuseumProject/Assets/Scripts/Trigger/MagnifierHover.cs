@@ -52,7 +52,7 @@ public class MagnifierHover : MonoBehaviour,IPointerDownHandler, IPointerUpHandl
         // {
         //     HandlePointerEvent(eventData.position);
         // }
-        if (PlatformManager.Instance.IsCloud)
+        if (PlatformManager.Instance.IsCloud || PlatformManager.Instance.IsWebGL)
         {
             var parentCanvas = magnifierImage.GetComponentInParent<Canvas>();
             MoveMagnifierToPointer(parentCanvas, eventData.position);
@@ -64,7 +64,7 @@ public class MagnifierHover : MonoBehaviour,IPointerDownHandler, IPointerUpHandl
     // Sự kiện khi pointer kéo (drag)
     public void OnDrag(PointerEventData eventData)
     {
-        if (PlatformManager.Instance.IsCloud)
+        if (PlatformManager.Instance.IsCloud || PlatformManager.Instance.IsWebGL)
         {
             HandlePointerEvent(eventData.position);
         }
@@ -181,7 +181,7 @@ public class MagnifierHover : MonoBehaviour,IPointerDownHandler, IPointerUpHandl
                 }
             }
         }
-        else if (!PlatformManager.Instance.IsCloud)
+        else if (!PlatformManager.Instance.IsCloud && !PlatformManager.Instance.IsWebGL)
         {
             HandleMouseHover();
         }

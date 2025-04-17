@@ -35,8 +35,8 @@ public class AntiqueObject : MonoBehaviour
     public Image ZoomFingerImage;
     public Image ZoomArrowImage;
     
-    public Sprite ZoomSpriteVi;
-    public Sprite ZoomSpriteEng;
+    public Sprite ZoomSpriteTomko;
+    public Sprite ZoomSprite;
     public TextMeshProUGUI ZoomText;
     public Button SoundButton;
     public Sprite SoundOn;
@@ -76,6 +76,15 @@ public class AntiqueObject : MonoBehaviour
     
     private void Start()
     {
+        if (PlatformManager.Instance.IsTomko)
+        {
+            ZoomArrowImage.sprite = ZoomSpriteTomko;
+        }
+        else
+        {
+            ZoomArrowImage.sprite = ZoomSprite;
+        }
+        
         CloseButton.onClick.AddListener(TurnOffBlur);
         ShowGuideButton.onClick.AddListener(ToggleGuide);
         SoundButton.onClick.AddListener(ToggleSound);

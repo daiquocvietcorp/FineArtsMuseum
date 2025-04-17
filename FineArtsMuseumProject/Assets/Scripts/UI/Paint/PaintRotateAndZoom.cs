@@ -48,7 +48,8 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
 
     public bool IsUseOnPointerDown = false;
     public MagnifierHover mobileMagnifierHover;
-
+    public MagnifierHover otherMagnifierHover;
+    
     private float CurrentRotationSpeed
     {
         get
@@ -108,16 +109,18 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
     private Direction _holdDirection = Direction.None;
     private void Update()
     {
-        if(!isObject || !PlatformManager.Instance.IsTomko) return;
-
-        if (!canRotate) return;
-
         if(Time.time - _dragTime > 10f && !_isDragObject)
         {
             SmoothAverageResetTransform();
-            AntiqueManager.Instance.ResetSlider();
             _isDragObject = true;
+            
+            if(PlatformManager.Instance.IsTomko)
+                AntiqueManager.Instance.ResetSlider();
         }
+        
+        if(!isObject || !PlatformManager.Instance.IsTomko) return;
+
+        if (!canRotate) return;
         
         if (Input.touchCount <= 0) return;
         if (!isObject) return;
@@ -217,11 +220,19 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
     {
         if (IsUseOnPointerDown)
         {
-            if (PlatformManager.Instance.IsCloud)
+            if (PlatformManager.Instance.IsCloud && _canZoom)
             {
                 if (mobileMagnifierHover != null)
                 {
                     mobileMagnifierHover.OnPointerDown(eventData);
+                }
+            }
+            
+            if (PlatformManager.Instance.IsWebGL && _canZoom)
+            {
+                if (otherMagnifierHover != null)
+                {
+                    otherMagnifierHover.OnPointerDown(eventData);
                 }
             }
         }
@@ -246,11 +257,19 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
     {
         if (IsUseOnPointerDown)
         {
-            if (PlatformManager.Instance.IsCloud)
+            if (PlatformManager.Instance.IsCloud && _canZoom)
             {
                 if (mobileMagnifierHover != null)
                 {
                     mobileMagnifierHover.OnDrag(eventData);
+                }
+            }
+            
+            if (PlatformManager.Instance.IsWebGL && _canZoom)
+            {
+                if (otherMagnifierHover != null)
+                {
+                    otherMagnifierHover.OnDrag(eventData);
                 }
             }
         }
@@ -413,6 +432,7 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
 
                 // Cập nhật vector cho lần kéo tiếp theo
                 lastArcballVector = currentVector;
+                _isDragObject = true;
                 return;
             }
             
@@ -509,6 +529,8 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
         if(activeTouches.Count > 0) return;
         MouseInput.Instance.SetIsDragImage(false);
         _currentDragMode = DragMode.None;
+        _dragTime = Time.time;
+        _isDragObject = false;
     }
 
     public void OnScroll(PointerEventData eventData)
@@ -708,5 +730,12 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
     {
         return (Vector3.one * ((minScale + maxScale) / 2f)).x/maxScale;
         //return 0;
+    }
+
+    private bool _canZoom = false;
+    
+    public void SetEnableZoom(bool isActive)
+    {
+        _canZoom = isActive;
     }
 }
