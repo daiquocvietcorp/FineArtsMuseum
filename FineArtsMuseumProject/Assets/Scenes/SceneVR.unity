@@ -1841,8 +1841,8 @@ MonoBehaviour:
   ZoomImage: {fileID: 33040061}
   ZoomFingerImage: {fileID: 33040059}
   ZoomArrowImage: {fileID: 33040060}
-  ZoomSpriteVi: {fileID: 0}
-  ZoomSpriteEng: {fileID: 0}
+  ZoomSpriteTomko: {fileID: 0}
+  ZoomSprite: {fileID: 0}
   ZoomText: {fileID: 33040058}
   SoundButton: {fileID: 33040055}
   SoundOn: {fileID: 21300000, guid: 18a6393390dadf24fbd184027751506d, type: 3}
@@ -5411,6 +5411,9 @@ MonoBehaviour:
   isRotateOneDirect: 0
   originalScale: {x: 0, y: 0, z: 0}
   canRotate: 1
+  IsUseOnPointerDown: 0
+  mobileMagnifierHover: {fileID: 0}
+  otherMagnifierHover: {fileID: 0}
 --- !u!1001 &233243749
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8106,6 +8109,9 @@ MonoBehaviour:
   isRotateOneDirect: 0
   originalScale: {x: 0, y: 0, z: 0}
   canRotate: 1
+  IsUseOnPointerDown: 0
+  mobileMagnifierHover: {fileID: 0}
+  otherMagnifierHover: {fileID: 0}
 --- !u!65 &352633170
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13267,6 +13273,8 @@ MonoBehaviour:
     type: 3}
   zoomViSprite: {fileID: 21300000, guid: 3563aa3ae687c0f40a159f6102b07450, type: 3}
   zoomEnglishSprite: {fileID: 21300000, guid: ea259b0e2aed85b478a6eaeeab910378, type: 3}
+  zoomViSpriteTomko: {fileID: 0}
+  zoomEnglishSpriteTomko: {fileID: 0}
   guideZoomKinhViSprite: {fileID: 21300000, guid: 7c2e229d6d6693d44965590d7d774762,
     type: 3}
   guideZoomKinhEnglishSprite: {fileID: 21300000, guid: 0d8cf45710de5dc42abb30d0592bf6b5,
@@ -15551,7 +15559,6 @@ Transform:
   - {fileID: 948018372}
   - {fileID: 548531187}
   - {fileID: 560029257}
-  - {fileID: 1288617134}
   m_Father: {fileID: 0}
   m_RootOrder: 42
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -17105,8 +17112,8 @@ MonoBehaviour:
   ZoomImage: {fileID: 554835060}
   ZoomFingerImage: {fileID: 1614209380}
   ZoomArrowImage: {fileID: 855437263}
-  ZoomSpriteVi: {fileID: 0}
-  ZoomSpriteEng: {fileID: 0}
+  ZoomSpriteTomko: {fileID: 0}
+  ZoomSprite: {fileID: 0}
   ZoomText: {fileID: 1065537155}
   SoundButton: {fileID: 857004712}
   SoundOn: {fileID: 21300000, guid: 18a6393390dadf24fbd184027751506d, type: 3}
@@ -17176,6 +17183,9 @@ MonoBehaviour:
   isRotateOneDirect: 0
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 1
+  IsUseOnPointerDown: 0
+  mobileMagnifierHover: {fileID: 0}
+  otherMagnifierHover: {fileID: 0}
 --- !u!65 &948018374
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -21603,103 +21613,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1279695111}
   m_CullTransparentMesh: 1
---- !u!1 &1288617133
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1288617134}
-  - component: {fileID: 1288617137}
-  - component: {fileID: 1288617136}
-  - component: {fileID: 1288617135}
-  m_Layer: 0
-  m_Name: Cube (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1288617134
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1288617133}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -49.85, y: 5.44, z: 22.94}
-  m_LocalScale: {x: 1, y: 7.5, z: 5}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 809191113}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &1288617135
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1288617133}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!23 &1288617136
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1288617133}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 610b43eef75e59c43a2efddbe596e657, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &1288617137
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1288617133}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1296617516
 GameObject:
   m_ObjectHideFlags: 0
@@ -32433,9 +32346,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 7239483546922751829}
   horizontalOffset: {x: -0.1, y: 0.9, z: 0.23}
-  defaultHipHeight: 1
-  calibrateThreshold: 1.2
-  heightLerpSpeed: 2
+  headToHipOffset: 0.5
+  updateRotation: 1
+  rotationSmoothSpeed: 5
 --- !u!1 &1969384859
 GameObject:
   m_ObjectHideFlags: 0
