@@ -49,6 +49,11 @@ namespace Slider
             _isSwiping = true;
         }
 
+        public void FakePointerDown()
+        {
+            MouseInput.Instance.SetIsDragImage(true);
+            _clickAction?.Invoke(false);
+        }
         public void OnDrag(PointerEventData eventData)
         {
             MouseInput.Instance.SetIsDragImage(true);
