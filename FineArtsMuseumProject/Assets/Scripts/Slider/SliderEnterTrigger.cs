@@ -75,7 +75,8 @@ namespace Slider
         private void OnTriggerExit(Collider other)
         {
             if (!other.CompareTag("Player")) return;
-            CameraManager.Instance.cameraFollowPlayer.ExitArea();
+            if (!PlatformManager.Instance.IsVR)
+                CameraManager.Instance.cameraFollowPlayer.ExitArea();
             
             if (IsDisableForOptimize)
             {

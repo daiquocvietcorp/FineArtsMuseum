@@ -52,15 +52,15 @@ namespace UI
                 vrToggle.onValueChanged.AddListener(OnVRToggleValueChanged);
                 vrToggle.isOn = false;
                 vrToggle.image.sprite = vrOffSprite;
+                guideToggle.onValueChanged.AddListener(OnGuideToggleValueChanged);
             }
-            guideToggle.onValueChanged.AddListener(OnGuideToggleValueChanged);
             settingsToggle.onValueChanged.AddListener(OnSettingsToggleValueChanged);
             
             _isVROn = false;
             _isSettingsOn = false;
             settingsToggle.isOn = false;
 
-            if (SceneLog.IsFirstScene)
+            if (SceneLog.IsFirstScene && !PlatformManager.Instance.IsVR)
             {
                 _isGuideOn = true;
                 guideToggle.isOn = true;
@@ -68,9 +68,13 @@ namespace UI
             }
             else
             {
-                _isGuideOn = false;
-                guideToggle.isOn = false;
-                guideToggle.image.sprite = guideOffSprite;
+                if (!PlatformManager.Instance.IsVR)
+                {
+                    _isGuideOn = false;
+                    guideToggle.isOn = false;
+                    guideToggle.image.sprite = guideOffSprite;
+                }
+                
             }
             
             settingsToggle.image.sprite = settingsOffSprite;

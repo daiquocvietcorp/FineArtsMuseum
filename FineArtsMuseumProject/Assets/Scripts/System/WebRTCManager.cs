@@ -89,7 +89,7 @@ public class WebRTCManager : MonoSingleton<WebRTCManager>
                    //var webrtcPort = int.Parse(arg.Split('=')[1]);
                    //_listenPort = webrtcPort;
                    _listenPort = arg.Split('=')[1];
-                    var signalingURL = $"wss://{_listenPort}";
+                   var signalingURL = $"{_listenPort}";
 
                     signalingManager.Stop();
 
@@ -138,5 +138,11 @@ public class WebRTCManager : MonoSingleton<WebRTCManager>
         if (!moveAction) return;
         moveAction["Move"].performed += onMovePerformed;
         moveAction["Move"].canceled += onMovePerformed;
+    }
+
+    public void RegisterAudioListener(AudioSource audioListener)
+    {
+        if(!audioStreamReceiver) return;
+        audioStreamReceiver.targetAudioSource = audioListener;
     }
 }
