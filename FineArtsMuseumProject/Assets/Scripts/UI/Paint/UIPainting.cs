@@ -155,6 +155,7 @@ public class UIPainting : UIBasic
             aiButton_vr.onClick.AddListener(AIPaintingClicked);
             refreshButton_vr.onClick.AddListener(RefreshPaintingClicked);
             
+            magnifierHover = magnifierHover_other;
             // guideRotateDefaultPosition = guideRotateImage_vr.transform.localPosition;
             // guideZoomDefaultPosition = guideZoomImage_vr.transform.localPosition;
             // magnifierHover = magnifierHover_other;
