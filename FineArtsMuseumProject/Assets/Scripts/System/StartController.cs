@@ -10,6 +10,7 @@ namespace System
     {
         private void Awake()
         {
+            if (PlatformManager.Instance.IsVR) return;
             Shader.WarmupAllShaders();
         }
 
