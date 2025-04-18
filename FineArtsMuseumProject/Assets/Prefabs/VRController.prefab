@@ -10495,7 +10495,7 @@ MonoBehaviour:
   triggerZone: {fileID: 5979306927866699208}
   pullThreshold: 0.1
   pullDelay: 0.2
-  moveSpeed: 3.5
+  moveSpeed: 2.5
   lerpFactor: 0.1
 --- !u!1 &5979306927633858140
 GameObject:
@@ -17549,6 +17549,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6749929799314476341}
   - component: {fileID: 2018983767072296837}
+  - component: {fileID: 1708632393550742834}
   - component: {fileID: 6494225183593385143}
   - component: {fileID: 5979306928710794916}
   - component: {fileID: 2018983767072296842}
@@ -17647,6 +17648,24 @@ MonoBehaviour:
     isGripping: 0
     gripOffset: {x: 0, y: 0, z: 0}
   mainCamera: {fileID: 3930811334134354896}
+--- !u!114 &1708632393550742834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6749929799314476342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4cbf7a863b8eee419a7c36c337bc4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gravity: -9.81
+  fallSpeed: 0
+  groundOffset: 0.1
+  groundLayers:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &6494225183593385143
 MonoBehaviour:
   m_ObjectHideFlags: 0
