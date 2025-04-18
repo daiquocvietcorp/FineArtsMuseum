@@ -17,6 +17,7 @@ namespace Slider
         [SerializeField] private Transform bottomMirror;
         
         private Quaternion _targetRotation;
+        private float _previousEnterTime;
 
         public bool IsDisableForOptimize = false;
         public List<GameObject> disableObjects;
@@ -29,6 +30,7 @@ namespace Slider
         private void OnTriggerEnter(Collider other)
         {
             if (!other.CompareTag("Player")) return;
+            if(Time.time - _previousEnterTime <= .5f) return;
             if (!PlatformManager.Instance.IsVR)
             {
                 CameraManager.Instance.cameraFollowPlayer.EnterArea(distanceView, heightView);
@@ -76,6 +78,7 @@ namespace Slider
         {
             if (!other.CompareTag("Player")) return;
             CameraManager.Instance.cameraFollowPlayer.ExitArea();
+            _previousEnterTime = Time.time;
             
             if (IsDisableForOptimize)
             {

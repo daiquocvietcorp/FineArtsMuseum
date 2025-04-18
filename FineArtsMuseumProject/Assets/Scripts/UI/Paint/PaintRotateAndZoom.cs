@@ -111,6 +111,7 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
     {
         if(Time.time - _dragTime > 10f && !_isDragObject)
         {
+            if(isPaint) return;
             SmoothAverageResetTransform();
             _isDragObject = true;
             
@@ -460,7 +461,6 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
                 // Gán lại giá trị Euler angles mới vào đối tượng
                 transform.eulerAngles = currentEuler;
             }
-
         }
     }
     

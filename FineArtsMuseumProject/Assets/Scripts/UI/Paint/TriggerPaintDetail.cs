@@ -124,10 +124,10 @@ public class TriggerPaintDetail : MonoBehaviour,IPointerDownHandler
 
     public void StartFade()
     {
-        SetLayerRecursively(paintObject,"Default", true);
-        SetLayerRecursively(playerObject,"Default", true);
-        SetLayerRecursively(wsObject,"Default", true);
-        SetLayerRecursively(this.gameObject,"Default", true);
+        // SetLayerRecursively(paintObject,"Default", true);
+        // SetLayerRecursively(playerObject,"Default", true);
+        // SetLayerRecursively(wsObject,"Default", true);
+        // SetLayerRecursively(this.gameObject,"Default", true);
         
         timer = 0f;
         isFading = true;
@@ -136,10 +136,10 @@ public class TriggerPaintDetail : MonoBehaviour,IPointerDownHandler
 
     public void ResetFade()
     {
-        SetLayerRecursively(paintObject,"Default", true);
-        SetLayerRecursively(playerObject,"Default", true);
-        SetLayerRecursively(wsObject,"Default", true);
-        SetLayerRecursively(this.gameObject,"Highlighter", true);
+        // SetLayerRecursively(paintObject,"Default", true);
+        // SetLayerRecursively(playerObject,"Default", true);
+        // SetLayerRecursively(wsObject,"Default", true);
+        // SetLayerRecursively(this.gameObject,"Highlighter", true);
         
         timer = 0f;
         isFading = false;
