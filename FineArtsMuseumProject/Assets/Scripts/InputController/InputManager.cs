@@ -15,6 +15,11 @@ namespace InputController
         [field: SerializeField] private Transform joystickInputTomko;
         [field: SerializeField] private Transform joystickRotationInputTomko;
 
+        private void Start()
+        {
+            if (PlatformManager.Instance.IsVR) return;
+        }
+
         public void DisableInput()
         {
             if (PlatformManager.Instance.IsVR) return;
@@ -28,13 +33,14 @@ namespace InputController
         
         public void EnableJoystick()
         {
+            
             if(!PlatformManager.Instance.IsMobile && !PlatformManager.Instance.IsCloud && !PlatformManager.Instance.IsTomko) return;
             joystickInput.gameObject.SetActive(true);
         }
         
         public void DisableJoystick()
         {
-            joystickInput.gameObject.SetActive(false);
+                       joystickInput.gameObject.SetActive(false);
         }
         
         public void EnableJoystickRotation()

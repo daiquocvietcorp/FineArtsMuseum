@@ -30,9 +30,9 @@ namespace Slider
         private void OnTriggerEnter(Collider other)
         {
             if (!other.CompareTag("Player")) return;
-            if(Time.time - _previousEnterTime <= .5f) return;
             if (!PlatformManager.Instance.IsVR)
             {
+                if(Time.time - _previousEnterTime <= .5f) return;
                 CameraManager.Instance.cameraFollowPlayer.EnterArea(distanceView, heightView);
                 CameraManager.Instance.cameraFollowPlayer.SetCameraData(cameraPosition, _targetRotation);
             }
@@ -77,9 +77,11 @@ namespace Slider
         private void OnTriggerExit(Collider other)
         {
             if (!other.CompareTag("Player")) return;
-            CameraManager.Instance.cameraFollowPlayer.ExitArea();
-            _previousEnterTime = Time.time;
-            
+            if (!PlatformManager.Instance.IsVR)
+            {
+            	CameraManager.Instance.cameraFollowPlayer.ExitArea();
+            	_previousEnterTime = Time.time;
+            }       
             if (IsDisableForOptimize)
             {
                 if(disableObjects != null && disableObjects.Count > 0)

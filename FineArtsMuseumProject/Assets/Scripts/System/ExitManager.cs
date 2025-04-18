@@ -55,9 +55,17 @@ namespace System
             
             if(!_exitDataDictionary.TryGetValue(id, out var exitDataObject)) return;
             if(exitDataObject.toSceneId == _currentSceneId) return;
+
+            if (PlatformManager.Instance.IsVR && SceneLog.IsOpeningScene)
+            {
+                SceneLog.IsOpeningScene = false;
+            }
+            else
+            {
+                if(SceneLog.IsFirstScene)
+                    SceneLog.IsFirstScene = false;
+            }
             
-            if(SceneLog.IsFirstScene)
-                SceneLog.IsFirstScene = false;
             
             SceneLog.PreviousSceneId = _currentSceneId;
             

@@ -10,11 +10,13 @@ namespace System
     {
         private void Awake()
         {
+            if (PlatformManager.Instance.IsVR) return;
             Shader.WarmupAllShaders();
         }
 
         private void Start()
         {
+            if(PlatformManager.Instance.IsVR && SceneLog.IsOpeningScene) return;
             InputManager.Instance.DisableInput();
             if(PlatformManager.Instance.IsTomko) return;
             StartApplication();

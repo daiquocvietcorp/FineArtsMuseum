@@ -77,8 +77,10 @@ public class AudioSubtitleManager : MonoSingleton<AudioSubtitleManager>
         // AssignButtonEvents();
         // ShowStaticSubtitle();
         // staticSubtitlePanel.SetActive(false);
-        toggleEnglish.onValueChanged.AddListener((isOn) => OnToggleChanged(isOn, "en"));
-        toggleVietnamese.onValueChanged.AddListener((isOn) => OnToggleChanged(isOn, "vi"));
+        if (toggleEnglish != null)
+            toggleEnglish.onValueChanged.AddListener((isOn) => OnToggleChanged(isOn, "en"));
+        if (toggleVietnamese != null)
+            toggleVietnamese.onValueChanged.AddListener((isOn) => OnToggleChanged(isOn, "vi"));
         _isPlayingAmbientSound = false;
         _isPlayingAudio = false;
         //TurnAmbientSoundTurnAmbientSound();
@@ -175,6 +177,7 @@ public class AudioSubtitleManager : MonoSingleton<AudioSubtitleManager>
     {
         // Mặc định là Tiếng Việt nếu chưa chọn
         //currentLanguage = PlayerPrefs.GetString("Language", "vi");
+        
         currentLanguage = SceneLog.IsVietnamese ? "vi" : "en";
         toggleEnglish.isOn = (currentLanguage == "en");
         toggleVietnamese.isOn = (currentLanguage == "vi");

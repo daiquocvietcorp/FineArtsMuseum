@@ -18,5 +18,11 @@ namespace Slider
         {
             _onClickAction = action;
         }
+
+        public void FakePointerDown()
+        {
+            _onClickAction?.Invoke();
+
+        }
     }
 }
