@@ -44,8 +44,16 @@ namespace Camera
 
         private void Awake()
         {
-            data.Distance = data.View3RdPerson.Distance;
-            data.Height = data.View3RdPerson.Height;
+            if (SceneLog.IsFirstView)
+            {
+                data.Distance = data.View1StPerson.Distance;
+                data.Height = data.View1StPerson.Height;
+            }
+            else
+            {
+                data.Distance = data.View3RdPerson.Distance;
+                data.Height = data.View3RdPerson.Height;
+            }
             _isActive = true;
             _joystickDirection = Vector2.zero;
             directionFirstView.DisableDirectionFirstView();
@@ -65,7 +73,7 @@ namespace Camera
             var angles = transform.eulerAngles;
             _currentYaw = angles.y;
             _currentPitch = angles.x;
-            _isFirstPerson = false;
+            _isFirstPerson = SceneLog.IsFirstView;
         }
 
         public void RegisterRotationAction()
@@ -86,10 +94,12 @@ namespace Camera
             else
             {
                 if(!_cameraDefaultDictionary.TryGetValue(SceneLog.PreviousSceneId, out var cameraDefault)) return;
-                _currentTargetPosition = cameraDefault.position;
                 _currentTargetRotation = Quaternion.Euler(cameraDefault.rotation);
-                transform.position = cameraDefault.position;
                 transform.rotation = Quaternion.Euler(cameraDefault.rotation);
+
+                if (SceneLog.IsFirstView) return;
+                transform.position = cameraDefault.position;
+                _currentTargetPosition = cameraDefault.position;
             }
         }
         
@@ -302,6 +312,7 @@ namespace Camera
         
         public void SetFirstPersonView(float distance = -1, float height = -1)
         {
+            SceneLog.IsFirstView = true;
             //if(_isFirstPerson) return;
             _isFirstPerson = true;
             MouseInput.Instance.ChangeView(_isFirstPerson);
@@ -349,6 +360,7 @@ namespace Camera
 
         public void SetThirdPersonView()
         {
+            SceneLog.IsFirstView = false;
             //if(!_isFirstPerson) return;
             _isFirstPerson = false;
             MouseInput.Instance.ChangeView(_isFirstPerson);

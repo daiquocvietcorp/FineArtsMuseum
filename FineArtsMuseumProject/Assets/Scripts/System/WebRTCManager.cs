@@ -29,7 +29,12 @@ public class WebRTCManager : MonoSingleton<WebRTCManager>
     
     private void Awake()
     {
-        DontDestroyOnLoad(this.gameObject);
+        if(SceneLog.IsFirstScene)
+            DontDestroyOnLoad(this.gameObject);
+        else
+        {
+            Destroy(this.gameObject);
+        }
     }
     
     void Start()
@@ -57,7 +62,11 @@ public class WebRTCManager : MonoSingleton<WebRTCManager>
             url: signalingURL,
             new []
             {
-                new IceServer(urls: new[] {"stun:stun.l.google.com:19302"})
+                new IceServer(urls: new[] {"stun:stun.l.google.com:19302"}),
+                new IceServer(urls: new[] { "turn:shareteam3.ddns.net:3478?transport=udp" },
+                    username: "phong",
+                    credential: "123456",
+                    credentialType: IceCredentialType.Password)
             }
         );
 
@@ -97,7 +106,11 @@ public class WebRTCManager : MonoSingleton<WebRTCManager>
                         url: signalingURL,
                         new []
                         {
-                            new IceServer(urls: new[] {"stun:stun.l.google.com:19302"})
+                            new IceServer(urls: new[] {"stun:stun.l.google.com:19302"}),
+                            new IceServer(urls: new[] { "turn:shareteam3.ddns.net:3478?transport=udp" },
+                                username: "phong",
+                                credential: "123456",
+                                credentialType: IceCredentialType.Password)
                         }
                     );
 
