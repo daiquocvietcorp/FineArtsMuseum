@@ -17,10 +17,13 @@ namespace Slider
         [SerializeField] private Transform bottomMirror;
         
         private Quaternion _targetRotation;
+        private float _previousEnterTime;
 
+        
         public bool IsDisableForOptimize = false;
         public List<GameObject> disableObjects;
         public List<GameObject> enableObjects;
+        
         private void Start()
         {
             _targetRotation = Quaternion.Euler(cameraRotation);
@@ -31,6 +34,7 @@ namespace Slider
             if (!other.CompareTag("Player")) return;
             if (!PlatformManager.Instance.IsVR)
             {
+                if(Time.time - _previousEnterTime <= .5f) return;
                 CameraManager.Instance.cameraFollowPlayer.EnterArea(distanceView, heightView);
                 CameraManager.Instance.cameraFollowPlayer.SetCameraData(cameraPosition, _targetRotation);
             }
@@ -76,8 +80,10 @@ namespace Slider
         {
             if (!other.CompareTag("Player")) return;
             if (!PlatformManager.Instance.IsVR)
-                CameraManager.Instance.cameraFollowPlayer.ExitArea();
-            
+            {
+            	CameraManager.Instance.cameraFollowPlayer.ExitArea();
+            	_previousEnterTime = Time.time;
+            }       
             if (IsDisableForOptimize)
             {
                 if(disableObjects != null && disableObjects.Count > 0)
