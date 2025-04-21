@@ -56,9 +56,9 @@ public class TwoHandScaler : MonoBehaviour
         }
 
         // In ra để debug
-        Debug.Log($"TwoHandScaler auto-assigned XRRayInteractors:\n" +
-                  $"LeftControllerRay = {leftControllerRay}\nRightControllerRay = {rightControllerRay}\n" +
-                  $"LeftHandRay = {leftHandRay}\nRightHandRay = {rightHandRay}");
+        // Debug.Log($"TwoHandScaler auto-assigned XRRayInteractors:\n" +
+        //           $"LeftControllerRay = {leftControllerRay}\nRightControllerRay = {rightControllerRay}\n" +
+        //           $"LeftHandRay = {leftHandRay}\nRightHandRay = {rightHandRay}");
     }
 
     // ----------------------------------------------------------------

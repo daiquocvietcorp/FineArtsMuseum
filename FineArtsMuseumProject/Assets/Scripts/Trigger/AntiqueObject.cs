@@ -1,6 +1,7 @@
 
 
 using System;
+using System.Net;
 using DG.Tweening;
 using Slider;
 using UI;
@@ -162,8 +163,26 @@ public class AntiqueObject : MonoBehaviour
             guideRect.anchoredPosition = new Vector2(-257.402f, -80.69809f);
             guideRect.sizeDelta = new Vector2(36.2659f, 35.8804f);
         }
-        else
+        else if (PlatformManager.Instance.IsVR)
         {
+            var closeRect = CloseButton.GetComponent<RectTransform>();
+            closeRect.anchoredPosition = new Vector2(-356.6501f, -288f);
+            closeRect.sizeDelta = new Vector2(36.2659f, 35.8804f);
+            closeRect.localScale = new Vector3(1.25f, 1.25f, 1.25f);
+            
+            var refreshRect = RefreshButton.GetComponent<RectTransform>();
+            refreshRect.anchoredPosition = new Vector2(-419f, -288f);
+            refreshRect.sizeDelta = new Vector2(36.2659f, 35.8804f);
+            refreshRect.localScale = new Vector3(1.25f, 1.25f, 1.25f);
+            
+            var guideRect = ShowGuideButton.GetComponent<RectTransform>();
+            guideRect.anchoredPosition = new Vector2(-486.6501f, -288f);
+            guideRect.sizeDelta = new Vector2(36.2659f, 35.8804f);
+            guideRect.localScale = new Vector3(1.25f, 1.25f, 1.25f);
+            
+        }else
+        {
+            
             var closeRect = CloseButton.GetComponent<RectTransform>();
             closeRect.anchoredPosition = new Vector2(-98.1f, -80.69809f);
             closeRect.sizeDelta = new Vector2(70f, 70f);

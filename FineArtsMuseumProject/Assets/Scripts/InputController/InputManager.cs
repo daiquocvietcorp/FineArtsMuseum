@@ -40,7 +40,8 @@ namespace InputController
         
         public void DisableJoystick()
         {
-                       joystickInput.gameObject.SetActive(false);
+            if (PlatformManager.Instance.IsVR) return;
+            joystickInput.gameObject.SetActive(false);
         }
         
         public void EnableJoystickRotation()

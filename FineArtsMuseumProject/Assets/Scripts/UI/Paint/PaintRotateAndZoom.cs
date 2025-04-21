@@ -90,6 +90,7 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
         }
     }
 
+    
     private void OnDisable()
     {
         if (zoomScrollbar != null)
@@ -109,6 +110,8 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
     private Direction _holdDirection = Direction.None;
     private void Update()
     {
+        if (PlatformManager.Instance.IsVR) return;
+
         if(Time.time - _dragTime > 10f && !_isDragObject)
         {
             if(isPaint) return;
@@ -215,10 +218,14 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
             zoomScrollbar.onValueChanged.AddListener(OnScrollbarChanged);
             zoomScrollbar.value = GetZoomScrollbarValue(transform.localScale.x);
         }
+
+        if (PlatformManager.Instance.IsVR)
+            canRotate = false;
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if (PlatformManager.Instance.IsVR) return;
         if (IsUseOnPointerDown)
         {
             if (PlatformManager.Instance.IsCloud && _canZoom)
@@ -256,6 +263,7 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
 
     public void OnDrag(PointerEventData eventData)
     {
+        if (PlatformManager.Instance.IsVR) return;
         if (IsUseOnPointerDown)
         {
             if (PlatformManager.Instance.IsCloud && _canZoom)
@@ -466,6 +474,8 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
     
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (PlatformManager.Instance.IsVR) return;
+
         if(isObject && PlatformManager.Instance.IsTomko) return;
         
         if(isPaint) return;
@@ -474,6 +484,8 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
     
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (PlatformManager.Instance.IsVR) return;
+
         if(isObject && PlatformManager.Instance.IsTomko) return;
         
         if(isPaint) return;
@@ -511,6 +523,8 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        if (PlatformManager.Instance.IsVR) return;
+
         if (IsUseOnPointerDown)
         {
             if (PlatformManager.Instance.IsCloud)
