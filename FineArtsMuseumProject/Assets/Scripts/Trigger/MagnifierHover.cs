@@ -30,9 +30,12 @@ public class MagnifierHover : MonoBehaviour,IPointerDownHandler, IPointerUpHandl
 
 
     public Transform ignoredRoot;
+    
+    public static GameObject magnifierCanvas;
 
     void Start()
     {
+        magnifierCanvas = ignoredRoot.gameObject;
         magnifierImage.gameObject.SetActive(false);
         if (magnifierFrame != null)
             magnifierFrame.gameObject.SetActive(false);
@@ -297,5 +300,20 @@ public class MagnifierHover : MonoBehaviour,IPointerDownHandler, IPointerUpHandl
         }
     }
 
-    
+
+    public static bool IsActive()
+    {
+        if (magnifierCanvas != null)
+        {
+            if (magnifierCanvas.activeSelf)
+            {
+                return true;
+            }
+           
+            
+        }
+        return false;
+
+        
+    }
 }

@@ -115,6 +115,10 @@ public class TriggerPainting : MonoBehaviour
                 var rotation = Quaternion.Euler(cameraRotationOffset); 
                 CameraManager.Instance.cameraFollowPlayer.SetCameraData(cameraPositionOffset, rotation);
             }
+            else
+            {
+                VRObjectRotator.AllowRotate = true;
+            }
 
             if (IsDisableVolume)
             {
@@ -234,6 +238,8 @@ public class TriggerPainting : MonoBehaviour
             if (PlatformManager.Instance.IsVR)
             {
                 ButtonGroupCanvas_vr.gameObject.SetActive(false);
+                VRObjectRotator.AllowRotate = false;
+
             }
             if (PlatformManager.Instance.IsTomko)
             {

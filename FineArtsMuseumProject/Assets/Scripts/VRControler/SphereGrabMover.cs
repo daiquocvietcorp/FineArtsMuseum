@@ -1,147 +1,130 @@
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
-using UnityEngine.InputSystem;
 
 public class SphereGrabMover : XRGrabInteractable
 {
-    [Header("References")]
-    [Tooltip("Anchor để Sphere reset khi thả")]
-    public Transform anchor;
+    [Header("Anchors")]
+    public Transform anchor;                       // Anchor gốc (parent khi không grab)
 
-    [Tooltip("CharacterController của XR Origin (dùng để di chuyển nhân vật)")]
+    [Header("Locomotion")]
     public CharacterController characterController;
-
-    [Tooltip("TriggerZone là collider con lớn hơn của Sphere, với IsTrigger = true")]
     public Collider triggerZone;
-
-    [Header("Movement Settings")]
-    [Tooltip("Khoảng cách cần kéo để kích hoạt di chuyển nhân vật (đo trên mặt phẳng XZ)")]
     public float pullThreshold = 0.1f;
+    public float pullDelay    = 0.2f;
+    public float moveSpeed    = 1f;
+    public float lerpFactor   = 0.1f;
 
-    [Tooltip("Thời gian (giây) pull phải vượt qua ngưỡng pullThreshold để kích hoạt di chuyển")]
-    public float pullDelay = 0.2f;
+    /* runtime ---------------------------------------------------------- */
+    XRRayInteractor stickyInteractor;
+    bool manuallyHolding, isPulling;
+    float pullTimer;
+    Vector3 grabReferencePos;
 
-    [Tooltip("Tốc độ di chuyển nhân vật")]
-    public float moveSpeed = 1f;
-
-    [Tooltip("Lerp factor để làm cho Sphere theo sát tay (càng nhỏ càng lag nhiều)")]
-    public float lerpFactor = 0.1f;
-
-    // Các biến trạng thái
-    private bool isGrabbed = false;
-    private bool isPulling = false;
-    private float pullTimer = 0f;
-    
-    // Lưu vị trí của Sphere ngay sau khi snap (điểm mốc dùng cho tính pull)
-    private Vector3 grabReferencePos;
-    
-    private Vector3 movementDirection;
-
-    // Dùng cho sticky grab (nếu ray bị ngắt nhưng tay vẫn giữ trigger)
-    private XRRayInteractor stickyInteractor;
-    private bool manuallyHolding = false;
-
+    /* ------------------------------------------------------------------ */
     void Start()
     {
-        if (anchor != null)
-            transform.position = anchor.position;
+        /* Gắn Sphere vào anchor ngay từ đầu */
+        if (anchor)
+        {
+            transform.SetParent(anchor, worldPositionStays: false);
+            transform.localPosition = Vector3.zero;
+            transform.localRotation = Quaternion.identity;
+        }
 
-        if (triggerZone != null)
-            triggerZone.gameObject.SetActive(false);
+        if (triggerZone) triggerZone.gameObject.SetActive(false);
     }
 
+    /* ---------------- Grab ------------------------------------------- */
     protected override void OnSelectEntered(SelectEnterEventArgs args)
     {
         base.OnSelectEntered(args);
-        isGrabbed = true;
-        isPulling = false;
-        pullTimer = 0f;
-        
-        // Nếu grab bằng XRRayInteractor (hand tracking ray hoặc controller ray)
-        if (args.interactorObject is XRRayInteractor rayInteractor)
+
+        /* 1. Tách khỏi anchor để có toàn quyền di chuyển */
+        transform.SetParent(null, true);
+
+        /* 2. Ghi interactor & bật TriggerZone */
+        if (args.interactorObject is XRRayInteractor ray)
         {
-            stickyInteractor = rayInteractor;
-            if (rayInteractor.attachTransform != null)
+            stickyInteractor = ray;
+
+            if (triggerZone && characterController)
             {
-                // Snap Sphere về vị trí tay (Attach Transform)
-                transform.position = rayInteractor.attachTransform.position;
-                // Lưu lại vị trí snap làm điểm mốc để tính pull sau này
-                grabReferencePos = transform.position;
-                
-                // Gắn triggerZone làm con của characterController để nó cố định theo nhân vật
-                if (triggerZone != null && characterController != null)
-                {
-                    triggerZone.transform.SetParent(characterController.transform);
-                    triggerZone.transform.position = rayInteractor.attachTransform.position;
-                    triggerZone.transform.rotation = rayInteractor.attachTransform.rotation;
-                    triggerZone.gameObject.SetActive(true);
-                }
+                triggerZone.transform.SetParent(characterController.transform);
+                triggerZone.transform.position = ray.attachTransform.position;
+                triggerZone.transform.rotation = ray.attachTransform.rotation;
+                triggerZone.gameObject.SetActive(true);
             }
         }
-        manuallyHolding = true;
+
+        manuallyHolding  = true;
+        isPulling        = false;
+        pullTimer        = 0f;
+        grabReferencePos = transform.position;     // mốc tính kéo
     }
 
+    /* ---------------- Release ---------------------------------------- */
     protected override void OnSelectExited(SelectExitEventArgs args)
     {
         base.OnSelectExited(args);
-        isGrabbed = false;
-        isPulling = false;
-        manuallyHolding = false;
-        pullTimer = 0f;
+
+        manuallyHolding  = false;
+        isPulling        = false;
+        pullTimer        = 0f;
         stickyInteractor = null;
-        
-        // Reset Sphere về Anchor khi buông
-        if (anchor != null)
-            transform.position = anchor.position;
-        
-        if (triggerZone != null)
+
+        if (triggerZone)
         {
             triggerZone.gameObject.SetActive(false);
             triggerZone.transform.SetParent(transform);
         }
+
+        /* 1. Gắn lại anchor & về local (0,0,0) */
+        if (anchor)
+        {
+            transform.SetParent(anchor, false);
+            transform.localPosition = Vector3.zero;
+            transform.localRotation = Quaternion.identity;
+        }
     }
 
-    public override void ProcessInteractable(XRInteractionUpdateOrder.UpdatePhase updatePhase)
+    /* ---------------- Main update ------------------------------------ */
+    public override void ProcessInteractable(XRInteractionUpdateOrder.UpdatePhase phase)
     {
-        base.ProcessInteractable(updatePhase);
-        if (!isSelected || characterController == null)
-            return;
-        
-        if (updatePhase == XRInteractionUpdateOrder.UpdatePhase.Dynamic)
-        {
-            // Khi đang giữ, làm cho Sphere theo sát tay bằng Lerp để tạo hiệu ứng lag nhẹ
-            if (manuallyHolding && stickyInteractor != null && stickyInteractor.attachTransform != null)
-            {
-                Vector3 desiredPos = stickyInteractor.attachTransform.position;
-                transform.position = Vector3.Lerp(transform.position, desiredPos, lerpFactor);
-            }
-            
-            // Tính pullVector dựa trên grabReferencePos (điểm mốc khi vừa snap)
-            Vector3 pullVector = transform.position - grabReferencePos;
-            pullVector.y = 0f; // Chỉ tính trên mặt phẳng XZ
-            float pullMagnitude = pullVector.magnitude;
+        base.ProcessInteractable(phase);
+        if (!isSelected || characterController == null) return;
+        if (phase != XRInteractionUpdateOrder.UpdatePhase.Dynamic) return;
 
-            // Nếu pullVector vượt quá ngưỡng pullThreshold, cập nhật thời gian kéo
-            if (pullMagnitude > pullThreshold)
+        /* A. Lerp Sphere tới tay */
+        if (manuallyHolding && stickyInteractor && stickyInteractor.attachTransform)
+        {
+            var handTf = stickyInteractor.attachTransform;
+            transform.position = Vector3.Lerp(transform.position, handTf.position, lerpFactor);
+
+            /* Luôn giữ TriggerZone ở tay */
+            if (triggerZone)
             {
-                pullTimer += Time.deltaTime;
-                if (pullTimer >= pullDelay)
-                    isPulling = true;
+                triggerZone.transform.position = handTf.position;
+                triggerZone.transform.rotation = handTf.rotation;
             }
-            else
-            {
-                pullTimer = 0f;
-                isPulling = false;
-            }
-            
-            // Nếu đang kéo, tính hướng di chuyển từ triggerZone (trung tâm) đến Sphere
-            if (isPulling && triggerZone != null && pullMagnitude > 0.01f)
-            {
-                Vector3 triggerCenter = triggerZone.bounds.center;
-                movementDirection = (transform.position - triggerCenter).normalized;
-                movementDirection.y = 0f;
-                characterController.Move(movementDirection * moveSpeed * Time.deltaTime);
-            }
+        }
+
+        /* B. Tính & kiểm tra kéo */
+        Vector3 pullVec = transform.position - grabReferencePos; pullVec.y = 0f;
+        float pullMag   = pullVec.magnitude;
+
+        if (pullMag > pullThreshold)
+        {
+            pullTimer += Time.deltaTime;
+            if (pullTimer >= pullDelay) isPulling = true;
+        }
+        else { pullTimer = 0f; isPulling = false; }
+
+        /* C. Di chuyển XR Origin */
+        if (isPulling && triggerZone && pullMag > 0.01f)
+        {
+            Vector3 dir = transform.position - triggerZone.bounds.center; dir.y = 0f;
+            if (dir.sqrMagnitude > 0.0001f)
+                characterController.Move(dir.normalized * moveSpeed * Time.deltaTime);
         }
     }
 }

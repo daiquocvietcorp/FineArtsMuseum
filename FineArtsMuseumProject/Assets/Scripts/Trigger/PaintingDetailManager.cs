@@ -151,5 +151,10 @@ namespace Trigger
             if(_currentPainting == null) return;
             _currentPainting.SetEnableZoom(isActive);
         }
+        
+        public bool IsChangeArcSlider()
+        {
+            return arcSlider.IsChangeValue();
+        }
     }
 }

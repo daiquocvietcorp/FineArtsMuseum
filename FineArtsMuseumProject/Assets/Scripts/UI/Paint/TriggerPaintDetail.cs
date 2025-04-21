@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Trigger;
@@ -124,6 +125,7 @@ public class TriggerPaintDetail : MonoBehaviour,IPointerDownHandler
 
     public void StartFade()
     {
+        if (PlatformManager.Instance.IsVR) return;   
         SetLayerRecursively(paintObject,"Default", true);
         SetLayerRecursively(playerObject,"Default", true);
         SetLayerRecursively(wsObject,"Default", true);
@@ -136,6 +138,8 @@ public class TriggerPaintDetail : MonoBehaviour,IPointerDownHandler
 
     public void ResetFade()
     {
+        if (PlatformManager.Instance.IsVR) return;   
+
         SetLayerRecursively(paintObject,"Default", true);
         SetLayerRecursively(playerObject,"Default", true);
         SetLayerRecursively(wsObject,"Default", true);
