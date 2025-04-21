@@ -48,8 +48,7 @@ namespace UI
         private bool _isFirstPerson;
         private bool _isVietnamese;
         private Sequence _cautionSequence;
-        
-        
+         
 
         #region Setup Methods
         
