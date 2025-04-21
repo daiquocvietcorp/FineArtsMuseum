@@ -9,7 +9,12 @@ namespace System
         [field: SerializeField] private DeviceType deviceType;
         private void Awake()
         {
-            
+            if(SceneLog.IsFirstScene)
+                DontDestroyOnLoad(gameObject);
+            else
+            {
+                Destroy(gameObject);
+            }
         }
         
         public bool IsMobile => platformType == PlatformType.Mobile;
