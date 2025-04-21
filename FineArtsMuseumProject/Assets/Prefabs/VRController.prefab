@@ -18425,10 +18425,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f262ef843305f564bb64ac234f58a61e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveProvider: {fileID: 5213191585394288346}
+  xrCharacter: {fileID: 5979306928710794916}
   onHandTicket: {fileID: 5145144021604065014}
   onHipTicket: {fileID: 5979306927632482077}
-  moveThreshold: 0.01
+  LeftRayCast: {fileID: 3950369563733447234}
+  speedThreshold: 0.05
 --- !u!114 &311873334
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18573,6 +18574,7 @@ MonoBehaviour:
   imageOnColor: {r: 1, g: 1, b: 1, a: 1}
   imageOffColor: {r: 1, g: 1, b: 1, a: 0.29803923}
   backButton: {fileID: 6799625422626350994}
+  cautionFirstPerson: {fileID: 0}
 --- !u!1 &6781450158479221627
 GameObject:
   m_ObjectHideFlags: 0
