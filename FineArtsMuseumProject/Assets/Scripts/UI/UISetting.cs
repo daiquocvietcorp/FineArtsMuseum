@@ -102,7 +102,6 @@ namespace UI
             vietnameseButton.onClick.AddListener(OnVietnameseButtonClicked);
             backButton.onClick.AddListener(OnBackButtonClicked);
             
-            _isFirstPerson = false;
             if(SceneLog.IsVietnamese)
             {
                 _isVietnamese = true;
@@ -114,7 +113,9 @@ namespace UI
                 SwitchLanguage(false);
             }
             
-            SwitchView(false);
+            _isFirstPerson = SceneLog.IsFirstView;
+            SwitchView(_isFirstPerson);
+            
             cautionFirstPerson.gameObject.SetActive(false);
             RegisterCautionSequence();
         }
