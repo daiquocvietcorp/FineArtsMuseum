@@ -1,5 +1,6 @@
 using System;
 using Camera;
+using DG.Tweening;
 using InputController;
 using TMPro;
 using UnityEngine;
@@ -41,11 +42,37 @@ namespace UI
         [Header("System Settings")]
         [field: SerializeField] private Button backButton;
         
+        [field: SerializeField] private CanvasGroup cautionFirstPerson;
+        
         private Action _onBackButtonClicked;
         private bool _isFirstPerson;
         private bool _isVietnamese;
+        private Sequence _cautionSequence;
+        
+        
 
         #region Setup Methods
+        
+        private void RegisterCautionSequence()
+        {
+            _cautionSequence = DOTween.Sequence();
+            
+            _cautionSequence.AppendCallback(() => cautionFirstPerson.gameObject.SetActive(true));
+            
+            _cautionSequence.Append(cautionFirstPerson.DOFade(1, 1f));
+            _cautionSequence.Append(cautionFirstPerson.DOFade(0, 1f));
+            
+            _cautionSequence.Append(cautionFirstPerson.DOFade(1, 1f));
+            _cautionSequence.Append(cautionFirstPerson.DOFade(0, 1f));
+            
+            _cautionSequence.Append(cautionFirstPerson.DOFade(1, 1f));
+            _cautionSequence.Append(cautionFirstPerson.DOFade(0, 1f));
+            
+            _cautionSequence.AppendCallback(() => cautionFirstPerson.gameObject.SetActive(false));
+
+            _cautionSequence.Pause();
+            _cautionSequence.SetAutoKill(false);
+        }
 
         public override void DisableUI()
         {
@@ -89,7 +116,8 @@ namespace UI
             }
             
             SwitchView(false);
-            
+            cautionFirstPerson.gameObject.SetActive(false);
+            RegisterCautionSequence();
         }
 
         private void OnBackButtonClicked()
@@ -202,6 +230,7 @@ namespace UI
         
         private void ClickChangeFirstPerson()
         {
+            _cautionSequence.Restart();
             CameraManager.Instance.cameraFollowPlayer.SetFirstPersonView();
         }
         

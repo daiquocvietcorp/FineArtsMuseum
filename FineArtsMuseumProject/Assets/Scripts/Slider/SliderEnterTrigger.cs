@@ -19,9 +19,11 @@ namespace Slider
         private Quaternion _targetRotation;
         private float _previousEnterTime;
 
+        
         public bool IsDisableForOptimize = false;
         public List<GameObject> disableObjects;
         public List<GameObject> enableObjects;
+        
         private void Start()
         {
             _targetRotation = Quaternion.Euler(cameraRotation);
