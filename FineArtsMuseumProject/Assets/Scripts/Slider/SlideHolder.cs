@@ -65,20 +65,20 @@ namespace Slider
 
         public void OnClickNextButton()
         {
-            _currentIndex++;
-            if (_currentIndex >= _totalSlides)
+            _currentIndex--;
+            if (_currentIndex < 0)
             {
-                _currentIndex = 0;
+                _currentIndex = _totalSlides - 1;
             }
             ShowImage(_currentIndex);
         }
 
         public void OnClickPrevButton()
         {
-            _currentIndex--;
-            if (_currentIndex < 0)
+            _currentIndex++;
+            if (_currentIndex >= _totalSlides)
             {
-                _currentIndex = _totalSlides - 1;
+                _currentIndex = 0;
             }
             ShowImage(_currentIndex);
         }
