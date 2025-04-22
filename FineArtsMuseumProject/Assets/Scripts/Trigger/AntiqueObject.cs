@@ -180,7 +180,8 @@ public class AntiqueObject : MonoBehaviour
             guideRect.sizeDelta = new Vector2(36.2659f, 35.8804f);
             guideRect.localScale = new Vector3(1.25f, 1.25f, 1.25f);
             
-        }else
+        }
+        else if(PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud)
         {
             
             var closeRect = CloseButton.GetComponent<RectTransform>();
@@ -194,6 +195,20 @@ public class AntiqueObject : MonoBehaviour
             var guideRect = ShowGuideButton.GetComponent<RectTransform>();
             guideRect.anchoredPosition = new Vector2(-268.3f, -80.69809f);
             guideRect.sizeDelta = new Vector2(70f, 70f);
+        }
+        else if(PlatformManager.Instance.IsTomko)
+        {
+            var closeRect = CloseButton.GetComponent<RectTransform>();
+            closeRect.anchoredPosition = new Vector2(-98.1f, -80.69809f);
+            closeRect.sizeDelta = new Vector2(57.6f, 57.6f);
+            
+            var refreshRect = RefreshButton.GetComponent<RectTransform>();
+            refreshRect.anchoredPosition = new Vector2(-183.3f, -80.69809f);
+            refreshRect.sizeDelta = new Vector2(57.6f, 57.6f);
+            
+            var guideRect = ShowGuideButton.GetComponent<RectTransform>();
+            guideRect.anchoredPosition = new Vector2(-268.3f, -80.69809f);
+            guideRect.sizeDelta = new Vector2(57.6f, 57.6f);
         }
         
         interactiveObject.gameObject.SetActive(true);

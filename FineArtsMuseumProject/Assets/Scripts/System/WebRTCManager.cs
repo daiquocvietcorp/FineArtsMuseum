@@ -107,6 +107,10 @@ public class WebRTCManager : MonoSingleton<WebRTCManager>
                         new []
                         {
                             new IceServer(urls: new[] {"stun:stun.l.google.com:19302"}),
+                            new IceServer(urls: new[] { "turn:turn-server-1.daiquocviet.vn:3478?transport=udp" },
+                                username: "turn-server-1",
+                                credential: "123456",
+                                credentialType: IceCredentialType.Password),
                             new IceServer(urls: new[] { "turn:shareteam3.ddns.net:3478?transport=udp" },
                                 username: "phong",
                                 credential: "123456",

@@ -89,6 +89,7 @@ namespace UI
         public void ResetSlider()
         {
             t = _currentOriginalScale;
+            UpdateThumbPosition();
         }
         
         public bool IsChangeValue()
