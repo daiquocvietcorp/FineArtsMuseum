@@ -222,7 +222,7 @@ public class AntiqueObject : MonoBehaviour
             interactiveObject.transform.SetParent(InteractiveObjectLocation);
             interactiveObject.transform.localPosition = new Vector3(0, 0, 0);
             Debug.Log(interactObjectLocalPosition);
-            interactiveObject.transform.localScale = new Vector3(1, 1, 1);
+            //interactiveObject.transform.localScale = new Vector3(1, 1, 1);
 
         }
         

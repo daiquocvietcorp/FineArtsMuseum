@@ -8,116 +8,115 @@ public class VRObjectRotator : MonoBehaviour
     [Header("Rotation Settings")]
     public float rotationSpeedFromPosition = 200f;
     public float rotationSpeedFromRotation = 1f;
-    public bool isPicture = false;
+    public bool  isPicture = false;
 
-    [Header("XR Ray Interactors (kéo tay vào Inspector)")]
+    [Header("XR Ray Interactors (kéo vào Inspector)")]
     public XRRayInteractor leftControllerRay;
     public XRRayInteractor rightControllerRay;
     public XRRayInteractor leftHandRay;
     public XRRayInteractor rightHandRay;
 
-    [Header("Press Threshold (0-1)")]
+    [Header("Input threshold")]
     public float pressThreshold = 0.25f;
 
-    // Runtime
-    private XRRayInteractor activeInteractor = null;
-    private bool isRotating = false;
-    private Quaternion lastHandRot;
-    private Vector3 lastHandPos;
+    /* ------------- trạng thái ---------------- */
+    XRRayInteractor activeInteractor;
+    bool        isRotating;
+    Quaternion  lastHandRot;
+    Vector3     lastHandPos;
 
+    /* ------------- NEW: cờ riêng cho từng object ------------- */
+    [HideInInspector] public bool allowRotate = true;   // mặc định cho phép
 
-    public static bool AllowRotate = false;
+    /* --------------------------------------------------------- */
     void Update()
     {
-        if (MagnifierHover.IsActive())  return;
-        if (!HandleInteractor(leftControllerRay))
-            if (!HandleInteractor(leftHandRay))
-                if (!HandleInteractor(rightControllerRay))
-                    HandleInteractor(rightHandRay);
+        if (!allowRotate || MagnifierHover.IsActive()) return;
+
+        if (!Handle(leftControllerRay))
+            if (!Handle(leftHandRay))
+                if (!Handle(rightControllerRay))
+                    Handle(rightHandRay);
     }
 
-    bool HandleInteractor(XRRayInteractor interactor)
+    bool Handle(XRRayInteractor it)
     {
-        if (interactor == null || !interactor.enabled) return false;
+        if (it == null || !it.enabled) return false;
 
-        var abc = interactor.GetComponentInParent<ActionBasedController>();
+        var abc = it.GetComponentInParent<ActionBasedController>();
         if (abc == null) return false;
 
-        float selectValue = 0f;
-        if (abc.selectActionValue.action != null)
-            selectValue = abc.selectActionValue.action.ReadValue<float>();
+        float sel = abc.selectActionValue.action != null   ? abc.selectActionValue.action.ReadValue<float>()   : 0f;
+        float act = abc.activateActionValue.action != null ? abc.activateActionValue.action.ReadValue<float>() : 0f;
+        bool pressed = (sel > pressThreshold) || (act > pressThreshold);
 
-        float activateValue = 0f;
-        if (abc.activateActionValue.action != null)
-            activateValue = abc.activateActionValue.action.ReadValue<float>();
-
-        bool isPressed = (selectValue > pressThreshold) || (activateValue > pressThreshold);
-
-        if (activeInteractor == interactor)
+        /* --- đang xoay bởi interactor này --- */
+        if (activeInteractor == it)
         {
-            if (!isPressed || AllowRotate == false)
+            if (!pressed || !allowRotate || !IsRayHittingSelf(it))
                 StopRotate();
             return true;
         }
 
-        if (!isRotating && isPressed &&
-            interactor.TryGetCurrent3DRaycastHit(out RaycastHit hit) &&
-            hit.transform == transform)
+        /* --- khởi động xoay --- */
+        if (!isRotating && pressed && allowRotate && IsRayHittingSelf(it))
         {
             if (PaintingDetailManager.Instance.IsChangeArcSlider()) return false;
-
-            StartRotate(interactor);
+            StartRotate(it);
             return true;
         }
 
         return false;
     }
-    
-    void StartRotate(XRRayInteractor interactor)
+
+    bool IsRayHittingSelf(XRRayInteractor it) =>
+        it.TryGetCurrent3DRaycastHit(out RaycastHit h) && h.transform == transform;
+
+    void StartRotate(XRRayInteractor it)
     {
-        activeInteractor = interactor;
-        isRotating = true;
-        lastHandRot = interactor.transform.rotation;
-        lastHandPos = interactor.transform.position;
+        activeInteractor = it;
+        isRotating       = true;
+        lastHandRot      = it.transform.rotation;
+        lastHandPos      = it.transform.position;
     }
 
     void StopRotate()
     {
-        isRotating = false;
+        isRotating       = false;
         activeInteractor = null;
     }
 
     void LateUpdate()
     {
-        if (!isRotating || activeInteractor == null) return;
+        if (!allowRotate || !isRotating || activeInteractor == null) return;
 
-        Quaternion currentHandRot = activeInteractor.transform.rotation;
-        Quaternion deltaRot = currentHandRot * Quaternion.Inverse(lastHandRot);
+        /* Nếu ray đã rời tranh → dừng */
+        if (!IsRayHittingSelf(activeInteractor))
+        {
+            StopRotate();
+            return;
+        }
 
-        Vector3 currentHandPos = activeInteractor.transform.position;
-        Vector3 moveDir = currentHandPos - lastHandPos;
-        Vector3 handRight = activeInteractor.transform.right;
-        float deltaX = Vector3.Dot(moveDir, handRight);
-        float rotationFromPosition = deltaX * rotationSpeedFromPosition;
+        Quaternion curHandRot = activeInteractor.transform.rotation;
+        Quaternion deltaRot   = curHandRot * Quaternion.Inverse(lastHandRot);
+
+        Vector3 moveDir = activeInteractor.transform.position - lastHandPos;
+        float   rotPos  = Vector3.Dot(moveDir, activeInteractor.transform.right) * rotationSpeedFromPosition;
 
         if (isPicture)
         {
-            // Tính yaw bằng hướng tay hiện tại so với trước
-            Vector3 lastForward    = lastHandRot    * Vector3.forward;
-            Vector3 currentForward = currentHandRot * Vector3.forward;
-
-            float signedYaw = Vector3.SignedAngle(lastForward, currentForward, Vector3.up);
-            float finalYaw = rotationFromPosition - (signedYaw * rotationSpeedFromRotation);
-
+            var lastF = lastHandRot * Vector3.forward;
+            var curF  = curHandRot  * Vector3.forward;
+            float yawSigned = Vector3.SignedAngle(lastF, curF, Vector3.up);
+            float finalYaw  = rotPos - yawSigned * rotationSpeedFromRotation;
             transform.rotation = transform.rotation * Quaternion.Euler(0f, finalYaw, 0f);
         }
-
         else
         {
             transform.rotation = transform.rotation * Quaternion.Inverse(deltaRot);
         }
 
-        lastHandRot = currentHandRot;
-        lastHandPos = currentHandPos;
+        lastHandRot = curHandRot;
+        lastHandPos = activeInteractor.transform.position;
     }
 }

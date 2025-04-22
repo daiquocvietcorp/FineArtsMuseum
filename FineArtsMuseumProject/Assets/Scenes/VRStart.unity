@@ -286,6 +286,52 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aa1dcafaf2078ab4fa7cb7bc1c874de2, type: 3}
+--- !u!1 &118150679
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 118150681}
+  - component: {fileID: 118150680}
+  m_Layer: 0
+  m_Name: PlatformManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &118150680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 118150679}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20d9f39bbee702b49aa2d0c5bcf14a21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  platformType: 2
+  deviceType: 2
+--- !u!4 &118150681
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 118150679}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.222, y: -0.019600004, z: 0.17418993}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &259228507
 GameObject:
   m_ObjectHideFlags: 0
@@ -7204,6 +7250,7 @@ MonoBehaviour:
   imageOnColor: {r: 1, g: 1, b: 1, a: 1}
   imageOffColor: {r: 1, g: 1, b: 1, a: 0.29803923}
   backButton: {fileID: 4515858223804488429}
+  cautionFirstPerson: {fileID: 0}
 --- !u!114 &4515858222388595705
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7805,11 +7852,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationSpeedFromPosition: 200
   rotationSpeedFromRotation: 1
+  isPicture: 0
   leftControllerRay: {fileID: 2728989084194234584}
   rightControllerRay: {fileID: 2767746122966367315}
   leftHandRay: {fileID: 4515858223329428675}
   rightHandRay: {fileID: 4515858222954078912}
-  isPicture: 0
+  pressThreshold: 0.25
 --- !u!65 &4515858222517972505
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9291,7 +9339,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4515858222770157084}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.612, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
