@@ -39,12 +39,15 @@ public class VRObjectRotator : MonoBehaviour
 
     void Update()
     {
+        Debug.Log(allowRotate);
+
         if (!allowRotate || MagnifierHover.IsActive()) return;
 
         if (!Handle(leftControllerRay))
             if (!Handle(leftHandRay))
                 if (!Handle(rightControllerRay))
                     Handle(rightHandRay);
+        
     }
 
     bool Handle(XRRayInteractor it)

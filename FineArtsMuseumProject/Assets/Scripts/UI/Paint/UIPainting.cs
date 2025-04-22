@@ -186,7 +186,7 @@ public class UIPainting : UIBasic
         magnifierHover.enabled = false;
         PaintingDetailManager.Instance.SetZoomPainting(false);
         paintRotateAndZoom.enabled = true;
-        
+        if (paintingRotator) paintingRotator.allowRotate = true;
     }
     
     public void SetDefaultAll()
@@ -215,6 +215,7 @@ public class UIPainting : UIBasic
             guideButton_vr.GetComponent<UIButtonHoverSprite>().SetSelected(isGuide);
             zoomButton_vr.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
             aiButton_vr.GetComponent<AIHoverEffect>().SetDefaultSprite();
+            
         }
 
         if (PlatformManager.Instance.IsTomko)
@@ -262,6 +263,8 @@ public void GuidePaintingClicked()
     {
         zoomButton_vr.GetComponent<UIButtonHoverSprite>().SetSelected(isZoom);
         aiButton_vr.GetComponent<AIHoverEffect>().SetDefaultSprite();
+        if (paintingRotator) paintingRotator.allowRotate = true;
+
     }
 
     
@@ -294,7 +297,7 @@ public void GuidePaintingClicked()
         _blinkCoroutine = null;
     }
     
-    
+
     
     if (isGuide)
     {
@@ -819,7 +822,8 @@ private void StartGuideSequence()
         if(AIAnimationIcon_vr) AIAnimationIcon_vr.gameObject.SetActive(false);
         if(AIAnimationIcon_tomko) AIAnimationIcon_tomko.gameObject.SetActive(false);
     }
-    
+    [SerializeField] VRObjectRotator paintingRotator;       // kéo chính tranh (có VRObjectRotator)
+
     public void AIPaintingClicked()
     {
         isGuide = false;
@@ -870,6 +874,8 @@ private void StartGuideSequence()
             {
                 aiButton_vr.GetComponent<AIHoverEffect>().isSelected = false;
                 aiButton_vr.GetComponent<AIHoverEffect>().OnClickedButton();
+                if (paintingRotator) paintingRotator.allowRotate = true;
+
             }
             if (PlatformManager.Instance.IsTomko)
             {
@@ -912,6 +918,8 @@ private void StartGuideSequence()
             {
                 aiButton_vr.GetComponent<AIHoverEffect>().isSelected = true;
                 aiButton_vr.GetComponent<AIHoverEffect>().OnClickedButton();
+                if (paintingRotator) paintingRotator.allowRotate = false;
+
             }
             if (PlatformManager.Instance.IsTomko)
             {

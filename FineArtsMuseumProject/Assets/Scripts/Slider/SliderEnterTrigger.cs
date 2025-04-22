@@ -33,6 +33,7 @@ namespace Slider
         {
             Debug.Log("other:"+ other.name);
             if (!other.CompareTag("Player")) return;
+            
             if (!PlatformManager.Instance.IsVR)
             {
                 if(Time.time - _previousEnterTime <= .5f) return;
@@ -83,6 +84,7 @@ namespace Slider
         private void OnTriggerExit(Collider other)
         {
             if (!other.CompareTag("Player")) return;
+            
             if (!PlatformManager.Instance.IsVR)
             {
             	CameraManager.Instance.cameraFollowPlayer.ExitArea();

@@ -98,18 +98,21 @@ namespace Slider
         public void EnterSlideArea()
         {
             Debug.Log("EnterSlideArea");
-            enterButton.gameObject.SetActive(true);
-            enterButton.onClick.AddListener(OnEnterButtonClicked);
+            if (enterButton)
+            {
+                enterButton.gameObject.SetActive(true);
+                enterButton.onClick.AddListener(OnEnterButtonClicked);
+            }
         }
 
         public void ExitSlideArea()
         {
-            topSlideHolder.ExitSlide();
-            bottomSlideHolder.ExitSlide();
-            topStaticImage.gameObject.SetActive(true);
-            bottomStaticImage.gameObject.SetActive(true);
-            enterButton.gameObject.SetActive(false);
-            SetPointerCollider(false);
+            if(topSlideHolder)topSlideHolder.ExitSlide();
+            if(bottomSlideHolder)bottomSlideHolder.ExitSlide();
+            if(topStaticImage)topStaticImage.gameObject.SetActive(true);
+            if(bottomStaticImage)bottomStaticImage.gameObject.SetActive(true);
+            if(enterButton)enterButton.gameObject.SetActive(false);
+            if(enterButton)SetPointerCollider(false);
         }
 
         public void SetPointerCollider(bool pointer)
