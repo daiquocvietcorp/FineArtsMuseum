@@ -14169,6 +14169,46 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 311873334, guid: cd8ceb12185bf2f47aeb000fad606665, type: 3}
+      propertyPath: vrPositions.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 311873334, guid: cd8ceb12185bf2f47aeb000fad606665, type: 3}
+      propertyPath: vrPositions.Array.data[0].sceneId
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 311873334, guid: cd8ceb12185bf2f47aeb000fad606665, type: 3}
+      propertyPath: vrPositions.Array.data[1].sceneId
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 311873334, guid: cd8ceb12185bf2f47aeb000fad606665, type: 3}
+      propertyPath: vrPositions.Array.data[0].position.x
+      value: 6.349
+      objectReference: {fileID: 0}
+    - target: {fileID: 311873334, guid: cd8ceb12185bf2f47aeb000fad606665, type: 3}
+      propertyPath: vrPositions.Array.data[0].position.y
+      value: -0.15012538
+      objectReference: {fileID: 0}
+    - target: {fileID: 311873334, guid: cd8ceb12185bf2f47aeb000fad606665, type: 3}
+      propertyPath: vrPositions.Array.data[0].position.z
+      value: 6.931
+      objectReference: {fileID: 0}
+    - target: {fileID: 311873334, guid: cd8ceb12185bf2f47aeb000fad606665, type: 3}
+      propertyPath: vrPositions.Array.data[1].position.x
+      value: 10.241
+      objectReference: {fileID: 0}
+    - target: {fileID: 311873334, guid: cd8ceb12185bf2f47aeb000fad606665, type: 3}
+      propertyPath: vrPositions.Array.data[1].position.y
+      value: -0.15012538
+      objectReference: {fileID: 0}
+    - target: {fileID: 311873334, guid: cd8ceb12185bf2f47aeb000fad606665, type: 3}
+      propertyPath: vrPositions.Array.data[1].position.z
+      value: 6.832
+      objectReference: {fileID: 0}
+    - target: {fileID: 311873334, guid: cd8ceb12185bf2f47aeb000fad606665, type: 3}
+      propertyPath: vrPositions.Array.data[1].rotation.y
+      value: 180
+      objectReference: {fileID: 0}
     - target: {fileID: 1009797855554665327, guid: cd8ceb12185bf2f47aeb000fad606665,
         type: 3}
       propertyPath: m_RootOrder
@@ -14264,33 +14304,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.y
       value: -90
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 321789330, guid: cd8ceb12185bf2f47aeb000fad606665, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: cd8ceb12185bf2f47aeb000fad606665, type: 3}
---- !u!1 &488828980 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6749929799314476342, guid: cd8ceb12185bf2f47aeb000fad606665,
-    type: 3}
-  m_PrefabInstance: {fileID: 488828979}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &488828981
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 488828980}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6cde1e53ccabfa44a5679df435bbeb6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  vrPositions:
-  - sceneId: 3
-    position: {x: 5.505, y: -0.66, z: 7.006}
-    rotation: {x: 0, y: 90, z: 0}
-  - sceneId: 5
-    position: {x: 10.15, y: -0.66, z: 7.006}
-    rotation: {x: 0, y: -90, z: 0}
 --- !u!114 &489655984 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9080066537250202943, guid: b65b5f44a68f6b441a6ca45cc7ec070e,
@@ -27108,6 +27124,7 @@ MonoBehaviour:
   imageOnColor: {r: 1, g: 1, b: 1, a: 1}
   imageOffColor: {r: 1, g: 1, b: 1, a: 0.29803923}
   backButton: {fileID: 931364585}
+  cautionFirstPerson: {fileID: 0}
 --- !u!114 &994719079
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35893,6 +35910,7 @@ MonoBehaviour:
   imageOnColor: {r: 1, g: 1, b: 1, a: 1}
   imageOffColor: {r: 1, g: 1, b: 1, a: 0.29803923}
   backButton: {fileID: 271535545}
+  cautionFirstPerson: {fileID: 0}
 --- !u!114 &1300149910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56692,6 +56710,7 @@ MonoBehaviour:
   imageOnColor: {r: 1, g: 1, b: 1, a: 1}
   imageOffColor: {r: 1, g: 1, b: 1, a: 0.29803923}
   backButton: {fileID: 1142119515}
+  cautionFirstPerson: {fileID: 0}
 --- !u!114 &2041987643
 MonoBehaviour:
   m_ObjectHideFlags: 0
