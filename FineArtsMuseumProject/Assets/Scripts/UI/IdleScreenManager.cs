@@ -173,7 +173,7 @@ public class IdleScreenManager : MonoBehaviour
 
     void Update()
     {
-        if(PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud) return;
+        if(PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud || PlatformManager.Instance.IsWebGL) return;
         if (!idleScreen.activeSelf)
         {
             if (Input.anyKey || Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0)
