@@ -73,6 +73,8 @@ public class AntiqueObject : MonoBehaviour
 
     public bool hasGuide = true;
 
+    public bool vrSetScale = false;
+    
     [SerializeField] private Transform InteractiveObjectLocation;
     
     private void Start()
@@ -237,7 +239,7 @@ public class AntiqueObject : MonoBehaviour
             interactiveObject.transform.SetParent(InteractiveObjectLocation);
             interactiveObject.transform.localPosition = new Vector3(0, 0, 0);
             Debug.Log(interactObjectLocalPosition);
-            //interactiveObject.transform.localScale = new Vector3(1, 1, 1);
+            if(vrSetScale) interactiveObject.transform.localScale = interactiveObject.originalScale;
 
         }
         

@@ -76,6 +76,8 @@ namespace Slider
                 return;
             Debug.Log("other3:"+ other.name);
             SlideManager.Instance.EnterSlideArea();
+            
+            TriggerManager.Instance.EnableTriggerColliders();
         }
 
         private void OnTriggerExit(Collider other)
@@ -120,6 +122,8 @@ namespace Slider
             if(topMirror == null || bottomMirror == null)
                 return;
             SlideManager.Instance.ExitSlideArea();
+            
+            TriggerManager.Instance.DisableTriggerColliders();
         }
     }
 }

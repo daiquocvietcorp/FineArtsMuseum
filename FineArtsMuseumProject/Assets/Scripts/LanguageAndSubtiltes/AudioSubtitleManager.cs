@@ -6,6 +6,7 @@ using Slider;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UI;
 
 [System.Serializable]
 public partial class SubtitleData
@@ -83,6 +84,11 @@ public class AudioSubtitleManager : MonoSingleton<AudioSubtitleManager>
             toggleVietnamese.onValueChanged.AddListener((isOn) => OnToggleChanged(isOn, "vi"));
         _isPlayingAmbientSound = false;
         _isPlayingAudio = false;
+        if (PlatformManager.Instance.IsVR)
+        {
+            UIManager.Instance.ActionUI("UI_SOUND");
+            
+        }
         //TurnAmbientSoundTurnAmbientSound();
     }
     // void AssignButtonEvents()
@@ -108,6 +114,7 @@ public class AudioSubtitleManager : MonoSingleton<AudioSubtitleManager>
         AudioClipData clipData = GetClipDataById(id);
         if (clipData != null && TriggerButton != null)
         {
+            Debug.Log("Vao dieu kien 2");
             TriggerButton.gameObject.SetActive(true);
             TriggerButton.onClick.AddListener(() => PlayAudioWithSubtitle(id));
             PlayAudioWithSubtitle(id);

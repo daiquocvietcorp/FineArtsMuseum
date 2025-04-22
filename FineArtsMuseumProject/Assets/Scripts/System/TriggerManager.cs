@@ -8,6 +8,11 @@ namespace System
     {
         [field: SerializeField] private List<BoxCollider> TriggerColliders { get; set; }
 
+        private void Start()
+        {
+            DisableTriggerColliders();
+        }
+
         public void EnableTriggerColliders()
         {
             if (TriggerColliders == null || TriggerColliders.Count == 0) return;
