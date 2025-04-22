@@ -201,16 +201,16 @@ public class AntiqueObject : MonoBehaviour
         else if(PlatformManager.Instance.IsTomko)
         {
             var closeRect = CloseButton.GetComponent<RectTransform>();
-            closeRect.anchoredPosition = new Vector2(-98.1f, -80.69809f);
-            closeRect.sizeDelta = new Vector2(57.6f, 57.6f);
+            closeRect.anchoredPosition = new Vector2(-118.3f, -80.7f);
+            closeRect.sizeDelta = new Vector2(53f, 53f);
             
             var refreshRect = RefreshButton.GetComponent<RectTransform>();
-            refreshRect.anchoredPosition = new Vector2(-183.3f, -80.69809f);
-            refreshRect.sizeDelta = new Vector2(57.6f, 57.6f);
+            refreshRect.anchoredPosition = new Vector2(-181.2f, -80.7f);
+            refreshRect.sizeDelta = new Vector2(53f, 53f);
             
             var guideRect = ShowGuideButton.GetComponent<RectTransform>();
-            guideRect.anchoredPosition = new Vector2(-268.3f, -80.69809f);
-            guideRect.sizeDelta = new Vector2(57.6f, 57.6f);
+            guideRect.anchoredPosition = new Vector2(-246.4f, -80.7f);
+            guideRect.sizeDelta = new Vector2(53f, 53f);
         }
         
         interactiveObject.gameObject.SetActive(true);
