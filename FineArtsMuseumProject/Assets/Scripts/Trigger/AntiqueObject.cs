@@ -73,6 +73,8 @@ public class AntiqueObject : MonoBehaviour
 
     public bool hasGuide = true;
 
+    public bool vrSetScale = false;
+    
     [SerializeField] private Transform InteractiveObjectLocation;
     
     private void Start()
@@ -166,19 +168,19 @@ public class AntiqueObject : MonoBehaviour
         else if (PlatformManager.Instance.IsVR)
         {
             var closeRect = CloseButton.GetComponent<RectTransform>();
-            closeRect.anchoredPosition = new Vector2(-356.6501f, -288f);
-            closeRect.sizeDelta = new Vector2(36.2659f, 35.8804f);
-            closeRect.localScale = new Vector3(1.25f, 1.25f, 1.25f);
+            closeRect.anchoredPosition = new Vector2(-370f, -288f);
+            closeRect.sizeDelta = new Vector2(35f, 35f);
+            closeRect.localScale = new Vector3(2f, 2f, 2f);
             
             var refreshRect = RefreshButton.GetComponent<RectTransform>();
-            refreshRect.anchoredPosition = new Vector2(-419f, -288f);
-            refreshRect.sizeDelta = new Vector2(36.2659f, 35.8804f);
-            refreshRect.localScale = new Vector3(1.25f, 1.25f, 1.25f);
+            refreshRect.anchoredPosition = new Vector2(-457.3499f, -288f);
+            refreshRect.sizeDelta = new Vector2(35f, 35f);
+            refreshRect.localScale = new Vector3(2f, 2f, 2f);
             
             var guideRect = ShowGuideButton.GetComponent<RectTransform>();
-            guideRect.anchoredPosition = new Vector2(-486.6501f, -288f);
-            guideRect.sizeDelta = new Vector2(36.2659f, 35.8804f);
-            guideRect.localScale = new Vector3(1.25f, 1.25f, 1.25f);
+            guideRect.anchoredPosition = new Vector2(-547f, -288f);
+            guideRect.sizeDelta = new Vector2(35f, 35f);
+            guideRect.localScale = new Vector3(2f, 2f, 2f);
             
         }
         else if(PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud)
@@ -237,7 +239,7 @@ public class AntiqueObject : MonoBehaviour
             interactiveObject.transform.SetParent(InteractiveObjectLocation);
             interactiveObject.transform.localPosition = new Vector3(0, 0, 0);
             Debug.Log(interactObjectLocalPosition);
-            //interactiveObject.transform.localScale = new Vector3(1, 1, 1);
+            if(vrSetScale) interactiveObject.transform.localScale = interactiveObject.originalScale;
 
         }
         

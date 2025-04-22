@@ -23751,7 +23751,7 @@ MonoBehaviour:
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
   instructionDuration: 4
-  interactObjectLocalPosition: {x: 0, y: 0, z: 2}
+  interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 2.0000052, y: 359.67, z: 359.7}
   animationImageAnchoredPos: {x: 0, y: 0}
   CharacterStateMachine: {fileID: 135455686}
@@ -23762,6 +23762,7 @@ MonoBehaviour:
   rect: {fileID: 234431507}
   hasInformationUI: 0
   hasGuide: 1
+  vrSetScale: 1
   InteractiveObjectLocation: {fileID: 765202722}
 --- !u!222 &679693565
 CanvasRenderer:
@@ -26608,6 +26609,7 @@ MonoBehaviour:
   rect: {fileID: 365636623}
   hasInformationUI: 0
   hasGuide: 1
+  vrSetScale: 0
   InteractiveObjectLocation: {fileID: 0}
 --- !u!222 &777306839
 CanvasRenderer:
@@ -37913,13 +37915,13 @@ MonoBehaviour:
   zoomSpeed: 0.01
   rotationSpeedMobile: 80
   zoomSpeedMobile: 0.015
-  minScale: 2.5
-  maxScale: 4
+  minScale: 3.5
+  maxScale: 5
   resetDuration: 0.5
   zoomScrollbar: {fileID: 0}
   CanRotateUpDown: 0
   isRotateOneDirect: 1
-  originalScale: {x: 2.5, y: 2.5, z: 2.5}
+  originalScale: {x: 3.5, y: 3.5, z: 3.5}
   canRotate: 0
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
@@ -45541,13 +45543,13 @@ MonoBehaviour:
   zoomSpeed: 0.01
   rotationSpeedMobile: 80
   zoomSpeedMobile: 0.015
-  minScale: 4
-  maxScale: 6
+  minScale: 5
+  maxScale: 7
   resetDuration: 0.5
   zoomScrollbar: {fileID: 0}
   CanRotateUpDown: 0
   isRotateOneDirect: 1
-  originalScale: {x: 2.5, y: 2.5, z: 2.5}
+  originalScale: {x: 5, y: 5, z: 5}
   canRotate: 0
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
@@ -47681,6 +47683,7 @@ MonoBehaviour:
   rect: {fileID: 1139095784}
   hasInformationUI: 0
   hasGuide: 1
+  vrSetScale: 0
   InteractiveObjectLocation: {fileID: 0}
 --- !u!222 &1227116385
 CanvasRenderer:
@@ -67384,6 +67387,7 @@ MonoBehaviour:
   rect: {fileID: 488053712}
   hasInformationUI: 0
   hasGuide: 1
+  vrSetScale: 1
   InteractiveObjectLocation: {fileID: 1076618931}
 --- !u!222 &1810512545
 CanvasRenderer:
@@ -81617,11 +81621,14 @@ MonoBehaviour:
   rotationSpeedFromPosition: 200
   rotationSpeedFromRotation: 1
   isPicture: 1
+  useCameraRotation: 0
   leftControllerRay: {fileID: 321789328}
   rightControllerRay: {fileID: 321789327}
   leftHandRay: {fileID: 321789326}
   rightHandRay: {fileID: 321789325}
   pressThreshold: 0.25
+  smoothTime: 0.08
+  playerCamera: {fileID: 0}
   allowRotate: 1
 --- !u!114 &3475869230538403965
 MonoBehaviour:

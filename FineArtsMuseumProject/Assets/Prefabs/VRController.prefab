@@ -3586,7 +3586,7 @@ MonoBehaviour:
   m_AllowAnchorControl: 1
   m_UseForceGrab: 0
   m_RotateSpeed: 180
-  m_TranslateSpeed: 1
+  m_TranslateSpeed: 0
   m_AnchorRotateReferenceFrame: {fileID: 0}
   m_AnchorRotationMode: 0
   m_UIHoverEntered:
@@ -3598,7 +3598,7 @@ MonoBehaviour:
   m_EnableARRaycasting: 0
   m_OccludeARHitsWith3DObjects: 0
   m_OccludeARHitsWith2DObjects: 0
-  m_ScaleMode: 1
+  m_ScaleMode: 0
 --- !u!120 &5146096720526608338
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -4570,7 +4570,7 @@ MonoBehaviour:
   m_AllowAnchorControl: 1
   m_UseForceGrab: 0
   m_RotateSpeed: 180
-  m_TranslateSpeed: 1
+  m_TranslateSpeed: 0
   m_AnchorRotateReferenceFrame: {fileID: 0}
   m_AnchorRotationMode: 0
   m_UIHoverEntered:
@@ -4582,7 +4582,7 @@ MonoBehaviour:
   m_EnableARRaycasting: 0
   m_OccludeARHitsWith3DObjects: 0
   m_OccludeARHitsWith2DObjects: 0
-  m_ScaleMode: 1
+  m_ScaleMode: 0
 --- !u!120 &4962061616519945049
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -12059,11 +12059,14 @@ MonoBehaviour:
   rotationSpeedFromPosition: 200
   rotationSpeedFromRotation: 1
   isPicture: 0
+  useCameraRotation: 0
   leftControllerRay: {fileID: 5300208741414476572}
   rightControllerRay: {fileID: 5348108908443535255}
   leftHandRay: {fileID: 5979306929328832263}
   rightHandRay: {fileID: 5979306927606896900}
   pressThreshold: 0.25
+  smoothTime: 0.08
+  playerCamera: {fileID: 0}
   allowRotate: 1
 --- !u!114 &5979306927976027615
 MonoBehaviour:
@@ -18195,7 +18198,6 @@ GameObject:
   - component: {fileID: 1919017588899391530}
   - component: {fileID: 8137898516020951529}
   - component: {fileID: 311873334}
-  - component: {fileID: 321789330}
   m_Layer: 6
   m_Name: XR Origin (XR Rig)
   m_TagString: Player
@@ -18446,22 +18448,6 @@ MonoBehaviour:
   vrPositions:
   - sceneId: 4
     position: {x: 5.361, y: -0.649, z: 4.443}
-    rotation: {x: 0, y: 180, z: 0}
---- !u!114 &321789330
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6749929799314476342}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6cde1e53ccabfa44a5679df435bbeb6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  vrPositions:
-  - sceneId: 4
-    position: {x: 0, y: 0.28, z: 2.5}
     rotation: {x: 0, y: 180, z: 0}
 --- !u!1 &6762734331198119027
 GameObject:
