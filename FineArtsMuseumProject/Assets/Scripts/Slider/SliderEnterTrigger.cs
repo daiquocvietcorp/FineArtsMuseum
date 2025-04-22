@@ -31,6 +31,7 @@ namespace Slider
 
         private void OnTriggerEnter(Collider other)
         {
+            Debug.Log("other:"+ other.name);
             if (!other.CompareTag("Player")) return;
             if (!PlatformManager.Instance.IsVR)
             {
@@ -38,7 +39,7 @@ namespace Slider
                 CameraManager.Instance.cameraFollowPlayer.EnterArea(distanceView, heightView);
                 CameraManager.Instance.cameraFollowPlayer.SetCameraData(cameraPosition, _targetRotation);
             }
-            
+            Debug.Log("other1:"+ other.name);
             
             if (IsDisableForOptimize)
             {
@@ -73,6 +74,7 @@ namespace Slider
             
             if(topMirror == null || bottomMirror == null)
                 return;
+            Debug.Log("other3:"+ other.name);
             SlideManager.Instance.EnterSlideArea();
         }
 

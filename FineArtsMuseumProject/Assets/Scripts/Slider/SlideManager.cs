@@ -97,6 +97,7 @@ namespace Slider
 
         public void EnterSlideArea()
         {
+            Debug.Log("EnterSlideArea");
             enterButton.gameObject.SetActive(true);
             enterButton.onClick.AddListener(OnEnterButtonClicked);
         }

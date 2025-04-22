@@ -7,6 +7,7 @@ using Trigger;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.VFX;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class TriggerPainting : MonoBehaviour
 {
@@ -68,6 +69,12 @@ public class TriggerPainting : MonoBehaviour
     public GameObject volumeObject2;
     public bool IsDisableVolume = false;
     
+    
+    [SerializeField] XRInteractionManager interactionManager;
+    [SerializeField] List<XRRayInteractor> rayInteractors;     // drag L+R ray
+    [SerializeField] VRObjectRotator paintingRotator;       // kéo chính tranh (có VRObjectRotator)
+    [SerializeField] XRBaseInteractable paintingInteractable;
+
     private void Start()
     {
         // Thiết lập Fog Mode
@@ -114,10 +121,6 @@ public class TriggerPainting : MonoBehaviour
                 //CameraManager.Instance.cameraFollowPlayer.RotateCamera(otherObject.transform);
                 var rotation = Quaternion.Euler(cameraRotationOffset); 
                 CameraManager.Instance.cameraFollowPlayer.SetCameraData(cameraPositionOffset, rotation);
-            }
-            else
-            {
-                VRObjectRotator.AllowRotate = true;
             }
 
             if (IsDisableVolume)
@@ -185,6 +188,7 @@ public class TriggerPainting : MonoBehaviour
             {
                 PaintingDetailManager.Instance.SetButtonGroup(ButtonGroupCanvas_vr);
                 ButtonGroupCanvas_vr.gameObject.SetActive(true);
+                if (paintingRotator) paintingRotator.allowRotate = true;
             }
             if (PlatformManager.Instance.IsTomko)
             {
@@ -238,8 +242,15 @@ public class TriggerPainting : MonoBehaviour
             if (PlatformManager.Instance.IsVR)
             {
                 ButtonGroupCanvas_vr.gameObject.SetActive(false);
-                VRObjectRotator.AllowRotate = false;
+                if (paintingRotator) paintingRotator.allowRotate = false;
 
+                // Ngắt Hover / Select lập tức
+                if (paintingInteractable)
+                {
+                    foreach (var ray in rayInteractors)
+                        XRHelper.ForceClear(ray, paintingInteractable, interactionManager);
+                }
+                
             }
             if (PlatformManager.Instance.IsTomko)
             {

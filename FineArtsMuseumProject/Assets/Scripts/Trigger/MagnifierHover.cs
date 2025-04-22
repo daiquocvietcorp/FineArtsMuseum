@@ -252,10 +252,12 @@ public class MagnifierHover : MonoBehaviour,IPointerDownHandler, IPointerUpHandl
             {
                 if (hit.transform.CompareTag("Player") || (ignoredRoot && hit.transform.IsChildOf(ignoredRoot))) return false;
 
-                Vector3 hitPos = hit.point;
-                Vector3 camOffsetDir = (mainCamera.transform.position - hitPos).normalized;
-                Vector3 uiWorldPos = hitPos + camOffsetDir * cameraOffset;
-
+                // Vector3 hitPos = hit.point;
+                // Vector3 camOffsetDir = (mainCamera.transform.position - hitPos).normalized;
+                // Vector3 uiWorldPos = hitPos + camOffsetDir * cameraOffset;
+                Vector3 hitPos  = hit.point;
+                Vector3 normal  = hit.normal;                     // ◀︎ lấy pháp tuyến
+                Vector3 uiWorldPos = hitPos + normal * cameraOffset;
                 magnifierImage.gameObject.SetActive(true);
                 if (magnifierFrame != null)
                     magnifierFrame.gameObject.SetActive(true);
@@ -267,10 +269,14 @@ public class MagnifierHover : MonoBehaviour,IPointerDownHandler, IPointerUpHandl
                     ConvertScreenToWorldCanvasPosition(screenPosition, magnifierFrame);
                 }
 
+                // zoomCamera.transform.position = uiWorldPos;
+                // zoomCamera.transform.rotation = Quaternion.LookRotation(hitPos - mainCamera.transform.position);
+                // zoomCamera.fieldOfView = mainCamera.fieldOfView / zoomFactor;
+                
                 zoomCamera.transform.position = uiWorldPos;
-                zoomCamera.transform.rotation = Quaternion.LookRotation(hitPos - mainCamera.transform.position);
+                zoomCamera.transform.rotation = Quaternion.LookRotation(-normal); // ◀︎ vuông góc
                 zoomCamera.fieldOfView = mainCamera.fieldOfView / zoomFactor;
-
+                
                 return true;
             }
             
