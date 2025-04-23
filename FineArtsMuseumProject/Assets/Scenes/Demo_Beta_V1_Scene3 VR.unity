@@ -18717,7 +18717,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <TriggerColliders>k__BackingField: []
-  <AllTriggerColliders>k__BackingField: []
+  <AllTriggerColliders>k__BackingField:
+  - {fileID: 7219729339110986}
+  - {fileID: 7219728528970951}
+  - {fileID: 1353290264}
+  - {fileID: 603067203}
+  - {fileID: 1353290266}
+  - {fileID: 603067205}
 --- !u!114 &506247527 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2812949834985909207, guid: c774074162b17f74794e04359817bd3a,
@@ -23281,6 +23287,7 @@ MonoBehaviour:
   durartion: 1
   paintRotateAndZoom: {fileID: 3475869230538403961}
   <PaintID>k__BackingField: tntd
+  paintingRotator: {fileID: 0}
 --- !u!114 &652994620
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52317,6 +52324,7 @@ MonoBehaviour:
   durartion: 1
   paintRotateAndZoom: {fileID: 433478164}
   <PaintID>k__BackingField: vxtnb2
+  paintingRotator: {fileID: 0}
 --- !u!114 &1344730225
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52468,6 +52476,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1008695549098345510, guid: 04bf767cd92dee24b9ffd2c472c7d7ac,
         type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.0088
+      objectReference: {fileID: 0}
+    - target: {fileID: 1008695549098345510, guid: 04bf767cd92dee24b9ffd2c472c7d7ac,
+        type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
@@ -52555,6 +52568,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.y
       value: -0.01619998
+      objectReference: {fileID: 0}
+    - target: {fileID: 6827313472138478246, guid: 04bf767cd92dee24b9ffd2c472c7d7ac,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.02
       objectReference: {fileID: 0}
     - target: {fileID: 6827313472138478246, guid: 04bf767cd92dee24b9ffd2c472c7d7ac,
         type: 3}

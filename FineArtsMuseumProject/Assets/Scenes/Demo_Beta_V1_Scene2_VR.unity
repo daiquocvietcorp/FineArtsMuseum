@@ -8003,7 +8003,7 @@ MonoBehaviour:
   - key: UI_SOUND
     standaloneUI: {fileID: 730186381}
     mobileUI: {fileID: 434147451}
-    vrUI: {fileID: 0}
+    vrUI: {fileID: 488828980}
     tomkoUI: {fileID: 486635271}
     isUsingWeakBlur: 0
   - key: UI_VR
@@ -14312,6 +14312,18 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 321789330, guid: cd8ceb12185bf2f47aeb000fad606665, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: cd8ceb12185bf2f47aeb000fad606665, type: 3}
+--- !u!114 &488828980 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4912368136560628993, guid: cd8ceb12185bf2f47aeb000fad606665,
+    type: 3}
+  m_PrefabInstance: {fileID: 488828979}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee0abbf5da81239408342e8757eec1ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &489655984 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9080066537250202943, guid: b65b5f44a68f6b441a6ca45cc7ec070e,
@@ -37605,6 +37617,7 @@ MonoBehaviour:
   durartion: 1
   paintRotateAndZoom: {fileID: 433478164}
   <PaintID>k__BackingField: vxtnb2
+  paintingRotator: {fileID: 0}
 --- !u!114 &1344730225
 MonoBehaviour:
   m_ObjectHideFlags: 0
