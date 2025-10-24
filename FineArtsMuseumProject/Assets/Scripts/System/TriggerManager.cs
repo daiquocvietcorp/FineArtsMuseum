@@ -11,7 +11,7 @@ namespace System
 
         private void Start()
         {
-            DisableTriggerColliders();
+            //DisableTriggerColliders();
         }
 
         public void EnableTriggerColliders()
