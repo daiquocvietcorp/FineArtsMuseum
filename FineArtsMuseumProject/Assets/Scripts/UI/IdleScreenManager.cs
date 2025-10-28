@@ -75,6 +75,15 @@ public class IdleScreenManager : MonoBehaviour
         //     rectTransform.anchoredPosition = newPos;
         //     rectTransform2.anchoredPosition = newPos;
         // }
+        // if (PlatformManager.Instance.isSplitScene)
+        // {
+        //     nextButton.onClick.AddListener(OnNextButtonClicked);
+        //     exitButton.onClick.RemoveAllListeners();
+        //     exitButton.onClick.AddListener(OnExitButtonClicked);
+        //     HideIdleScreen();
+        //     StartApplication();
+        //     return;
+        // }
         
         if (!PlatformManager.Instance.IsTomko)
         {

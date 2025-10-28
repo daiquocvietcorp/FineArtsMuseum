@@ -33,6 +33,7 @@ public class WebRTCManager : MonoSingleton<WebRTCManager>
             DontDestroyOnLoad(this.gameObject);
         else
         {
+            if(PlatformManager.Instance.isSplitScene) return;
             Destroy(this.gameObject);
         }
     }

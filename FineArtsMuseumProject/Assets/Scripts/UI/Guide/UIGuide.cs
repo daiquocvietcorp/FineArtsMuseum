@@ -66,6 +66,7 @@ public class UIGuide : UIBasic
         base.EnableUI();
         InputManager.Instance.DisableJoystick();
         InputManager.Instance.DisableJoystickRotation();
+        
     }
     
     
