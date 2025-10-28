@@ -97,13 +97,26 @@ namespace UI
             _hideSequence.Pause();
             _hideSequence.SetAutoKill(false);
 
-            if (SceneLog.IsFirstScene) return;
-            titleImg.gameObject.SetActive(false);
-            subTitleImg.gameObject.SetActive(false);
-            appNameImg.gameObject.SetActive(false);
-            descriptionImg.gameObject.SetActive(false);
-            startBtnImg.gameObject.SetActive(false);
+
+
+            if (SceneLog.IsFirstScene)
+            {
+                
+                return;
+            }
+            else
+            {
+                titleImg.gameObject.SetActive(false);
+                subTitleImg.gameObject.SetActive(false);
+                appNameImg.gameObject.SetActive(false);
+                descriptionImg.gameObject.SetActive(false);
+                startBtnImg.gameObject.SetActive(false);
+            }
+            
+            
         }
+        
+        
         
 
         public override void EnableUI()

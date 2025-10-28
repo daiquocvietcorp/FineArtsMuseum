@@ -1,4 +1,4 @@
-using DesignPatterns;
+ using DesignPatterns;
 using UnityEngine;
 
 namespace System
@@ -7,12 +7,14 @@ namespace System
     {
         [field: SerializeField] private PlatformType platformType;
         [field: SerializeField] private DeviceType deviceType;
+        [field: SerializeField] public bool isSplitScene;
         private void Awake()
         {
             if(SceneLog.IsFirstScene)
                 DontDestroyOnLoad(gameObject);
             else
             {
+                if(isSplitScene) return;
                 Destroy(gameObject);
             }
         }

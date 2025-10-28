@@ -9,5 +9,6 @@ public class StartButtonController : MonoBehaviour
     
     public void OnAnimationComplete()
     {
-        UIStart.EnterMain(); }
+        UIStart.EnterMain(); 
+    }
 }
