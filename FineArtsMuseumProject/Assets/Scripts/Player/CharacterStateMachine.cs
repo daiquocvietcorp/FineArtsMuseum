@@ -107,6 +107,7 @@ namespace Player
         {
             if(!_isStarted) return;
             if (!_isActive) return;
+            if(PlatformManager.Instance.IsCloud) return;
             _currentState.UpdateState(this);
 
             if (_isUsingTouch)
@@ -165,6 +166,10 @@ namespace Player
 
         public void MoveCharacter()
         {
+            //Khánh thêm
+            if (PlatformManager.Instance.IsCloud)
+                return;
+            
             var moveX = Input.GetAxis("Horizontal");
             var moveZ = Input.GetAxis("Vertical");
 
@@ -195,6 +200,14 @@ namespace Player
         
         private void MoveByJoystick()
         {
+            //Khánh thêm
+            if (PlatformManager.Instance.IsCloud)
+            {
+                if (!(_currentState is CharacterIdleState))
+                    SwitchState(new CharacterIdleState());
+                return;
+            }
+            
             if (!(_joystickDirection.magnitude > 0.1f)) return;
             var moveDirection = new Vector3(_joystickDirection.x, 0, _joystickDirection.y).normalized;
             var forward = _cameraMain.transform.forward;
