@@ -1,4 +1,5 @@
 using System;
+using Camera;
 using DG.Tweening;
 using InputController;
 using Player;
@@ -145,6 +146,9 @@ namespace UI
             if (PlatformManager.Instance.IsWebGL)
             {
                 WebRTCManager.Instance.RegisterMoveInput(CharacterManager.Instance.GetActionMove());
+                
+                if(!SceneLog.IsNewController) return;
+                WebRTCManager.Instance.RegisterRotateCameraInput(CameraManager.Instance.GetActionRotate());
             }
 
             if (PlatformManager.Instance.IsWebGL || PlatformManager.Instance.IsCloud)

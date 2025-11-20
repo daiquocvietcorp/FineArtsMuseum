@@ -10,6 +10,13 @@ namespace Trigger
         
         private void OnTriggerEnter(Collider other)
         {
+            if (PlatformManager.Instance.isSplitScene)
+            {
+                // Send Socket with ExitId
+                Debug.Log("Send Socket with ExitId: " + exitId);
+                return;
+            }
+            
             if (other.CompareTag("Player"))
             {
                 // Load Scene Async

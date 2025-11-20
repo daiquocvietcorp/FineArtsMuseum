@@ -107,7 +107,7 @@ namespace Player
         {
             if(!_isStarted) return;
             if (!_isActive) return;
-            if(PlatformManager.Instance.IsCloud) return;
+            //if(PlatformManager.Instance.IsCloud) return;
             _currentState.UpdateState(this);
 
             if (_isUsingTouch)
@@ -155,7 +155,8 @@ namespace Player
                 Debug.Log("Move canceled");
                 return;
             }
-            _newInputMove = move.ReadValue<Vector2>();
+            var readMover = move.ReadValue<Vector2>();
+            _newInputMove = new Vector2(SceneLog.IsNewController ? 0 : readMover.x, readMover.y);
             Debug.Log("Move is " + _newInputMove);
         }
 
@@ -201,12 +202,12 @@ namespace Player
         private void MoveByJoystick()
         {
             //Khánh thêm
-            if (PlatformManager.Instance.IsCloud)
-            {
-                if (!(_currentState is CharacterIdleState))
-                    SwitchState(new CharacterIdleState());
-                return;
-            }
+            //if (PlatformManager.Instance.IsCloud)
+            //{
+            //    if (!(_currentState is CharacterIdleState))
+            //        SwitchState(new CharacterIdleState());
+            //    return;
+            //}
             
             if (!(_joystickDirection.magnitude > 0.1f)) return;
             var moveDirection = new Vector3(_joystickDirection.x, 0, _joystickDirection.y).normalized;

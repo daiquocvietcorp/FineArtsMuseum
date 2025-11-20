@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Camera;
 using Trigger;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -31,6 +32,11 @@ public class TriggerObject : MonoBehaviour, IPointerDownHandler
             {
                 AntiqueManager.Instance.EnableAntiqueDetail(antiqueID);
             }
+            
+            CameraManager.Instance.cameraFollowPlayer.SetCanControl(false);
+            
+            //CameraManager.Instance.cameraFollowPlayer.EnterArea();
+            //CameraManager.Instance.cameraFollowPlayer.ResetCameraInArea();
         }
     }
 

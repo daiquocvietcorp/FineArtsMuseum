@@ -93,10 +93,18 @@ namespace UI
             if (thirdPersonButton != null)
             {
                 thirdPersonButton.onClick.AddListener(OnThirdPersonButtonClicked);
+                if (SceneLog.IsBlockThirdView)
+                {
+                    thirdPersonButton.interactable = false;
+                }
             }
             if (firstPersonButton != null)
             {
                 firstPersonButton.onClick.AddListener(OnFirstPersonButtonClicked);
+                if (SceneLog.IsBlockFirstView)
+                {
+                    firstPersonButton.interactable = false;
+                }
             }
             englishButton.onClick.AddListener(OnEnglishButtonClicked);
             vietnameseButton.onClick.AddListener(OnVietnameseButtonClicked);

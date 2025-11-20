@@ -97,7 +97,7 @@ namespace Trigger
         {
             _currentPainting = currentPainting;
             
-            if(!PlatformManager.Instance.IsTomko && !PlatformManager.Instance.IsVR) return;
+            if(!PlatformManager.Instance.IsTomko && !PlatformManager.Instance.IsVR && !SceneLog.IsNewController) return;
             sliderTransform.gameObject.SetActive(true);
             var originalScale = _currentPainting.GetOriginalScalePercent();
             arcSlider.SetValue(originalScale);
@@ -110,7 +110,7 @@ namespace Trigger
         {
             _currentPainting = null;
             
-            if(!PlatformManager.Instance.IsTomko && !PlatformManager.Instance.IsVR) return;
+            if(!PlatformManager.Instance.IsTomko && !PlatformManager.Instance.IsVR && !SceneLog.IsNewController) return;
             _buttonGroup = null;
             _avarageScale = -1;
             sliderTransform.gameObject.SetActive(false);
