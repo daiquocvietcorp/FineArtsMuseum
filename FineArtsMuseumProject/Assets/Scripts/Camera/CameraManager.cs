@@ -1,6 +1,7 @@
 using System;
 using DesignPatterns;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Camera
 {
@@ -11,11 +12,22 @@ namespace Camera
         [field: SerializeField] public CameraFollowPlayer cameraFollowPlayer;
 
         private bool _isLockFollowView;
+        private bool _isLockRotateCamera;
         
         public void RegisterRotationDefault()
         {
             if (PlatformManager.Instance.IsVR) return;
             cameraFollowPlayer.RegisterRotationAction();
+        }
+        
+        public void SetLockRotateCamera(bool isLock)
+        {
+            _isLockRotateCamera = isLock;
+        }
+        
+        public System.Action<InputAction.CallbackContext> GetActionRotate()
+        {
+            return cameraFollowPlayer.RotateByNewInput;
         }
 
         public void SetCameraWhenEnterPainting(float distance, float height)
@@ -33,5 +45,6 @@ namespace Camera
         }
         
         public bool IsLockFollowView => _isLockFollowView || cameraFollowPlayer.IsLocked;
+        public bool IsLockRotateCamera => _isLockRotateCamera;
     }
 }

@@ -25,6 +25,9 @@ namespace Player
         public void StartControlCharacter()
         {
             defaultCharacterStateMachine.StartCharacter();
+            
+            if(SceneLog.IsFirstView) HideCharacterSkin();
+            else ShowCharacterSkin();
         }
         
         public void StopControlCharacter()
@@ -39,6 +42,7 @@ namespace Player
         
         public void ShowCharacterSkin()
         {
+            if(SceneLog.IsBlockThirdView) return;
             defaultCharacterStateMachine.ShowCharacter();
         }
         

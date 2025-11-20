@@ -53,7 +53,7 @@ public class WebRTCManager : MonoSingleton<WebRTCManager>
 
     private void TestScript()
     {
-        const int port = 80;
+        const int port = 8000;
 
         var signalingURL = $"ws://127.0.0.1:{port}";
 
@@ -156,6 +156,15 @@ public class WebRTCManager : MonoSingleton<WebRTCManager>
         if (!moveAction) return;
         moveAction["Move"].performed += onMovePerformed;
         moveAction["Move"].canceled += onMovePerformed;
+    }
+    
+    public void RegisterRotateCameraInput(System.Action<InputAction.CallbackContext> onRotatePerformed)
+    {
+        if (!inputReceiver) return;
+        var rotateAction = inputReceiver.actions;
+        if (!rotateAction) return;
+        rotateAction["Move"].performed += onRotatePerformed;
+        rotateAction["Move"].canceled += onRotatePerformed;
     }
 
     public void RegisterAudioListener(AudioSource audioListener)

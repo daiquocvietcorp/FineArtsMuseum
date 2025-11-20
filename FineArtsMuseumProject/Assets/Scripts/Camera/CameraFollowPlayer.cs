@@ -5,6 +5,8 @@ using DG.Tweening;
 using InputController;
 using Player;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using TouchPhase = UnityEngine.TouchPhase;
 
 namespace Camera
 {
@@ -41,9 +43,12 @@ namespace Camera
         private float _exitPaintingCameraHeight;
         private bool _isExitFirstView;
         private bool _isLockFollowView;
+        private bool _isCanControl;
 
         private void Awake()
         {
+            _isCanControl = true;
+            
             if (SceneLog.IsFirstView)
             {
                 data.Distance = data.View1StPerson.Distance;
@@ -182,16 +187,22 @@ namespace Camera
                 
                 if(_joystickDirection == Vector2.zero) return;
                 
-                _isActive = true;
+                if(!SceneLog.IsNewController)
+                {
+                    _isActive = true;
+                }
+
+                if (_isActive)
+                {
+                    mouseX = _joystickDirection.x * (SceneLog.IsNewController ? data.NewMoveSensitivity : data.Sensitivity);
+                    //mouseY = -_joystickDirection.y * data.Sensitivity;
                 
-                mouseX = _joystickDirection.x * data.Sensitivity;
-                //mouseY = -_joystickDirection.y * data.Sensitivity;
+                    _currentYaw += mouseX;
+                    //_currentPitch = Mathf.Clamp(_currentPitch - mouseY, data.MinPitch, data.MaxPitch);
                 
-                _currentYaw += mouseX;
-                //_currentPitch = Mathf.Clamp(_currentPitch - mouseY, data.MinPitch, data.MaxPitch);
-                
-                _currentAreaYaw += mouseX;
-                // _currentAreaPitch = Mathf.Clamp(_currentAreaPitch - mouseY, data.MinPitch, data.MaxPitch);
+                    _currentAreaYaw += mouseX;
+                    // _currentAreaPitch = Mathf.Clamp(_currentAreaPitch - mouseY, data.MinPitch, data.MaxPitch);
+                }
             }
             
             
@@ -203,6 +214,21 @@ namespace Camera
         private void UpdateJoystickDirection(Vector2 direction)
         {
             _joystickDirection = direction;
+        }
+        
+        public void RotateByNewInput(InputAction.CallbackContext move)
+        {
+            if(!_isCanControl) return;
+            if (move.canceled)
+            {
+                Debug.Log("Rotate canceled");
+                _joystickDirection = Vector2.zero;
+                return;
+            }
+            
+            var readMover = move.ReadValue<Vector2>();
+            _joystickDirection = new Vector2(readMover.x, SceneLog.IsNewController ? 0 : readMover.y);
+            Debug.Log("Rotate is " + _joystickDirection);
         }
 
         private void UpdateCameraPosition()
@@ -493,6 +519,11 @@ namespace Camera
             
             _changeViewCoroutine = StartCoroutine(ChangeView(_exitPaintingCameraDistance, _exitPaintingCameraHeight));
             if(!_isFirstPerson) directionFirstView.DisableDirectionFirstView();*/
+        }
+
+        public void SetCanControl(bool isCanControl)
+        {
+            _isCanControl = isCanControl;
         }
     }
     

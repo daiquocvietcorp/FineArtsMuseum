@@ -2,6 +2,7 @@
 
 using System;
 using System.Net;
+using Camera;
 using DG.Tweening;
 using Slider;
 using UI;
@@ -79,7 +80,7 @@ public class AntiqueObject : MonoBehaviour
     
     private void Start()
     {
-        if (PlatformManager.Instance.IsTomko)
+        if (PlatformManager.Instance.IsTomko || SceneLog.IsNewController)
         {
             ZoomArrowImage.sprite = ZoomSpriteTomko;
         }
@@ -104,7 +105,12 @@ public class AntiqueObject : MonoBehaviour
         interactiveObject.SmoothAverageResetTransform();
         AntiqueManager.Instance.ResetSlider();
     }
-    
+
+    private void OnDisable()
+    {
+        CameraManager.Instance.cameraFollowPlayer.SetCanControl(true);
+    }
+
     private void OnEnable()
     {
         ActivateInteractiveMode();
