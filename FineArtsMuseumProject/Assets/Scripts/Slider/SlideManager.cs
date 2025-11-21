@@ -117,6 +117,7 @@ namespace Slider
 
         public void SetPointerCollider(bool pointer)
         {
+            if(pointerColliders == null || pointerColliders.Count == 0) return;
             foreach(var point in pointerColliders)
             {
                 point.enabled = pointer;
