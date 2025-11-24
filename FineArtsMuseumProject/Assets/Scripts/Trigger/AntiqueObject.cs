@@ -6,6 +6,7 @@ using Camera;
 using DG.Tweening;
 using Slider;
 using UI;
+using TMPro;
 
 namespace Trigger
 { 
@@ -45,6 +46,13 @@ public class AntiqueObject : MonoBehaviour
     public Sprite SoundOff;
     public Sprite GuideOn;
     public Sprite GuideOff;
+    
+    public Sprite AIOn;
+    public Sprite AIOff;
+    public Button ShowAIButton;
+    public Image AIImage;
+    public TextMeshProUGUI AIText;
+    bool isShowAI = false;
 
     [Header("Settings")]
     public float instructionDuration = 10f;
@@ -89,6 +97,9 @@ public class AntiqueObject : MonoBehaviour
             ZoomArrowImage.sprite = ZoomSprite;
         }
         
+        if(ShowAIButton != null && AIVideoManager.Instance.IsObjectHasVideo(AntiqueID))
+            ShowAIButton.onClick.AddListener(() => ToggleAI(AntiqueID));
+        
         CloseButton.onClick.AddListener(TurnOffBlur);
         ShowGuideButton.onClick.AddListener(ToggleGuide);
         SoundButton.onClick.AddListener(ToggleSound);
@@ -98,6 +109,27 @@ public class AntiqueObject : MonoBehaviour
         SetInitialUIState();
         SoundButton.image.sprite = SoundOn;
         //CloseButton.gameObject.SetActive(false);
+    }
+    
+    public void ToggleAI(string AntiqueId)
+    {
+        if (AIImage != null)
+        {
+            if(!isShowAI)
+            {
+                AIImage.color = new Color(0, 0, 0, 1);
+                AIText.color = new Color(1, 1 ,1, 1);
+                AIVideoManager.Instance.SetVideoMaterial(AntiqueId);
+                isShowAI = true;
+            }
+            else
+            {
+                AIImage.color = new Color(1, 1, 1, 1);
+                AIText.color = new Color(0, 0 ,0, 1);
+                isShowAI = false;
+                AIVideoManager.Instance.StopVideoMaterial(AntiqueId);
+            }
+        }
     }
 
     public void Refresh()
@@ -109,6 +141,14 @@ public class AntiqueObject : MonoBehaviour
     private void OnDisable()
     {
         CameraManager.Instance.cameraFollowPlayer.SetCanControl(true);
+
+        if (AIImage != null)
+        {
+            AIImage.color = new Color(1, 1, 1, 1);
+            AIText.color = new Color(0, 0 ,0, 1);
+            isShowAI = false;
+            AIVideoManager.Instance.StopVideoMaterial(AntiqueID);
+        }
     }
 
     private void OnEnable()
