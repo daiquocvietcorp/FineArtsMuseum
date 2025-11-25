@@ -13,7 +13,7 @@ namespace GuidanceLine
 
 
     [CustomEditor(typeof(GuidanceLine))]
-    public class GuidanceLineCustomEditor : Editor
+    public class GuidanceLineCustomEditor : UnityEditor.Editor
     {
         SerializedProperty toggleGizmos;
         SerializedProperty gizmoSphereRadius;
