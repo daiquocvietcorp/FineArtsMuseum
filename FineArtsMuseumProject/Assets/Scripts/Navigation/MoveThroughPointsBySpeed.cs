@@ -23,17 +23,13 @@ public class MoveThroughPointsBySpeed : MonoBehaviour
     {
         trail = GetComponent<TrailRenderer>();
 
-        if (points.Count < 2)
-        {
-            Debug.LogError("Cần ít nhất 2 điểm để di chuyển.");
-            return;
-        }
-
-        transform.position = points[0].position;
+        if (points.Count > 0)
+            transform.position = points[0].position;
     }
 
     private void Update()
     {
+        if (points.Count < 2) return;
         if (isWaiting || isStopped) return;
 
         Transform target = points[currentIndex + 1];
@@ -41,7 +37,6 @@ public class MoveThroughPointsBySpeed : MonoBehaviour
 
         transform.position = Vector3.MoveTowards(transform.position, target.position, step);
 
-        // Đạt point tiếp theo
         if (Vector3.Distance(transform.position, target.position) < 0.001f)
         {
             StartCoroutine(WaitAndNext());
@@ -58,7 +53,6 @@ public class MoveThroughPointsBySpeed : MonoBehaviour
 
         if (currentIndex >= points.Count - 1)
         {
-            // Đi đến cuối thì dừng
             isStopped = true;
             yield break;
         }
@@ -70,9 +64,6 @@ public class MoveThroughPointsBySpeed : MonoBehaviour
     //         PUBLIC METHODS
     // =============================
 
-    /// <summary>
-    /// Reset về point đầu tiên và chạy lại
-    /// </summary>
     public void ResetPath()
     {
         StopAllCoroutines();
@@ -100,9 +91,6 @@ public class MoveThroughPointsBySpeed : MonoBehaviour
         trail.enabled = true;
     }
 
-    /// <summary>
-    /// Dừng di chuyển + tắt trail
-    /// </summary>
     public void StopMoving()
     {
         isStopped = true;
@@ -111,17 +99,38 @@ public class MoveThroughPointsBySpeed : MonoBehaviour
             trail.enabled = false;
     }
 
-    /// <summary>
-    /// Bắt đầu di chuyển trở lại
-    /// </summary>
     public void StartMoving()
     {
-        if (isStopped)
-        {
-            isStopped = false;
+        if (trail != null)
+            trail.enabled = true;
 
-            if (trail != null)
-                trail.enabled = true;
+        isStopped = false;
+    }
+
+    // =============================
+    //         GIZMOS
+    // =============================
+
+    private void OnDrawGizmos()
+    {
+        if (points == null || points.Count == 0)
+            return;
+
+        Gizmos.color = Color.red;
+
+        // Vẽ điểm
+        foreach (var p in points)
+        {
+            if (p != null)
+                Gizmos.DrawSphere(p.position, 0.001f);
+        }
+
+        // Vẽ line giữa các điểm
+        Gizmos.color = Color.yellow;
+        for (int i = 0; i < points.Count - 1; i++)
+        {
+            if (points[i] != null && points[i + 1] != null)
+                Gizmos.DrawLine(points[i].position, points[i + 1].position);
         }
     }
 }
