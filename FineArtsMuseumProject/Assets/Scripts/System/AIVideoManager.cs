@@ -38,6 +38,13 @@ namespace System
             return _aiVideoPlayers.ContainsKey(objectName);
         }
 
+        public void PreSetVideo(string objectName)
+        {
+            if(!_aiVideoPlayers.TryGetValue(objectName, out var aiVideo)) return;
+            if(aiVideo.MeshRenderer == null || aiVideo.videoClip == null || aiVideo.originalMaterial == null) return;
+            videoPlayer.clip = aiVideo.videoClip;
+        }
+
         public void SetVideoMaterial(string objectName)
         {
             if(!_aiVideoPlayers.TryGetValue(objectName, out var aiVideo)) return;
@@ -46,6 +53,18 @@ namespace System
             _aiCoroutine = StartCoroutine(StartAIVideoCoroutine(aiVideo));
             
             //materials[materialIndex].SetTexture(EmissionMap, videoRenderTexture);
+        }
+
+        private void Update()
+        {
+            // if (Input.GetKeyDown(KeyCode.K))
+            // {
+            //     Time.timeScale = 0.1f;
+            // }
+            // if (Input.GetKeyDown(KeyCode.L))
+            // {
+            //     Time.timeScale = 1f;
+            // }
         }
 
         private IEnumerator StartAIVideoCoroutine(AIVideo aiVideo)
@@ -68,19 +87,22 @@ namespace System
             
             videoPlayer.clip = aiVideo.videoClip;
             videoPlayer.Prepare();
+            
+            yield return new WaitUntil(() => videoPlayer.isPrepared);
+            
             videoPlayer.Stop();
             videoPlayer.frame = 0;
             videoPlayer.isLooping = true;
             
-            yield return new WaitUntil(() => videoPlayer.isPrepared);
             yield return new WaitForSeconds(MinWaitTime);
-            
-            blinkCanvas.SetActive(false);
-            
-            videoPlayer.Play();
-            
             materials[materialIndex] = videoMaterial;
             aiVideo.MeshRenderer.materials = materials;
+            
+            
+            
+            
+            videoPlayer.Play();
+            blinkCanvas.SetActive(false);
         }
 
         public void StopVideoMaterial(string objectName)
