@@ -21,6 +21,7 @@ public class TriggerObject : MonoBehaviour, IPointerDownHandler
     {
         if (antiqueID != null || antiqueID != "")
         {
+            AIVideoManager.Instance.PreSetVideo(antiqueID);
             if (PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsTomko ||
                 PlatformManager.Instance.IsCloud)
             {
