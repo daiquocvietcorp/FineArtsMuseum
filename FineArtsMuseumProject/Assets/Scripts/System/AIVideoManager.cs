@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using DesignPatterns;
 using UnityEngine;
@@ -12,8 +13,11 @@ namespace System
         [field: SerializeField] private Material videoMaterial;
         [field: SerializeField] private VideoPlayer videoPlayer;
         [field: SerializeField] private RenderTexture videoRenderTexture;
+        [field: SerializeField] private GameObject blinkCanvas;
         
         private Dictionary<string, AIVideo> _aiVideoPlayers;
+        private Coroutine _aiCoroutine;
+        private const int MinWaitTime = 2;
         
         private void Awake()
         {
@@ -38,6 +42,16 @@ namespace System
         {
             if(!_aiVideoPlayers.TryGetValue(objectName, out var aiVideo)) return;
             if(aiVideo.MeshRenderer == null || aiVideo.videoClip == null || aiVideo.originalMaterial == null) return;
+            if(_aiCoroutine != null) StopCoroutine(_aiCoroutine);
+            _aiCoroutine = StartCoroutine(StartAIVideoCoroutine(aiVideo));
+            
+            //materials[materialIndex].SetTexture(EmissionMap, videoRenderTexture);
+        }
+
+        private IEnumerator StartAIVideoCoroutine(AIVideo aiVideo)
+        {
+            blinkCanvas.SetActive(true);
+            
             var materials = aiVideo.MeshRenderer.materials;
             
             var materialIndex = -1;
@@ -50,18 +64,23 @@ namespace System
                 break;
             }
             
-            if (materialIndex == -1) return;
+            if (materialIndex == -1) yield break;
             
             videoPlayer.clip = aiVideo.videoClip;
             videoPlayer.Prepare();
             videoPlayer.Stop();
             videoPlayer.frame = 0;
             videoPlayer.isLooping = true;
+            
+            yield return new WaitUntil(() => videoPlayer.isPrepared);
+            yield return new WaitForSeconds(MinWaitTime);
+            
+            blinkCanvas.SetActive(false);
+            
             videoPlayer.Play();
             
             materials[materialIndex] = videoMaterial;
             aiVideo.MeshRenderer.materials = materials;
-            //materials[materialIndex].SetTexture(EmissionMap, videoRenderTexture);
         }
 
         public void StopVideoMaterial(string objectName)
