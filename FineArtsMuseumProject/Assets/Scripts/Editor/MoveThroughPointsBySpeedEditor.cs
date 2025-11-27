@@ -363,14 +363,14 @@ public class MoveThroughPointsBySpeedEditor : Editor
     private void OnSceneCreatingGUI(SceneView sceneView)
     {
         HandleUtility.AddDefaultControl(GUIUtility.GetControlID(FocusType.Passive));
-        
+    
         Event currentEvent = Event.current;
-        
+    
         if (currentEvent.type == EventType.MouseDown && currentEvent.button == 0)
         {
             Vector2 mousePosition = currentEvent.mousePosition;
             Ray ray = HandleUtility.GUIPointToWorldRay(mousePosition);
-            
+        
             // Chỉ tập trung vào MeshCollider
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
@@ -378,9 +378,10 @@ public class MoveThroughPointsBySpeedEditor : Editor
                 MeshCollider meshCollider = hit.collider as MeshCollider;
                 if (meshCollider != null)
                 {
-                    CreatePointAtPosition(hit.point, meshCollider.gameObject);
+                    // Truyền cả raycast hit vào để lấy thông tin hướng
+                    CreatePointAtPosition(hit.point, hit.normal, meshCollider.gameObject);
                     currentEvent.Use();
-                    
+                
                     // Tự động đặt trail về point đầu tiên
                     MoveTrailToFirstPoint();
                 }
@@ -394,7 +395,7 @@ public class MoveThroughPointsBySpeedEditor : Editor
                 Debug.LogWarning("Không tìm thấy MeshCollider tại vị trí click.");
             }
         }
-        
+    
         DrawSceneGUI(sceneView);
         
         // Vẽ hướng dẫn đặc biệt cho chế độ tạo điểm
@@ -564,10 +565,17 @@ public class MoveThroughPointsBySpeedEditor : Editor
         return newPoint;
     }
     
-    private void CreatePointAtPosition(Vector3 position, GameObject hitObject)
+    private void CreatePointAtPosition(Vector3 position, Vector3 surfaceNormal, GameObject hitObject)
     {
-        CreatePointAtPositionInternal(position, hitObject, "Normal");
-        
+        float offset = 0.001f; // Offset nhỏ
+    
+        // Offset theo hướng ngược lại với normal (hướng ra ngoài bề mặt)
+        Vector3 finalPosition = position + surfaceNormal * offset;
+    
+        Debug.Log($"Tạo điểm cách bề mặt {offset} units theo normal: {surfaceNormal}");
+    
+        CreatePointAtPositionInternal(finalPosition, hitObject, "Normal");
+    
         EditorUtility.SetDirty(targetScript);
         if (pointsContainer != null)
         {
