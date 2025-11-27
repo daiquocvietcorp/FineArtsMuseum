@@ -97,8 +97,16 @@ public class AntiqueObject : MonoBehaviour
             ZoomArrowImage.sprite = ZoomSprite;
         }
         
+        
+        
         if(ShowAIButton != null && AIVideoManager.Instance.IsObjectHasVideo(AntiqueID))
             ShowAIButton.onClick.AddListener(() => ToggleAI(AntiqueID));
+
+        else if(ShowAIButton != null && !AIVideoManager.Instance.IsObjectHasVideo(AntiqueID))
+
+        {
+            ShowAIButton.gameObject.SetActive(false);
+        }
         
         CloseButton.onClick.AddListener(TurnOffBlur);
         ShowGuideButton.onClick.AddListener(ToggleGuide);
@@ -210,6 +218,17 @@ public class AntiqueObject : MonoBehaviour
             var guideRect = ShowGuideButton.GetComponent<RectTransform>();
             guideRect.anchoredPosition = new Vector2(-257.402f, -80.69809f);
             guideRect.sizeDelta = new Vector2(36.2659f, 35.8804f);
+
+            if (ShowAIButton != null)
+            {
+                
+                
+                var aiRect = ShowAIButton.GetComponent<RectTransform>();
+                aiRect.anchoredPosition = new Vector2(-257.402f, -80.69809f);
+                // aiRect.anchoredPosition = new Vector2(-306.0522f, -80.69809f);
+                aiRect.sizeDelta = new Vector2(36.2659f, 35.8804f);
+            }
+            
         }
         else if (PlatformManager.Instance.IsVR)
         {
@@ -228,6 +247,15 @@ public class AntiqueObject : MonoBehaviour
             guideRect.sizeDelta = new Vector2(35f, 35f);
             guideRect.localScale = new Vector3(2f, 2f, 2f);
             
+            if (ShowAIButton != null)
+            {
+                var aiRect = ShowAIButton.GetComponent<RectTransform>();
+                // aiRect.anchoredPosition = new Vector2(-636.6501f, -288f);
+                aiRect.anchoredPosition = new Vector2(-547f, -288f);
+                aiRect.sizeDelta = new Vector2(35f, 35f);
+                aiRect.localScale = new Vector3(2f, 2f, 2f);
+            }
+            
         }
         else if(PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud)
         {
@@ -243,6 +271,14 @@ public class AntiqueObject : MonoBehaviour
             var guideRect = ShowGuideButton.GetComponent<RectTransform>();
             guideRect.anchoredPosition = new Vector2(-268.3f, -80.69809f);
             guideRect.sizeDelta = new Vector2(70f, 70f);
+            
+            if (ShowAIButton != null)
+            {
+                var aiRect = ShowAIButton.GetComponent<RectTransform>();
+                // aiRect.anchoredPosition = new Vector2(-353.3f, -80.69809f);
+                aiRect.anchoredPosition = new Vector2(-268.3f, -80.69809f);
+                aiRect.sizeDelta =  new Vector2(70f, 70f);
+            }
         }
         else if(PlatformManager.Instance.IsTomko)
         {
@@ -257,6 +293,14 @@ public class AntiqueObject : MonoBehaviour
             var guideRect = ShowGuideButton.GetComponent<RectTransform>();
             guideRect.anchoredPosition = new Vector2(-246.4f, -80.7f);
             guideRect.sizeDelta = new Vector2(53f, 53f);
+            
+            if (ShowAIButton != null)
+            {
+                var aiRect = ShowAIButton.GetComponent<RectTransform>();
+                aiRect.anchoredPosition =  new Vector2(-246.4f, -80.7f);
+                // aiRect.anchoredPosition = new Vector2(-311.6f, -80.7f);
+                aiRect.sizeDelta = new Vector2(53f, 53f);
+            }
         }
         
         interactiveObject.gameObject.SetActive(true);
