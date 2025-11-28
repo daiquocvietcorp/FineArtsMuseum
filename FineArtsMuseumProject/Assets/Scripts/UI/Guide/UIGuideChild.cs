@@ -27,11 +27,19 @@ public class UIGuideChild : MonoBehaviour
     
     private Action _closeAction;
 
-    public void Initialize()
+    public void Awake()
     {
+        CloseButton.onClick.RemoveAllListeners();
+        PreviousButton.onClick.RemoveAllListeners();
+        NextButton.onClick.RemoveAllListeners();
+
         CloseButton.onClick.AddListener(CloseButtonClicked);
         PreviousButton.onClick.AddListener(() => PreviousButtonClicked(currentIndex - 1));
         NextButton.onClick.AddListener(() => NextButtonClicked(currentIndex + 1));
+    }
+
+    public void Initialize()
+    {
 
         guideImage.sprite = guideSprite;
 
@@ -92,5 +100,11 @@ public class UIGuideChild : MonoBehaviour
     public void RegisterUIGuide(UIGuide guide)
     {
         _parent = guide;
+    }
+
+    private void OnDisable()
+    {
+        if (_autoNextCoroutine != null)
+            StopCoroutine(_autoNextCoroutine);
     }
 }

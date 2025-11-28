@@ -5,41 +5,63 @@ using Trigger;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class TriggerObject : MonoBehaviour, IPointerDownHandler
+public class TriggerObject : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
     public string antiqueID;
-    
-    //private MouseHoverActivator _hoverEffect;
-    private Coroutine _playAnimationCoroutine;
 
-    private void Start()
-    {
-        //_hoverEffect = GetComponent<MouseHoverActivator>();
-    }
+    private Vector2 _pointerDownPos;
+    private bool _isDragging = false;
+
+    // Ngưỡng coi là drag (tùy chỉnh)
+    private const float DRAG_THRESHOLD = 15f;
+
+    public float interactableDistance = 1.7f;
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (antiqueID != null || antiqueID != "")
+        _pointerDownPos = eventData.position;
+        _isDragging = false;
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        if (Vector2.Distance(eventData.position, _pointerDownPos) > DRAG_THRESHOLD)
         {
-            AIVideoManager.Instance.PreSetVideo(antiqueID);
-            if (PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsTomko ||
-                PlatformManager.Instance.IsCloud)
-            {
-                if(_playAnimationCoroutine != null) 
-                    StopCoroutine(_playAnimationCoroutine);
-                _playAnimationCoroutine = StartCoroutine(PlayObjectAnimation());
-            }
-            else
-            {
-                AntiqueManager.Instance.EnableAntiqueDetail(antiqueID);
-            }
-            
-            CameraManager.Instance.cameraFollowPlayer.SetCanControl(false);
-            
-            //CameraManager.Instance.cameraFollowPlayer.EnterArea();
-            //CameraManager.Instance.cameraFollowPlayer.ResetCameraInArea();
+            _isDragging = true; 
         }
     }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        // Nếu kéo → không xử lý click
+        if (_isDragging)
+        {
+            // Debug.Log("Bỏ click, vì người dùng đang xoay camera.");
+            return;
+        }
+
+        // Nếu không kéo → click hợp lệ → chạy logic cũ
+        if (Vector3.Distance(UnityEngine.Camera.main.transform.position, transform.position) < interactableDistance)
+        {
+            if (!string.IsNullOrEmpty(antiqueID))
+            {
+                AIVideoManager.Instance.PreSetVideo(antiqueID);
+
+                if (PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsTomko || PlatformManager.Instance.IsCloud)
+                {
+                    StartCoroutine(PlayObjectAnimation());
+                }
+                else
+                {
+                    AntiqueManager.Instance.EnableAntiqueDetail(antiqueID);
+                }
+
+                CameraManager.Instance.cameraFollowPlayer.SetCanControl(false);
+            }
+        }
+    }
+    
+    
 
     private IEnumerator PlayObjectAnimation()
     {
@@ -57,4 +79,6 @@ public class TriggerObject : MonoBehaviour, IPointerDownHandler
             AntiqueManager.Instance.EnableAntiqueDetail(antiqueID);
         }
     }
+
+    
 }

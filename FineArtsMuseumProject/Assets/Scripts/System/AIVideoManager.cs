@@ -1,11 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DesignPatterns;
 using UnityEngine;
 using UnityEngine.Video;
 
-namespace System
-{
+
     public class AIVideoManager : MonoSingleton<AIVideoManager>
     {
         private static readonly int EmissionMap = Shader.PropertyToID("_EmissionMap");
@@ -136,4 +136,3 @@ namespace System
         [field: SerializeField] public Material originalMaterial { get; set; }
         [field: SerializeField] public VideoClip videoClip { get; set; }
     }
-}
