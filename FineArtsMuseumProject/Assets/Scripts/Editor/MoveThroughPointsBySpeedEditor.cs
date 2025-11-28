@@ -567,7 +567,7 @@ public class MoveThroughPointsBySpeedEditor : Editor
     
     private void CreatePointAtPosition(Vector3 position, Vector3 surfaceNormal, GameObject hitObject)
     {
-        float offset = 0.001f; // Offset nhỏ
+        float offset = 0.0025f; // Offset nhỏ
     
         // Offset theo hướng ngược lại với normal (hướng ra ngoài bề mặt)
         Vector3 finalPosition = position + surfaceNormal * offset;
