@@ -32,16 +32,28 @@ public class MoveThroughPointsBySpeedEditor : Editor
     
     private void OnDisable()
     {
+        DisableAllModes();
+    }
+    
+    private void DisableAllModes()
+    {
+        // Tắt tất cả flags
+        isSelectingMode = false;
+        isCreatingMode = false;
+        isSelectingFloorMode = false;
+    
+        // Hủy đăng ký tất cả sự kiện Scene GUI
         SceneView.duringSceneGui -= OnSceneSelectingGUI;
         SceneView.duringSceneGui -= OnSceneCreatingGUI;
         SceneView.duringSceneGui -= OnSceneCreateHeightPairGUI;
         SceneView.duringSceneGui -= OnSceneSelectingFloorGUI;
         SceneView.duringSceneGui -= OnSceneGUI;
-        
-        // Khôi phục material gốc và cleanup
-        RestoreOriginalMaterial();
-        DestroyPreviewPoint();
-        //DestroyHighlightMaterial();
+    
+        // Cleanup
+        HidePreviewPoint();
+        //RestoreOriginalMaterial();
+    
+        Debug.Log("Đã tắt tất cả chế độ.");
     }
     
     private void CreateHighlightMaterial()
@@ -338,6 +350,39 @@ public class MoveThroughPointsBySpeedEditor : Editor
             MessageType.Info
         );
         
+        EditorGUILayout.Space();
+        EditorGUILayout.LabelField("Trạng Thái Hiện Tại", EditorStyles.boldLabel);
+    
+        string currentMode = "Không có";
+        MessageType messageType = MessageType.None;
+    
+        if (isSelectingMode)
+        {
+            currentMode = "🎯 CHẾ ĐỘ CHỌN POINT";
+            messageType = MessageType.Info;
+        }
+        else if (isCreatingMode)
+        {
+            currentMode = "🔄 CHẾ ĐỘ TẠO POINT MỚI";
+            messageType = MessageType.Warning;
+        }
+        else if (isSelectingFloorMode)
+        {
+            currentMode = "📐 CHẾ ĐỘ CHỌN POINT SÀN";
+            messageType = MessageType.Info;
+        }
+    
+        EditorGUILayout.HelpBox(currentMode, messageType);
+    
+        // Nút tắt tất cả
+        if (isSelectingMode || isCreatingMode || isSelectingFloorMode)
+        {
+            if (GUILayout.Button("🔴 TẮT TẤT CẢ CHẾ ĐỘ"))
+            {
+                DisableAllModes();
+            }
+        }
+        
         // Nút xóa tất cả points
         if (GUILayout.Button("Xóa Tất Cả Points"))
         {
@@ -391,80 +436,123 @@ public class MoveThroughPointsBySpeedEditor : Editor
     
     private void StartCreateHeightPair()
     {
+        // Tắt tất cả chế độ khác
         isCreatingMode = false;
         isSelectingMode = false;
         isSelectingFloorMode = false;
-        
+    
+        // Hủy đăng ký tất cả sự kiện
+        SceneView.duringSceneGui -= OnSceneSelectingGUI;
+        SceneView.duringSceneGui -= OnSceneCreatingGUI;
+        SceneView.duringSceneGui -= OnSceneSelectingFloorGUI;
+    
+        // Đăng ký sự kiện cho tạo cặp điểm độ cao
         SceneView.duringSceneGui += OnSceneCreateHeightPairGUI;
         HidePreviewPoint();
-        Debug.Log("Chế độ tạo cặp point độ cao đã bật. Click vào vị trí dưới sàn để tạo cặp point.");
+        RestoreOriginalMaterial();
+    
+        Debug.Log("Chế độ tạo cặp point độ cao đã bật. Các chế độ khác đã tắt.");
+    
+        SceneView.RepaintAll();
+        Repaint(); // Cập nhật inspector
     }
     
     private void ToggleSelectingFloorMode()
     {
         isSelectingFloorMode = !isSelectingFloorMode;
-        
+    
         if (isSelectingFloorMode)
         {
+            // Tắt các chế độ khác
             isCreatingMode = false;
             isSelectingMode = false;
+        
+            // Hủy đăng ký các sự kiện khác
+            SceneView.duringSceneGui -= OnSceneSelectingGUI;
+            SceneView.duringSceneGui -= OnSceneCreatingGUI;
+            SceneView.duringSceneGui -= OnSceneCreateHeightPairGUI;
+        
+            // Đăng ký sự kiện cho chế độ chọn sàn
             SceneView.duringSceneGui += OnSceneSelectingFloorGUI;
             HidePreviewPoint();
-            Debug.Log("Chế độ chọn point sàn đã bật. Click vào point có sẵn để làm điểm thấp.");
+            RestoreOriginalMaterial();
+        
+            Debug.Log("Chế độ chọn point sàn đã bật. Các chế độ khác đã tắt.");
         }
         else
         {
             SceneView.duringSceneGui -= OnSceneSelectingFloorGUI;
             Debug.Log("Chế độ chọn point sàn đã tắt.");
         }
-        
+    
         SceneView.RepaintAll();
+        Repaint(); // Cập nhật inspector
     }
     
     private void ToggleSelectingMode()
     {
         isSelectingMode = !isSelectingMode;
-        
+    
         if (isSelectingMode)
         {
+            // Tắt các chế độ khác
             isCreatingMode = false;
             isSelectingFloorMode = false;
+        
+            // Hủy đăng ký các sự kiện khác
+            SceneView.duringSceneGui -= OnSceneCreatingGUI;
+            SceneView.duringSceneGui -= OnSceneCreateHeightPairGUI;
+            SceneView.duringSceneGui -= OnSceneSelectingFloorGUI;
+        
+            // Đăng ký sự kiện cho chế độ chọn
             SceneView.duringSceneGui += OnSceneSelectingGUI;
             HidePreviewPoint();
-            Debug.Log("Chế độ chọn đã bật. Click vào các GameObject trong Scene để thêm/xóa khỏi list.");
+            RestoreOriginalMaterial();
+        
+            Debug.Log("Chế độ chọn đã bật. Các chế độ khác đã tắt.");
         }
         else
         {
             SceneView.duringSceneGui -= OnSceneSelectingGUI;
             Debug.Log("Chế độ chọn đã tắt.");
         }
-        
+    
         SceneView.RepaintAll();
+        Repaint(); // Cập nhật inspector
     }
     
     private void ToggleCreatingMode()
     {
         isCreatingMode = !isCreatingMode;
-
+    
         if (isCreatingMode)
         {
+            // Tắt các chế độ khác
             isSelectingMode = false;
             isSelectingFloorMode = false;
+        
+            // Hủy đăng ký các sự kiện khác
+            SceneView.duringSceneGui -= OnSceneSelectingGUI;
+            SceneView.duringSceneGui -= OnSceneCreateHeightPairGUI;
+            SceneView.duringSceneGui -= OnSceneSelectingFloorGUI;
+        
+            // Đăng ký sự kiện cho chế độ tạo điểm
             SceneView.duringSceneGui += OnSceneCreatingGUI;
-            // Thêm sự kiện để liên tục repaint
             SceneView.duringSceneGui += OnSceneGUI;
-            Debug.Log("Chế độ tạo điểm đã bật. Preview point sẽ hiển thị tại vị trí chuột.");
+        
+            Debug.Log("Chế độ tạo điểm đã bật. Các chế độ khác đã tắt.");
         }
         else
         {
             SceneView.duringSceneGui -= OnSceneCreatingGUI;
             SceneView.duringSceneGui -= OnSceneGUI;
             HidePreviewPoint();
-            RestoreOriginalMaterial(); // Bỏ highlight khi thoát chế độ
+            RestoreOriginalMaterial();
             Debug.Log("Chế độ tạo điểm đã tắt.");
         }
-
+    
         SceneView.RepaintAll();
+        Repaint(); // Cập nhật inspector
     }
     
     private void OnSceneSelectingGUI(SceneView sceneView)
