@@ -12,10 +12,160 @@ public class MoveThroughPointsBySpeedEditor : Editor
     private MoveThroughPointsBySpeed targetScript;
     private GameObject pointsContainer;
     
+    // Biến cho preview point
+    private GameObject previewPoint;
+    private bool showPreview = true;
+    
+    // Biến cho highlight mesh
+    private MeshRenderer hoveredMeshRenderer;
+    private Material originalMaterial;
+    private Material highlightMaterial;
+    private List<Material> originalMaterials = new List<Material>();
+    
     private void OnEnable()
     {
         targetScript = (MoveThroughPointsBySpeed)target;
         FindOrCreatePointsContainer();
+        CreatePreviewPoint();
+        //CreateHighlightMaterial();
+    }
+    
+    private void OnDisable()
+    {
+        SceneView.duringSceneGui -= OnSceneSelectingGUI;
+        SceneView.duringSceneGui -= OnSceneCreatingGUI;
+        SceneView.duringSceneGui -= OnSceneCreateHeightPairGUI;
+        SceneView.duringSceneGui -= OnSceneSelectingFloorGUI;
+        SceneView.duringSceneGui -= OnSceneGUI;
+        
+        // Khôi phục material gốc và cleanup
+        RestoreOriginalMaterial();
+        DestroyPreviewPoint();
+        //DestroyHighlightMaterial();
+    }
+    
+    private void CreateHighlightMaterial()
+    {
+        if (highlightMaterial == null)
+        {
+            // Luôn dùng URP Lit shader - chắc chắn có
+            highlightMaterial = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+        
+            // Cấu hình đơn giản
+            highlightMaterial.color = new Color(1f, 0.8f, 0.2f, 1f); // Màu cam
+        
+            // Trong URP, đôi khi cần set base color thay vì color
+            highlightMaterial.SetColor("_BaseColor", highlightMaterial.color);
+        
+            // Thêm emission để làm nổi bật
+            highlightMaterial.SetColor("_EmissionColor", new Color(0.3f, 0.25f, 0.1f, 1f));
+            highlightMaterial.EnableKeyword("_EMISSION");
+        
+            highlightMaterial.name = "URP_Highlight_Material";
+            Debug.Log("✅ Đã tạo URP Lit highlight material");
+        }
+    }
+    
+    private void SetHoveredMesh(MeshRenderer newHoveredMesh)
+    {
+        // Khôi phục mesh cũ nếu có
+        RestoreOriginalMaterial();
+        
+        if (newHoveredMesh != null)
+        {
+            hoveredMeshRenderer = newHoveredMesh;
+            
+            // Lưu material gốc
+            originalMaterials.Clear();
+            foreach (Material mat in hoveredMeshRenderer.sharedMaterials)
+            {
+                originalMaterials.Add(mat);
+            }
+            
+            // Tạo mảng materials mới với highlight material
+            Material[] highlightMaterials = new Material[hoveredMeshRenderer.sharedMaterials.Length];
+            for (int i = 0; i < highlightMaterials.Length; i++)
+            {
+                highlightMaterials[i] = highlightMaterial;
+            }
+            
+            // Áp dụng highlight materials
+            hoveredMeshRenderer.sharedMaterials = highlightMaterials;
+            
+            Debug.Log($"Đã highlight mesh: {hoveredMeshRenderer.gameObject.name}");
+        }
+    }
+    
+    private void RestoreOriginalMaterial()
+    {
+        //if (hoveredMeshRenderer != null && originalMaterials.Count > 0)
+        //{
+        //    // Khôi phục materials gốc
+        //    hoveredMeshRenderer.sharedMaterials = originalMaterials.ToArray();
+        //    hoveredMeshRenderer = null;
+        //    originalMaterials.Clear();
+        //}
+    }
+    
+    
+    
+    private void DestroyHighlightMaterial()
+    {
+        if (highlightMaterial != null)
+        {
+            DestroyImmediate(highlightMaterial);
+            highlightMaterial = null;
+        }
+    }
+    
+    private void CreatePreviewPoint()
+    {
+        if (previewPoint == null)
+        {
+            previewPoint = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            previewPoint.name = "PreviewPoint";
+            previewPoint.hideFlags = HideFlags.HideAndDontSave;
+            
+            // Đặt màu đỏ cho preview
+            Renderer renderer = previewPoint.GetComponent<Renderer>();
+            if (renderer != null)
+            {
+                renderer.sharedMaterial = new Material(Shader.Find("Standard"));
+                renderer.sharedMaterial.color = Color.red;
+            }
+            
+            // Xóa collider
+            DestroyImmediate(previewPoint.GetComponent<Collider>());
+            
+            previewPoint.transform.localScale = Vector3.one * 0.01f;
+            previewPoint.SetActive(false);
+        }
+    }
+    
+    private void DestroyPreviewPoint()
+    {
+        if (previewPoint != null)
+        {
+            DestroyImmediate(previewPoint);
+            previewPoint = null;
+        }
+    }
+    
+    private void UpdatePreviewPoint(Vector3 position)
+    {
+        if (previewPoint != null && showPreview)
+        {
+            previewPoint.transform.position = position;
+            previewPoint.SetActive(true);
+        }
+    }
+    
+    private void HidePreviewPoint()
+    {
+        if (previewPoint != null)
+        {
+            previewPoint.SetActive(false);
+        }
     }
     
     public override void OnInspectorGUI()
@@ -30,8 +180,15 @@ public class MoveThroughPointsBySpeedEditor : Editor
         checkTag = EditorGUILayout.Toggle("Check Tag 'Point'", checkTag);
         EditorGUILayout.HelpBox(
             checkTag ? 
-            "Chỉ cho phép chọn các GameObject có tag 'Point'" :
-            "Cho phép chọn mọi GameObject",
+                "Chỉ cho phép chọn các GameObject có tag 'Point'" :
+                "Cho phép chọn mọi GameObject",
+            MessageType.Info
+        );
+        
+        // Toggle cho preview
+        showPreview = EditorGUILayout.Toggle("Show Preview Point", showPreview);
+        EditorGUILayout.HelpBox(
+            "Hiển thị điểm preview và highlight mesh khi hover",
             MessageType.Info
         );
         
@@ -150,7 +307,8 @@ public class MoveThroughPointsBySpeedEditor : Editor
         else if (isCreatingMode)
         {
             EditorGUILayout.HelpBox(
-                "Đang trong chế độ tạo điểm. Click vào MeshCollider để tạo điểm mới tại vị trí chính xác.",
+                "Đang trong chế độ tạo điểm. Click vào MeshCollider để tạo điểm mới tại vị trí chính xác." +
+                (showPreview ? " (Có preview point)" : " (Không có preview)"),
                 MessageType.Info
             );
         }
@@ -169,6 +327,16 @@ public class MoveThroughPointsBySpeedEditor : Editor
                 MessageType.Info
             );
         }
+        
+        EditorGUILayout.Space();
+        EditorGUILayout.LabelField("Visual Settings", EditorStyles.boldLabel);
+        showPreview = EditorGUILayout.Toggle("Show Preview Point", showPreview);
+        
+        // Có thể thêm toggle cho highlight nếu muốn
+        EditorGUILayout.HelpBox(
+            "Mesh sẽ được highlight khi hover trong chế độ tạo điểm",
+            MessageType.Info
+        );
         
         // Nút xóa tất cả points
         if (GUILayout.Button("Xóa Tất Cả Points"))
@@ -228,6 +396,7 @@ public class MoveThroughPointsBySpeedEditor : Editor
         isSelectingFloorMode = false;
         
         SceneView.duringSceneGui += OnSceneCreateHeightPairGUI;
+        HidePreviewPoint();
         Debug.Log("Chế độ tạo cặp point độ cao đã bật. Click vào vị trí dưới sàn để tạo cặp point.");
     }
     
@@ -240,6 +409,7 @@ public class MoveThroughPointsBySpeedEditor : Editor
             isCreatingMode = false;
             isSelectingMode = false;
             SceneView.duringSceneGui += OnSceneSelectingFloorGUI;
+            HidePreviewPoint();
             Debug.Log("Chế độ chọn point sàn đã bật. Click vào point có sẵn để làm điểm thấp.");
         }
         else
@@ -260,6 +430,7 @@ public class MoveThroughPointsBySpeedEditor : Editor
             isCreatingMode = false;
             isSelectingFloorMode = false;
             SceneView.duringSceneGui += OnSceneSelectingGUI;
+            HidePreviewPoint();
             Debug.Log("Chế độ chọn đã bật. Click vào các GameObject trong Scene để thêm/xóa khỏi list.");
         }
         else
@@ -274,20 +445,25 @@ public class MoveThroughPointsBySpeedEditor : Editor
     private void ToggleCreatingMode()
     {
         isCreatingMode = !isCreatingMode;
-        
+
         if (isCreatingMode)
         {
             isSelectingMode = false;
             isSelectingFloorMode = false;
             SceneView.duringSceneGui += OnSceneCreatingGUI;
-            Debug.Log("Chế độ tạo điểm đã bật. Click vào MeshCollider để tạo điểm mới.");
+            // Thêm sự kiện để liên tục repaint
+            SceneView.duringSceneGui += OnSceneGUI;
+            Debug.Log("Chế độ tạo điểm đã bật. Preview point sẽ hiển thị tại vị trí chuột.");
         }
         else
         {
             SceneView.duringSceneGui -= OnSceneCreatingGUI;
+            SceneView.duringSceneGui -= OnSceneGUI;
+            HidePreviewPoint();
+            RestoreOriginalMaterial(); // Bỏ highlight khi thoát chế độ
             Debug.Log("Chế độ tạo điểm đã tắt.");
         }
-        
+
         SceneView.RepaintAll();
     }
     
@@ -321,13 +497,13 @@ public class MoveThroughPointsBySpeedEditor : Editor
     private void OnSceneSelectingFloorGUI(SceneView sceneView)
     {
         HandleUtility.AddDefaultControl(GUIUtility.GetControlID(FocusType.Passive));
-        
+    
         Event currentEvent = Event.current;
-        
+    
         if (currentEvent.type == EventType.MouseDown && currentEvent.button == 0)
         {
             GameObject clickedObject = HandleUtility.PickGameObject(currentEvent.mousePosition, false);
-            
+        
             if (clickedObject != null)
             {
                 // Kiểm tra tag nếu toggle được bật
@@ -336,41 +512,96 @@ public class MoveThroughPointsBySpeedEditor : Editor
                     Debug.LogWarning($"GameObject {clickedObject.name} không có tag 'Point'.");
                     return;
                 }
-                
+            
                 // Sử dụng point được chọn làm điểm thấp và tạo điểm cao
                 CreateHeightPairFromExistingPoint(clickedObject.transform);
                 currentEvent.Use();
-                
+            
                 // Tắt chế độ sau khi tạo
                 isSelectingFloorMode = false;
                 SceneView.duringSceneGui -= OnSceneSelectingFloorGUI;
             }
         }
-        
+    
         DrawSceneGUI(sceneView);
-        
-        // Vẽ hướng dẫn đặc biệt cho chế độ chọn point sàn
+    
+        // Vẽ hướng dẫn với GUI
         Handles.BeginGUI();
-        GUILayout.BeginArea(new Rect(10, 130, 500, 80));
-        GUILayout.Box("Chế Độ Chọn Point Sàn", GUILayout.ExpandWidth(true));
-        GUILayout.Label("• Click vào point có sẵn để làm điểm thấp");
-        GUILayout.Label("• Point cao sẽ tự động được tạo ở trên trần");
-        GUILayout.Label("• Độ cao phụ thuộc vào mesh collider phía trên");
-        GUILayout.EndArea();
+        Rect areaRect = new Rect(10, 130, 500, 80);
+        GUI.Box(areaRect, "Chế Độ Chọn Point Sàn");
+    
+        Rect labelRect = new Rect(areaRect.x + 10, areaRect.y + 25, areaRect.width - 20, 20);
+        GUI.Label(labelRect, "• Click vào point có sẵn để làm điểm thấp");
+    
+        labelRect.y += 20;
+        GUI.Label(labelRect, "• Point cao sẽ tự động được tạo ở trên trần");
+    
+        labelRect.y += 20;
+        GUI.Label(labelRect, "• Độ cao phụ thuộc vào mesh collider phía trên");
+    
         Handles.EndGUI();
+    }
+    
+    private void UpdatePreviewAndHighlight(SceneView sceneView)
+    {
+        // Lấy vị trí chuột hiện tại từ Event.current
+        Vector2 mousePosition = Event.current.mousePosition;
+        
+        // Kiểm tra xem chuột có trong Scene view không
+        if (mousePosition.x < 0 || mousePosition.y < 0 || 
+            mousePosition.x > sceneView.position.width || 
+            mousePosition.y > sceneView.position.height)
+        {
+            HidePreviewPoint();
+            RestoreOriginalMaterial();
+            return;
+        }
+
+        Ray ray = HandleUtility.GUIPointToWorldRay(mousePosition);
+
+        // Tìm vị trí trên MeshCollider
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit))
+        {
+            MeshCollider meshCollider = hit.collider as MeshCollider;
+            if (meshCollider != null)
+            {
+                float offset = 0.001f;
+                Vector3 previewPosition = hit.point + hit.normal * offset;
+                UpdatePreviewPoint(previewPosition);
+                
+                // Highlight mesh được hover
+                MeshRenderer meshRenderer = meshCollider.GetComponent<MeshRenderer>();
+                if (meshRenderer != null && meshRenderer != hoveredMeshRenderer)
+                {
+                    //SetHoveredMesh(meshRenderer);
+                }
+                return;
+            }
+        }
+
+        // Nếu không tìm thấy MeshCollider, ẩn preview và bỏ highlight
+        HidePreviewPoint();
+        RestoreOriginalMaterial();
     }
     
     private void OnSceneCreatingGUI(SceneView sceneView)
     {
         HandleUtility.AddDefaultControl(GUIUtility.GetControlID(FocusType.Passive));
-    
+
         Event currentEvent = Event.current;
-    
+
+        // LUÔN cập nhật preview point và highlight
+        if (showPreview)
+        {
+            UpdatePreviewAndHighlight(sceneView);
+        }
+
         if (currentEvent.type == EventType.MouseDown && currentEvent.button == 0)
         {
             Vector2 mousePosition = currentEvent.mousePosition;
             Ray ray = HandleUtility.GUIPointToWorldRay(mousePosition);
-        
+
             // Chỉ tập trung vào MeshCollider
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
@@ -381,7 +612,7 @@ public class MoveThroughPointsBySpeedEditor : Editor
                     // Truyền cả raycast hit vào để lấy thông tin hướng
                     CreatePointAtPosition(hit.point, hit.normal, meshCollider.gameObject);
                     currentEvent.Use();
-                
+
                     // Tự động đặt trail về point đầu tiên
                     MoveTrailToFirstPoint();
                 }
@@ -395,18 +626,148 @@ public class MoveThroughPointsBySpeedEditor : Editor
                 Debug.LogWarning("Không tìm thấy MeshCollider tại vị trí click.");
             }
         }
-    
+
+        // Vẽ preview info
+        if (currentEvent.type == EventType.Repaint && showPreview)
+        {
+            DrawPreviewInfo(sceneView);
+        }
+
         DrawSceneGUI(sceneView);
-        
+
         // Vẽ hướng dẫn đặc biệt cho chế độ tạo điểm
         Handles.BeginGUI();
-        GUILayout.BeginArea(new Rect(10, 130, 450, 80));
-        GUILayout.Box("Chế Độ Tạo Điểm", GUILayout.ExpandWidth(true));
-        GUILayout.Label("• Click vào MeshCollider để tạo điểm chính xác");
-        GUILayout.Label("• Chỉ hỗ trợ MeshCollider");
-        GUILayout.Label("• Trail sẽ tự động về point đầu tiên");
-        GUILayout.EndArea();
+        Rect areaRect = new Rect(10, showPreview ? 220 : 130, 450, 80);
+        GUI.Box(areaRect, "Chế Độ Tạo Điểm");
+
+        Rect labelRect = new Rect(areaRect.x + 10, areaRect.y + 25, areaRect.width - 20, 20);
+        GUI.Label(labelRect, "• Click vào MeshCollider để tạo điểm chính xác");
+
+        labelRect.y += 20;
+        GUI.Label(labelRect, "• Chỉ hỗ trợ MeshCollider");
+
+        labelRect.y += 20;
+        GUI.Label(labelRect, "• Trail sẽ tự động về point đầu tiên");
+
         Handles.EndGUI();
+    }
+    
+    private void UpdatePreviewPointBasedOnMouse(SceneView sceneView)
+    {
+        // Lấy vị trí chuột hiện tại từ Event.current
+        Vector2 mousePosition = Event.current.mousePosition;
+    
+        // Kiểm tra xem chuột có trong Scene view không
+        if (mousePosition.x < 0 || mousePosition.y < 0 || 
+            mousePosition.x > sceneView.position.width || 
+            mousePosition.y > sceneView.position.height)
+        {
+            HidePreviewPoint();
+            return;
+        }
+
+        Ray ray = HandleUtility.GUIPointToWorldRay(mousePosition);
+
+        // Tìm vị trí trên MeshCollider
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit))
+        {
+            MeshCollider meshCollider = hit.collider as MeshCollider;
+            if (meshCollider != null)
+            {
+                float offset = 0.001f;
+                Vector3 previewPosition = hit.point + hit.normal * offset;
+                UpdatePreviewPoint(previewPosition);
+                return;
+            }
+        }
+
+        // Nếu không tìm thấy MeshCollider, ẩn preview
+        HidePreviewPoint();
+    }
+    
+    private void OnSceneGUI(SceneView sceneView)
+    {
+        // Đảm bảo Scene view luôn được repaint để preview mượt mà
+        if (isCreatingMode && showPreview)
+        {
+            sceneView.Repaint();
+        }
+    }
+    
+    private void DrawPreviewInfo(SceneView sceneView)
+    {
+        if (previewPoint != null && previewPoint.activeSelf)
+        {
+            // Vẽ thông tin preview với GUI
+            Handles.BeginGUI();
+            Rect previewRect = new Rect(10, 130, 300, hoveredMeshRenderer != null ? 100 : 80);
+            GUI.Box(previewRect, "Preview Info");
+            
+            Rect labelRect = new Rect(previewRect.x + 10, previewRect.y + 25, previewRect.width - 20, 20);
+            GUI.Label(labelRect, $"Vị trí: {previewPoint.transform.position:F3}");
+            
+            labelRect.y += 20;
+            if (hoveredMeshRenderer != null)
+            {
+                GUI.Label(labelRect, $"Mesh: {hoveredMeshRenderer.gameObject.name}");
+                labelRect.y += 20;
+            }
+            GUI.Label(labelRect, "Click để tạo điểm tại đây");
+            
+            Handles.EndGUI();
+            
+            // Vẽ line từ camera đến preview point
+            Handles.color = Color.red;
+            Handles.DrawDottedLine(sceneView.camera.transform.position, previewPoint.transform.position, 2f);
+            
+            // Vẽ sphere tại preview point
+            Handles.color = Color.red;
+            Handles.SphereHandleCap(0, previewPoint.transform.position, Quaternion.identity, 0.02f, EventType.Repaint);
+            
+            // Vẽ label tại preview point
+            Handles.Label(previewPoint.transform.position + Vector3.up * 0.02f, "Preview Point");
+        }
+    }
+    
+    private void DrawMeshOutline(MeshRenderer meshRenderer)
+    {
+        // Vẽ bounding box với màu highlight
+        Handles.color = new Color(1f, 0.8f, 0.3f, 0.8f); // Màu cam
+        Bounds bounds = meshRenderer.bounds;
+    
+        // Vẽ bounding box chính
+        Handles.DrawWireCube(bounds.center, bounds.size);
+    
+        // Vẽ thêm các đường chéo để dễ nhìn hơn
+        Vector3[] corners = GetBoundsCorners(bounds);
+        Handles.DrawLine(corners[0], corners[6]); // Đường chéo
+        Handles.DrawLine(corners[1], corners[7]); // Đường chéo
+        Handles.DrawLine(corners[2], corners[4]); // Đường chéo
+        Handles.DrawLine(corners[3], corners[5]); // Đường chéo
+    
+        // Vẽ sphere tại các góc để dễ nhìn
+        Handles.color = new Color(1f, 0.6f, 0.2f, 1f); // Màu cam đậm hơn
+        foreach (Vector3 corner in corners)
+        {
+            Handles.SphereHandleCap(0, corner, Quaternion.identity, 0.05f, EventType.Repaint);
+        }
+    }
+    
+    private Vector3[] GetBoundsCorners(Bounds bounds)
+    {
+        Vector3[] corners = new Vector3[8];
+    
+        corners[0] = bounds.min;
+        corners[1] = new Vector3(bounds.max.x, bounds.min.y, bounds.min.z);
+        corners[2] = new Vector3(bounds.min.x, bounds.max.y, bounds.min.z);
+        corners[3] = new Vector3(bounds.max.x, bounds.max.y, bounds.min.z);
+        corners[4] = new Vector3(bounds.min.x, bounds.min.y, bounds.max.z);
+        corners[5] = new Vector3(bounds.max.x, bounds.min.y, bounds.max.z);
+        corners[6] = new Vector3(bounds.min.x, bounds.max.y, bounds.max.z);
+        corners[7] = bounds.max;
+    
+        return corners;
     }
     
     private void OnSceneCreateHeightPairGUI(SceneView sceneView)
@@ -451,13 +812,21 @@ public class MoveThroughPointsBySpeedEditor : Editor
         
         // Vẽ hướng dẫn đặc biệt cho chế độ tạo cặp point độ cao
         Handles.BeginGUI();
-        GUILayout.BeginArea(new Rect(10, 130, 500, 100));
-        GUILayout.Box("Chế Độ Tạo Cặp Point Độ Cao", GUILayout.ExpandWidth(true));
-        GUILayout.Label("• Click vào vị trí dưới sàn để tạo cặp point");
-        GUILayout.Label("• Point thấp sẽ được tạo tại vị trí click");
-        GUILayout.Label("• Point cao sẽ tự động được tạo ở trên trần");
-        GUILayout.Label("• Độ cao phụ thuộc vào mesh collider phía trên");
-        GUILayout.EndArea();
+        Rect areaRect = new Rect(10, 130, 500, 100);
+        GUI.Box(areaRect, "Chế Độ Tạo Cặp Point Độ Cao");
+    
+        Rect labelRect = new Rect(areaRect.x + 10, areaRect.y + 25, areaRect.width - 20, 20);
+        GUI.Label(labelRect, "• Click vào vị trí dưới sàn để tạo cặp point");
+    
+        labelRect.y += 20;
+        GUI.Label(labelRect, "• Point thấp sẽ được tạo tại vị trí click");
+    
+        labelRect.y += 20;
+        GUI.Label(labelRect, "• Point cao sẽ tự động được tạo ở trên trần");
+    
+        labelRect.y += 20;
+        GUI.Label(labelRect, "• Độ cao phụ thuộc vào mesh collider phía trên");
+    
         Handles.EndGUI();
     }
     
@@ -519,21 +888,25 @@ public class MoveThroughPointsBySpeedEditor : Editor
     private GameObject CreatePointAtPositionInternal(Vector3 position, GameObject hitObject, string suffix)
     {
         // Tạo GameObject mới
-        GameObject newPoint = new GameObject($"Point_{targetScript.points.Count + 1}_{suffix}");
-        newPoint.tag = "Point";
-        newPoint.transform.position = position;
+        //GameObject newPoint = new GameObject($"Point_{targetScript.points.Count + 1}_{suffix}");
+        //newPoint.tag = "Point";
+        //newPoint.transform.position = position;
+        
+        // Thêm visual (sphere) để dễ nhìn thấy
+        GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        sphere.name = $"Point_{targetScript.points.Count + 1}_{suffix}";
+        sphere.tag = "Point";
+        //sphere.transform.SetParent(newPoint.transform);
+        //sphere.transform.localPosition = Vector3.zero;
+        sphere.transform.position = position;
+        sphere.transform.localScale = Vector3.one * 0.01f;
+        sphere.AddComponent<BoxCollider>();
         
         // Nếu có container, đặt point vào container (tùy chọn)
         if (pointsContainer != null)
         {
-            newPoint.transform.SetParent(pointsContainer.transform);
+            sphere.transform.SetParent(pointsContainer.transform);
         }
-        
-        // Thêm visual (sphere) để dễ nhìn thấy
-        GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        sphere.transform.SetParent(newPoint.transform);
-        sphere.transform.localPosition = Vector3.zero;
-        sphere.transform.localScale = Vector3.one * 0.01f;
         
         // Đặt màu cho sphere dựa trên loại point
         Renderer sphereRenderer = sphere.GetComponent<Renderer>();
@@ -550,19 +923,16 @@ public class MoveThroughPointsBySpeedEditor : Editor
         // Xóa collider của sphere để tránh ảnh hưởng đến gameplay
         DestroyImmediate(sphere.GetComponent<Collider>());
         
-        // Thêm component để dễ nhận diện
-        //PointVisual pointVisual = newPoint.AddComponent<PointVisual>();
-        
         // Thêm vào list
         if (targetScript.points == null)
             targetScript.points = new List<Transform>();
             
-        targetScript.points.Add(newPoint.transform);
+        targetScript.points.Add(sphere.transform);
         
         // Undo record
-        Undo.RegisterCreatedObjectUndo(newPoint, "Create Height Point");
+        Undo.RegisterCreatedObjectUndo(sphere, "Create Height Point");
         
-        return newPoint;
+        return sphere;
     }
     
     private void CreatePointAtPosition(Vector3 position, Vector3 surfaceNormal, GameObject hitObject)
@@ -587,34 +957,46 @@ public class MoveThroughPointsBySpeedEditor : Editor
     private void DrawSceneGUI(SceneView sceneView)
     {
         TrailRenderer trail = targetScript.GetComponent<TrailRenderer>();
-        
+    
         string currentMode = "None";
         if (isSelectingMode) currentMode = "Chọn Points";
         else if (isCreatingMode) currentMode = "Tạo Điểm Mới";
         else if (isSelectingFloorMode) currentMode = "Chọn Point Sàn";
-        
+    
         Handles.BeginGUI();
-        GUILayout.BeginArea(new Rect(10, 10, 450, 180));
-        GUILayout.Box("Chế Độ Points", GUILayout.ExpandWidth(true));
-        GUILayout.Label($"• Mode: {currentMode}");
-        GUILayout.Label("• Check Tag: " + (checkTag ? "Bật" : "Tắt"));
-        GUILayout.Label("• Đang chọn: " + (Selection.activeGameObject ? Selection.activeGameObject.name : "None"));
-        GUILayout.Label("• Trail: " + (trail ? "Đã setup" : "Không có"));
-        GUILayout.Label("• Container: " + (pointsContainer ? pointsContainer.name : "Không dùng"));
-        GUILayout.Label("• Points trong list: " + targetScript.points.Count);
-        GUILayout.Label("• Points đầu tiên: " + (targetScript.points.Count > 0 && targetScript.points[0] != null ? targetScript.points[0].name : "None"));
-        GUILayout.EndArea();
+    
+        // Sử dụng GUI thay vì GUILayout để tránh lỗi
+        Rect areaRect = new Rect(10, 10, 450, 180);
+        GUI.Box(areaRect, "Chế Độ Points");
+    
+        Rect labelRect = new Rect(areaRect.x + 10, areaRect.y + 25, areaRect.width - 20, 20);
+        GUI.Label(labelRect, $"• Mode: {currentMode}");
+    
+        labelRect.y += 20;
+        GUI.Label(labelRect, $"• Check Tag: {(checkTag ? "Bật" : "Tắt")}");
+    
+        labelRect.y += 20;
+        GUI.Label(labelRect, $"• Preview: {(showPreview ? "Bật" : "Tắt")}");
+    
+        labelRect.y += 20;
+        GUI.Label(labelRect, $"• Đang chọn: {(Selection.activeGameObject ? Selection.activeGameObject.name : "None")}");
+    
+        labelRect.y += 20;
+        GUI.Label(labelRect, $"• Trail: {(trail ? "Đã setup" : "Không có")}");
+    
+        labelRect.y += 20;
+        GUI.Label(labelRect, $"• Container: {(pointsContainer ? pointsContainer.name : "Không dùng")}");
+    
+        labelRect.y += 20;
+        GUI.Label(labelRect, $"• Points trong list: {targetScript.points.Count}");
+    
+        labelRect.y += 20;
+        string firstPointName = targetScript.points.Count > 0 && targetScript.points[0] != null ? targetScript.points[0].name : "None";
+        GUI.Label(labelRect, $"• Points đầu tiên: {firstPointName}");
+    
         Handles.EndGUI();
-        
+    
         DrawExistingPointsVisuals();
-        
-        // Vẽ vị trí trail nếu có
-        //if (trail != null)
-        //{
-        //    Handles.color = Color.magenta;
-        //    Handles.SphereHandleCap(0, targetScript.transform.position, Quaternion.identity, 0.4f, EventType.Repaint);
-        //    Handles.Label(targetScript.transform.position + Vector3.up * 0.7f, "Trail Position");
-        //}
     }
     
     private void ToggleObjectInList(Transform objectTransform)
@@ -622,9 +1004,9 @@ public class MoveThroughPointsBySpeedEditor : Editor
         if (targetScript.points == null)
             targetScript.points = new List<Transform>();
         
-        if (targetScript.points.Contains(objectTransform))
+        if (targetScript.points.Contains(objectTransform) && targetScript.points[^1] == objectTransform)
         {
-            targetScript.points.Remove(objectTransform);
+            targetScript.points.RemoveAt(targetScript.points.Count - 1);
             Debug.Log($"Đã xóa {objectTransform.name} khỏi list points");
         }
         else
@@ -700,13 +1082,5 @@ public class MoveThroughPointsBySpeedEditor : Editor
         Repaint();
         
         Debug.Log("Đã xóa tất cả points");
-    }
-    
-    private void OnDisable()
-    {
-        SceneView.duringSceneGui -= OnSceneSelectingGUI;
-        SceneView.duringSceneGui -= OnSceneCreatingGUI;
-        SceneView.duringSceneGui -= OnSceneCreateHeightPairGUI;
-        SceneView.duringSceneGui -= OnSceneSelectingFloorGUI;
     }
 }
