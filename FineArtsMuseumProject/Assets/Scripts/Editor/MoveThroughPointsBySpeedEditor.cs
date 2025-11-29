@@ -1455,13 +1455,9 @@ public class MoveThroughPointsBySpeedEditor : Editor
     private void CopyTrailSettings(MoveThroughPointsBySpeed newScript, TrailRenderer newRenderer)
     {
         // Copy settings từ script hiện tại
-        //newScript.speed = targetScript.speed;
-        //newScript.loop = targetScript.loop;
-        //newScript.transform.position = targetScript.transform.position;
         newScript.moveSpeed = targetScript.moveSpeed;
         newScript.stayDuration = targetScript.stayDuration;
-        //newScript.points = new List<Transform>(targetScript.points);
-        
+    
         // Copy TrailRenderer settings từ trail hiện tại (nếu có)
         TrailRenderer currentTrail = targetScript.GetComponent<TrailRenderer>();
         if (currentTrail != null)
@@ -1472,20 +1468,33 @@ public class MoveThroughPointsBySpeedEditor : Editor
             newRenderer.minVertexDistance = currentTrail.minVertexDistance;
             newRenderer.autodestruct = currentTrail.autodestruct;
             newRenderer.emitting = currentTrail.emitting;
-            newRenderer.material = currentTrail.material;
+        
+            // SỬA: Sử dụng sharedMaterial thay vì material để tránh leak
+            newRenderer.sharedMaterial = currentTrail.sharedMaterial;
+        
             newRenderer.startWidth = currentTrail.startWidth;
             newRenderer.endWidth = currentTrail.endWidth;
         }
         else
         {
-            // Cấu hình mặc định
+            // Cấu hình mặc định - sửa để tránh tạo material mới
             newRenderer.time = 2f;
             newRenderer.startWidth = 0.1f;
             newRenderer.endWidth = 0.01f;
-            newRenderer.material = new Material(Shader.Find("Sprites/Default"));
+        
+            // SỬA: Sử dụng material có sẵn thay vì tạo mới
+            newRenderer.sharedMaterial = GetDefaultTrailMaterial();
+        
             newRenderer.colorGradient = CreateDefaultGradient();
         }
     }
+    
+    private Material GetDefaultTrailMaterial()
+    {
+        // Sử dụng material built-in thay vì tạo mới
+        return AssetDatabase.GetBuiltinExtraResource<Material>("HDRColor");
+    }
+    
     
     private Gradient CreateDefaultGradient()
     {
