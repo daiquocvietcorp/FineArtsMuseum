@@ -632,6 +632,11 @@ public class MoveThroughPointsBySpeedEditor : Editor
                     Debug.LogWarning($"GameObject {clickedObject.name} không có tag 'Point'.");
                     return;
                 }
+
+                if (targetScript.points != null && targetScript.points.Count > 0)
+                {
+                    targetScript.points.Clear();
+                }
             
                 // Sử dụng point được chọn làm điểm thấp và tạo điểm cao
                 CreateHeightPairFromExistingPoint(clickedObject.transform);
