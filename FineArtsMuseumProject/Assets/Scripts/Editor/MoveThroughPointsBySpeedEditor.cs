@@ -14,7 +14,10 @@ public class MoveThroughPointsBySpeedEditor : Editor
     
     // Biến cho preview point
     private GameObject previewPoint;
-    private bool showPreview = true;
+    private bool showPreview = false;
+    
+    // Biến mới cho preview line
+    private bool showPreviewLine = true;
     
     // Biến cho highlight mesh
     private MeshRenderer hoveredMeshRenderer;
@@ -149,7 +152,7 @@ public class MoveThroughPointsBySpeedEditor : Editor
             // Xóa collider
             DestroyImmediate(previewPoint.GetComponent<Collider>());
             
-            previewPoint.transform.localScale = Vector3.one * 0.01f;
+            previewPoint.transform.localScale = Vector3.one * 0.001f;
             previewPoint.SetActive(false);
         }
     }
@@ -184,7 +187,7 @@ public class MoveThroughPointsBySpeedEditor : Editor
     {
         // Vẽ inspector mặc định
         DrawDefaultInspector();
-        
+    
         EditorGUILayout.Space();
         
         // Toggle kiểm tra tag
@@ -200,7 +203,14 @@ public class MoveThroughPointsBySpeedEditor : Editor
         // Toggle cho preview
         showPreview = EditorGUILayout.Toggle("Show Preview Point", showPreview);
         EditorGUILayout.HelpBox(
-            "Hiển thị điểm preview và highlight mesh khi hover",
+            "Hiển thị điểm preview màu đỏ tại vị trí chuột",
+            MessageType.Info
+        );
+        
+        // Toggle mới cho preview line
+        showPreviewLine = EditorGUILayout.Toggle("Show Preview Line", showPreviewLine);
+        EditorGUILayout.HelpBox(
+            "Hiển thị đường kết nối từ preview point đến điểm cuối cùng",
             MessageType.Info
         );
         
@@ -232,6 +242,12 @@ public class MoveThroughPointsBySpeedEditor : Editor
             }
             
             GUILayout.EndHorizontal();
+            
+            // Nút tạo trail mới
+            if (GUILayout.Button("🆕 Tạo Trail Mới"))
+            {
+                CreateNewTrail();
+            }
         }
         else
         {
@@ -239,6 +255,12 @@ public class MoveThroughPointsBySpeedEditor : Editor
                 "Không tìm thấy TrailRenderer trên GameObject này.",
                 MessageType.Warning
             );
+            
+            // Vẫn cho phép tạo trail mới ngay cả khi không có TrailRenderer
+            if (GUILayout.Button("🆕 Tạo Trail Mới (Thêm TrailRenderer)"))
+            {
+                CreateNewTrail();
+            }
         }
         
         EditorGUILayout.Space();
@@ -398,6 +420,27 @@ public class MoveThroughPointsBySpeedEditor : Editor
         // Không tự động tạo container nữa, chỉ tìm nếu có
         string containerName = $"{targetScript.gameObject.name}_PointsContainer";
         pointsContainer = GameObject.Find(containerName);
+    }
+    
+    private void EnsurePointsContainerExists()
+    {
+        if (pointsContainer == null)
+        {
+            FindOrCreatePointsContainer();
+        
+            // Nếu vẫn không tìm thấy, tạo mới
+            if (pointsContainer == null)
+            {
+                CreateNewPointsContainer();
+                Debug.Log("🆕 Đã tự động tạo points container mới");
+            }
+        }
+    
+        // Kiểm tra container có hợp lệ không
+        if (pointsContainer == null)
+        {
+            Debug.LogError("❌ Không thể tạo hoặc tìm thấy points container!");
+        }
     }
     
     private void CreateNewPointsContainer()
@@ -575,6 +618,7 @@ public class MoveThroughPointsBySpeedEditor : Editor
                 }
                 
                 ToggleObjectInList(clickedObject.transform);
+                MoveTrailToFirstPoint();
                 currentEvent.Use();
             }
         }
@@ -599,6 +643,11 @@ public class MoveThroughPointsBySpeedEditor : Editor
                 {
                     Debug.LogWarning($"GameObject {clickedObject.name} không có tag 'Point'.");
                     return;
+                }
+
+                if (targetScript.points != null && targetScript.points.Count > 0)
+                {
+                    targetScript.points.Clear();
                 }
             
                 // Sử dụng point được chọn làm điểm thấp và tạo điểm cao
@@ -634,7 +683,7 @@ public class MoveThroughPointsBySpeedEditor : Editor
     {
         // Lấy vị trí chuột hiện tại từ Event.current
         Vector2 mousePosition = Event.current.mousePosition;
-        
+    
         // Kiểm tra xem chuột có trong Scene view không
         if (mousePosition.x < 0 || mousePosition.y < 0 || 
             mousePosition.x > sceneView.position.width || 
@@ -656,8 +705,17 @@ public class MoveThroughPointsBySpeedEditor : Editor
             {
                 float offset = 0.001f;
                 Vector3 previewPosition = hit.point + hit.normal * offset;
-                UpdatePreviewPoint(previewPosition);
-                
+            
+                // Cập nhật preview point theo toggle showPreview
+                if (showPreview)
+                {
+                    UpdatePreviewPoint(previewPosition); // Hiển thị point
+                }
+                else
+                {
+                    HidePreviewPoint(); // Ẩn point
+                }
+            
                 // Highlight mesh được hover
                 MeshRenderer meshRenderer = meshCollider.GetComponent<MeshRenderer>();
                 if (meshRenderer != null && meshRenderer != hoveredMeshRenderer)
@@ -676,20 +734,17 @@ public class MoveThroughPointsBySpeedEditor : Editor
     private void OnSceneCreatingGUI(SceneView sceneView)
     {
         HandleUtility.AddDefaultControl(GUIUtility.GetControlID(FocusType.Passive));
-
+    
         Event currentEvent = Event.current;
-
-        // LUÔN cập nhật preview point và highlight
-        if (showPreview)
-        {
-            UpdatePreviewAndHighlight(sceneView);
-        }
-
+    
+        // LUÔN cập nhật preview (cho cả point và line)
+        UpdatePreviewAndHighlight(sceneView);
+    
         if (currentEvent.type == EventType.MouseDown && currentEvent.button == 0)
         {
             Vector2 mousePosition = currentEvent.mousePosition;
             Ray ray = HandleUtility.GUIPointToWorldRay(mousePosition);
-
+    
             // Chỉ tập trung vào MeshCollider
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
@@ -700,7 +755,7 @@ public class MoveThroughPointsBySpeedEditor : Editor
                     // Truyền cả raycast hit vào để lấy thông tin hướng
                     CreatePointAtPosition(hit.point, hit.normal, meshCollider.gameObject);
                     currentEvent.Use();
-
+    
                     // Tự động đặt trail về point đầu tiên
                     MoveTrailToFirstPoint();
                 }
@@ -714,29 +769,29 @@ public class MoveThroughPointsBySpeedEditor : Editor
                 Debug.LogWarning("Không tìm thấy MeshCollider tại vị trí click.");
             }
         }
-
-        // Vẽ preview info
-        if (currentEvent.type == EventType.Repaint && showPreview)
+    
+        // Vẽ preview info (luôn vẽ nếu có preview point hoặc preview line)
+        if (currentEvent.type == EventType.Repaint && (showPreview || showPreviewLine))
         {
             DrawPreviewInfo(sceneView);
         }
-
+    
         DrawSceneGUI(sceneView);
-
+    
         // Vẽ hướng dẫn đặc biệt cho chế độ tạo điểm
         Handles.BeginGUI();
-        Rect areaRect = new Rect(10, showPreview ? 220 : 130, 450, 80);
+        Rect areaRect = new Rect(10, (showPreview || showPreviewLine) ? 220 : 130, 450, 80);
         GUI.Box(areaRect, "Chế Độ Tạo Điểm");
-
+    
         Rect labelRect = new Rect(areaRect.x + 10, areaRect.y + 25, areaRect.width - 20, 20);
         GUI.Label(labelRect, "• Click vào MeshCollider để tạo điểm chính xác");
-
+    
         labelRect.y += 20;
         GUI.Label(labelRect, "• Chỉ hỗ trợ MeshCollider");
-
+    
         labelRect.y += 20;
         GUI.Label(labelRect, "• Trail sẽ tự động về point đầu tiên");
-
+    
         Handles.EndGUI();
     }
     
@@ -777,7 +832,7 @@ public class MoveThroughPointsBySpeedEditor : Editor
     private void OnSceneGUI(SceneView sceneView)
     {
         // Đảm bảo Scene view luôn được repaint để preview mượt mà
-        if (isCreatingMode && showPreview)
+        if (isCreatingMode && (showPreview || showPreviewLine))
         {
             sceneView.Repaint();
         }
@@ -785,26 +840,79 @@ public class MoveThroughPointsBySpeedEditor : Editor
     
     private void DrawPreviewInfo(SceneView sceneView)
     {
-        if (previewPoint != null && previewPoint.activeSelf)
+        bool hasValidPreviewPosition = false;
+        Vector3 previewPosition = Vector3.zero;
+    
+        // Lấy vị trí preview từ preview point hoặc raycast
+        if (previewPoint != null && previewPoint.activeSelf && showPreview)
         {
-            // Vẽ thông tin preview với GUI
-            Handles.BeginGUI();
-            Rect previewRect = new Rect(10, 130, 300, hoveredMeshRenderer != null ? 100 : 80);
-            GUI.Box(previewRect, "Preview Info");
+            // Sử dụng vị trí từ preview point
+            previewPosition = previewPoint.transform.position;
+            hasValidPreviewPosition = true;
+        }
+        else if (showPreviewLine)
+        {
+            // Nếu chỉ có preview line, lấy vị trí từ raycast
+            Vector2 mousePosition = Event.current.mousePosition;
+            Ray ray = HandleUtility.GUIPointToWorldRay(mousePosition);
+            RaycastHit hit;
             
-            Rect labelRect = new Rect(previewRect.x + 10, previewRect.y + 25, previewRect.width - 20, 20);
-            GUI.Label(labelRect, $"Vị trí: {previewPoint.transform.position:F3}");
-            
-            labelRect.y += 20;
-            if (hoveredMeshRenderer != null)
+            if (Physics.Raycast(ray, out hit))
             {
-                GUI.Label(labelRect, $"Mesh: {hoveredMeshRenderer.gameObject.name}");
+                MeshCollider meshCollider = hit.collider as MeshCollider;
+                if (meshCollider != null)
+                {
+                    float offset = 0.001f;
+                    previewPosition = hit.point + hit.normal * offset;
+                    hasValidPreviewPosition = true;
+                }
+            }
+        }
+    
+        if (!hasValidPreviewPosition) return;
+    
+        // Vẽ thông tin preview với GUI
+        Handles.BeginGUI();
+        
+        string boxTitle = showPreview ? "Preview Info" : "Preview Line Info";
+        int extraLines = (showPreviewLine && targetScript.points != null && targetScript.points.Count > 0) ? 2 : 0;
+        int hoverExtra = hoveredMeshRenderer != null ? 1 : 0;
+        Rect previewRect = new Rect(10, 130, 320, 80 + (extraLines * 20) + (hoverExtra * 20));
+        GUI.Box(previewRect, boxTitle);
+        
+        Rect labelRect = new Rect(previewRect.x + 10, previewRect.y + 25, previewRect.width - 20, 20);
+        
+        if (showPreview)
+        {
+            GUI.Label(labelRect, $"Vị trí: {previewPosition:F3}");
+            labelRect.y += 20;
+        }
+        
+        if (hoveredMeshRenderer != null)
+        {
+            GUI.Label(labelRect, $"Mesh: {hoveredMeshRenderer.gameObject.name}");
+            labelRect.y += 20;
+        }
+        
+        // Hiển thị thông tin về preview line
+        if (showPreviewLine && targetScript.points != null && targetScript.points.Count > 0)
+        {
+            Transform lastPoint = GetLastValidPoint();
+            if (lastPoint != null)
+            {
+                float distance = Vector3.Distance(previewPosition, lastPoint.position);
+                GUI.Label(labelRect, $"Khoảng cách đến cuối: {distance:F2}m");
                 labelRect.y += 20;
             }
-            GUI.Label(labelRect, "Click để tạo điểm tại đây");
-            
-            Handles.EndGUI();
-            
+        }
+        
+        GUI.Label(labelRect, "Click để tạo điểm tại đây");
+        
+        Handles.EndGUI();
+    
+        // Vẽ preview point (chỉ khi được bật)
+        if (showPreview && previewPoint != null && previewPoint.activeSelf)
+        {
             // Vẽ line từ camera đến preview point
             Handles.color = Color.red;
             Handles.DrawDottedLine(sceneView.camera.transform.position, previewPoint.transform.position, 2f);
@@ -816,6 +924,29 @@ public class MoveThroughPointsBySpeedEditor : Editor
             // Vẽ label tại preview point
             Handles.Label(previewPoint.transform.position + Vector3.up * 0.02f, "Preview Point");
         }
+        
+        // Vẽ đường đến điểm cuối cùng (chỉ khi preview line được bật)
+        if (showPreviewLine)
+        {
+            DrawPreviewLineToLastPoint(previewPosition);
+        }
+    }
+    
+    private Transform GetLastValidPoint()
+    {
+        if (targetScript.points == null || targetScript.points.Count == 0)
+            return null;
+
+        // Tìm điểm cuối cùng hợp lệ trong list
+        for (int i = targetScript.points.Count - 1; i >= 0; i--)
+        {
+            if (targetScript.points[i] != null)
+            {
+                return targetScript.points[i];
+            }
+        }
+    
+        return null;
     }
     
     private void DrawMeshOutline(MeshRenderer meshRenderer)
@@ -927,7 +1058,9 @@ public class MoveThroughPointsBySpeedEditor : Editor
         Vector3 ceilingPosition = FindCeilingPosition(floorPoint.position);
         
         // Tạo point cao (trên trần)
+        targetScript.points.Add(floorPoint);
         GameObject highPoint = CreatePointAtPositionInternal(ceilingPosition, null, "High");
+        MoveTrailToFirstPoint();
         
         Debug.Log($"Đã tạo cặp point độ cao từ point có sẵn:");
         Debug.Log($"- Point thấp: {floorPoint.name} tại {floorPoint.position}");
@@ -980,6 +1113,8 @@ public class MoveThroughPointsBySpeedEditor : Editor
         //newPoint.tag = "Point";
         //newPoint.transform.position = position;
         
+        EnsurePointsContainerExists();
+        
         // Thêm visual (sphere) để dễ nhìn thấy
         GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         sphere.name = $"Point_{targetScript.points.Count + 1}_{suffix}";
@@ -1025,7 +1160,7 @@ public class MoveThroughPointsBySpeedEditor : Editor
     
     private void CreatePointAtPosition(Vector3 position, Vector3 surfaceNormal, GameObject hitObject)
     {
-        float offset = 0.001f; // Offset nhỏ
+        float offset = 0.0025f; // Offset nhỏ
     
         // Offset theo hướng ngược lại với normal (hướng ra ngoài bề mặt)
         Vector3 finalPosition = position + surfaceNormal * offset;
@@ -1045,45 +1180,66 @@ public class MoveThroughPointsBySpeedEditor : Editor
     private void DrawSceneGUI(SceneView sceneView)
     {
         TrailRenderer trail = targetScript.GetComponent<TrailRenderer>();
-    
+        
         string currentMode = "None";
         if (isSelectingMode) currentMode = "Chọn Points";
         else if (isCreatingMode) currentMode = "Tạo Điểm Mới";
         else if (isSelectingFloorMode) currentMode = "Chọn Point Sàn";
-    
+        
         Handles.BeginGUI();
-    
-        // Sử dụng GUI thay vì GUILayout để tránh lỗi
-        Rect areaRect = new Rect(10, 10, 450, 180);
+        
+        // Tính chiều cao dynamic dựa trên thông tin
+        int extraLines = 0;
+        if (showPreview && isCreatingMode) extraLines += 2;
+        
+        Rect areaRect = new Rect(10, 10, 450, 180 + (extraLines * 20));
         GUI.Box(areaRect, "Chế Độ Points");
-    
+        
         Rect labelRect = new Rect(areaRect.x + 10, areaRect.y + 25, areaRect.width - 20, 20);
         GUI.Label(labelRect, $"• Mode: {currentMode}");
-    
+        
         labelRect.y += 20;
         GUI.Label(labelRect, $"• Check Tag: {(checkTag ? "Bật" : "Tắt")}");
-    
+        
         labelRect.y += 20;
         GUI.Label(labelRect, $"• Preview: {(showPreview ? "Bật" : "Tắt")}");
-    
+        
         labelRect.y += 20;
         GUI.Label(labelRect, $"• Đang chọn: {(Selection.activeGameObject ? Selection.activeGameObject.name : "None")}");
-    
+        
         labelRect.y += 20;
         GUI.Label(labelRect, $"• Trail: {(trail ? "Đã setup" : "Không có")}");
-    
+        
         labelRect.y += 20;
         GUI.Label(labelRect, $"• Container: {(pointsContainer ? pointsContainer.name : "Không dùng")}");
-    
+        
         labelRect.y += 20;
         GUI.Label(labelRect, $"• Points trong list: {targetScript.points.Count}");
-    
+        
         labelRect.y += 20;
         string firstPointName = targetScript.points.Count > 0 && targetScript.points[0] != null ? targetScript.points[0].name : "None";
         GUI.Label(labelRect, $"• Points đầu tiên: {firstPointName}");
-    
+        
+        // Hiển thị thông tin điểm cuối cùng nếu đang ở chế độ preview
+        if (showPreview && isCreatingMode && targetScript.points.Count > 0)
+        {
+            Transform lastPoint = GetLastValidPoint();
+            if (lastPoint != null)
+            {
+                labelRect.y += 20;
+                GUI.Label(labelRect, $"• Điểm cuối: {lastPoint.name}");
+                
+                if (previewPoint != null && previewPoint.activeSelf)
+                {
+                    float distance = Vector3.Distance(previewPoint.transform.position, lastPoint.position);
+                    labelRect.y += 20;
+                    GUI.Label(labelRect, $"• Khoảng cách preview: {distance:F2}m");
+                }
+            }
+        }
+        
         Handles.EndGUI();
-    
+        
         DrawExistingPointsVisuals();
     }
     
@@ -1115,7 +1271,7 @@ public class MoveThroughPointsBySpeedEditor : Editor
             {
                 if (targetScript.points[i] != null)
                 {
-                    // Xác định màu dựa trên tên point
+                    // Xác định màu dựa trên tên point và vị trí
                     Color pointColor = Color.green;
                     string pointName = targetScript.points[i].name.ToLower();
                     
@@ -1124,12 +1280,20 @@ public class MoveThroughPointsBySpeedEditor : Editor
                     else if (pointName.Contains("_high"))
                         pointColor = Color.red;
                     
+                    // Điểm cuối cùng có hiệu ứng đặc biệt khi đang preview
+                    bool isLastPoint = (i == targetScript.points.Count - 1);
+                    if (isLastPoint && showPreview && isCreatingMode)
+                    {
+                        pointColor = new Color(0f, 1f, 1f, 1f); // Màu cyan cho điểm cuối khi preview
+                    }
+                    
                     // Vẽ point với màu phù hợp
                     Handles.color = pointColor;
-                    Handles.SphereHandleCap(0, targetScript.points[i].position, Quaternion.identity, 0.01f, EventType.Repaint);
+                    float pointSize = isLastPoint && showPreview && isCreatingMode ? 0.015f : 0.01f;
+                    Handles.SphereHandleCap(0, targetScript.points[i].position, Quaternion.identity, pointSize, EventType.Repaint);
                     
                     // Vẽ số thứ tự
-                    Handles.Label(targetScript.points[i].position + Vector3.up * 0.5f, $"Point {i}");
+                    Handles.Label(targetScript.points[i].position + Vector3.up * 0.05f, $"Point {i}");
                     
                     // Vẽ đường kết nối
                     if (i < targetScript.points.Count - 1 && targetScript.points[i + 1] != null)
@@ -1170,5 +1334,201 @@ public class MoveThroughPointsBySpeedEditor : Editor
         Repaint();
         
         Debug.Log("Đã xóa tất cả points");
+    }
+    
+    private void DrawPreviewLineToLastPoint(Vector3 previewPosition)
+    {
+        // Chỉ vẽ khi showPreviewLine được bật VÀ có points trong list
+        if (!showPreviewLine || targetScript.points == null || targetScript.points.Count == 0)
+            return;
+
+        // Tìm điểm cuối cùng hợp lệ trong list
+        Transform lastPoint = GetLastValidPoint();
+        if (lastPoint == null) return;
+
+        // Vẽ đường từ preview position đến điểm cuối cùng
+        Handles.color = new Color(0f, 1f, 1f, 0.8f); // Màu cyan trong suốt
+        Handles.DrawDottedLine(previewPosition, lastPoint.position, 3f);
+    
+        // Vẽ sphere nhỏ tại điểm cuối cùng để dễ nhận biết
+        Handles.color = new Color(0f, 1f, 1f, 0.6f);
+        Handles.SphereHandleCap(0, lastPoint.position, Quaternion.identity, 0.015f, EventType.Repaint);
+    
+        // Vẽ label tại điểm cuối cùng
+        Handles.Label(lastPoint.position + Vector3.up * 0.03f, "Điểm cuối");
+    
+        // Vẽ khoảng cách
+        float distance = Vector3.Distance(previewPosition, lastPoint.position);
+        Vector3 midPoint = (previewPosition + lastPoint.position) / 2f;
+        Handles.Label(midPoint + Vector3.up * 0.02f, $"{distance:F2}m");
+    }
+    
+    private void CreateNewTrail()
+    {
+        // Xác định parent (cùng parent với trail hiện tại)
+        Transform parent = targetScript.transform.parent;
+        
+        // Xác định số trail tiếp theo
+        int nextTrailNumber = FindNextTrailNumber(parent);
+        
+        // Tạo GameObject trail mới
+        GameObject newTrail = new GameObject($"Trail ({nextTrailNumber})");
+        
+        // Đặt cùng parent với trail hiện tại
+        if (parent != null)
+        {
+            newTrail.transform.SetParent(parent);
+            newTrail.transform.localPosition = Vector3.zero;
+        }
+        else
+        {
+            // Nếu không có parent, đặt gần trail hiện tại
+            newTrail.transform.position = targetScript.transform.position + Vector3.right * 2f;
+        }
+        
+        // Thêm component MoveThroughPointsBySpeed
+        MoveThroughPointsBySpeed newTrailScript = newTrail.AddComponent<MoveThroughPointsBySpeed>();
+        
+        // Thêm TrailRenderer
+        TrailRenderer newTrailRenderer = newTrail.AddComponent<TrailRenderer>();
+        
+        // Copy cấu hình từ trail hiện tại
+        CopyTrailSettings(newTrailScript, newTrailRenderer);
+        
+        // Undo record
+        Undo.RegisterCreatedObjectUndo(newTrail, "Create New Trail");
+        
+        // Select trail mới
+        Selection.activeGameObject = newTrail;
+        
+        Debug.Log($"✅ Đã tạo trail mới: {newTrail.name}");
+        Debug.Log($"📁 Parent: {(parent != null ? parent.name : "None")}");
+    }
+    
+    private int FindNextTrailNumber(Transform parent)
+    {
+        int maxTrailNumber = 0;
+        
+        if (parent != null)
+        {
+            // Tìm trong cùng parent
+            MoveThroughPointsBySpeed[] siblingTrails = parent.GetComponentsInChildren<MoveThroughPointsBySpeed>();
+            foreach (MoveThroughPointsBySpeed trail in siblingTrails)
+            {
+                int trailNum = ExtractTrailNumber(trail.gameObject.name);
+                if (trailNum > maxTrailNumber)
+                {
+                    maxTrailNumber = trailNum;
+                }
+            }
+        }
+        else
+        {
+            // Tìm trong toàn bộ scene
+            MoveThroughPointsBySpeed[] allTrails = FindObjectsOfType<MoveThroughPointsBySpeed>();
+            foreach (MoveThroughPointsBySpeed trail in allTrails)
+            {
+                int trailNum = ExtractTrailNumber(trail.gameObject.name);
+                if (trailNum > maxTrailNumber)
+                {
+                    maxTrailNumber = trailNum;
+                }
+            }
+        }
+        
+        return maxTrailNumber + 1;
+    }
+    
+    private int ExtractTrailNumber(string trailName)
+    {
+        if (trailName.StartsWith("Trail"))
+        {
+            string numberStr = trailName.Replace("Trail (", "").Replace(")", "").Trim();
+            if (int.TryParse(numberStr, out int trailNum))
+            {
+                return trailNum;
+            }
+        }
+        return 0;
+    }
+    
+    private void CopyTrailSettings(MoveThroughPointsBySpeed newScript, TrailRenderer newRenderer)
+    {
+        // Copy settings từ script hiện tại
+        newScript.moveSpeed = targetScript.moveSpeed;
+        newScript.stayDuration = targetScript.stayDuration;
+    
+        // Copy TrailRenderer settings từ trail hiện tại (nếu có)
+        TrailRenderer currentTrail = targetScript.GetComponent<TrailRenderer>();
+        if (currentTrail != null)
+        {
+            newRenderer.colorGradient = currentTrail.colorGradient;
+            newRenderer.widthCurve = currentTrail.widthCurve;
+            newRenderer.time = currentTrail.time;
+            newRenderer.minVertexDistance = currentTrail.minVertexDistance;
+            newRenderer.autodestruct = currentTrail.autodestruct;
+            newRenderer.emitting = currentTrail.emitting;
+        
+            // SỬA: Sử dụng sharedMaterial thay vì material để tránh leak
+            newRenderer.sharedMaterial = currentTrail.sharedMaterial;
+        
+            newRenderer.startWidth = currentTrail.startWidth;
+            newRenderer.endWidth = currentTrail.endWidth;
+        }
+        else
+        {
+            // Cấu hình mặc định - sửa để tránh tạo material mới
+            newRenderer.time = 2f;
+            newRenderer.startWidth = 0.1f;
+            newRenderer.endWidth = 0.01f;
+        
+            // SỬA: Sử dụng material có sẵn thay vì tạo mới
+            newRenderer.sharedMaterial = GetDefaultTrailMaterial();
+        
+            newRenderer.colorGradient = CreateDefaultGradient();
+        }
+    }
+    
+    private Material GetDefaultTrailMaterial()
+    {
+        // Sử dụng material built-in thay vì tạo mới
+        return AssetDatabase.GetBuiltinExtraResource<Material>("HDRColor");
+    }
+    
+    
+    private Gradient CreateDefaultGradient()
+    {
+        Gradient gradient = new Gradient();
+        gradient.colorKeys = new GradientColorKey[]
+        {
+            new GradientColorKey(Color.blue, 0f),
+            new GradientColorKey(Color.green, 0.5f),
+            new GradientColorKey(Color.red, 1f)
+        };
+        gradient.alphaKeys = new GradientAlphaKey[]
+        {
+            new GradientAlphaKey(1f, 0f),
+            new GradientAlphaKey(1f, 1f)
+        };
+        return gradient;
+    }
+    
+    private string GetCurrentTrailName()
+    {
+        return targetScript.gameObject.name;
+    }
+
+    private int GetCurrentTrailNumber()
+    {
+        string trailName = GetCurrentTrailName();
+        if (trailName.StartsWith("Trail"))
+        {
+            string numberStr = trailName.Replace("Trail (", "").Replace(")", "").Trim();
+            if (int.TryParse(numberStr, out int trailNum))
+            {
+                return trailNum;
+            }
+        }
+        return 0;
     }
 }
