@@ -187,7 +187,7 @@ public class MoveThroughPointsBySpeedEditor : Editor
     {
         // Vẽ inspector mặc định
         DrawDefaultInspector();
-        
+    
         EditorGUILayout.Space();
         
         // Toggle kiểm tra tag
@@ -200,7 +200,7 @@ public class MoveThroughPointsBySpeedEditor : Editor
             MessageType.Info
         );
         
-        // Toggle cho preview point
+        // Toggle cho preview
         showPreview = EditorGUILayout.Toggle("Show Preview Point", showPreview);
         EditorGUILayout.HelpBox(
             "Hiển thị điểm preview màu đỏ tại vị trí chuột",
@@ -242,6 +242,12 @@ public class MoveThroughPointsBySpeedEditor : Editor
             }
             
             GUILayout.EndHorizontal();
+            
+            // Nút tạo trail mới
+            if (GUILayout.Button("🆕 Tạo Trail Mới"))
+            {
+                CreateNewTrail();
+            }
         }
         else
         {
@@ -249,6 +255,12 @@ public class MoveThroughPointsBySpeedEditor : Editor
                 "Không tìm thấy TrailRenderer trên GameObject này.",
                 MessageType.Warning
             );
+            
+            // Vẫn cho phép tạo trail mới ngay cả khi không có TrailRenderer
+            if (GUILayout.Button("🆕 Tạo Trail Mới (Thêm TrailRenderer)"))
+            {
+                CreateNewTrail();
+            }
         }
         
         EditorGUILayout.Space();
@@ -1046,8 +1058,8 @@ public class MoveThroughPointsBySpeedEditor : Editor
         Vector3 ceilingPosition = FindCeilingPosition(floorPoint.position);
         
         // Tạo point cao (trên trần)
-        GameObject highPoint = CreatePointAtPositionInternal(ceilingPosition, null, "High");
         targetScript.points.Add(floorPoint);
+        GameObject highPoint = CreatePointAtPositionInternal(ceilingPosition, null, "High");
         MoveTrailToFirstPoint();
         
         Debug.Log($"Đã tạo cặp point độ cao từ point có sẵn:");
@@ -1349,5 +1361,174 @@ public class MoveThroughPointsBySpeedEditor : Editor
         float distance = Vector3.Distance(previewPosition, lastPoint.position);
         Vector3 midPoint = (previewPosition + lastPoint.position) / 2f;
         Handles.Label(midPoint + Vector3.up * 0.02f, $"{distance:F2}m");
+    }
+    
+    private void CreateNewTrail()
+    {
+        // Xác định parent (cùng parent với trail hiện tại)
+        Transform parent = targetScript.transform.parent;
+        
+        // Xác định số trail tiếp theo
+        int nextTrailNumber = FindNextTrailNumber(parent);
+        
+        // Tạo GameObject trail mới
+        GameObject newTrail = new GameObject($"Trail ({nextTrailNumber})");
+        
+        // Đặt cùng parent với trail hiện tại
+        if (parent != null)
+        {
+            newTrail.transform.SetParent(parent);
+            newTrail.transform.localPosition = Vector3.zero;
+        }
+        else
+        {
+            // Nếu không có parent, đặt gần trail hiện tại
+            newTrail.transform.position = targetScript.transform.position + Vector3.right * 2f;
+        }
+        
+        // Thêm component MoveThroughPointsBySpeed
+        MoveThroughPointsBySpeed newTrailScript = newTrail.AddComponent<MoveThroughPointsBySpeed>();
+        
+        // Thêm TrailRenderer
+        TrailRenderer newTrailRenderer = newTrail.AddComponent<TrailRenderer>();
+        
+        // Copy cấu hình từ trail hiện tại
+        CopyTrailSettings(newTrailScript, newTrailRenderer);
+        
+        // Undo record
+        Undo.RegisterCreatedObjectUndo(newTrail, "Create New Trail");
+        
+        // Select trail mới
+        Selection.activeGameObject = newTrail;
+        
+        Debug.Log($"✅ Đã tạo trail mới: {newTrail.name}");
+        Debug.Log($"📁 Parent: {(parent != null ? parent.name : "None")}");
+    }
+    
+    private int FindNextTrailNumber(Transform parent)
+    {
+        int maxTrailNumber = 0;
+        
+        if (parent != null)
+        {
+            // Tìm trong cùng parent
+            MoveThroughPointsBySpeed[] siblingTrails = parent.GetComponentsInChildren<MoveThroughPointsBySpeed>();
+            foreach (MoveThroughPointsBySpeed trail in siblingTrails)
+            {
+                int trailNum = ExtractTrailNumber(trail.gameObject.name);
+                if (trailNum > maxTrailNumber)
+                {
+                    maxTrailNumber = trailNum;
+                }
+            }
+        }
+        else
+        {
+            // Tìm trong toàn bộ scene
+            MoveThroughPointsBySpeed[] allTrails = FindObjectsOfType<MoveThroughPointsBySpeed>();
+            foreach (MoveThroughPointsBySpeed trail in allTrails)
+            {
+                int trailNum = ExtractTrailNumber(trail.gameObject.name);
+                if (trailNum > maxTrailNumber)
+                {
+                    maxTrailNumber = trailNum;
+                }
+            }
+        }
+        
+        return maxTrailNumber + 1;
+    }
+    
+    private int ExtractTrailNumber(string trailName)
+    {
+        if (trailName.StartsWith("Trail"))
+        {
+            string numberStr = trailName.Replace("Trail (", "").Replace(")", "").Trim();
+            if (int.TryParse(numberStr, out int trailNum))
+            {
+                return trailNum;
+            }
+        }
+        return 0;
+    }
+    
+    private void CopyTrailSettings(MoveThroughPointsBySpeed newScript, TrailRenderer newRenderer)
+    {
+        // Copy settings từ script hiện tại
+        newScript.moveSpeed = targetScript.moveSpeed;
+        newScript.stayDuration = targetScript.stayDuration;
+    
+        // Copy TrailRenderer settings từ trail hiện tại (nếu có)
+        TrailRenderer currentTrail = targetScript.GetComponent<TrailRenderer>();
+        if (currentTrail != null)
+        {
+            newRenderer.colorGradient = currentTrail.colorGradient;
+            newRenderer.widthCurve = currentTrail.widthCurve;
+            newRenderer.time = currentTrail.time;
+            newRenderer.minVertexDistance = currentTrail.minVertexDistance;
+            newRenderer.autodestruct = currentTrail.autodestruct;
+            newRenderer.emitting = currentTrail.emitting;
+        
+            // SỬA: Sử dụng sharedMaterial thay vì material để tránh leak
+            newRenderer.sharedMaterial = currentTrail.sharedMaterial;
+        
+            newRenderer.startWidth = currentTrail.startWidth;
+            newRenderer.endWidth = currentTrail.endWidth;
+        }
+        else
+        {
+            // Cấu hình mặc định - sửa để tránh tạo material mới
+            newRenderer.time = 2f;
+            newRenderer.startWidth = 0.1f;
+            newRenderer.endWidth = 0.01f;
+        
+            // SỬA: Sử dụng material có sẵn thay vì tạo mới
+            newRenderer.sharedMaterial = GetDefaultTrailMaterial();
+        
+            newRenderer.colorGradient = CreateDefaultGradient();
+        }
+    }
+    
+    private Material GetDefaultTrailMaterial()
+    {
+        // Sử dụng material built-in thay vì tạo mới
+        return AssetDatabase.GetBuiltinExtraResource<Material>("HDRColor");
+    }
+    
+    
+    private Gradient CreateDefaultGradient()
+    {
+        Gradient gradient = new Gradient();
+        gradient.colorKeys = new GradientColorKey[]
+        {
+            new GradientColorKey(Color.blue, 0f),
+            new GradientColorKey(Color.green, 0.5f),
+            new GradientColorKey(Color.red, 1f)
+        };
+        gradient.alphaKeys = new GradientAlphaKey[]
+        {
+            new GradientAlphaKey(1f, 0f),
+            new GradientAlphaKey(1f, 1f)
+        };
+        return gradient;
+    }
+    
+    private string GetCurrentTrailName()
+    {
+        return targetScript.gameObject.name;
+    }
+
+    private int GetCurrentTrailNumber()
+    {
+        string trailName = GetCurrentTrailName();
+        if (trailName.StartsWith("Trail"))
+        {
+            string numberStr = trailName.Replace("Trail (", "").Replace(")", "").Trim();
+            if (int.TryParse(numberStr, out int trailNum))
+            {
+                return trailNum;
+            }
+        }
+        return 0;
     }
 }
