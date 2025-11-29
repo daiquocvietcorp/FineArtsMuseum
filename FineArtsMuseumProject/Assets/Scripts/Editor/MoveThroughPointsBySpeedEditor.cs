@@ -1058,8 +1058,8 @@ public class MoveThroughPointsBySpeedEditor : Editor
         Vector3 ceilingPosition = FindCeilingPosition(floorPoint.position);
         
         // Tạo point cao (trên trần)
-        GameObject highPoint = CreatePointAtPositionInternal(ceilingPosition, null, "High");
         targetScript.points.Add(floorPoint);
+        GameObject highPoint = CreatePointAtPositionInternal(ceilingPosition, null, "High");
         MoveTrailToFirstPoint();
         
         Debug.Log($"Đã tạo cặp point độ cao từ point có sẵn:");
