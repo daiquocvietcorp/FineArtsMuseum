@@ -689,19 +689,14 @@ public class MoveThroughPointsBySpeedEditor : Editor
                 float offset = 0.001f;
                 Vector3 previewPosition = hit.point + hit.normal * offset;
             
-                // LUÔN cập nhật preview position cho line, nhưng chỉ hiển thị point nếu showPreview được bật
+                // Cập nhật preview point theo toggle showPreview
                 if (showPreview)
                 {
-                    UpdatePreviewPoint(previewPosition);
+                    UpdatePreviewPoint(previewPosition); // Hiển thị point
                 }
                 else
                 {
-                    // Vẫn cập nhật vị trí nhưng ẩn point
-                    if (previewPoint != null)
-                    {
-                        previewPoint.transform.position = previewPosition;
-                        previewPoint.SetActive(false); // Ẩn point nhưng giữ vị trí
-                    }
+                    HidePreviewPoint(); // Ẩn point
                 }
             
                 // Highlight mesh được hover
@@ -722,20 +717,17 @@ public class MoveThroughPointsBySpeedEditor : Editor
     private void OnSceneCreatingGUI(SceneView sceneView)
     {
         HandleUtility.AddDefaultControl(GUIUtility.GetControlID(FocusType.Passive));
-
+    
         Event currentEvent = Event.current;
-
-        // LUÔN cập nhật preview position (cho cả point và line)
-        if (showPreview || showPreviewLine)
-        {
-            UpdatePreviewAndHighlight(sceneView);
-        }
-
+    
+        // LUÔN cập nhật preview (cho cả point và line)
+        UpdatePreviewAndHighlight(sceneView);
+    
         if (currentEvent.type == EventType.MouseDown && currentEvent.button == 0)
         {
             Vector2 mousePosition = currentEvent.mousePosition;
             Ray ray = HandleUtility.GUIPointToWorldRay(mousePosition);
-
+    
             // Chỉ tập trung vào MeshCollider
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
@@ -746,7 +738,7 @@ public class MoveThroughPointsBySpeedEditor : Editor
                     // Truyền cả raycast hit vào để lấy thông tin hướng
                     CreatePointAtPosition(hit.point, hit.normal, meshCollider.gameObject);
                     currentEvent.Use();
-
+    
                     // Tự động đặt trail về point đầu tiên
                     MoveTrailToFirstPoint();
                 }
@@ -760,29 +752,29 @@ public class MoveThroughPointsBySpeedEditor : Editor
                 Debug.LogWarning("Không tìm thấy MeshCollider tại vị trí click.");
             }
         }
-
-        // Vẽ preview info (luôn vẽ nếu preview line được bật)
+    
+        // Vẽ preview info (luôn vẽ nếu có preview point hoặc preview line)
         if (currentEvent.type == EventType.Repaint && (showPreview || showPreviewLine))
         {
             DrawPreviewInfo(sceneView);
         }
-
+    
         DrawSceneGUI(sceneView);
-
+    
         // Vẽ hướng dẫn đặc biệt cho chế độ tạo điểm
         Handles.BeginGUI();
-        Rect areaRect = new Rect(10, showPreview ? 220 : 130, 450, 80);
+        Rect areaRect = new Rect(10, (showPreview || showPreviewLine) ? 220 : 130, 450, 80);
         GUI.Box(areaRect, "Chế Độ Tạo Điểm");
-
+    
         Rect labelRect = new Rect(areaRect.x + 10, areaRect.y + 25, areaRect.width - 20, 20);
         GUI.Label(labelRect, "• Click vào MeshCollider để tạo điểm chính xác");
-
+    
         labelRect.y += 20;
         GUI.Label(labelRect, "• Chỉ hỗ trợ MeshCollider");
-
+    
         labelRect.y += 20;
         GUI.Label(labelRect, "• Trail sẽ tự động về point đầu tiên");
-
+    
         Handles.EndGUI();
     }
     
@@ -831,40 +823,53 @@ public class MoveThroughPointsBySpeedEditor : Editor
     
     private void DrawPreviewInfo(SceneView sceneView)
     {
-        // Luôn vẽ preview info nếu preview line được bật, không phụ thuộc vào preview point
-        bool shouldDrawPreviewInfo = showPreviewLine && targetScript.points != null && targetScript.points.Count > 0;
-        
-        if (!shouldDrawPreviewInfo) return;
-    
-        // Lấy vị trí preview từ raycast (nếu có)
-        Vector2 mousePosition = Event.current.mousePosition;
-        Ray ray = HandleUtility.GUIPointToWorldRay(mousePosition);
-        RaycastHit hit;
+        bool hasValidPreviewPosition = false;
         Vector3 previewPosition = Vector3.zero;
-        bool hasValidPosition = false;
     
-        if (Physics.Raycast(ray, out hit))
+        // Lấy vị trí preview từ preview point hoặc raycast
+        if (previewPoint != null && previewPoint.activeSelf && showPreview)
         {
-            MeshCollider meshCollider = hit.collider as MeshCollider;
-            if (meshCollider != null)
+            // Sử dụng vị trí từ preview point
+            previewPosition = previewPoint.transform.position;
+            hasValidPreviewPosition = true;
+        }
+        else if (showPreviewLine)
+        {
+            // Nếu chỉ có preview line, lấy vị trí từ raycast
+            Vector2 mousePosition = Event.current.mousePosition;
+            Ray ray = HandleUtility.GUIPointToWorldRay(mousePosition);
+            RaycastHit hit;
+            
+            if (Physics.Raycast(ray, out hit))
             {
-                float offset = 0.001f;
-                previewPosition = hit.point + hit.normal * offset;
-                hasValidPosition = true;
+                MeshCollider meshCollider = hit.collider as MeshCollider;
+                if (meshCollider != null)
+                {
+                    float offset = 0.001f;
+                    previewPosition = hit.point + hit.normal * offset;
+                    hasValidPreviewPosition = true;
+                }
             }
         }
     
-        if (!hasValidPosition) return;
+        if (!hasValidPreviewPosition) return;
     
         // Vẽ thông tin preview với GUI
         Handles.BeginGUI();
         
-        int extraLines = 2; // Luôn có 2 dòng cho preview line
+        string boxTitle = showPreview ? "Preview Info" : "Preview Line Info";
+        int extraLines = (showPreviewLine && targetScript.points != null && targetScript.points.Count > 0) ? 2 : 0;
         int hoverExtra = hoveredMeshRenderer != null ? 1 : 0;
         Rect previewRect = new Rect(10, 130, 320, 80 + (extraLines * 20) + (hoverExtra * 20));
-        GUI.Box(previewRect, "Preview Line Info");
+        GUI.Box(previewRect, boxTitle);
         
         Rect labelRect = new Rect(previewRect.x + 10, previewRect.y + 25, previewRect.width - 20, 20);
+        
+        if (showPreview)
+        {
+            GUI.Label(labelRect, $"Vị trí: {previewPosition:F3}");
+            labelRect.y += 20;
+        }
         
         if (hoveredMeshRenderer != null)
         {
@@ -873,20 +878,41 @@ public class MoveThroughPointsBySpeedEditor : Editor
         }
         
         // Hiển thị thông tin về preview line
-        Transform lastPoint = GetLastValidPoint();
-        if (lastPoint != null)
+        if (showPreviewLine && targetScript.points != null && targetScript.points.Count > 0)
         {
-            float distance = Vector3.Distance(previewPosition, lastPoint.position);
-            GUI.Label(labelRect, $"Khoảng cách đến cuối: {distance:F2}m");
-            labelRect.y += 20;
-            
-            GUI.Label(labelRect, "Click để tạo điểm tại đây");
+            Transform lastPoint = GetLastValidPoint();
+            if (lastPoint != null)
+            {
+                float distance = Vector3.Distance(previewPosition, lastPoint.position);
+                GUI.Label(labelRect, $"Khoảng cách đến cuối: {distance:F2}m");
+                labelRect.y += 20;
+            }
         }
         
+        GUI.Label(labelRect, "Click để tạo điểm tại đây");
+        
         Handles.EndGUI();
+    
+        // Vẽ preview point (chỉ khi được bật)
+        if (showPreview && previewPoint != null && previewPoint.activeSelf)
+        {
+            // Vẽ line từ camera đến preview point
+            Handles.color = Color.red;
+            Handles.DrawDottedLine(sceneView.camera.transform.position, previewPoint.transform.position, 2f);
+            
+            // Vẽ sphere tại preview point
+            Handles.color = Color.red;
+            Handles.SphereHandleCap(0, previewPoint.transform.position, Quaternion.identity, 0.02f, EventType.Repaint);
+            
+            // Vẽ label tại preview point
+            Handles.Label(previewPoint.transform.position + Vector3.up * 0.02f, "Preview Point");
+        }
         
         // Vẽ đường đến điểm cuối cùng (chỉ khi preview line được bật)
-        DrawPreviewLineToLastPoint(previewPosition);
+        if (showPreviewLine)
+        {
+            DrawPreviewLineToLastPoint(previewPosition);
+        }
     }
     
     private Transform GetLastValidPoint()
