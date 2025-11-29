@@ -14,7 +14,7 @@ public class MoveThroughPointsBySpeedEditor : Editor
     
     // Biến cho preview point
     private GameObject previewPoint;
-    private bool showPreview = true;
+    private bool showPreview = false;
     
     // Biến cho highlight mesh
     private MeshRenderer hoveredMeshRenderer;
@@ -149,7 +149,7 @@ public class MoveThroughPointsBySpeedEditor : Editor
             // Xóa collider
             DestroyImmediate(previewPoint.GetComponent<Collider>());
             
-            previewPoint.transform.localScale = Vector3.one * 0.01f;
+            previewPoint.transform.localScale = Vector3.one * 0.001f;
             previewPoint.SetActive(false);
         }
     }
@@ -400,6 +400,27 @@ public class MoveThroughPointsBySpeedEditor : Editor
         pointsContainer = GameObject.Find(containerName);
     }
     
+    private void EnsurePointsContainerExists()
+    {
+        if (pointsContainer == null)
+        {
+            FindOrCreatePointsContainer();
+        
+            // Nếu vẫn không tìm thấy, tạo mới
+            if (pointsContainer == null)
+            {
+                CreateNewPointsContainer();
+                Debug.Log("🆕 Đã tự động tạo points container mới");
+            }
+        }
+    
+        // Kiểm tra container có hợp lệ không
+        if (pointsContainer == null)
+        {
+            Debug.LogError("❌ Không thể tạo hoặc tìm thấy points container!");
+        }
+    }
+    
     private void CreateNewPointsContainer()
     {
         string containerName = $"{targetScript.gameObject.name}_PointsContainer";
@@ -575,6 +596,7 @@ public class MoveThroughPointsBySpeedEditor : Editor
                 }
                 
                 ToggleObjectInList(clickedObject.transform);
+                MoveTrailToFirstPoint();
                 currentEvent.Use();
             }
         }
@@ -979,6 +1001,8 @@ public class MoveThroughPointsBySpeedEditor : Editor
         //GameObject newPoint = new GameObject($"Point_{targetScript.points.Count + 1}_{suffix}");
         //newPoint.tag = "Point";
         //newPoint.transform.position = position;
+        
+        EnsurePointsContainerExists();
         
         // Thêm visual (sphere) để dễ nhìn thấy
         GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
