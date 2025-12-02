@@ -68,6 +68,12 @@ public class MoveThroughPointsBySpeed : MonoBehaviour
     {
         StopAllCoroutines();
 
+        if (points == null || points.Count == 0)
+        {
+            Debug.Log($"{name}: ResetPath() FAILED — points list is EMPTY!");
+            return;
+        }
+
         currentIndex = 0;
         isWaiting = false;
         isStopped = false;
@@ -84,6 +90,7 @@ public class MoveThroughPointsBySpeed : MonoBehaviour
             transform.position = points[0].position;
         }
     }
+
 
     private IEnumerator EnableTrailNextFrame()
     {
