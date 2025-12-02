@@ -70,6 +70,7 @@ using UnityEngine.Video;
         private IEnumerator StartAIVideoCoroutine(AIVideo aiVideo)
         {
             blinkCanvas.SetActive(true);
+            if(aiVideo.IsPlaneReplace) aiVideo.MeshRenderer.gameObject.SetActive(true);
             
             var materials = aiVideo.MeshRenderer.materials;
             
@@ -109,6 +110,7 @@ using UnityEngine.Video;
         {
             if(!_aiVideoPlayers.TryGetValue(objectName, out var aiVideo)) return;
             if(aiVideo.MeshRenderer == null || aiVideo.videoClip == null || aiVideo.originalMaterial == null) return;
+            
             var materials = aiVideo.MeshRenderer.materials;
             
             var materialIndex = -1;
@@ -125,6 +127,8 @@ using UnityEngine.Video;
             
             materials[materialIndex] = aiVideo.originalMaterial;
             aiVideo.MeshRenderer.materials = materials;
+            
+            if(aiVideo.IsPlaneReplace) aiVideo.MeshRenderer.gameObject.SetActive(false);
         }
     }
 
@@ -135,4 +139,5 @@ using UnityEngine.Video;
         [field: SerializeField] public MeshRenderer MeshRenderer { get; set; }
         [field: SerializeField] public Material originalMaterial { get; set; }
         [field: SerializeField] public VideoClip videoClip { get; set; }
+        [field: SerializeField] public bool IsPlaneReplace { get; set; }
     }
