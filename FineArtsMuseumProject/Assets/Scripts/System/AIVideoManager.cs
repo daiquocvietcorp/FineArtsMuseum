@@ -43,6 +43,7 @@ using UnityEngine.Video;
             if(!_aiVideoPlayers.TryGetValue(objectName, out var aiVideo)) return;
             if(aiVideo.MeshRenderer == null || aiVideo.videoClip == null || aiVideo.originalMaterial == null) return;
             videoPlayer.clip = aiVideo.videoClip;
+            if(aiVideo.IsPlaneReplace) aiVideo.MeshRenderer.gameObject.SetActive(false);
         }
 
         public void SetVideoMaterial(string objectName)
