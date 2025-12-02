@@ -13,6 +13,7 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
 {
     [field: SerializeField] private bool isPaint = true;
     [field: SerializeField] private bool isObject = false;
+    [field: SerializeField] private bool isObjectWithAI = false;
     
     public float rotationSpeed = 100f;
     public float zoomSpeed = 0.01f;
@@ -45,6 +46,9 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
     private bool _isDragObject;    
     
     public bool canRotate = true;
+    
+    public GameObject normalObject;
+    public GameObject AIObject;
 
     public bool IsUseOnPointerDown = false;
     public MagnifierHover mobileMagnifierHover;
