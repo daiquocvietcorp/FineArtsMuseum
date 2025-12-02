@@ -12,6 +12,7 @@ namespace UI
         [field: SerializeField] private Toggle guideToggle;
         [field: SerializeField] private Toggle vrToggle;
         [field: SerializeField] private Toggle settingsToggle;
+        [field: SerializeField] private Toggle blueprintToggle;
         
         [Header("Guide Sprites")]
         [field: SerializeField] private Sprite guideOnSprite;
@@ -24,10 +25,14 @@ namespace UI
         [Header("Settings Sprites")]
         [field: SerializeField] private Sprite settingsOnSprite;
         [field: SerializeField] private Sprite settingsOffSprite;
+
+        public GameObject LineBlack;
+        public GameObject LineWhite;
         
         private bool _isGuideOn;
         private bool _isVROn;
         private bool _isSettingsOn;
+        public bool _isBlueprintOn;
         
         #region Override Methods
 
@@ -59,6 +64,13 @@ namespace UI
             _isVROn = false;
             _isSettingsOn = false;
             settingsToggle.isOn = false;
+
+            if (blueprintToggle != null)
+            {
+                blueprintToggle.isOn = false;
+                blueprintToggle.onValueChanged.AddListener(OnBlueprintToggleValueChanged);
+            }
+            
 
             if (SceneLog.IsFirstScene && !PlatformManager.Instance.IsVR)
             {
@@ -180,6 +192,28 @@ namespace UI
             _isGuideOn = arg0;
         }
         
+        private void OnBlueprintToggleValueChanged(bool arg0)
+        {
+            
+            if(_isBlueprintOn == arg0) return;
+            
+            if (arg0)
+            {
+                CheckToggleOn();
+                blueprintToggle.image.color = Color.black;
+                BlueprintOn();
+            }
+            else
+            {
+                blueprintToggle.image.color = Color.white;
+                BlueprintOff();
+            }
+            
+            _isBlueprintOn = arg0;
+        }
+        
+        
+        
         private void CheckToggleOn()
         {
             if (_isSettingsOn)
@@ -198,11 +232,22 @@ namespace UI
                 VROff();
             }
 
+            
+
             if (!_isGuideOn) return;
             _isGuideOn = false;
             guideToggle.isOn = false;
             guideToggle.image.sprite = guideOffSprite;
             GuideOff();
+            
+            if (_isBlueprintOn)
+            {
+                _isBlueprintOn = false;
+                blueprintToggle.isOn = false;
+                blueprintToggle.image.color = Color.white;
+                BlueprintOff();
+            }
+
         }
         
         private void DisablePainting()
@@ -251,6 +296,24 @@ namespace UI
             UIManager.Instance.EnableUI("UI_GUIDE");
             UIManager.Instance.ActionUI("UI_GUIDE");
             DisablePainting();
+        }
+
+        private void BlueprintOn()
+        {
+            TrailEffectManager.Instance.StartTrails();
+            TrailEffectManager.Instance.isTrailOn = true;
+            LineBlack.SetActive(false);
+            LineWhite.SetActive(true);
+            //_isBlueprintOn = true;
+        }
+
+        private void BlueprintOff()
+        {
+            TrailEffectManager.Instance.StopTrails();
+            TrailEffectManager.Instance.isTrailOn = false;
+            //_isBlueprintOn = false;
+            LineBlack.SetActive(true);
+            LineWhite.SetActive(false);
         }
 
         #endregion
