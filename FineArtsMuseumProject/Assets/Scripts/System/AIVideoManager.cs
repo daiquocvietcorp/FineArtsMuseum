@@ -11,6 +11,7 @@ using UnityEngine.Video;
         private static readonly int EmissionMap = Shader.PropertyToID("_EmissionMap");
         [field: SerializeField] private List<AIVideo> _aiVideos;
         [field: SerializeField] private Material videoMaterial;
+        [field: SerializeField] private Material transparentVideoMaterial;
         [field: SerializeField] private VideoPlayer videoPlayer;
         [field: SerializeField] private RenderTexture videoRenderTexture;
         [field: SerializeField] private GameObject blinkCanvas;
@@ -97,7 +98,8 @@ using UnityEngine.Video;
             videoPlayer.isLooping = true;
             
             yield return new WaitForSeconds(MinWaitTime);
-            materials[materialIndex] = videoMaterial;
+            //materials[materialIndex] = videoMaterial;
+            materials[materialIndex] = aiVideo.IsPlaneReplace ? transparentVideoMaterial : videoMaterial;
             aiVideo.MeshRenderer.materials = materials;
             
             
@@ -118,7 +120,7 @@ using UnityEngine.Video;
 
             for (var i = 0; i < materials.Length; i++)
             {
-                if(materials[i].name != videoMaterial.name + " (Instance)")
+                if(materials[i].name != videoMaterial.name + " (Instance)" && materials[i].name != transparentVideoMaterial.name + " (Instance)")
                     continue;
                 materialIndex = i;
                 break;
