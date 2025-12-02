@@ -72,7 +72,6 @@ using UnityEngine.Video;
         private IEnumerator StartAIVideoCoroutine(AIVideo aiVideo)
         {
             blinkCanvas.SetActive(true);
-            if(aiVideo.IsPlaneReplace) aiVideo.MeshRenderer.gameObject.SetActive(true);
             
             var materials = aiVideo.MeshRenderer.materials;
             
@@ -104,7 +103,7 @@ using UnityEngine.Video;
             
             
             
-            
+            if(aiVideo.IsPlaneReplace) aiVideo.MeshRenderer.gameObject.SetActive(true);
             videoPlayer.Play();
             blinkCanvas.SetActive(false);
         }
