@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class MoveThroughPointsBySpeed : MonoBehaviour
@@ -85,7 +86,7 @@ public class MoveThroughPointsBySpeed : MonoBehaviour
             trail.Clear();
             StartCoroutine(EnableTrailNextFrame());
         }
-        else
+        else if(points.Count > 0)
         {
             transform.position = points[0].position;
         }
