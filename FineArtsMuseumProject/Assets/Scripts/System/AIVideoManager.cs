@@ -9,6 +9,7 @@ using UnityEngine.Video;
     public class AIVideoManager : MonoSingleton<AIVideoManager>
     {
         private static readonly int EmissionMap = Shader.PropertyToID("_EmissionMap");
+        private static readonly int Threshold = Shader.PropertyToID("_Threshold");
         [field: SerializeField] private List<AIVideo> _aiVideos;
         [field: SerializeField] private Material videoMaterial;
         [field: SerializeField] private Material transparentVideoMaterial;
@@ -98,12 +99,21 @@ using UnityEngine.Video;
             
             yield return new WaitForSeconds(MinWaitTime);
             //materials[materialIndex] = videoMaterial;
+
+            if (aiVideo.IsPlaneReplace)
+            {
+                transparentVideoMaterial.SetFloat(Threshold, aiVideo.blackThreshold);
+            }
+            
             materials[materialIndex] = aiVideo.IsPlaneReplace ? transparentVideoMaterial : videoMaterial;
             aiVideo.MeshRenderer.materials = materials;
             
             
+            if(aiVideo.IsPlaneReplace)
+            {
+                aiVideo.MeshRenderer.gameObject.SetActive(true);
+            }
             
-            if(aiVideo.IsPlaneReplace) aiVideo.MeshRenderer.gameObject.SetActive(true);
             videoPlayer.Play();
             blinkCanvas.SetActive(false);
         }
@@ -142,4 +152,5 @@ using UnityEngine.Video;
         [field: SerializeField] public Material originalMaterial { get; set; }
         [field: SerializeField] public VideoClip videoClip { get; set; }
         [field: SerializeField] public bool IsPlaneReplace { get; set; }
+        [field: SerializeField] public float blackThreshold { get; set; } = 0.001f;
     }
