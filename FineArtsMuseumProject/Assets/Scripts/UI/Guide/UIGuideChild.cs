@@ -33,7 +33,12 @@ public class UIGuideChild : MonoBehaviour
         PreviousButton.onClick.RemoveAllListeners();
         NextButton.onClick.RemoveAllListeners();
 
-        CloseButton.onClick.AddListener(CloseButtonClicked);
+        CloseButton.onClick.AddListener(() =>
+        {
+            
+            _closeAction?.Invoke();
+            CloseButtonClicked();
+        });
         PreviousButton.onClick.AddListener(() => PreviousButtonClicked(currentIndex - 1));
         NextButton.onClick.AddListener(() => NextButtonClicked(currentIndex + 1));
     }
@@ -71,8 +76,8 @@ public class UIGuideChild : MonoBehaviour
         }
         else
         {
-            CloseButtonClicked();
             _closeAction?.Invoke();
+            CloseButtonClicked();
         }
     }
 
