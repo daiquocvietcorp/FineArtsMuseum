@@ -88,7 +88,8 @@ public class MoveThroughPointsBySpeed : MonoBehaviour
         }
         else if(points.Count > 0)
         {
-            transform.position = points[0].position;
+            if(points[0] != null)
+                transform.position = points[0].position;
         }
     }
 
