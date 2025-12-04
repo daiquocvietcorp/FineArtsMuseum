@@ -79,7 +79,7 @@ public class MoveThroughPointsBySpeed : MonoBehaviour
         isWaiting = false;
         isStopped = false;
 
-        if (trail != null)
+        if (trail != null && trail.enabled)
         {
             trail.enabled = false;
             transform.position = points[0].position;
