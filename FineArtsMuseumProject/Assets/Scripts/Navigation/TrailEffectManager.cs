@@ -27,6 +27,7 @@ public class TrailEffectManager : MonoBehaviour
 
     private void Start()
     {
+        ResetTrails();
         StopTrails();
     }
 
