@@ -57,25 +57,37 @@ public class TrailEffectManager : MonoBehaviour
         foreach (var mover in trailEffects)
         {
             if (mover != null)
+            {
+                mover.ResetPath();
                 mover.StopMoving();
+            }
         }
     }
 
+    public void SetCurrentFloor(int floor)
+    {
+        currentFloor = floor;   
+    }
+
+    // public void StartTrails()
+    // {
+    //     foreach (var mover in trailEffects)
+    //     {
+    //         if (mover != null)
+    //         {
+    //             mover.ResetPath();   // reset trước
+    //             mover.StartMoving(); // chạy sau
+    //         }
+    //     }
+    // }
     public void StartTrails()
     {
-        foreach (var mover in trailEffects)
-        {
-            if (mover != null)
-            {
-                mover.ResetPath();   // reset trước
-                mover.StartMoving(); // chạy sau
-            }
-        }
+        StartTrailsByFloor(currentFloor);
     }
     
     public void StartTrailsByFloor(int floor)
     {
-        if (floor == 0)
+        if (floor == 0 && trailHam.activeSelf)
         {
             trailF1.SetActive(false);
             trailF2.SetActive(false);
@@ -105,7 +117,13 @@ public class TrailEffectManager : MonoBehaviour
             trailF2.SetActive(false);
             trailF3.SetActive(true);
             trailHam.SetActive(false);
-
+        }
+        else
+        {
+            trailF1.SetActive(true);
+            trailF2.SetActive(true);
+            trailF3.SetActive(true);
+            trailHam.SetActive(true);
         }
         
         
