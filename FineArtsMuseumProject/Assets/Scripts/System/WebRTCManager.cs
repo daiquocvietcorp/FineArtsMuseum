@@ -157,7 +157,7 @@ public class WebRTCManager : MonoSingleton<WebRTCManager>
                     {
                         if (fields[4] == "vi" || fields[4] == "en")
                         {
-                            AudioSubtitleManager.Instance.ChangeLanguage(fields[4]);
+                            AudioSubtitleManager.Instance.ToggleLanguage(fields[4]);
                         }
                     }
                     

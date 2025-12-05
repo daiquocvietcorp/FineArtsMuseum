@@ -107,6 +107,20 @@ public class AudioSubtitleManager : MonoSingleton<AudioSubtitleManager>
     //         }
     //     }
     // }
+
+    public void ToggleLanguage(string lang)
+    {
+        if (lang == "vi")
+        {
+            toggleVietnamese.isOn = true;
+            toggleEnglish.isOn = false;
+        }
+        else
+        {
+            toggleVietnamese.isOn = false;
+            toggleEnglish.isOn = true;
+        }
+    }
     
     public void StartArtPanelButton(string id)
     {
