@@ -84018,6 +84018,7 @@ GameObject:
   - component: {fileID: 1459000970}
   - component: {fileID: 1459000969}
   - component: {fileID: 1459000979}
+  - component: {fileID: 1459000980}
   m_Layer: 0
   m_Name: RenderStreaming
   m_TagString: Untagged
@@ -84249,7 +84250,7 @@ MonoBehaviour:
   videoStreamReceiver: {fileID: 1459000974}
   audioStreamReceiver: {fileID: 1459000973}
   broadcast: {fileID: 1459000969}
-  socketManager: {fileID: 0}
+  socketManager: {fileID: 1459000980}
   debugMode: 0
 --- !u!4 &1459000977
 Transform:
@@ -84274,6 +84275,21 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1459000968}
   m_Enabled: 1
+--- !u!114 &1459000980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1459000968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f11517952129e0947a72f3d6f74810a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serverIP: http://127.0.0.1:3000
+  isConnected: 0
+  connectionStatus: Disconnected
 --- !u!114 &1460785679 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5032515519354890981, guid: 466919f8f1ebaf94da620fee8ed8e464,

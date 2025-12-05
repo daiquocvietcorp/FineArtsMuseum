@@ -150,6 +150,7 @@ public class WebRTCManager : MonoSingleton<WebRTCManager>
                     if (fields.Length > 3)
                     {
                         //RegisterLine
+                        TrailEffectManager.Instance.SetCurrentFloor(int.Parse(fields[3]));
                     }
                     
                     break;

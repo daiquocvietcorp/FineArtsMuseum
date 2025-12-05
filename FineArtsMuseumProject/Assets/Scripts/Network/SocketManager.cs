@@ -135,6 +135,7 @@ namespace Network
         {
             if (!int.TryParse(value, out var floor)) return;
             //OpenLine(floor);
+            TrailEffectManager.Instance.SetCurrentFloor(floor);
         }
         
         private void TranferLanguage(string value)
