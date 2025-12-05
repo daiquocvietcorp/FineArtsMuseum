@@ -2,7 +2,9 @@ using System;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using Camera;
 using Newtonsoft.Json.Linq;
+using Player;
 using UnityEngine;
 
 namespace Network
@@ -198,17 +200,9 @@ namespace Network
         #region Command Handlers
         private void OnUpdateFloor(string value)
         {
-            // Ví dụ: value = "1:1"
-            string[] parts = value.Split(':');
-            if (parts.Length == 2)
-            {
-                int floor = int.Parse(parts[0]);
-                int room = int.Parse(parts[1]);
-                Debug.Log($"Update Floor: Floor {floor}, Room {room}");
-            
-                // Thực hiện logic cập nhật floor tại đây
-                // Ví dụ: gameObject.transform.position = new Vector3(floor, 0, room);
-            }
+            if(!int.TryParse(value, out var floor)) return;
+            CharacterManager.Instance.SetFloorForCharacter(floor);
+            CameraManager.Instance.SetCameraRotationByFloor(floor);
         }
 
         private void OnUpdatePosition(string value)
