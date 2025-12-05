@@ -141,13 +141,13 @@ public class WebRTCManager : MonoSingleton<WebRTCManager>
 
                     //ipText.text += "Đã chạy" + " | ";
 
-                    if (fields.Length > 2)
+                    if (fields.Length > 2 && fields[1] != "-1")
                     {
                         var socketString = fields[1];
                         socketManager.InitSocket(socketString, fields[2]);
                     }
 
-                    if (fields.Length > 3)
+                    if (fields.Length > 3 && fields[1] != "-1")
                     {
                         //RegisterLine
                         TrailEffectManager.Instance.SetCurrentFloor(int.Parse(fields[3]));
