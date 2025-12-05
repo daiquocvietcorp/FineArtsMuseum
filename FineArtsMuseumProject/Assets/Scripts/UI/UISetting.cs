@@ -86,6 +86,7 @@ namespace UI
             base.EnableUI();
             InputManager.Instance.DisableJoystick();
             InputManager.Instance.DisableJoystickRotation();
+            UpdateLanguage();
         }
 
         private void Awake()
@@ -110,6 +111,17 @@ namespace UI
             vietnameseButton.onClick.AddListener(OnVietnameseButtonClicked);
             backButton.onClick.AddListener(OnBackButtonClicked);
             
+            UpdateLanguage();
+            
+            _isFirstPerson = SceneLog.IsFirstView;
+            SwitchView(_isFirstPerson);
+            
+            cautionFirstPerson.gameObject.SetActive(false);
+            RegisterCautionSequence();
+        }
+
+        private void UpdateLanguage()
+        {
             if(SceneLog.IsVietnamese)
             {
                 _isVietnamese = true;
@@ -120,12 +132,6 @@ namespace UI
                 _isVietnamese = false;
                 SwitchLanguage(false);
             }
-            
-            _isFirstPerson = SceneLog.IsFirstView;
-            SwitchView(_isFirstPerson);
-            
-            cautionFirstPerson.gameObject.SetActive(false);
-            RegisterCautionSequence();
         }
 
         private void OnBackButtonClicked()
