@@ -141,7 +141,7 @@ namespace Network
         private void TranferLanguage(string value)
         {
             if(value != "vi" && value != "en") return;
-            AudioSubtitleManager.Instance.ChangeLanguage(value);
+            AudioSubtitleManager.Instance.ToggleLanguage(value);
         }
 
         #endregion
