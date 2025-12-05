@@ -6,6 +6,7 @@ using Player;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Utils;
 
 namespace UI
 {
@@ -141,6 +142,7 @@ namespace UI
 
         public void EnterMain()
         {
+            ScriptableObjectManager.Instance.Initialize();
             CharacterManager.Instance.StartControlCharacter();
 
             if (PlatformManager.Instance.IsWebGL)

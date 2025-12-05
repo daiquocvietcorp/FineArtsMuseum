@@ -1,8 +1,11 @@
 using System;
+using System.Collections.Generic;
 using DesignPatterns;
 using InputController;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
+using Utils;
 
 namespace Player
 {
@@ -29,7 +32,14 @@ namespace Player
             if(SceneLog.IsFirstView) HideCharacterSkin();
             else ShowCharacterSkin();
         }
-        
+
+        public void SetFloorForCharacter(int floor)
+        {
+            var collectPlayer = ScriptableObjectManager.Instance.GetCollectPlayer(floor);
+            if (collectPlayer == null) return;
+            defaultCharacterStateMachine.SetCharacter(collectPlayer.playerPosition, collectPlayer.playerRotation);
+        }
+
         public void StopControlCharacter()
         {
             defaultCharacterStateMachine.StopCharacter();

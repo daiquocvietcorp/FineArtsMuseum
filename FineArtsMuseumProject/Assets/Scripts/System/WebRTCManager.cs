@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Linq;
 using DesignPatterns;
+using Network;
 using Player;
 using TMPro;
 using Unity.RenderStreaming;
@@ -21,6 +22,7 @@ public class WebRTCManager : MonoSingleton<WebRTCManager>
     [field: SerializeField] private VideoStreamReceiver videoStreamReceiver;
     [field: SerializeField] private AudioStreamReceiver audioStreamReceiver;
     [field: SerializeField] private Broadcast broadcast;
+    [field: SerializeField] private SocketManager socketManager;
     
     [Header("Debug")]
     [field: SerializeField] private bool debugMode;
@@ -98,7 +100,9 @@ public class WebRTCManager : MonoSingleton<WebRTCManager>
                 {
                    //var webrtcPort = int.Parse(arg.Split('=')[1]);
                    //_listenPort = webrtcPort;
-                   _listenPort = arg.Split('=')[1];
+                   var value = arg.Split('=')[1];
+                   var fields = value.Split('|');
+                   _listenPort = fields[0];
                    var signalingURL = $"{_listenPort}";
 
                     signalingManager.Stop();
@@ -134,6 +138,17 @@ public class WebRTCManager : MonoSingleton<WebRTCManager>
                     signalingManager.Run();
 
                     //ipText.text += "Đã chạy" + " | ";
+
+                    if (fields.Length > 1)
+                    {
+                        var socketString = fields[1];
+                        var socketFields = socketString.Split(':');
+                        if(socketFields.Length != 2) continue;
+                        var ip = socketFields[0];
+                        var port = int.Parse(socketFields[1]);
+                        socketManager.InitSocket(ip, port);
+                    }
+                    
                     break;
                 }
                 catch (Exception e)

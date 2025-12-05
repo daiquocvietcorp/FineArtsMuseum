@@ -31,6 +31,7 @@ namespace Camera
         
         private bool _isFirstPerson;
         private bool _isActive;
+        private bool _isRightNow;
         
         private Transform _currentTarget;
         private Vector3 _currentTargetPosition;
@@ -293,13 +294,29 @@ namespace Camera
         private void UpdateCameraPositionWithData()
         {
             if (!player) return;
-            if(!_isActive)
+            if(!_isActive && !_isRightNow)
             {
                 transform.position = Vector3.Lerp(transform.position, _currentTargetPosition, Time.deltaTime * data.Sensitivity);
                 transform.rotation = Quaternion.Lerp(transform.rotation, _currentTargetRotation, Time.deltaTime * data.Sensitivity);
                 _currentAreaYaw = transform.eulerAngles.y;
                 var rawPitch = transform.eulerAngles.x;
                 _currentAreaPitch = rawPitch > 180f ? rawPitch - 360f : rawPitch;
+                return;
+            }
+
+            if (!_isActive && _isRightNow)
+            {
+                transform.position = _currentTargetPosition;
+                transform.rotation = _currentTargetRotation;
+                _currentAreaYaw = transform.eulerAngles.y;
+                var rawPitch = transform.eulerAngles.x;
+                _currentAreaPitch = rawPitch > 180f ? rawPitch - 360f : rawPitch;
+                
+                _currentPitch = transform.eulerAngles.x;
+                _currentYaw = transform.eulerAngles.y;
+                
+                _isActive = true;
+                _isRightNow = false;
                 return;
             }
 
@@ -524,6 +541,16 @@ namespace Camera
         public void SetCanControl(bool isCanControl)
         {
             _isCanControl = isCanControl;
+        }
+
+        public void SetCameraRotation(Vector3 collectCameraCameraRotation, Vector3 collectCameraCameraPosition)
+        {
+            _currentTargetPosition = collectCameraCameraPosition;
+            
+            _currentTargetRotation = Quaternion.Euler(collectCameraCameraRotation);
+            
+            _isActive = false;
+            _isRightNow = true;
         }
     }
     

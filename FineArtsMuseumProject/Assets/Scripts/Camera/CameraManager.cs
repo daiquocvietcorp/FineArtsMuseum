@@ -2,6 +2,7 @@ using System;
 using DesignPatterns;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Utils;
 
 namespace Camera
 {
@@ -42,6 +43,13 @@ namespace Camera
             if (PlatformManager.Instance.IsVR) return;
             cameraFollowPlayer.ExitArea();
             _isLockFollowView = false;
+        }
+        
+        public void SetCameraRotationByFloor(int floor)
+        {
+            var collectCamera = ScriptableObjectManager.Instance.GetCollectCamera(floor);
+            if (collectCamera == null) return;
+            cameraFollowPlayer.SetCameraRotation(collectCamera.cameraRotation, collectCamera.cameraPosition);
         }
         
         public bool IsLockFollowView => _isLockFollowView || cameraFollowPlayer.IsLocked;
