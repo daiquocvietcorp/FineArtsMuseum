@@ -152,6 +152,14 @@ public class WebRTCManager : MonoSingleton<WebRTCManager>
                         //RegisterLine
                         TrailEffectManager.Instance.SetCurrentFloor(int.Parse(fields[3]));
                     }
+
+                    if (fields.Length > 4)
+                    {
+                        if (fields[4] == "vi" || fields[4] == "en")
+                        {
+                            AudioSubtitleManager.Instance.ChangeLanguage(fields[4]);
+                        }
+                    }
                     
                     break;
                 }
