@@ -85,6 +85,8 @@ public class WebRTCManager : MonoSingleton<WebRTCManager>
         broadcast.AddComponent(audioStreamReceiver);
         signalingManager.AddSignalingHandler(broadcast);
         signalingManager.Run();
+        
+        socketManager.InitSocket("https://streaming-13.daiquocviet.vn:42003", "1");
     }
 
     private IEnumerator ListenPort()
@@ -139,14 +141,15 @@ public class WebRTCManager : MonoSingleton<WebRTCManager>
 
                     //ipText.text += "Đã chạy" + " | ";
 
-                    if (fields.Length > 1)
+                    if (fields.Length > 2)
                     {
                         var socketString = fields[1];
-                        var socketFields = socketString.Split(':');
-                        if(socketFields.Length != 2) continue;
-                        var ip = socketFields[0];
-                        var port = int.Parse(socketFields[1]);
-                        socketManager.InitSocket(ip, port);
+                        socketManager.InitSocket(socketString, fields[2]);
+                    }
+
+                    if (fields.Length > 3)
+                    {
+                        //RegisterLine
                     }
                     
                     break;
