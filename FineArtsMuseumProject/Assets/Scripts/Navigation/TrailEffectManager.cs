@@ -87,7 +87,7 @@ public class TrailEffectManager : MonoBehaviour
     
     public void StartTrailsByFloor(int floor)
     {
-        if (floor == 0 && trailHam.activeSelf)
+        if (floor == 0 && trailHam !=null)
         {
             trailF1.SetActive(false);
             trailF2.SetActive(false);
@@ -100,6 +100,7 @@ public class TrailEffectManager : MonoBehaviour
             trailF1.SetActive(true);
             trailF2.SetActive(false);
             trailF3.SetActive(false);
+            if(trailHam !=null)
             trailHam.SetActive(false);
 
         }
@@ -108,6 +109,7 @@ public class TrailEffectManager : MonoBehaviour
             trailF1.SetActive(false);
             trailF2.SetActive(true);
             trailF3.SetActive(false);
+            if(trailHam !=null)
             trailHam.SetActive(false);
 
         }
@@ -116,6 +118,7 @@ public class TrailEffectManager : MonoBehaviour
             trailF1.SetActive(false);
             trailF2.SetActive(false);
             trailF3.SetActive(true);
+            if(trailHam !=null)
             trailHam.SetActive(false);
         }
         else
@@ -123,7 +126,8 @@ public class TrailEffectManager : MonoBehaviour
             trailF1.SetActive(true);
             trailF2.SetActive(true);
             trailF3.SetActive(true);
-            trailHam.SetActive(true);
+            if(trailHam != null)
+                trailHam.SetActive(true);
         }
         
         
