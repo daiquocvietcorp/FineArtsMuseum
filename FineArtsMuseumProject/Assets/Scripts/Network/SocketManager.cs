@@ -22,7 +22,7 @@ namespace Network
         public event Action<string, string> OnCommandReceived;
 
         // Init socket
-        public async void InitSocket(string serverIPInput, int playerId)
+        public async void InitSocket(string serverIPInput, string playerId)
         {
             try
             {
@@ -38,7 +38,7 @@ namespace Network
                     Transport = SocketIOClient.Transport.TransportProtocol.WebSocket,
                     Query = new Dictionary<string, string>
                     {
-                        {"clientId", playerId.ToString()}
+                        {"clientId", playerId}
                     }
                 });
 
