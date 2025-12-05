@@ -14,8 +14,9 @@ public class TrailEffectManager : MonoBehaviour
     public GameObject trailF1;
     public GameObject trailF2;
     public GameObject trailF3;
+    public GameObject trailHam;
 
-    private int currentFloor = 0;
+    private int currentFloor = -1;
     public bool isTrailOn;
     
     private void Awake()
@@ -74,23 +75,37 @@ public class TrailEffectManager : MonoBehaviour
     
     public void StartTrailsByFloor(int floor)
     {
+        if (floor == 0)
+        {
+            trailF1.SetActive(false);
+            trailF2.SetActive(false);
+            trailF3.SetActive(false);
+            trailHam.SetActive(true);
+        }
+        
         if (floor == 1)
         {
             trailF1.SetActive(true);
             trailF2.SetActive(false);
             trailF3.SetActive(false);
+            trailHam.SetActive(false);
+
         }
         else if(floor == 2)
         {
             trailF1.SetActive(false);
             trailF2.SetActive(true);
             trailF3.SetActive(false);
+            trailHam.SetActive(false);
+
         }
         else if(floor == 3)
         {
             trailF1.SetActive(false);
             trailF2.SetActive(false);
             trailF3.SetActive(true);
+            trailHam.SetActive(false);
+
         }
         
         
