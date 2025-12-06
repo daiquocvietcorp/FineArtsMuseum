@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -79,17 +80,27 @@ public class MoveThroughPointsBySpeed : MonoBehaviour
         isWaiting = false;
         isStopped = false;
 
-        if (trail != null && trail.enabled)
+        try
         {
-            trail.enabled = false;
-            transform.position = points[0].position;
-            trail.Clear();
-            StartCoroutine(EnableTrailNextFrame());
-        }
-        else if(points.Count > 0)
-        {
-            if(points[0] != null)
+            if (trail != null && trail.enabled)
+            {
+                trail.enabled = false;
                 transform.position = points[0].position;
+                trail.Clear();
+                
+                if(trail.gameObject.activeInHierarchy)
+                    StartCoroutine(EnableTrailNextFrame());
+            }
+            else if (points.Count > 0)
+            {
+                if (points[0] != null)
+                    transform.position = points[0].position;
+            }
+        }
+        catch (Exception e)
+        {
+            //Console.WriteLine(e);
+            //throw;
         }
     }
 
@@ -102,6 +113,7 @@ public class MoveThroughPointsBySpeed : MonoBehaviour
 
     public void StopMoving()
     {
+        StopAllCoroutines();
         isStopped = true;
 
         if (trail != null)
