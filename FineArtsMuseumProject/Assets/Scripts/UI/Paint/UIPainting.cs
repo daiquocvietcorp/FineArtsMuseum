@@ -117,6 +117,15 @@ public class UIPainting : UIBasic
     [field: Header("Paint ID")]
     [field: SerializeField] private string PaintID { get; set; }
 
+    
+    [field: Header("New Feature")]
+    public bool isUseChildrenImage = false;
+
+    public GameObject childrenTranh;
+    public GameObject childrenTranhAIObject;
+    public VideoPlayer ChildrenTranhAivVideoPlayer;
+    
+
     public string GetPaintID()
     {
         return PaintID;
@@ -170,6 +179,12 @@ public class UIPainting : UIBasic
             guideRotateDefaultPosition = guideRotateImage_tomko.transform.localPosition;
             guideZoomDefaultPosition = guideZoomImage_tomko.transform.localPosition;
             magnifierHover = magnifierHover_other;
+        }
+
+        if (isUseChildrenImage)
+        {
+            ChildrenTranhAivVideoPlayer.frame = 0;
+            ChildrenTranhAivVideoPlayer.Stop();
         }
         
     }
@@ -233,9 +248,22 @@ public class UIPainting : UIBasic
         BlinkCanvas.SetActive(false);
         VideoPlayer.Stop();
         VideoPlayer.gameObject.SetActive(false);
-        tranh.GetComponent<Renderer>().material.mainTexture = tranhDefaultSprite;
-        // Gán texture phát sáng
-        tranh.GetComponent<Renderer>().material.SetTexture("_EmissionMap", tranhDefaultSprite);
+        if (isUseChildrenImage)
+        {
+            childrenTranh.GetComponent<Renderer>().material.mainTexture = tranhDefaultSprite;
+            // Gán texture phát sáng
+            childrenTranh.GetComponent<Renderer>().material.SetTexture("_EmissionMap", tranhDefaultSprite);
+            childrenTranhAIObject.gameObject.SetActive(false);
+            ChildrenTranhAivVideoPlayer.Stop();
+
+        }
+        else
+        {
+            tranh.GetComponent<Renderer>().material.mainTexture = tranhDefaultSprite;
+            // Gán texture phát sáng
+            tranh.GetComponent<Renderer>().material.SetTexture("_EmissionMap", tranhDefaultSprite);
+
+        }
         
         if (_blinkCoroutine != null)
         {
@@ -288,9 +316,21 @@ public void GuidePaintingClicked()
     BlinkCanvas.SetActive(false);
     VideoPlayer.Stop();
     VideoPlayer.gameObject.SetActive(false);
-    tranh.GetComponent<Renderer>().material.mainTexture = tranhDefaultSprite;
-    // Gán texture phát sáng
-    tranh.GetComponent<Renderer>().material.SetTexture("_EmissionMap", tranhDefaultSprite);
+    if (isUseChildrenImage)
+    {
+        childrenTranh.GetComponent<Renderer>().material.mainTexture = tranhDefaultSprite;
+        // Gán texture phát sáng
+        childrenTranh.GetComponent<Renderer>().material.SetTexture("_EmissionMap", tranhDefaultSprite);
+        childrenTranhAIObject.gameObject.SetActive(false);
+        ChildrenTranhAivVideoPlayer.Stop();
+    }
+    else
+    {
+        tranh.GetComponent<Renderer>().material.mainTexture = tranhDefaultSprite;
+        // Gán texture phát sáng
+        tranh.GetComponent<Renderer>().material.SetTexture("_EmissionMap", tranhDefaultSprite);
+    }
+    
     if (_blinkCoroutine != null)
     {
         StopCoroutine(_blinkCoroutine);
@@ -726,10 +766,21 @@ private void StartGuideSequence()
         VideoPlayer.Stop();
         VideoPlayer.gameObject.SetActive(false);
         
-        tranh.GetComponent<Renderer>().material.mainTexture = tranhDefaultSprite;
-        // Gán texture phát sáng
-        tranh.GetComponent<Renderer>().material.SetTexture("_EmissionMap", tranhDefaultSprite);
-        
+        if (isUseChildrenImage)
+        {
+            childrenTranh.GetComponent<Renderer>().material.mainTexture = tranhDefaultSprite;
+            // Gán texture phát sáng
+            childrenTranh.GetComponent<Renderer>().material.SetTexture("_EmissionMap", tranhDefaultSprite);
+            childrenTranhAIObject.gameObject.SetActive(false);
+            ChildrenTranhAivVideoPlayer.Stop();
+
+        }
+        else
+        {
+            tranh.GetComponent<Renderer>().material.mainTexture = tranhDefaultSprite;
+            // Gán texture phát sáng
+            tranh.GetComponent<Renderer>().material.SetTexture("_EmissionMap", tranhDefaultSprite);
+        }
         if (_blinkCoroutine != null)
         {
             StopCoroutine(_blinkCoroutine);
@@ -889,8 +940,20 @@ private void StartGuideSequence()
             BlinkCanvas.SetActive(false);
             VideoPlayer.Stop();
             VideoPlayer.gameObject.SetActive(false);
-            tranh.GetComponent<Renderer>().material.mainTexture = tranhDefaultSprite;
-            tranh.GetComponent<Renderer>().material.SetTexture("_EmissionMap", tranhDefaultSprite);
+            if (isUseChildrenImage)
+            {
+                childrenTranh.GetComponent<Renderer>().material.mainTexture = tranhDefaultSprite;
+                // Gán texture phát sáng
+                childrenTranh.GetComponent<Renderer>().material.SetTexture("_EmissionMap", tranhDefaultSprite);
+                childrenTranhAIObject.gameObject.SetActive(false);
+                ChildrenTranhAivVideoPlayer.Stop();
+
+            }
+            else
+            {
+                tranh.GetComponent<Renderer>().material.mainTexture = tranhDefaultSprite;
+                tranh.GetComponent<Renderer>().material.SetTexture("_EmissionMap", tranhDefaultSprite);
+            }
 
             if (_blinkCoroutine != null)
             {
@@ -956,8 +1019,21 @@ private void StartGuideSequence()
         BlinkCanvas.SetActive(false);
         _aiCautionCoroutine = StartCoroutine(StartAICautionAnimation());
         VideoPlayer.Play();
-        tranh.GetComponent<Renderer>().material.mainTexture = videoRenderTexture;
-        tranh.GetComponent<Renderer>().material.SetTexture("_EmissionMap", videoRenderTexture);
+        if (isUseChildrenImage)
+        {
+            childrenTranh.GetComponent<Renderer>().material.mainTexture = videoRenderTexture;
+            // Gán texture phát sáng
+            childrenTranh.GetComponent<Renderer>().material.SetTexture("_EmissionMap", videoRenderTexture);
+            childrenTranhAIObject.gameObject.SetActive(true);
+            ChildrenTranhAivVideoPlayer.Play();
+
+        }
+        else
+        {
+            tranh.GetComponent<Renderer>().material.mainTexture = videoRenderTexture;
+            tranh.GetComponent<Renderer>().material.SetTexture("_EmissionMap", videoRenderTexture);
+        }
+        
     }
 
     // Update is called once per frame
