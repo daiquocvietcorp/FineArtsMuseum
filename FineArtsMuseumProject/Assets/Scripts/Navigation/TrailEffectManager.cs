@@ -69,18 +69,7 @@ public class TrailEffectManager : MonoBehaviour
     {
         currentFloor = floor;   
     }
-
-    // public void StartTrails()
-    // {
-    //     foreach (var mover in trailEffects)
-    //     {
-    //         if (mover != null)
-    //         {
-    //             mover.ResetPath();   // reset trước
-    //             mover.StartMoving(); // chạy sau
-    //         }
-    //     }
-    // }
+    
     public void StartTrails()
     {
         StartTrailsByFloor(currentFloor);
@@ -136,7 +125,6 @@ public class TrailEffectManager : MonoBehaviour
         {
             if (mover != null)
             {
-                mover.ResetPath();   // reset trước
                 mover.StartMoving(); // chạy sau
             }
         }
