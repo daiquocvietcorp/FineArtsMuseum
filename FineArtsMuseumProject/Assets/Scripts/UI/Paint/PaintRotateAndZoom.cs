@@ -462,99 +462,103 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
             //     lastArcballVector = currentVector;
             //     return;
             // }
-            if (isObject)
-            {
-                if (!lastArcballVector.HasValue) return;
-                var currentVector = GetArcballVector(eventData.position);
-
-                // Tính vector xoay bằng cách lấy tích chéo giữa vector ban đầu và vector hiện tại
-                var rotationAxis = Vector3.Cross(lastArcballVector.Value, currentVector);
-
-                switch (_currentDragMode)
-                {
-                    case DragMode.None:
-                    {
-                        if (rotationAxis != Vector3.zero)
-                        {
-                            _currentDragMode = Mathf.Abs(rotationAxis.x) > Mathf.Abs(rotationAxis.y)
-                                ? DragMode.Horizontal
-                                : DragMode.Vertical;
-                            switch (_currentDragMode)
-                            {
-                                case DragMode.Horizontal:
-                                    rotationAxis.y = 0;
-                                    break;
-                                case DragMode.Vertical:
-                                    rotationAxis.x = 0;
-                                    break;
-                            }
-                        }
-                        break;
-                    }
-                    case DragMode.Horizontal:
-                        rotationAxis.y = 0;
-                        break;
-                    case DragMode.Vertical:
-                        rotationAxis.x = 0;
-                        break;
-                }
-        
-                rotationAxis.z = 0;
-
-                // Tính góc xoay dựa trên dot product
-                var dot = Vector3.Dot(lastArcballVector.Value, currentVector);
-                dot = Mathf.Clamp(dot, -1.0f, 1.0f);
-                var angle = Mathf.Acos(dot) * Mathf.Rad2Deg; // chuyển sang độ
-
-                // Nhân với -1 để đảo chiều xoay
-                angle *= -1;
-
-                // Điều chỉnh độ nhạy xoay bằng rotationSpeed (hoặc phiên bản mobile) và Time.deltaTime
-                angle *= Time.deltaTime * CurrentRotationSpeed;
-
-                /*if (rotationAxis.sqrMagnitude > 1e-6f) // Kiểm tra để tránh xoay khi vector quá nhỏ
-                {
-                    Quaternion rotation = Quaternion.AngleAxis(angle, rotationAxis.normalized);
-                    transform.rotation = rotation * transform.rotation;
-                }*/
-                
-                Quaternion rotation = Quaternion.AngleAxis(angle, rotationAxis.normalized);
-                transform.rotation = rotation * transform.rotation;
-                ClampRotation();
-
-                // Cập nhật vector cho lần kéo tiếp theo
-                lastArcballVector = currentVector;
-                _isDragObject = true;
-                return;
-            }
+            
             
             if(!_isAI)
+            {
+                if (isObject)
+                {
+                    if (!lastArcballVector.HasValue) return;
+                    var currentVector = GetArcballVector(eventData.position);
+    
+                    // Tính vector xoay bằng cách lấy tích chéo giữa vector ban đầu và vector hiện tại
+                    var rotationAxis = Vector3.Cross(lastArcballVector.Value, currentVector);
+    
+                    switch (_currentDragMode)
+                    {
+                        case DragMode.None:
+                        {
+                            if (rotationAxis != Vector3.zero)
+                            {
+                                _currentDragMode = Mathf.Abs(rotationAxis.x) > Mathf.Abs(rotationAxis.y)
+                                    ? DragMode.Horizontal
+                                    : DragMode.Vertical;
+                                switch (_currentDragMode)
+                                {
+                                    case DragMode.Horizontal:
+                                        rotationAxis.y = 0;
+                                        break;
+                                    case DragMode.Vertical:
+                                        rotationAxis.x = 0;
+                                        break;
+                                }
+                            }
+                            break;
+                        }
+                        case DragMode.Horizontal:
+                            rotationAxis.y = 0;
+                            break;
+                        case DragMode.Vertical:
+                            rotationAxis.x = 0;
+                            break;
+                    }
+            
+                    rotationAxis.z = 0;
+    
+                    // Tính góc xoay dựa trên dot product
+                    var dot = Vector3.Dot(lastArcballVector.Value, currentVector);
+                    dot = Mathf.Clamp(dot, -1.0f, 1.0f);
+                    var angle = Mathf.Acos(dot) * Mathf.Rad2Deg; // chuyển sang độ
+    
+                    // Nhân với -1 để đảo chiều xoay
+                    angle *= -1;
+    
+                    // Điều chỉnh độ nhạy xoay bằng rotationSpeed (hoặc phiên bản mobile) và Time.deltaTime
+                    angle *= Time.deltaTime * CurrentRotationSpeed;
+    
+                    /*if (rotationAxis.sqrMagnitude > 1e-6f) // Kiểm tra để tránh xoay khi vector quá nhỏ
+                    {
+                        Quaternion rotation = Quaternion.AngleAxis(angle, rotationAxis.normalized);
+                        transform.rotation = rotation * transform.rotation;
+                    }*/
+                    
+                    Quaternion rotation = Quaternion.AngleAxis(angle, rotationAxis.normalized);
+                    transform.rotation = rotation * transform.rotation;
+                    ClampRotation();
+    
+                    // Cập nhật vector cho lần kéo tiếp theo
+                    lastArcballVector = currentVector;
+                    _isDragObject = true;
+                    return;
+                }
+                
                 if (isRotateOneDirect)
                 {
-                    transform.Rotate(Vector3.up, -rotateAmountX, Space.Self);  
+                    transform.Rotate(Vector3.up, -rotateAmountX, Space.Self);
                     ClampRotation();
                 }
                 else
-                { 
+                {
                     // Lấy giá trị Euler angles hiện tại
                     Vector3 currentEuler = transform.eulerAngles;
-    
+
                     // Tính góc xoay theo kéo ngang (dành cho trục Y)
                     float rotateHorizontal = delta.x * CurrentRotationSpeed * Time.deltaTime * 0.5f;
                     currentEuler.y += rotateHorizontal;
-    
+
                     // Nếu cho phép xoay lên/xuống thì xử lý kéo dọc (thay đổi trục Z)
                     if (CanRotateUpDown)
                     {
                         float rotateVertical = delta.y * CurrentRotationSpeed * Time.deltaTime * 0.5f;
                         currentEuler.z += rotateVertical;
                     }
-    
+
                     lastPointerPosition = eventData.position;
                     // Gán lại giá trị Euler angles mới vào đối tượng
                     transform.eulerAngles = currentEuler;
                     ClampRotation();
                 }
+            }
         }
     }
     
