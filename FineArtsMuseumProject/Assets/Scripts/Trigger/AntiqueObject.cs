@@ -125,6 +125,9 @@ public class AntiqueObject : MonoBehaviour
         {
             if(!isShowAI)
             {
+                interactiveObject.SmoothOriginResetTransform();
+                interactiveObject.SetUsingAI(true);
+                
                 AIImage.color = new Color(0, 0, 0, 1);
                 AIText.color = new Color(1, 1 ,1, 1);
                 AIVideoManager.Instance.SetVideoMaterial(AntiqueId);
@@ -136,6 +139,8 @@ public class AntiqueObject : MonoBehaviour
                 AIText.color = new Color(0, 0 ,0, 1);
                 isShowAI = false;
                 AIVideoManager.Instance.StopVideoMaterial(AntiqueId);
+                
+                interactiveObject.SetUsingAI(false);
             }
         }
     }
