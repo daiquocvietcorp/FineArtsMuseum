@@ -149,8 +149,11 @@ namespace UI
             {
                 WebRTCManager.Instance.RegisterMoveInput(CharacterManager.Instance.GetActionMove());
                 
-                if(!SceneLog.IsNewController) return;
-                WebRTCManager.Instance.RegisterRotateCameraInput(CameraManager.Instance.GetActionRotate());
+                if(SceneLog.IsNewController)
+                {
+                    WebRTCManager.Instance.RegisterRotateCameraInput(CameraManager.Instance.GetActionRotate());
+                }
+                //WebRTCManager.Instance.RegisterRotateCameraInput(CameraManager.Instance.GetActionRotate());
             }
 
             if (PlatformManager.Instance.IsWebGL || PlatformManager.Instance.IsCloud)
