@@ -155,7 +155,7 @@ public class TriggerPainting : MonoBehaviour
             PaintingDetailManager.Instance.SetCurrentPainting(paintRotateAndZoom);
             //DrmGameObject.gameObject.SetActive(true);
             renderer.enabled = true;
-            DrmGameObject.transform.position = transform.position;
+            if(DrmGameObject) DrmGameObject.transform.position = transform.position;
             if(fogVFX) fogVFX.transform.position = new Vector3(transform.position.x, 2, transform.position.z);
 
             SetLayerRecursively(detailCollider.gameObject, "Default", true);

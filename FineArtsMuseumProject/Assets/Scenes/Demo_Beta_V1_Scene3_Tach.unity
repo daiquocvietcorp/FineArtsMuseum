@@ -415,6 +415,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -621,7 +626,7 @@ RectTransform:
   - {fileID: 930541246}
   - {fileID: 460344080}
   m_Father: {fileID: 0}
-  m_RootOrder: 51
+  m_RootOrder: 66
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1580,6 +1585,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -3396,6 +3406,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -3472,12 +3487,16 @@ MonoBehaviour:
   guideToggle: {fileID: 356981986}
   vrToggle: {fileID: 1376939203}
   settingsToggle: {fileID: 257593147}
+  blueprintToggle: {fileID: 0}
   guideOnSprite: {fileID: 21300000, guid: 30d0434198d6f1f46bdedfeac17bdb97, type: 3}
   guideOffSprite: {fileID: 21300000, guid: 77e4f6cb2e908a24298b4276b650b30c, type: 3}
   vrOnSprite: {fileID: 21300000, guid: 3bb9f6dcc95091646942a8eac7c87186, type: 3}
   vrOffSprite: {fileID: 21300000, guid: f1d36c6a1706a6048a22770891adb327, type: 3}
   settingsOnSprite: {fileID: 21300000, guid: cef712c7bdcc550408bb74ee0ccc388c, type: 3}
   settingsOffSprite: {fileID: 21300000, guid: a0e7b01bcb3af054c8459bcb2e23836a, type: 3}
+  LineBlack: {fileID: 0}
+  LineWhite: {fileID: 0}
+  _isBlueprintOn: 0
 --- !u!1 &31712732
 GameObject:
   m_ObjectHideFlags: 0
@@ -5611,6 +5630,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -5885,6 +5909,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 1
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.01
   rotationSpeedMobile: 5
@@ -5897,9 +5922,14 @@ MonoBehaviour:
   isRotateOneDirect: 0
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 1
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &60023427
 GameObject:
   m_ObjectHideFlags: 0
@@ -7389,6 +7419,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -8105,6 +8140,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -9148,6 +9188,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -10149,6 +10194,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -12512,6 +12562,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: -90, z: 0}
@@ -12587,6 +12642,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.01
   rotationSpeedMobile: 80
@@ -12599,9 +12655,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 1
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &119025833
 GameObject:
   m_ObjectHideFlags: 0
@@ -12949,6 +13010,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -14118,6 +14184,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -14193,6 +14264,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 1
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.01
   rotationSpeedMobile: 5
@@ -14205,9 +14277,14 @@ MonoBehaviour:
   isRotateOneDirect: 0
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 1
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &134891426
 GameObject:
   m_ObjectHideFlags: 0
@@ -14337,7 +14414,7 @@ Transform:
   m_Children:
   - {fileID: 1989302366}
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!136 &135455688
 CapsuleCollider:
@@ -14409,6 +14486,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.1
   rotationSpeedMobile: 80
@@ -14421,9 +14499,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &140213334
 GameObject:
   m_ObjectHideFlags: 0
@@ -15286,6 +15369,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 50
   zoomSpeed: 0.1
   rotationSpeedMobile: 80
@@ -15298,9 +15382,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &149785937
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -15834,6 +15923,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.01
   rotationSpeedMobile: 80
@@ -15846,9 +15936,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 1
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &154857866
 GameObject:
   m_ObjectHideFlags: 0
@@ -15910,6 +16005,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 1
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.01
   rotationSpeedMobile: 5
@@ -15922,9 +16018,14 @@ MonoBehaviour:
   isRotateOneDirect: 0
   originalScale: {x: 5, y: 5, z: 5}
   canRotate: 1
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &155187992
 GameObject:
   m_ObjectHideFlags: 0
@@ -16612,6 +16713,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -17180,7 +17286,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 46
+  m_RootOrder: 44
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &171553144
 GameObject:
@@ -17679,6 +17785,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 1
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.01
   rotationSpeedMobile: 80
@@ -17691,9 +17798,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 1
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &175354218
 GameObject:
   m_ObjectHideFlags: 0
@@ -18563,6 +18675,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -18828,7 +18945,7 @@ Transform:
   m_Children:
   - {fileID: 956208773}
   m_Father: {fileID: 0}
-  m_RootOrder: 55
+  m_RootOrder: 50
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &190620734
 GameObject:
@@ -20693,6 +20810,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -20734,6 +20856,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 1
+  isObjectWithAI: 0
   rotationSpeed: 150
   zoomSpeed: 0.1
   rotationSpeedMobile: 250
@@ -20746,9 +20869,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 1
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &211676012
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -20776,6 +20904,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 1
+  isObjectWithAI: 0
   rotationSpeed: 150
   zoomSpeed: 0.1
   rotationSpeedMobile: 250
@@ -20788,9 +20917,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 1
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &211676014
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -20818,6 +20952,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 1
+  isObjectWithAI: 0
   rotationSpeed: 150
   zoomSpeed: 1
   rotationSpeedMobile: 250
@@ -20830,9 +20965,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 100, y: 100, z: 100}
   canRotate: 1
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!114 &211838058 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6013434589972055049, guid: 4c5901bae86d1c240b3747dd39f32582,
@@ -22633,7 +22773,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 62
+  m_RootOrder: 65
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &231049783 stripped
 MonoBehaviour:
@@ -24146,6 +24286,7 @@ MonoBehaviour:
   videoStreamReceiver: {fileID: 240252557}
   audioStreamReceiver: {fileID: 240252556}
   broadcast: {fileID: 240252552}
+  socketManager: {fileID: 0}
   debugMode: 0
 --- !u!4 &240252560
 Transform:
@@ -24191,7 +24332,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 45
+  m_RootOrder: 43
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &241366637
 GameObject:
@@ -24506,6 +24647,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -24915,6 +25061,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: -90, z: 0}
@@ -25411,6 +25562,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -26182,6 +26338,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -26681,7 +26842,7 @@ Transform:
   m_Children:
   - {fileID: 831409876}
   m_Father: {fileID: 0}
-  m_RootOrder: 67
+  m_RootOrder: 58
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &261142549
 GameObject:
@@ -26805,7 +26966,7 @@ Transform:
   - {fileID: 1095307910}
   - {fileID: 874901134}
   m_Father: {fileID: 0}
-  m_RootOrder: 54
+  m_RootOrder: 49
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &262617702
 MonoBehaviour:
@@ -26852,6 +27013,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: 90, z: 0}
@@ -26926,6 +27092,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 50
   zoomSpeed: 0.1
   rotationSpeedMobile: 80
@@ -26938,9 +27105,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &264027641
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -27741,6 +27913,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -28776,6 +28953,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 3}
   interactObjectLocalRotation: {x: 0, y: 90, z: 0}
@@ -30134,6 +30316,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: -90, z: 0}
@@ -30928,7 +31115,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 23
+  m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &300291601
 GameObject:
@@ -32900,6 +33087,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -34153,6 +34345,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 1
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.01
   rotationSpeedMobile: 5
@@ -34165,9 +34358,14 @@ MonoBehaviour:
   isRotateOneDirect: 0
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 1
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &323136211
 GameObject:
   m_ObjectHideFlags: 0
@@ -34976,6 +35174,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -35119,6 +35322,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -35368,6 +35576,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -36232,7 +36445,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 22
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &341060554
 GameObject:
@@ -37015,6 +37228,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 50
   zoomSpeed: 0.1
   rotationSpeedMobile: 80
@@ -37027,9 +37241,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &347530853
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -37804,6 +38023,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: 90, z: 0}
@@ -38601,7 +38825,7 @@ Transform:
   - {fileID: 1900430278}
   - {fileID: 1610465230}
   m_Father: {fileID: 0}
-  m_RootOrder: 20
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &363213238
 GameObject:
@@ -38791,6 +39015,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 1
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.01
   rotationSpeedMobile: 80
@@ -38803,9 +39028,14 @@ MonoBehaviour:
   isRotateOneDirect: 0
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 1
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &364265724
 GameObject:
   m_ObjectHideFlags: 0
@@ -39183,7 +39413,7 @@ RectTransform:
   m_Children:
   - {fileID: 1059338306}
   m_Father: {fileID: 0}
-  m_RootOrder: 25
+  m_RootOrder: 24
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -39895,6 +40125,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 1
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.01
   rotationSpeedMobile: 80
@@ -39907,9 +40138,14 @@ MonoBehaviour:
   isRotateOneDirect: 0
   originalScale: {x: 0.6666, y: 0.6666, z: 0.6666}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &369635253
 GameObject:
   m_ObjectHideFlags: 0
@@ -40346,7 +40582,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &373461528
 BoxCollider:
@@ -40375,6 +40611,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 1
+  isObjectWithAI: 0
   rotationSpeed: 150
   zoomSpeed: 0.1
   rotationSpeedMobile: 250
@@ -40387,9 +40624,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 1
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &374045112
 GameObject:
   m_ObjectHideFlags: 0
@@ -40559,6 +40801,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.1
   rotationSpeedMobile: 80
@@ -40571,9 +40814,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &374922355
 GameObject:
   m_ObjectHideFlags: 0
@@ -41150,6 +41398,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 2}
   interactObjectLocalRotation: {x: 0, y: 90, z: 0}
@@ -41327,7 +41580,7 @@ Transform:
   - {fileID: 171553145}
   - {fileID: 1381925895}
   m_Father: {fileID: 0}
-  m_RootOrder: 28
+  m_RootOrder: 27
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &381322108
 GameObject:
@@ -42314,6 +42567,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: 90, z: 0}
@@ -43731,6 +43989,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -44749,6 +45012,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 2}
   interactObjectLocalRotation: {x: 0, y: 90, z: 0}
@@ -44864,6 +45132,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 2}
   interactObjectLocalRotation: {x: 0, y: 90, z: 0}
@@ -45751,7 +46024,7 @@ RectTransform:
   - {fileID: 1418186239}
   - {fileID: 1979446351}
   m_Father: {fileID: 0}
-  m_RootOrder: 21
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -46078,6 +46351,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 2}
   interactObjectLocalRotation: {x: 0, y: 90, z: 0}
@@ -47496,6 +47774,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 2}
   interactObjectLocalRotation: {x: 0, y: 90, z: 0}
@@ -47779,6 +48062,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 1
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.01
   rotationSpeedMobile: 2.5
@@ -47791,9 +48075,14 @@ MonoBehaviour:
   isRotateOneDirect: 0
   originalScale: {x: 0.2, y: 0.2, z: 0.2}
   canRotate: 1
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!4 &433478165 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 23ccb2650ada44b40a385fc9c050dcee,
@@ -48616,6 +48905,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -49814,6 +50108,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: 90, z: 0}
@@ -52149,6 +52448,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 1
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.01
   rotationSpeedMobile: 80
@@ -52161,9 +52461,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 1
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!114 &461927684 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2812949835584192391, guid: c774074162b17f74794e04359817bd3a,
@@ -54539,7 +54844,7 @@ RectTransform:
   m_Children:
   - {fileID: 2074690167}
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -55213,6 +55518,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 2}
   interactObjectLocalRotation: {x: 0, y: -90, z: 0}
@@ -56110,7 +56420,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &502382839
 MonoBehaviour:
@@ -56521,6 +56831,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: 90, z: 0}
@@ -56852,6 +57167,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: -90, z: 0}
@@ -57126,6 +57446,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 1
+  isObjectWithAI: 0
   rotationSpeed: 150
   zoomSpeed: 0.1
   rotationSpeedMobile: 250
@@ -57138,9 +57459,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 1
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &510823612
 GameObject:
   m_ObjectHideFlags: 0
@@ -60598,12 +60924,16 @@ MonoBehaviour:
   guideToggle: {fileID: 1519878709}
   vrToggle: {fileID: 208157588}
   settingsToggle: {fileID: 1147419764}
+  blueprintToggle: {fileID: 0}
   guideOnSprite: {fileID: 21300000, guid: 30d0434198d6f1f46bdedfeac17bdb97, type: 3}
   guideOffSprite: {fileID: 21300000, guid: 77e4f6cb2e908a24298b4276b650b30c, type: 3}
   vrOnSprite: {fileID: 21300000, guid: 3bb9f6dcc95091646942a8eac7c87186, type: 3}
   vrOffSprite: {fileID: 21300000, guid: f1d36c6a1706a6048a22770891adb327, type: 3}
   settingsOnSprite: {fileID: 21300000, guid: cef712c7bdcc550408bb74ee0ccc388c, type: 3}
   settingsOffSprite: {fileID: 21300000, guid: a0e7b01bcb3af054c8459bcb2e23836a, type: 3}
+  LineBlack: {fileID: 0}
+  LineWhite: {fileID: 0}
+  _isBlueprintOn: 0
 --- !u!114 &533518349 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6117188927079672993, guid: 585a56cff19e2694ea8a9120fb378555,
@@ -61439,7 +61769,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &543821416
 GameObject:
@@ -62380,6 +62710,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 1
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.01
   rotationSpeedMobile: 80
@@ -62392,9 +62723,14 @@ MonoBehaviour:
   isRotateOneDirect: 0
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 1
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &552721984
 GameObject:
   m_ObjectHideFlags: 0
@@ -62944,6 +63280,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -63006,6 +63347,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 50
   zoomSpeed: 0.1
   rotationSpeedMobile: 80
@@ -63018,9 +63360,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &556289599
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -63241,6 +63588,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -63384,6 +63736,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -63762,6 +64119,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 50
   zoomSpeed: 0.1
   rotationSpeedMobile: 80
@@ -63774,9 +64132,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &563906063
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -64256,7 +64619,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &570740812
 GameObject:
@@ -65368,6 +65731,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.1
   rotationSpeedMobile: 80
@@ -65380,9 +65744,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &586336078
 GameObject:
   m_ObjectHideFlags: 0
@@ -65895,6 +66264,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -66436,6 +66810,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -68656,6 +69035,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -69228,6 +69612,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -69363,7 +69752,7 @@ Transform:
   m_Children:
   - {fileID: 1226536810}
   m_Father: {fileID: 0}
-  m_RootOrder: 50
+  m_RootOrder: 46
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &623679499
 GameObject:
@@ -69807,7 +70196,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 41
+  m_RootOrder: 39
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &626884068
 GameObject:
@@ -71239,6 +71628,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 2}
   interactObjectLocalRotation: {x: 0, y: 90, z: 0}
@@ -71981,7 +72375,7 @@ RectTransform:
   m_Children:
   - {fileID: 920511419}
   m_Father: {fileID: 0}
-  m_RootOrder: 32
+  m_RootOrder: 31
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -72806,7 +73200,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 33
+  m_RootOrder: 67
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &655180194
 GameObject:
@@ -72957,6 +73351,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 1
+  isObjectWithAI: 0
   rotationSpeed: 150
   zoomSpeed: 0.1
   rotationSpeedMobile: 250
@@ -72969,9 +73364,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 1
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &659556538
 GameObject:
   m_ObjectHideFlags: 0
@@ -73713,7 +74113,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 39
+  m_RootOrder: 37
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &666714808
 GameObject:
@@ -73995,6 +74395,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 1
+  isObjectWithAI: 0
   rotationSpeed: 150
   zoomSpeed: 0.1
   rotationSpeedMobile: 250
@@ -74007,9 +74408,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 1
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!114 &669641111
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74055,6 +74461,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -75137,6 +75548,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 2}
   interactObjectLocalRotation: {x: 2.0000052, y: 359.67, z: 359.7}
@@ -76318,6 +76734,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: -90, z: 0}
@@ -76364,6 +76785,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: 90, z: 0}
@@ -77731,6 +78157,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -79694,6 +80125,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -80369,6 +80805,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: 90, z: 0}
@@ -81310,6 +81751,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -81960,6 +82406,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -82153,6 +82604,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 1
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.001
   rotationSpeedMobile: 5
@@ -82165,9 +82617,14 @@ MonoBehaviour:
   isRotateOneDirect: 0
   originalScale: {x: 0.09479938, y: 0.09479938, z: 0.09479938}
   canRotate: 1
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &744678646
 GameObject:
   m_ObjectHideFlags: 0
@@ -82402,6 +82859,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -83767,7 +84229,7 @@ Transform:
   m_Children:
   - {fileID: 1729580412}
   m_Father: {fileID: 0}
-  m_RootOrder: 37
+  m_RootOrder: 35
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &757394741 stripped
 MonoBehaviour:
@@ -86486,6 +86948,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -87041,6 +87508,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -88198,6 +88670,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 1
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.01
   rotationSpeedMobile: 80
@@ -88210,9 +88683,14 @@ MonoBehaviour:
   isRotateOneDirect: 0
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 1
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &795905746
 GameObject:
   m_ObjectHideFlags: 0
@@ -88726,7 +89204,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 30
+  m_RootOrder: 29
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &800385668 stripped
 MonoBehaviour:
@@ -92168,6 +92646,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 3}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -92227,6 +92710,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: 90, z: 0}
@@ -92766,6 +93254,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 1
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.01
   rotationSpeedMobile: 80
@@ -92778,9 +93267,14 @@ MonoBehaviour:
   isRotateOneDirect: 0
   originalScale: {x: 0.6666, y: 0.6666, z: 0.6666}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &853697771
 GameObject:
   m_ObjectHideFlags: 0
@@ -93132,6 +93626,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -93418,6 +93917,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -95455,6 +95959,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 1
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.01
   rotationSpeedMobile: 80
@@ -95467,9 +95972,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 1
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!1001 &877557796
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -101285,7 +101795,7 @@ PrefabInstance:
     - target: {fileID: 1122111006063580499, guid: aa1dcafaf2078ab4fa7cb7bc1c874de2,
         type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 1122111006063580499, guid: aa1dcafaf2078ab4fa7cb7bc1c874de2,
         type: 3}
@@ -102019,7 +102529,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &883652356
 GameObject:
@@ -102211,6 +102721,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 50
   zoomSpeed: 0.1
   rotationSpeedMobile: 80
@@ -102223,9 +102734,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &885490430
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -103002,7 +103518,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 36
+  m_RootOrder: 34
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &895110947
 GameObject:
@@ -103754,6 +104270,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: 90, z: 0}
@@ -104742,6 +105263,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 50
   zoomSpeed: 0.1
   rotationSpeedMobile: 80
@@ -104754,9 +105276,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &910986506
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -105924,6 +106451,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -106744,7 +107276,7 @@ Transform:
   m_Children:
   - {fileID: 1550040251}
   m_Father: {fileID: 0}
-  m_RootOrder: 58
+  m_RootOrder: 63
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &930541245
 GameObject:
@@ -107180,6 +107712,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 1
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.01
   rotationSpeedMobile: 80
@@ -107192,9 +107725,14 @@ MonoBehaviour:
   isRotateOneDirect: 0
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &932183408
 GameObject:
   m_ObjectHideFlags: 0
@@ -108069,6 +108607,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -108965,6 +109508,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: 90, z: 0}
@@ -109072,6 +109620,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 2}
   interactObjectLocalRotation: {x: 2.0000052, y: 359.67, z: 359.7}
@@ -110433,6 +110986,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -110813,6 +111371,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: 90, z: 0}
@@ -111309,6 +111872,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: 90, z: 0}
@@ -111416,6 +111984,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -111604,6 +112177,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: 90, z: 0}
@@ -111849,6 +112427,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -113834,6 +114417,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 50
   zoomSpeed: 0.1
   rotationSpeedMobile: 80
@@ -113846,9 +114430,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &999972217
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -115069,6 +115658,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   antiqueID: bangten_b
+  interactableDistance: 1.7
 --- !u!65 &1009496644
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -115095,6 +115685,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   antiqueID: bangten_c
+  interactableDistance: 1.7
 --- !u!65 &1009496646
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -115683,6 +116274,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -116532,6 +117128,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -116670,6 +117271,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 50
   zoomSpeed: 0.1
   rotationSpeedMobile: 80
@@ -116682,9 +117284,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &1021319084
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -117431,6 +118038,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.01
   rotationSpeedMobile: 80
@@ -117443,9 +118051,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 1
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!114 &1033486081
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -117491,6 +118104,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -117673,6 +118291,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -118459,6 +119082,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.01
   rotationSpeedMobile: 80
@@ -118471,9 +119095,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 1
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &1048110598
 GameObject:
   m_ObjectHideFlags: 0
@@ -119226,6 +119855,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -119622,6 +120256,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 50
   zoomSpeed: 0.1
   rotationSpeedMobile: 80
@@ -119634,9 +120269,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &1063016021
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -121311,6 +121951,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 1
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.01
   rotationSpeedMobile: 80
@@ -121323,9 +121964,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 1
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &1082833538
 GameObject:
   m_ObjectHideFlags: 0
@@ -122125,6 +122771,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: 90, z: 0}
@@ -123204,6 +123855,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.1
   rotationSpeedMobile: 80
@@ -123216,9 +123868,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &1098663166
 GameObject:
   m_ObjectHideFlags: 0
@@ -124003,6 +124660,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.01
   rotationSpeedMobile: 80
@@ -124015,9 +124673,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 1
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &1102410655
 GameObject:
   m_ObjectHideFlags: 0
@@ -125560,6 +126223,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: 90, z: 0}
@@ -125697,6 +126365,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -126531,6 +127204,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 3}
   interactObjectLocalRotation: {x: 0, y: 90, z: 0}
@@ -127092,6 +127770,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 50
   zoomSpeed: 0.1
   rotationSpeedMobile: 80
@@ -127104,9 +127783,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &1128897408
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -127257,6 +127941,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.01
   rotationSpeedMobile: 80
@@ -127269,9 +127954,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 1
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &1130318567
 GameObject:
   m_ObjectHideFlags: 0
@@ -127798,6 +128488,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 50
   zoomSpeed: 0.1
   rotationSpeedMobile: 80
@@ -127810,9 +128501,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &1137885971
 GameObject:
   m_ObjectHideFlags: 0
@@ -127982,6 +128678,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -128064,7 +128765,7 @@ PrefabInstance:
     - target: {fileID: 526592290295296344, guid: c78af3fb5722e804690fbe7a5d883423,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 526592290295296344, guid: c78af3fb5722e804690fbe7a5d883423,
         type: 3}
@@ -128704,6 +129405,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 50
   zoomSpeed: 0.1
   rotationSpeedMobile: 80
@@ -128716,9 +129418,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &1145518954
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -129729,6 +130436,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -130697,6 +131409,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -131040,6 +131757,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 1
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.01
   rotationSpeedMobile: 80
@@ -131052,9 +131770,14 @@ MonoBehaviour:
   isRotateOneDirect: 0
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &1174037959
 GameObject:
   m_ObjectHideFlags: 0
@@ -131255,6 +131978,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 50
   zoomSpeed: 0.1
   rotationSpeedMobile: 80
@@ -131267,9 +131991,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &1177970886
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -131909,6 +132638,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.35, y: 0.08, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -132158,6 +132892,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -133944,6 +134683,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -134374,6 +135118,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -136949,6 +137698,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 1
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.01
   rotationSpeedMobile: 80
@@ -136961,9 +137711,14 @@ MonoBehaviour:
   isRotateOneDirect: 0
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 1
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &1236098537
 GameObject:
   m_ObjectHideFlags: 0
@@ -137492,6 +138247,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 1
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.01
   rotationSpeedMobile: 5
@@ -137504,9 +138260,14 @@ MonoBehaviour:
   isRotateOneDirect: 0
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 1
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &1242144455
 GameObject:
   m_ObjectHideFlags: 0
@@ -137989,6 +138750,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 1
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.01
   rotationSpeedMobile: 80
@@ -138001,9 +138763,14 @@ MonoBehaviour:
   isRotateOneDirect: 0
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 1
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &1246347108
 GameObject:
   m_ObjectHideFlags: 0
@@ -139041,6 +139808,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -139168,6 +139940,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -139286,7 +140063,7 @@ RectTransform:
   - {fileID: 1472980022}
   - {fileID: 285253196}
   m_Father: {fileID: 0}
-  m_RootOrder: 48
+  m_RootOrder: 68
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -139778,7 +140555,7 @@ RectTransform:
   - {fileID: 826346397}
   - {fileID: 1668015472}
   m_Father: {fileID: 0}
-  m_RootOrder: 53
+  m_RootOrder: 48
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -140357,6 +141134,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -140464,6 +141246,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -140516,7 +141303,7 @@ Transform:
   m_Children:
   - {fileID: 433478165}
   m_Father: {fileID: 0}
-  m_RootOrder: 43
+  m_RootOrder: 41
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1264961214
 GameObject:
@@ -140834,6 +141621,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 50
   zoomSpeed: 0.1
   rotationSpeedMobile: 80
@@ -140846,9 +141634,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &1267796408
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -142254,6 +143047,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -143864,7 +144662,7 @@ Transform:
   m_Children:
   - {fileID: 1268656731}
   m_Father: {fileID: 0}
-  m_RootOrder: 59
+  m_RootOrder: 61
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1295085519
 GameObject:
@@ -144081,7 +144879,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 60
+  m_RootOrder: 53
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1295123171
 GameObject:
@@ -144416,6 +145214,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -145787,6 +146590,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -147125,6 +147933,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: 90, z: 0}
@@ -147251,6 +148064,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 1
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.01
   rotationSpeedMobile: 80
@@ -147263,9 +148077,14 @@ MonoBehaviour:
   isRotateOneDirect: 0
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 1
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &1319078086
 GameObject:
   m_ObjectHideFlags: 0
@@ -147420,6 +148239,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -147930,6 +148754,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -148241,7 +149070,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1329204163
 GameObject:
@@ -148274,7 +149103,7 @@ Transform:
   - {fileID: 808836554}
   - {fileID: 36980010}
   m_Father: {fileID: 0}
-  m_RootOrder: 27
+  m_RootOrder: 26
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1330175391
 GameObject:
@@ -149563,7 +150392,7 @@ PrefabInstance:
     - target: {fileID: 3166859190213329617, guid: 2e2a33003bfd4b54ba85eaab3f52208f,
         type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3166859190213329617, guid: 2e2a33003bfd4b54ba85eaab3f52208f,
         type: 3}
@@ -150241,7 +151070,7 @@ RectTransform:
   - {fileID: 865837312}
   - {fileID: 1161943783}
   m_Father: {fileID: 0}
-  m_RootOrder: 47
+  m_RootOrder: 45
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -150858,6 +151687,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 50
   zoomSpeed: 0.1
   rotationSpeedMobile: 80
@@ -150870,9 +151700,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &1354352012
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -151133,7 +151968,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 63
+  m_RootOrder: 54
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1358069689
 GameObject:
@@ -152827,7 +153662,7 @@ Transform:
   - {fileID: 635954595}
   - {fileID: 1891832539}
   m_Father: {fileID: 0}
-  m_RootOrder: 68
+  m_RootOrder: 59
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1368505847
 GameObject:
@@ -153025,6 +153860,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -153379,6 +154219,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -153689,6 +154534,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -154035,6 +154885,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.35, y: 0.08, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -154401,6 +155256,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -155404,6 +156264,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -156102,6 +156967,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -157001,6 +157871,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: 90, z: 0}
@@ -157375,7 +158250,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1402633882
 GameObject:
@@ -157918,7 +158793,7 @@ Transform:
   m_Children:
   - {fileID: 1336110464}
   m_Father: {fileID: 0}
-  m_RootOrder: 61
+  m_RootOrder: 62
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1406678637
 GameObject:
@@ -159787,7 +160662,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 52
+  m_RootOrder: 47
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1433478754
 GameObject:
@@ -160115,6 +160990,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 1
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.01
   rotationSpeedMobile: 5
@@ -160127,9 +161003,14 @@ MonoBehaviour:
   isRotateOneDirect: 0
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 1
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &1436885254
 GameObject:
   m_ObjectHideFlags: 0
@@ -160983,6 +161864,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 3}
   interactObjectLocalRotation: {x: 0, y: -90, z: 0}
@@ -162250,6 +163136,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 1
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.01
   rotationSpeedMobile: 5
@@ -162262,9 +163149,14 @@ MonoBehaviour:
   isRotateOneDirect: 0
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 1
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &1461532837
 GameObject:
   m_ObjectHideFlags: 0
@@ -163420,6 +164312,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -164063,6 +164960,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: 90, z: 0}
@@ -164435,6 +165337,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -166609,6 +167516,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -166964,6 +167876,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 50
   zoomSpeed: 0.1
   rotationSpeedMobile: 80
@@ -166976,9 +167889,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &1499475346
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -167862,6 +168780,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 1
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.01
   rotationSpeedMobile: 80
@@ -167874,9 +168793,14 @@ MonoBehaviour:
   isRotateOneDirect: 0
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 1
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &1507115269
 GameObject:
   m_ObjectHideFlags: 0
@@ -168202,7 +169126,7 @@ Transform:
   - {fileID: 1853223465}
   - {fileID: 1478013844}
   m_Father: {fileID: 0}
-  m_RootOrder: 24
+  m_RootOrder: 23
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1509987062
 GameObject:
@@ -170145,6 +171069,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -170923,6 +171852,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -171133,6 +172067,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -171593,6 +172532,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: 90, z: 0}
@@ -172315,6 +173259,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 1
+  isObjectWithAI: 0
   rotationSpeed: 150
   zoomSpeed: 0.1
   rotationSpeedMobile: 250
@@ -172327,9 +173272,14 @@ MonoBehaviour:
   isRotateOneDirect: 0
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 1
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &1544540913
 GameObject:
   m_ObjectHideFlags: 0
@@ -172850,6 +173800,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -173224,6 +174179,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 50
   zoomSpeed: 0.1
   rotationSpeedMobile: 80
@@ -173236,9 +174192,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &1550231086
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -173482,6 +174443,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -174961,6 +175927,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -175075,6 +176046,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -176370,6 +177346,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 50
   zoomSpeed: 0.1
   rotationSpeedMobile: 80
@@ -176382,9 +177359,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &1576525449
 GameObject:
   m_ObjectHideFlags: 0
@@ -177388,6 +178370,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: 90, z: 0}
@@ -177429,6 +178416,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 1
+  isObjectWithAI: 0
   rotationSpeed: 150
   zoomSpeed: 0.1
   rotationSpeedMobile: 250
@@ -177441,9 +178429,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 1
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &1592352691
 GameObject:
   m_ObjectHideFlags: 0
@@ -177827,7 +178820,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 44
+  m_RootOrder: 42
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1595601004 stripped
 MonoBehaviour:
@@ -178068,6 +179061,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.1
   rotationSpeedMobile: 80
@@ -178080,9 +179074,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &1599628174
 GameObject:
   m_ObjectHideFlags: 0
@@ -178696,6 +179695,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 1
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.01
   rotationSpeedMobile: 80
@@ -178708,9 +179708,14 @@ MonoBehaviour:
   isRotateOneDirect: 0
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 1
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &1605930263
 GameObject:
   m_ObjectHideFlags: 0
@@ -179620,6 +180625,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: -90, z: 0}
@@ -180876,6 +181886,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -182896,7 +183911,7 @@ RectTransform:
   - {fileID: 1616096446}
   - {fileID: 1151463667}
   m_Father: {fileID: 0}
-  m_RootOrder: 38
+  m_RootOrder: 36
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -182948,6 +183963,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -183371,6 +184391,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 2}
   interactObjectLocalRotation: {x: 0, y: 90, z: 0}
@@ -184434,6 +185459,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 50
   zoomSpeed: 0.1
   rotationSpeedMobile: 80
@@ -184446,9 +185472,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &1641232548
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -186181,6 +187212,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -186759,6 +187795,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 2}
   interactObjectLocalRotation: {x: 2.0000052, y: 359.67, z: 359.7}
@@ -187276,6 +188317,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -187574,7 +188620,7 @@ Transform:
   m_Children:
   - {fileID: 1419922206}
   m_Father: {fileID: 0}
-  m_RootOrder: 42
+  m_RootOrder: 40
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1678334612
 GameObject:
@@ -188067,7 +189113,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 57
+  m_RootOrder: 52
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1683996197
 MonoBehaviour:
@@ -188114,6 +189160,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: 90, z: 0}
@@ -188825,6 +189876,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 3}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -189266,6 +190322,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: 90, z: 0}
@@ -190914,7 +191975,7 @@ RectTransform:
   - {fileID: 1298585683}
   - {fileID: 252335633}
   m_Father: {fileID: 0}
-  m_RootOrder: 64
+  m_RootOrder: 55
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -191383,6 +192444,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -191822,7 +192888,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 56
+  m_RootOrder: 51
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1732424203
 GameObject:
@@ -192157,6 +193223,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: 90, z: 0}
@@ -192558,6 +193629,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -192744,7 +193820,7 @@ RectTransform:
   - {fileID: 1188052617}
   - {fileID: 431394504}
   m_Father: {fileID: 0}
-  m_RootOrder: 29
+  m_RootOrder: 28
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -192941,7 +194017,7 @@ Transform:
   - {fileID: 652893890}
   - {fileID: 1157102213}
   m_Father: {fileID: 0}
-  m_RootOrder: 26
+  m_RootOrder: 25
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1742815355
 GameObject:
@@ -192991,6 +194067,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 50
   zoomSpeed: 0.1
   rotationSpeedMobile: 80
@@ -193003,9 +194080,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &1742815358
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -193771,6 +194853,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 1
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.01
   rotationSpeedMobile: 5
@@ -193783,9 +194866,14 @@ MonoBehaviour:
   isRotateOneDirect: 0
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 1
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &1749468892
 GameObject:
   m_ObjectHideFlags: 0
@@ -194049,6 +195137,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 1
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.01
   rotationSpeedMobile: 80
@@ -194061,9 +195150,14 @@ MonoBehaviour:
   isRotateOneDirect: 0
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 1
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &1749872962
 GameObject:
   m_ObjectHideFlags: 0
@@ -194245,6 +195339,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -196862,7 +197961,7 @@ Transform:
   - {fileID: 1540248347}
   - {fileID: 460249341}
   m_Father: {fileID: 0}
-  m_RootOrder: 35
+  m_RootOrder: 33
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1775255291
 GameObject:
@@ -197465,7 +198564,7 @@ Transform:
   - {fileID: 990995354}
   - {fileID: 1681186312}
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1784017402
 GameObject:
@@ -199052,12 +200151,16 @@ MonoBehaviour:
   guideToggle: {fileID: 1271636136}
   vrToggle: {fileID: 1578559461}
   settingsToggle: {fileID: 484438998}
+  blueprintToggle: {fileID: 0}
   guideOnSprite: {fileID: 21300000, guid: 30d0434198d6f1f46bdedfeac17bdb97, type: 3}
   guideOffSprite: {fileID: 21300000, guid: 77e4f6cb2e908a24298b4276b650b30c, type: 3}
   vrOnSprite: {fileID: 21300000, guid: 3bb9f6dcc95091646942a8eac7c87186, type: 3}
   vrOffSprite: {fileID: 21300000, guid: f1d36c6a1706a6048a22770891adb327, type: 3}
   settingsOnSprite: {fileID: 21300000, guid: cef712c7bdcc550408bb74ee0ccc388c, type: 3}
   settingsOffSprite: {fileID: 21300000, guid: a0e7b01bcb3af054c8459bcb2e23836a, type: 3}
+  LineBlack: {fileID: 0}
+  LineWhite: {fileID: 0}
+  _isBlueprintOn: 0
 --- !u!114 &1799553408 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2812949836249039420, guid: c774074162b17f74794e04359817bd3a,
@@ -199127,6 +200230,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -199425,6 +200533,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 1
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.01
   rotationSpeedMobile: 80
@@ -199437,9 +200546,14 @@ MonoBehaviour:
   isRotateOneDirect: 0
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 1
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &1807521785
 GameObject:
   m_ObjectHideFlags: 0
@@ -200160,6 +201274,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 359.4526, y: 358.81076, z: 359.65787}
@@ -201337,6 +202456,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 1
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.01
   rotationSpeedMobile: 80
@@ -201349,9 +202469,14 @@ MonoBehaviour:
   isRotateOneDirect: 0
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 1
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &1826028792
 GameObject:
   m_ObjectHideFlags: 0
@@ -201551,6 +202676,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 50
   zoomSpeed: 0.1
   rotationSpeedMobile: 80
@@ -201563,9 +202689,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &1826151787
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -202388,6 +203519,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 50
   zoomSpeed: 0.1
   rotationSpeedMobile: 80
@@ -202400,9 +203532,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &1829406849
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -203616,6 +204753,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: 90, z: 0}
@@ -204446,6 +205588,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 50
   zoomSpeed: 0.1
   rotationSpeedMobile: 80
@@ -204458,9 +205601,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &1851693148
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -207001,6 +208149,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: -90, z: 0}
@@ -208312,6 +209465,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -208577,7 +209735,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1888646509
 GameObject:
@@ -208983,6 +210141,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 50
   zoomSpeed: 0.1
   rotationSpeedMobile: 80
@@ -208995,9 +210154,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &1893043786
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -209103,6 +210267,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -211014,6 +212183,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.01
   rotationSpeedMobile: 80
@@ -211026,9 +212196,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 1
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &1912146056
 GameObject:
   m_ObjectHideFlags: 0
@@ -212522,7 +213697,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 66
+  m_RootOrder: 57
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1932414673
 GameObject:
@@ -214363,6 +215538,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 50
   zoomSpeed: 0.1
   rotationSpeedMobile: 80
@@ -214375,9 +215551,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &1943985070
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -215685,7 +216866,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 49
+  m_RootOrder: 64
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1947918354
 GameObject:
@@ -216223,6 +217404,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: 90, z: 0}
@@ -216972,6 +218158,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -219733,7 +220924,7 @@ RectTransform:
   m_Children:
   - {fileID: 1468005636}
   m_Father: {fileID: 0}
-  m_RootOrder: 34
+  m_RootOrder: 32
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -220136,6 +221327,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -221167,7 +222363,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 40
+  m_RootOrder: 38
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -221235,6 +222431,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.01
   rotationSpeedMobile: 80
@@ -221247,9 +222444,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 1
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &1993438724
 GameObject:
   m_ObjectHideFlags: 0
@@ -221879,7 +223081,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 65
+  m_RootOrder: 56
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2000334246
 GameObject:
@@ -222864,6 +224066,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 2}
   interactObjectLocalRotation: {x: 0, y: 90, z: 0}
@@ -224875,6 +226082,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: 90, z: 0}
@@ -225561,6 +226773,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: 90, z: 0}
@@ -226665,6 +227882,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -227067,7 +228289,7 @@ Transform:
   - {fileID: 866254927}
   - {fileID: 2135545102}
   m_Father: {fileID: 0}
-  m_RootOrder: 31
+  m_RootOrder: 30
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2043629262
 GameObject:
@@ -227492,6 +228714,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.35, y: 0.08, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -227704,7 +228931,7 @@ RectTransform:
   m_Children:
   - {fileID: 1695311813}
   m_Father: {fileID: 0}
-  m_RootOrder: 19
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -228071,6 +229298,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: 0, y: 0, z: 1}
   interactObjectLocalRotation: {x: 0, y: -90, z: 0}
@@ -229714,6 +230946,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -230889,6 +232126,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 0
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 50
   zoomSpeed: 0.1
   rotationSpeedMobile: 80
@@ -230901,9 +232139,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &2093163745
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -231906,6 +233149,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.35, y: 0.08, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -232012,6 +233260,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.34, y: 0.09, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -234186,7 +235439,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2132543872
 GameObject:
@@ -236665,6 +237918,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   antiqueID: tranhb
+  interactableDistance: 1.7
 --- !u!1001 &7219728558793581
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -238489,6 +239743,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   antiqueID: tranha
+  interactableDistance: 1.7
 --- !u!1001 &7219729363573719
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -256005,6 +257260,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 1
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 70
   zoomSpeed: 0.01
   rotationSpeedMobile: 2
@@ -256017,9 +257273,14 @@ MonoBehaviour:
   isRotateOneDirect: 1
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 1
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 1
   mobileMagnifierHover: {fileID: 230561180}
   otherMagnifierHover: {fileID: 1947817868}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!64 &3475869230538403962
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -265657,6 +266918,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.5, y: -0.01, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -382001,6 +383267,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.5, y: -0.01, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -393873,6 +395144,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.5, y: -0.01, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
@@ -401518,6 +402794,11 @@ MonoBehaviour:
   SoundOff: {fileID: 21300000, guid: 4483b8bb93f129f4088ce5cc0ac9eef1, type: 3}
   GuideOn: {fileID: 21300000, guid: cc7ec0ddb3fb2f3419e4edf29ad45b5b, type: 3}
   GuideOff: {fileID: 21300000, guid: 4699718028a14d14ca36c69ab8ba1bd5, type: 3}
+  AIOn: {fileID: 0}
+  AIOff: {fileID: 0}
+  ShowAIButton: {fileID: 0}
+  AIImage: {fileID: 0}
+  AIText: {fileID: 0}
   instructionDuration: 4
   interactObjectLocalPosition: {x: -0.5, y: -0.01, z: 1}
   interactObjectLocalRotation: {x: 0, y: 0, z: 0}
