@@ -133,8 +133,8 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
         Vector3 current = Normalize360(transform.localEulerAngles);
         Vector3 def = _defaultEuler;
 
-        float minY = def.y - 90f;
-        float maxY = def.y + 90f;
+        float minY = def.y - minRotation.y;
+        float maxY = def.y + maxRotation.y;
 
         float y = current.y;
 
