@@ -23,9 +23,10 @@ using UnityEngine.Video;
         
         private void Awake()
         {
-            if (_aiVideos == null)
+            if (_aiVideos == null || videoPlayer == null || videoRenderTexture == null)
                 return;
 
+            videoPlayer.targetTexture = null;
             _aiVideoPlayers = new Dictionary<string, AIVideo>();
             if(_aiVideoPlayers == null) return;
             
@@ -93,6 +94,11 @@ using UnityEngine.Video;
             
             yield return new WaitUntil(() => videoPlayer.isPrepared);
             
+            videoPlayer.targetTexture = videoRenderTexture;
+            ClearRenderTexture(videoPlayer.targetTexture);
+            
+            yield return new WaitForEndOfFrame();
+            
             videoPlayer.Stop();
             videoPlayer.frame = 0;
             videoPlayer.isLooping = true;
@@ -122,6 +128,28 @@ using UnityEngine.Video;
         {
             if(!_aiVideoPlayers.TryGetValue(objectName, out var aiVideo)) return;
             if(aiVideo.MeshRenderer == null || aiVideo.videoClip == null || aiVideo.originalMaterial == null) return;
+
+            if (videoPlayer != null)
+            {
+                if(videoPlayer.isPlaying) videoPlayer.Stop();
+
+                try
+                {
+                    videoPlayer.frame = 0;
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError(e);
+                }
+                
+                videoPlayer.isLooping = false;
+
+                if (videoPlayer.targetTexture != null)
+                {
+                    ClearRenderTexture(videoPlayer.targetTexture);
+                    videoPlayer.targetTexture = null;
+                }
+            }
             
             var materials = aiVideo.MeshRenderer.materials;
             
@@ -141,6 +169,15 @@ using UnityEngine.Video;
             aiVideo.MeshRenderer.materials = materials;
             
             if(aiVideo.IsPlaneReplace) aiVideo.MeshRenderer.gameObject.SetActive(false);
+        }
+        
+        private void ClearRenderTexture(RenderTexture rt)
+        {
+            if (rt == null) return;
+            var current = RenderTexture.active;
+            RenderTexture.active = rt;
+            GL.Clear(true, true, Color.clear);
+            RenderTexture.active = current;
         }
     }
 
