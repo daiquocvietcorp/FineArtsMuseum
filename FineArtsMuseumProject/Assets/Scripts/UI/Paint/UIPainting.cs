@@ -1002,6 +1002,11 @@ private void StartGuideSequence()
             }
             _blinkCoroutine = StartCoroutine(StartBlinkAndPlayVideo());
         }
+
+        if (paintRotateAndZoom != null)
+        {
+            paintRotateAndZoom.SetUsingAI(isAI);
+        }
     }
 
     private IEnumerator StartBlinkAndPlayVideo()

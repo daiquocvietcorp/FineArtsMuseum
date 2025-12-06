@@ -58,6 +58,8 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
     public Vector3 minRotation;
     public Vector3 maxRotation;
 
+    private bool _isAI;
+
     
     private float CurrentRotationSpeed
     {
@@ -107,6 +109,8 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
         
         if(isObject && PlatformManager.Instance.IsTomko)
             MouseInput.Instance.SetIsDragImage(false);
+        
+        _isAI = false;
     }
 
     private float _holdTimer;
@@ -493,31 +497,33 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
                 return;
             }
             
-            if (isRotateOneDirect)
-            {
-                transform.Rotate(Vector3.up, -rotateAmountX, Space.Self);   
-            }
-            else
-            { 
-                // Lấy giá trị Euler angles hiện tại
-                Vector3 currentEuler = transform.eulerAngles;
-
-                // Tính góc xoay theo kéo ngang (dành cho trục Y)
-                float rotateHorizontal = delta.x * CurrentRotationSpeed * Time.deltaTime * 0.5f;
-                currentEuler.y += rotateHorizontal;
-
-                // Nếu cho phép xoay lên/xuống thì xử lý kéo dọc (thay đổi trục Z)
-                if (CanRotateUpDown)
+            if(!_isAI)
+                if (isRotateOneDirect)
                 {
-                    float rotateVertical = delta.y * CurrentRotationSpeed * Time.deltaTime * 0.5f;
-                    currentEuler.z += rotateVertical;
+                    transform.Rotate(Vector3.up, -rotateAmountX, Space.Self);  
+                    ClampRotation();
                 }
-
-                lastPointerPosition = eventData.position;
-                // Gán lại giá trị Euler angles mới vào đối tượng
-                transform.eulerAngles = currentEuler;
-                ClampRotation();
-            }
+                else
+                { 
+                    // Lấy giá trị Euler angles hiện tại
+                    Vector3 currentEuler = transform.eulerAngles;
+    
+                    // Tính góc xoay theo kéo ngang (dành cho trục Y)
+                    float rotateHorizontal = delta.x * CurrentRotationSpeed * Time.deltaTime * 0.5f;
+                    currentEuler.y += rotateHorizontal;
+    
+                    // Nếu cho phép xoay lên/xuống thì xử lý kéo dọc (thay đổi trục Z)
+                    if (CanRotateUpDown)
+                    {
+                        float rotateVertical = delta.y * CurrentRotationSpeed * Time.deltaTime * 0.5f;
+                        currentEuler.z += rotateVertical;
+                    }
+    
+                    lastPointerPosition = eventData.position;
+                    // Gán lại giá trị Euler angles mới vào đối tượng
+                    transform.eulerAngles = currentEuler;
+                    ClampRotation();
+                }
         }
     }
     
@@ -801,5 +807,10 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
     public void SetEnableZoom(bool isActive)
     {
         _canZoom = isActive;
+    }
+
+    public void SetUsingAI(bool isActive)
+    {
+        _isAI = isActive;
     }
 }
