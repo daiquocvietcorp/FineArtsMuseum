@@ -77,13 +77,13 @@ public class TrailEffectManager : MonoBehaviour
     
     public void StartTrailsByFloor(int floor)
     {
-        if (floor == 0 && trailHam !=null)
-        {
-            trailF1.SetActive(false);
-            trailF2.SetActive(false);
-            trailF3.SetActive(false);
-            trailHam.SetActive(true);
-        }
+        // if (floor == 0 && trailHam !=null)
+        // {
+        //     trailF1.SetActive(false);
+        //     trailF2.SetActive(false);
+        //     trailF3.SetActive(false);
+        //     trailHam.SetActive(true);
+        // }
         
         if (floor == 1)
         {
