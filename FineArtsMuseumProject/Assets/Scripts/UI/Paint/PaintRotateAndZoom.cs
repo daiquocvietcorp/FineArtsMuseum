@@ -257,7 +257,7 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
 
     void Start()
     {
-        originalRotation = transform.rotation;
+        originalRotation = transform.localRotation;
         averageScale = Vector3.one * (minScale);
 
         if (zoomScrollbar != null)
@@ -674,7 +674,7 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
     IEnumerator DoSmoothOriginReset()
     {
         Vector3 startScale = transform.localScale;
-        Quaternion startRotation = transform.rotation;
+        Quaternion startRotation = transform.localRotation;
         float elapsed = 0f;
 
         while (elapsed < resetDuration)
@@ -682,7 +682,7 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
             elapsed += Time.deltaTime;
             float t = Mathf.SmoothStep(0f, 1f, elapsed / resetDuration);
             transform.localScale = Vector3.Lerp(startScale, originalScale, t);
-            transform.rotation = Quaternion.Slerp(startRotation, originalRotation, t);
+            transform.localRotation = Quaternion.Slerp(startRotation, originalRotation, t);
 
             if (zoomScrollbar != null)
             {
@@ -696,7 +696,7 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
         }
 
         transform.localScale = originalScale;
-        transform.rotation = originalRotation;
+        transform.localRotation = originalRotation;
 
         if (zoomScrollbar != null)
         {
@@ -711,7 +711,7 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
     IEnumerator DoSmoothAverageReset()
     {
         Vector3 startScale = transform.localScale;
-        Quaternion startRotation = transform.rotation;
+        Quaternion startRotation = transform.localRotation;
         float elapsed = 0f;
 
         while (elapsed < resetDuration)
@@ -719,7 +719,7 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
             elapsed += Time.deltaTime;
             float t = Mathf.SmoothStep(0f, 1f, elapsed / resetDuration);
             transform.localScale = Vector3.Lerp(startScale, averageScale, t);
-            transform.rotation = Quaternion.Slerp(startRotation, originalRotation, t);
+            transform.localRotation = Quaternion.Slerp(startRotation, originalRotation, t);
 
             if (zoomScrollbar != null)
             {
@@ -733,7 +733,7 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
         }
 
         transform.localScale = averageScale;
-        transform.rotation = originalRotation;
+        transform.localRotation = originalRotation;
 
         if (zoomScrollbar != null)
         {
