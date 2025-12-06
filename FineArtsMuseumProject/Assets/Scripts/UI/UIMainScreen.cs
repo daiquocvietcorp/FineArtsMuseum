@@ -65,7 +65,7 @@ namespace UI
             _isSettingsOn = false;
             settingsToggle.isOn = false;
 
-            if (blueprintToggle != null)
+            if (blueprintToggle != null && blueprintToggle.gameObject.activeInHierarchy)
             {
                 blueprintToggle.isOn = false;
                 blueprintToggle.onValueChanged.AddListener(OnBlueprintToggleValueChanged);
