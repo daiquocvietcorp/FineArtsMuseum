@@ -59,7 +59,7 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
     public Vector3 maxRotation;
 
     private bool _isAI;
-    private Vector3 _defaultRotation;
+    
 
     
     private float CurrentRotationSpeed
@@ -100,8 +100,6 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
             SmoothAverageResetTransform();
             _isDragObject = true;
         }
-        
-        _defaultRotation = transform.rotation.eulerAngles;
     }
 
     
@@ -128,24 +126,29 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
     {
         if (!isArtifactRotate) return;
 
-        Vector3 current = transform.rotation.eulerAngles;
+        // Lấy rotation hiện tại dạng Euler
+        Vector3 euler = transform.rotation.eulerAngles;
 
-        current.x = NormalizeAngle(current.x);
-        current.y = NormalizeAngle(current.y);
-        current.z = NormalizeAngle(current.z);
+        // Chuyển tất cả về dải -180 → 180 để clamp chính xác
+        euler.x = NormalizeAngle(euler.x);
+        euler.y = NormalizeAngle(euler.y);
+        euler.z = NormalizeAngle(euler.z);
 
-        Vector3 baseRot = _defaultRotation;
+        float minX = minRotation.x;
+        float minY = minRotation.y;
+        float minZ = minRotation.z;
 
-        Vector3 min = baseRot + minRotation;
-        Vector3 max = baseRot + maxRotation;
+        float maxX = maxRotation.x;
+        float maxY = maxRotation.y;
+        float maxZ = maxRotation.z;
 
-        current.x = Mathf.Clamp(current.x, min.x, max.x);
-        current.y = Mathf.Clamp(current.y, min.y, max.y);
-        current.z = Mathf.Clamp(current.z, min.z, max.z);
+        // Clamp từng trục
+        euler.x = Mathf.Clamp(euler.x, minX, maxX);
+        euler.y = Mathf.Clamp(euler.y, minY, maxY);
+        euler.z = Mathf.Clamp(euler.z, minZ, maxZ);
 
-        transform.rotation = Quaternion.Euler(current);
+        transform.rotation = Quaternion.Euler(euler);
     }
-
 
     private float NormalizeAngle(float angle)
     {
