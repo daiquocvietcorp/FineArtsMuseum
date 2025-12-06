@@ -3095,12 +3095,16 @@ MonoBehaviour:
   guideToggle: {fileID: 356981986}
   vrToggle: {fileID: 1376939203}
   settingsToggle: {fileID: 257593147}
+  blueprintToggle: {fileID: 0}
   guideOnSprite: {fileID: 21300000, guid: 30d0434198d6f1f46bdedfeac17bdb97, type: 3}
   guideOffSprite: {fileID: 21300000, guid: 77e4f6cb2e908a24298b4276b650b30c, type: 3}
   vrOnSprite: {fileID: 21300000, guid: 3bb9f6dcc95091646942a8eac7c87186, type: 3}
   vrOffSprite: {fileID: 21300000, guid: f1d36c6a1706a6048a22770891adb327, type: 3}
   settingsOnSprite: {fileID: 21300000, guid: cef712c7bdcc550408bb74ee0ccc388c, type: 3}
   settingsOffSprite: {fileID: 21300000, guid: a0e7b01bcb3af054c8459bcb2e23836a, type: 3}
+  LineBlack: {fileID: 0}
+  LineWhite: {fileID: 0}
+  _isBlueprintOn: 0
 --- !u!1 &30962223
 GameObject:
   m_ObjectHideFlags: 0
@@ -3150,6 +3154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 1
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.1
   rotationSpeedMobile: 160
@@ -3162,9 +3167,14 @@ MonoBehaviour:
   isRotateOneDirect: 0
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &30962226
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6935,6 +6945,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 1
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.1
   rotationSpeedMobile: 160
@@ -6947,9 +6958,14 @@ MonoBehaviour:
   isRotateOneDirect: 0
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &72978676
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9556,6 +9572,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 1
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.1
   rotationSpeedMobile: 160
@@ -9568,9 +9585,14 @@ MonoBehaviour:
   isRotateOneDirect: 0
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &122336857
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10615,6 +10637,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 1
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.1
   rotationSpeedMobile: 160
@@ -10627,9 +10650,14 @@ MonoBehaviour:
   isRotateOneDirect: 0
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &130586685
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -21568,6 +21596,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 1
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.1
   rotationSpeedMobile: 160
@@ -21580,9 +21609,14 @@ MonoBehaviour:
   isRotateOneDirect: 0
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &235322138
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -24535,6 +24569,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 1
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.1
   rotationSpeedMobile: 160
@@ -24547,9 +24582,14 @@ MonoBehaviour:
   isRotateOneDirect: 0
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &264340561
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -27816,133 +27856,179 @@ MonoBehaviour:
       type: 2}
     <videoClip>k__BackingField: {fileID: 32900000, guid: 90cb9f1f0f45ea342b87b280a8469175,
       type: 3}
+    <IsPlaneReplace>k__BackingField: 0
+    <blackThreshold>k__BackingField: 0.001
   - <AntiqueObjectName>k__BackingField: P004
     <MeshRenderer>k__BackingField: {fileID: 900268597}
     <originalMaterial>k__BackingField: {fileID: 2100000, guid: 8d95c2f0ceb0b8e47a442f8dc0313b30,
       type: 2}
     <videoClip>k__BackingField: {fileID: 32900000, guid: fda0ef0151a9912418c5604adb643b02,
       type: 3}
+    <IsPlaneReplace>k__BackingField: 0
+    <blackThreshold>k__BackingField: 0.001
   - <AntiqueObjectName>k__BackingField: P007
     <MeshRenderer>k__BackingField: {fileID: 35648351}
     <originalMaterial>k__BackingField: {fileID: 2100000, guid: f0a24a0117eeedf44a1dc26ecf5f2901,
       type: 2}
     <videoClip>k__BackingField: {fileID: 32900000, guid: d15ce9d9c211c704b9b7a5989d40d110,
       type: 3}
+    <IsPlaneReplace>k__BackingField: 0
+    <blackThreshold>k__BackingField: 0.001
   - <AntiqueObjectName>k__BackingField: P008
     <MeshRenderer>k__BackingField: {fileID: 1758026792}
     <originalMaterial>k__BackingField: {fileID: 2100000, guid: d4543724c38ad9b4dbd1ac9c5cf92a10,
       type: 2}
     <videoClip>k__BackingField: {fileID: 32900000, guid: 23516303069f62a41a7c875a0dec1865,
       type: 3}
+    <IsPlaneReplace>k__BackingField: 0
+    <blackThreshold>k__BackingField: 0.001
   - <AntiqueObjectName>k__BackingField: P009
     <MeshRenderer>k__BackingField: {fileID: 1744433552}
     <originalMaterial>k__BackingField: {fileID: 2100000, guid: ae4fde770bd24d4409225dd9cb001330,
       type: 2}
     <videoClip>k__BackingField: {fileID: 32900000, guid: 9f79c47eb59556b4f97425e97ec8e405,
       type: 3}
+    <IsPlaneReplace>k__BackingField: 0
+    <blackThreshold>k__BackingField: 0.001
   - <AntiqueObjectName>k__BackingField: P010
     <MeshRenderer>k__BackingField: {fileID: 1656655761}
     <originalMaterial>k__BackingField: {fileID: 2100000, guid: ce59476f73237e94bb7948970d581395,
       type: 2}
     <videoClip>k__BackingField: {fileID: 32900000, guid: 3500236dbf5c80247ba0c84347e5ea95,
       type: 3}
+    <IsPlaneReplace>k__BackingField: 0
+    <blackThreshold>k__BackingField: 0.001
   - <AntiqueObjectName>k__BackingField: P015
     <MeshRenderer>k__BackingField: {fileID: 1801565408}
     <originalMaterial>k__BackingField: {fileID: 2100000, guid: dc88a274a1edcbe4b836ae6724487a2e,
       type: 2}
     <videoClip>k__BackingField: {fileID: 32900000, guid: ce675810bf06fe54fbf26fe8e8c8f9b0,
       type: 3}
+    <IsPlaneReplace>k__BackingField: 0
+    <blackThreshold>k__BackingField: 0.001
   - <AntiqueObjectName>k__BackingField: P062
     <MeshRenderer>k__BackingField: {fileID: 66463340}
     <originalMaterial>k__BackingField: {fileID: 2100000, guid: 105285a4f25244d4998a1890c67ab5d1,
       type: 2}
     <videoClip>k__BackingField: {fileID: 32900000, guid: 5606b80af6e6f814e8dd0f6e3b947955,
       type: 3}
+    <IsPlaneReplace>k__BackingField: 0
+    <blackThreshold>k__BackingField: 0.001
   - <AntiqueObjectName>k__BackingField: P064
     <MeshRenderer>k__BackingField: {fileID: 284617381}
     <originalMaterial>k__BackingField: {fileID: 2100000, guid: 793610c50323fea4aa801668bdaf8cee,
       type: 2}
     <videoClip>k__BackingField: {fileID: 32900000, guid: 1ca560c57ca39b44ba0a169a4793701e,
       type: 3}
+    <IsPlaneReplace>k__BackingField: 0
+    <blackThreshold>k__BackingField: 0.001
   - <AntiqueObjectName>k__BackingField: P065
     <MeshRenderer>k__BackingField: {fileID: 1220293156}
     <originalMaterial>k__BackingField: {fileID: 2100000, guid: cc961fbe9a72b7d4f85b9668f48af87f,
       type: 2}
     <videoClip>k__BackingField: {fileID: 32900000, guid: baa5b00ab1d79084bbe88606a2153cee,
       type: 3}
+    <IsPlaneReplace>k__BackingField: 0
+    <blackThreshold>k__BackingField: 0.001
   - <AntiqueObjectName>k__BackingField: P070
     <MeshRenderer>k__BackingField: {fileID: 59214933}
     <originalMaterial>k__BackingField: {fileID: 2100000, guid: bea634999f860f344bc90f95964df1f4,
       type: 2}
     <videoClip>k__BackingField: {fileID: 32900000, guid: 94b831fbeb0d08341b672b72fb302c22,
       type: 3}
+    <IsPlaneReplace>k__BackingField: 0
+    <blackThreshold>k__BackingField: 0.001
   - <AntiqueObjectName>k__BackingField: P072
     <MeshRenderer>k__BackingField: {fileID: 1922917048}
     <originalMaterial>k__BackingField: {fileID: 2100000, guid: fa5c8cb202470714680a716b2c94344b,
       type: 2}
     <videoClip>k__BackingField: {fileID: 32900000, guid: 973702ddbf942f24f8ca7ddfbd3bd2d8,
       type: 3}
+    <IsPlaneReplace>k__BackingField: 0
+    <blackThreshold>k__BackingField: 0.001
   - <AntiqueObjectName>k__BackingField: P073
     <MeshRenderer>k__BackingField: {fileID: 1945247441}
     <originalMaterial>k__BackingField: {fileID: 2100000, guid: 1fb38ec0290e5394489b1c3d8172530d,
       type: 2}
     <videoClip>k__BackingField: {fileID: 32900000, guid: 5568977d431e1e94a8e48babb674adda,
       type: 3}
+    <IsPlaneReplace>k__BackingField: 0
+    <blackThreshold>k__BackingField: 0.001
   - <AntiqueObjectName>k__BackingField: P074
     <MeshRenderer>k__BackingField: {fileID: 1507172081}
     <originalMaterial>k__BackingField: {fileID: 2100000, guid: 0e9bd61718e36d14ead47f8881c4ae78,
       type: 2}
     <videoClip>k__BackingField: {fileID: 32900000, guid: 9b72d55ea2e2326419a1bbd498afda17,
       type: 3}
+    <IsPlaneReplace>k__BackingField: 0
+    <blackThreshold>k__BackingField: 0.001
   - <AntiqueObjectName>k__BackingField: P075
     <MeshRenderer>k__BackingField: {fileID: 607672714}
     <originalMaterial>k__BackingField: {fileID: 2100000, guid: e97471128107c4141ab8c356d78ac7b6,
       type: 2}
     <videoClip>k__BackingField: {fileID: 32900000, guid: d3b07dd3afcc733429703d997874d9d9,
       type: 3}
+    <IsPlaneReplace>k__BackingField: 0
+    <blackThreshold>k__BackingField: 0.001
   - <AntiqueObjectName>k__BackingField: P076
     <MeshRenderer>k__BackingField: {fileID: 1263814153}
     <originalMaterial>k__BackingField: {fileID: 2100000, guid: 56e242986cb57454aae0dbc065e07363,
       type: 2}
     <videoClip>k__BackingField: {fileID: 32900000, guid: d2b07a68c7dff784d9f120f44d7bd155,
       type: 3}
+    <IsPlaneReplace>k__BackingField: 0
+    <blackThreshold>k__BackingField: 0.001
   - <AntiqueObjectName>k__BackingField: P077
     <MeshRenderer>k__BackingField: {fileID: 394246065}
     <originalMaterial>k__BackingField: {fileID: 2100000, guid: 66a5a6a4b6153fc41b1abf367e25f93a,
       type: 2}
     <videoClip>k__BackingField: {fileID: 32900000, guid: 3eeaace449d793e4482817a4a2c68f5a,
       type: 3}
+    <IsPlaneReplace>k__BackingField: 0
+    <blackThreshold>k__BackingField: 0.001
   - <AntiqueObjectName>k__BackingField: P079
     <MeshRenderer>k__BackingField: {fileID: 697804742}
     <originalMaterial>k__BackingField: {fileID: 2100000, guid: b70e133645df12a4c85988d927f74bb4,
       type: 2}
     <videoClip>k__BackingField: {fileID: 32900000, guid: a85f02817a343714b816b69acafa1f5a,
       type: 3}
+    <IsPlaneReplace>k__BackingField: 0
+    <blackThreshold>k__BackingField: 0.001
   - <AntiqueObjectName>k__BackingField: P080
     <MeshRenderer>k__BackingField: {fileID: 1013462776}
     <originalMaterial>k__BackingField: {fileID: 2100000, guid: e0eececb7e783414f81aa6db6e289e86,
       type: 2}
     <videoClip>k__BackingField: {fileID: 32900000, guid: 68394e03dcf2758428daf34f6175fd2d,
       type: 3}
+    <IsPlaneReplace>k__BackingField: 0
+    <blackThreshold>k__BackingField: 0.001
   - <AntiqueObjectName>k__BackingField: P081
     <MeshRenderer>k__BackingField: {fileID: 700482668}
     <originalMaterial>k__BackingField: {fileID: 2100000, guid: dd12cb07bea950b42a38e69123a84acc,
       type: 2}
     <videoClip>k__BackingField: {fileID: 32900000, guid: 81b604e3f3907b040ada6929d92b5836,
       type: 3}
+    <IsPlaneReplace>k__BackingField: 0
+    <blackThreshold>k__BackingField: 0.001
   - <AntiqueObjectName>k__BackingField: P082
     <MeshRenderer>k__BackingField: {fileID: 573781250}
     <originalMaterial>k__BackingField: {fileID: 2100000, guid: aa40210041b759d4588b4c945a128053,
       type: 2}
     <videoClip>k__BackingField: {fileID: 32900000, guid: 713cb05433011b946b671c88a353bbec,
       type: 3}
+    <IsPlaneReplace>k__BackingField: 0
+    <blackThreshold>k__BackingField: 0.001
   - <AntiqueObjectName>k__BackingField: P083
     <MeshRenderer>k__BackingField: {fileID: 264208693}
     <originalMaterial>k__BackingField: {fileID: 2100000, guid: dd0221478a612154e89df2f7da3adfec,
       type: 2}
     <videoClip>k__BackingField: {fileID: 32900000, guid: 01cf4eb57a6161849aa111afc527dd8f,
       type: 3}
+    <IsPlaneReplace>k__BackingField: 0
+    <blackThreshold>k__BackingField: 0.001
   videoMaterial: {fileID: 2100000, guid: 71556235de6a1f54c90827365de2bf79, type: 2}
+  transparentVideoMaterial: {fileID: 2100000, guid: 24ea185ed2daab6469876cad19f3a14a,
+    type: 2}
   videoPlayer: {fileID: 1395407301}
   videoRenderTexture: {fileID: 8400000, guid: e0cde6aeb5fb8b448900caf772744f2f, type: 2}
   blinkCanvas: {fileID: 213757838}
@@ -34391,6 +34477,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 1
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.1
   rotationSpeedMobile: 160
@@ -34403,9 +34490,14 @@ MonoBehaviour:
   isRotateOneDirect: 0
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &367063525
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -34600,8 +34692,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20d9f39bbee702b49aa2d0c5bcf14a21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  platformType: 3
-  deviceType: 0
+  platformType: 4
+  deviceType: 1
   isSplitScene: 1
 --- !u!4 &372726100
 Transform:
@@ -36655,6 +36747,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 1
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.1
   rotationSpeedMobile: 160
@@ -36667,9 +36760,14 @@ MonoBehaviour:
   isRotateOneDirect: 0
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &388191392
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -50674,12 +50772,16 @@ MonoBehaviour:
   guideToggle: {fileID: 1519878709}
   vrToggle: {fileID: 208157588}
   settingsToggle: {fileID: 1147419764}
+  blueprintToggle: {fileID: 0}
   guideOnSprite: {fileID: 21300000, guid: 30d0434198d6f1f46bdedfeac17bdb97, type: 3}
   guideOffSprite: {fileID: 21300000, guid: 77e4f6cb2e908a24298b4276b650b30c, type: 3}
   vrOnSprite: {fileID: 21300000, guid: 3bb9f6dcc95091646942a8eac7c87186, type: 3}
   vrOffSprite: {fileID: 21300000, guid: f1d36c6a1706a6048a22770891adb327, type: 3}
   settingsOnSprite: {fileID: 21300000, guid: cef712c7bdcc550408bb74ee0ccc388c, type: 3}
   settingsOffSprite: {fileID: 21300000, guid: a0e7b01bcb3af054c8459bcb2e23836a, type: 3}
+  LineBlack: {fileID: 0}
+  LineWhite: {fileID: 0}
+  _isBlueprintOn: 0
 --- !u!1 &534392340
 GameObject:
   m_ObjectHideFlags: 0
@@ -64119,6 +64221,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 1
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.1
   rotationSpeedMobile: 160
@@ -64131,9 +64234,14 @@ MonoBehaviour:
   isRotateOneDirect: 0
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &708968989
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -64752,6 +64860,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 1
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.1
   rotationSpeedMobile: 160
@@ -64764,9 +64873,14 @@ MonoBehaviour:
   isRotateOneDirect: 0
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &712129575
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -72701,6 +72815,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 1
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.1
   rotationSpeedMobile: 160
@@ -72713,9 +72828,14 @@ MonoBehaviour:
   isRotateOneDirect: 0
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &791420420
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -74878,6 +74998,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 1
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.1
   rotationSpeedMobile: 160
@@ -74890,9 +75011,14 @@ MonoBehaviour:
   isRotateOneDirect: 0
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &811111072
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -118400,6 +118526,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 1
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.1
   rotationSpeedMobile: 160
@@ -118412,9 +118539,14 @@ MonoBehaviour:
   isRotateOneDirect: 0
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &1281747974
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -120659,6 +120791,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 1
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.1
   rotationSpeedMobile: 160
@@ -120671,9 +120804,14 @@ MonoBehaviour:
   isRotateOneDirect: 0
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &1309691181
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -125819,6 +125957,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 1
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.1
   rotationSpeedMobile: 160
@@ -125831,9 +125970,14 @@ MonoBehaviour:
   isRotateOneDirect: 0
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &1355359885
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -127238,6 +127382,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 1
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.1
   rotationSpeedMobile: 160
@@ -127250,9 +127395,14 @@ MonoBehaviour:
   isRotateOneDirect: 0
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &1370321526
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -134954,6 +135104,7 @@ MonoBehaviour:
   videoStreamReceiver: {fileID: 1459000974}
   audioStreamReceiver: {fileID: 1459000973}
   broadcast: {fileID: 1459000969}
+  socketManager: {fileID: 0}
   debugMode: 0
 --- !u!4 &1459000977
 Transform:
@@ -147566,6 +147717,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 1
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.1
   rotationSpeedMobile: 160
@@ -147578,9 +147730,14 @@ MonoBehaviour:
   isRotateOneDirect: 0
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &1600746412
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -150417,6 +150574,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 1
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.1
   rotationSpeedMobile: 160
@@ -150429,9 +150587,14 @@ MonoBehaviour:
   isRotateOneDirect: 0
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &1625350889
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -166978,6 +167141,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 1
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.1
   rotationSpeedMobile: 160
@@ -166990,9 +167154,14 @@ MonoBehaviour:
   isRotateOneDirect: 0
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &1792926599
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -167555,12 +167724,16 @@ MonoBehaviour:
   guideToggle: {fileID: 1271636136}
   vrToggle: {fileID: 1578559461}
   settingsToggle: {fileID: 484438998}
+  blueprintToggle: {fileID: 0}
   guideOnSprite: {fileID: 21300000, guid: 30d0434198d6f1f46bdedfeac17bdb97, type: 3}
   guideOffSprite: {fileID: 21300000, guid: 77e4f6cb2e908a24298b4276b650b30c, type: 3}
   vrOnSprite: {fileID: 21300000, guid: 3bb9f6dcc95091646942a8eac7c87186, type: 3}
   vrOffSprite: {fileID: 21300000, guid: f1d36c6a1706a6048a22770891adb327, type: 3}
   settingsOnSprite: {fileID: 21300000, guid: cef712c7bdcc550408bb74ee0ccc388c, type: 3}
   settingsOffSprite: {fileID: 21300000, guid: a0e7b01bcb3af054c8459bcb2e23836a, type: 3}
+  LineBlack: {fileID: 0}
+  LineWhite: {fileID: 0}
+  _isBlueprintOn: 0
 --- !u!1 &1797751673
 GameObject:
   m_ObjectHideFlags: 0
@@ -195540,6 +195713,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 1
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.1
   rotationSpeedMobile: 160
@@ -195552,9 +195726,14 @@ MonoBehaviour:
   isRotateOneDirect: 0
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &2110306341
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -196756,6 +196935,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 1
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.1
   rotationSpeedMobile: 160
@@ -196768,9 +196948,14 @@ MonoBehaviour:
   isRotateOneDirect: 0
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &2124244624
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -197858,6 +198043,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isPaint: 1
   isObject: 0
+  isObjectWithAI: 0
   rotationSpeed: 100
   zoomSpeed: 0.1
   rotationSpeedMobile: 160
@@ -197870,9 +198056,14 @@ MonoBehaviour:
   isRotateOneDirect: 0
   originalScale: {x: 1, y: 1, z: 1}
   canRotate: 0
+  normalObject: {fileID: 0}
+  AIObject: {fileID: 0}
   IsUseOnPointerDown: 0
   mobileMagnifierHover: {fileID: 0}
   otherMagnifierHover: {fileID: 0}
+  isArtifactRotate: 0
+  minRotation: {x: 0, y: 0, z: 0}
+  maxRotation: {x: 0, y: 0, z: 0}
 --- !u!65 &2142453385
 BoxCollider:
   m_ObjectHideFlags: 0
