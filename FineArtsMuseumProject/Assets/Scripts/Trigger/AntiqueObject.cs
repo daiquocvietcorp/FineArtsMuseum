@@ -319,7 +319,7 @@ public class AntiqueObject : MonoBehaviour
             if (isSetRotation)
             {
                 //interactiveObject.transform.localEulerAngles = interactObjectLocalRotation;
-                interactiveObject.transform.eulerAngles = interactObjectLocalRotation;
+                interactiveObject.transform.rotation = Quaternion.Euler(interactObjectLocalRotation);
             }
         }
         else
