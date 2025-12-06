@@ -320,6 +320,7 @@ public class AntiqueObject : MonoBehaviour
             {
                 //interactiveObject.transform.localEulerAngles = interactObjectLocalRotation;
                 interactiveObject.transform.localRotation = Quaternion.Euler(interactObjectLocalRotation);
+                interactiveObject.SetDefaultEuler();
             }
         }
         else

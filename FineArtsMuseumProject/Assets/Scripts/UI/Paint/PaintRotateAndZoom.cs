@@ -59,7 +59,7 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
     public Vector3 maxRotation;
 
     private bool _isAI;
-    
+    private Vector3 _defaultEuler;
 
     
     private float CurrentRotationSpeed
@@ -102,6 +102,10 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
         }
     }
 
+    public void SetDefaultEuler()
+    {
+        _defaultEuler = Normalize360(transform.localEulerAngles);
+    }
     
     private void OnDisable()
     {
@@ -126,28 +130,54 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
     {
         if (!isArtifactRotate) return;
 
-        // Lấy rotation hiện tại dạng Euler
-        Vector3 euler = transform.rotation.eulerAngles;
+        Vector3 current = Normalize360(transform.localEulerAngles);
+        Vector3 def = _defaultEuler;
 
-        // Chuyển tất cả về dải -180 → 180 để clamp chính xác
-        euler.x = NormalizeAngle(euler.x);
-        euler.y = NormalizeAngle(euler.y);
-        euler.z = NormalizeAngle(euler.z);
+        float minY = def.y - 90f;
+        float maxY = def.y + 90f;
 
-        float minX = minRotation.x;
-        float minY = minRotation.y;
-        float minZ = minRotation.z;
+        float y = current.y;
 
-        float maxX = maxRotation.x;
-        float maxY = maxRotation.y;
-        float maxZ = maxRotation.z;
+        // Trường hợp không vượt qua 0 (ví dụ 100 -> 280)
+        if (minY >= 0 && maxY < 360)
+        {
+            y = Mathf.Clamp(y, minY, maxY);
+        }
+        else
+        {
+            // Trường hợp vượt qua 0/360 (ví dụ 320 -> 140)
+            // Khi đó vùng hợp lệ sẽ là 0->maxY hoặc minY->360
+            float min = Normalize360(minY);
+            float max = Normalize360(maxY);
 
-        // Clamp từng trục
-        euler.x = Mathf.Clamp(euler.x, minX, maxX);
-        euler.y = Mathf.Clamp(euler.y, minY, maxY);
-        euler.z = Mathf.Clamp(euler.z, minZ, maxZ);
+            bool valid =
+                (y >= min && y <= 360) ||
+                (y >= 0 && y <= max);
 
-        transform.rotation = Quaternion.Euler(euler);
+            if (!valid)
+            {
+                float distToMin = Mathf.Abs(Mathf.DeltaAngle(y, min));
+                float distToMax = Mathf.Abs(Mathf.DeltaAngle(y, max));
+                y = distToMin < distToMax ? min : max;
+            }
+        }
+
+        transform.localRotation = Quaternion.Euler(current.x, y, current.z);
+    }
+
+
+    private static float Normalize360(float angle)
+    {
+        return (angle % 360 + 360) % 360;
+    }
+
+    private static Vector3 Normalize360(Vector3 euler)
+    {
+        return new Vector3(
+            Normalize360(euler.x),
+            Normalize360(euler.y),
+            Normalize360(euler.z)
+        );
     }
 
     private float NormalizeAngle(float angle)
