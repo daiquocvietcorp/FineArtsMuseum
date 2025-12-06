@@ -63,6 +63,8 @@ public class AudioSubtitleManager : MonoSingleton<AudioSubtitleManager>
     
     private Coroutine repeatCoroutine;
     
+    private bool _isInitialized = false;
+    
     void Awake()
     {
         if (Instance == null)
@@ -73,6 +75,14 @@ public class AudioSubtitleManager : MonoSingleton<AudioSubtitleManager>
 
     void Start()
     {
+        Initialize();
+    }
+
+    private void Initialize()
+    {
+        if(_isInitialized) return;
+        _isInitialized = true;
+        
         LoadJsonData();
         LoadLanguage(); 
         // AssignButtonEvents();
@@ -110,6 +120,11 @@ public class AudioSubtitleManager : MonoSingleton<AudioSubtitleManager>
 
     public void ToggleLanguage(string lang)
     {
+        if (!_isInitialized)
+        {
+            Initialize();
+        }
+        
         if (lang == "vi")
         {
             toggleVietnamese.isOn = true;

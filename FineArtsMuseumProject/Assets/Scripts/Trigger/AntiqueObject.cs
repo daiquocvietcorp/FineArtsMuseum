@@ -201,8 +201,6 @@ public class AntiqueObject : MonoBehaviour
         {
             CharacterStateMachine.gameObject.layer = LayerMask.NameToLayer("Default");
             blurGameObject.SetActive(true);
-
-
         }
 
         if (PlatformManager.Instance.IsStandalone || PlatformManager.Instance.IsWebGL)
