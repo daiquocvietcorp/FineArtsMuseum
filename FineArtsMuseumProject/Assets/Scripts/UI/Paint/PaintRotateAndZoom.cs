@@ -554,6 +554,7 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
     public void OnScroll(PointerEventData eventData)
     {
         if(isObject && PlatformManager.Instance.IsTomko) return;
+        if(SceneLog.IsNewController) return;
         float scroll = eventData.scrollDelta.y;
 
         if (scroll != 0f)

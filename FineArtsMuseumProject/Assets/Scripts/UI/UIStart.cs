@@ -167,7 +167,7 @@ namespace UI
             UIManager.Instance.EnableUI("UI_NAVIGATION");
             UIManager.Instance.ActionUI("UI_SOUND");
             
-            if(SceneLog.IsFirstScene)
+            if(SceneLog.IsFirstScene || SceneLog.IsFirstGuide)
                 UIManager.Instance.EnableUI("UI_GUIDE");
             
             gameObject.SetActive(false);
