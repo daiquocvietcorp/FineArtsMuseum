@@ -1014,9 +1014,12 @@ private void StartGuideSequence()
         
         BlinkCanvas.SetActive(true);
         VideoPlayer.gameObject.SetActive(false);
-        ChildrenTranhAivVideoPlayer.gameObject.SetActive(false);
-        childrenTranhAIObject.gameObject.SetActive(false);
-        
+        if (isUseChildrenImage)
+        {
+            ChildrenTranhAivVideoPlayer.gameObject.SetActive(false);
+            childrenTranhAIObject.gameObject.SetActive(false);
+            
+        }
         if (!isUseChildrenImage)
         {
             if (VideoClips.Count <= 0) yield break;
