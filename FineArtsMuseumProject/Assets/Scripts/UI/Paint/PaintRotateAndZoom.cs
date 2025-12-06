@@ -53,6 +53,11 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
     public bool IsUseOnPointerDown = false;
     public MagnifierHover mobileMagnifierHover;
     public MagnifierHover otherMagnifierHover;
+
+    public bool isArtifactRotate = false;
+    public Vector3 minRotation;
+    public Vector3 maxRotation;
+
     
     private float CurrentRotationSpeed
     {
@@ -111,6 +116,43 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
         Vertical,
         None
     }
+    
+    private void ClampRotation()
+    {
+        if (!isArtifactRotate) return;
+
+        // Lấy rotation hiện tại dạng Euler
+        Vector3 euler = transform.rotation.eulerAngles;
+
+        // Chuyển tất cả về dải -180 → 180 để clamp chính xác
+        euler.x = NormalizeAngle(euler.x);
+        euler.y = NormalizeAngle(euler.y);
+        euler.z = NormalizeAngle(euler.z);
+
+        float minX = minRotation.x;
+        float minY = minRotation.y;
+        float minZ = minRotation.z;
+
+        float maxX = maxRotation.x;
+        float maxY = maxRotation.y;
+        float maxZ = maxRotation.z;
+
+        // Clamp từng trục
+        euler.x = Mathf.Clamp(euler.x, minX, maxX);
+        euler.y = Mathf.Clamp(euler.y, minY, maxY);
+        euler.z = Mathf.Clamp(euler.z, minZ, maxZ);
+
+        transform.rotation = Quaternion.Euler(euler);
+    }
+
+    private float NormalizeAngle(float angle)
+    {
+        angle %= 360f;
+        if (angle > 180f) angle -= 360f;
+        if (angle < -180f) angle += 360f;
+        return angle;
+    }
+    
     private Direction _holdDirection = Direction.None;
     private void Update()
     {
@@ -197,6 +239,7 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
             
             Quaternion rotation = Quaternion.AngleAxis(angle, rotationAxis.normalized);
             transform.rotation = rotation * transform.rotation;
+            ClampRotation();
             // Cập nhật vector cho lần kéo tiếp theo
             lastArcballVector = currentVector;
             _isDragObject = true;
@@ -442,6 +485,7 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
                 
                 Quaternion rotation = Quaternion.AngleAxis(angle, rotationAxis.normalized);
                 transform.rotation = rotation * transform.rotation;
+                ClampRotation();
 
                 // Cập nhật vector cho lần kéo tiếp theo
                 lastArcballVector = currentVector;
@@ -472,6 +516,7 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
                 lastPointerPosition = eventData.position;
                 // Gán lại giá trị Euler angles mới vào đối tượng
                 transform.eulerAngles = currentEuler;
+                ClampRotation();
             }
         }
     }

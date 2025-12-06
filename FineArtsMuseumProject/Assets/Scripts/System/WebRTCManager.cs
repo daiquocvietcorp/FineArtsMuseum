@@ -57,7 +57,7 @@ public class WebRTCManager : MonoSingleton<WebRTCManager>
     {
         const int port = 8000;
 
-        var signalingURL = $"ws://127.0.0.1:{port}";
+        var signalingURL = $"ws://192.168.1.230:{port}";
 
         signalingManager.Stop();
 
@@ -86,6 +86,7 @@ public class WebRTCManager : MonoSingleton<WebRTCManager>
         signalingManager.AddSignalingHandler(broadcast);
         signalingManager.Run();
         
+        AudioSubtitleManager.Instance.ToggleLanguage("en");
         socketManager.InitSocket("https://streaming-13.daiquocviet.vn:42003", "1");
     }
 
