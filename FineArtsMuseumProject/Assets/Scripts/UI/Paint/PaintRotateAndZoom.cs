@@ -162,7 +162,7 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
             }
         }
 
-        transform.localRotation = Quaternion.Euler(current.x, y, current.z);
+        //transform.localRotation = Quaternion.Euler(current.x, y, current.z);
     }
 
 
@@ -521,9 +521,19 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
                         Quaternion rotation = Quaternion.AngleAxis(angle, rotationAxis.normalized);
                         transform.rotation = rotation * transform.rotation;
                     }*/
+
+                    if (CanRotateUpDown)
+                    {
+                        Quaternion rotation = Quaternion.AngleAxis(angle, rotationAxis.normalized);
+                        transform.rotation = rotation * transform.rotation;
+                    }
+                    else
+                    {
+                        Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.up);
+                        transform.rotation = transform.rotation * rotation;
+                    }
                     
-                    Quaternion rotation = Quaternion.AngleAxis(angle, rotationAxis.normalized);
-                    transform.rotation = rotation * transform.rotation;
+                    
                     ClampRotation();
     
                     // Cập nhật vector cho lần kéo tiếp theo
