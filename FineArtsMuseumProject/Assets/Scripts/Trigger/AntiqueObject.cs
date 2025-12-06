@@ -318,7 +318,8 @@ public class AntiqueObject : MonoBehaviour
             interactiveObject.transform.localPosition = interactObjectLocalPosition;
             if (isSetRotation)
             {
-                interactiveObject.transform.localEulerAngles = interactObjectLocalRotation;
+                //interactiveObject.transform.localEulerAngles = interactObjectLocalRotation;
+                interactiveObject.transform.eulerAngles = interactObjectLocalRotation;
             }
         }
         else

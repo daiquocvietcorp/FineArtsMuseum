@@ -14,4 +14,5 @@ public class SceneLog : MonoBehaviour
     public static bool IsNewController = false;
     public static bool IsBlockFirstView = false;
     public static bool IsBlockThirdView = false;
+    public static bool IsFirstGuide = false;
 }
