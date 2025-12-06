@@ -71,12 +71,14 @@ namespace Trigger
                 }
             }
             UIManager.Instance.DisableUI("UI_NAVIGATION");
-            
-            if (!PlatformManager.Instance.IsMobile && !PlatformManager.Instance.IsCloud && !PlatformManager.Instance.IsTomko) return;
-            InputManager.Instance.DisableJoystick();
-            
-            if(PlatformManager.Instance.IsTomko) return;
-            InputManager.Instance.DisableJoystickRotation();
+
+            if (PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud ||
+                PlatformManager.Instance.IsTomko)
+            {
+                InputManager.Instance.DisableJoystick();
+            }
+
+            if (!PlatformManager.Instance.IsTomko) InputManager.Instance.DisableJoystickRotation();
         }
 
         public void ResetSlider()
@@ -97,12 +99,14 @@ namespace Trigger
                 if (PlatformManager.Instance.IsTomko || PlatformManager.Instance.IsVR || SceneLog.IsNewController)
                     sliderTransform.gameObject.SetActive(false);
             }
-            
-            if (!PlatformManager.Instance.IsMobile && !PlatformManager.Instance.IsCloud && !PlatformManager.Instance.IsTomko) return;
-            InputManager.Instance.EnableJoystick();
-            
-            if(PlatformManager.Instance.IsTomko) return;
-            InputManager.Instance.EnableJoystickRotation();
+
+            if (PlatformManager.Instance.IsMobile || PlatformManager.Instance.IsCloud ||
+                PlatformManager.Instance.IsTomko)
+            {
+                InputManager.Instance.EnableJoystick();
+            }
+
+            if (!PlatformManager.Instance.IsTomko) InputManager.Instance.EnableJoystickRotation();
         }
 
         public void EnableSoundAntique(string antiqueID)
