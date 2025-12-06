@@ -1009,31 +1009,53 @@ private void StartGuideSequence()
         
         BlinkCanvas.SetActive(true);
         VideoPlayer.gameObject.SetActive(false);
-
-        if (VideoClips.Count <= 0) yield break;
-        VideoPlayer.gameObject.SetActive(true);
-        VideoPlayer.clip = VideoClips[UnityEngine.Random.Range(0, VideoClips.Count)];
-        VideoPlayer.Prepare();
-        yield return new WaitUntil(() => VideoPlayer.isPrepared);
-        yield return new WaitForSeconds(3f);
-        BlinkCanvas.SetActive(false);
-        _aiCautionCoroutine = StartCoroutine(StartAICautionAnimation());
-        VideoPlayer.Play();
-        if (isUseChildrenImage)
+        ChildrenTranhAivVideoPlayer.gameObject.SetActive(false);
+        childrenTranhAIObject.gameObject.SetActive(false);
+        
+        if (!isUseChildrenImage)
         {
-            childrenTranh.GetComponent<Renderer>().material.mainTexture = videoRenderTexture;
-            // Gán texture phát sáng
-            childrenTranh.GetComponent<Renderer>().material.SetTexture("_EmissionMap", videoRenderTexture);
-            childrenTranhAIObject.gameObject.SetActive(true);
-            ChildrenTranhAivVideoPlayer.Play();
-
+            if (VideoClips.Count <= 0) yield break;
+            VideoPlayer.gameObject.SetActive(true);
+            VideoPlayer.clip = VideoClips[UnityEngine.Random.Range(0, VideoClips.Count)];
+            VideoPlayer.Prepare();
+            yield return new WaitUntil(() => VideoPlayer.isPrepared);
+            
+            VideoPlayer.Stop();
+            VideoPlayer.frame = 0;
+            VideoPlayer.isLooping = true;
+            
+            yield return new WaitForSeconds(3f);
         }
         else
         {
+            childrenTranhAIObject.gameObject.SetActive(true);
+            ChildrenTranhAivVideoPlayer.gameObject.SetActive(true);
+            ChildrenTranhAivVideoPlayer.Prepare();
+            
+            yield return new WaitUntil(() => ChildrenTranhAivVideoPlayer.isPrepared);
+
+            ChildrenTranhAivVideoPlayer.Stop();
+            ChildrenTranhAivVideoPlayer.frame = 0;
+            ChildrenTranhAivVideoPlayer.isLooping = true;
+            
+            yield return new WaitForSeconds(3f);
+        }
+        
+        BlinkCanvas.SetActive(false);
+        _aiCautionCoroutine = StartCoroutine(StartAICautionAnimation());
+        
+        if (!isUseChildrenImage)
+        {
+            VideoPlayer.Play();
             tranh.GetComponent<Renderer>().material.mainTexture = videoRenderTexture;
             tranh.GetComponent<Renderer>().material.SetTexture("_EmissionMap", videoRenderTexture);
         }
-        
+        else
+        {
+            ChildrenTranhAivVideoPlayer.Play();
+            childrenTranh.GetComponent<Renderer>().material.mainTexture = videoRenderTexture;
+            childrenTranh.GetComponent<Renderer>().material.SetTexture("_EmissionMap", videoRenderTexture);
+        }
     }
 
     // Update is called once per frame
