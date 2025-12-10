@@ -230,20 +230,27 @@ namespace UI
             
             if(_isSubtitleSoundOn == arg0) return;
             
-            if (arg0)
+            if (_isSubtitleSoundOn)
             {
+                var result = AudioSubtitleManager.Instance.TurnRoomAudio();
+                if (!result) return;
+                
+                _isSubtitleSoundOn = false;
+                
                 CheckToggleOn();
                 SoundLine.SetActive(false);
-                SubtittleOn();
+                //SubtittleOn();
             }
             else
             {
+                var result = AudioSubtitleManager.Instance.TurnRoomAudio();
+                if (!result) return;
+                
+                _isSubtitleSoundOn = true;
+                
                 SoundLine.SetActive(true);
-
-                SubtitleOff();
+                //SubtitleOff();
             }
-            
-            _isSubtitleSoundOn = arg0;
         }
         
         
