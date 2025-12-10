@@ -236,19 +236,19 @@ namespace UI
                 if (!result) return;
                 
                 _isSubtitleSoundOn = false;
-                
+                Debug.Log("Turn off subtitle");
                 CheckToggleOn();
-                SoundLine.SetActive(false);
+                SoundLine.SetActive(true);
                 //SubtittleOn();
             }
             else
             {
                 var result = AudioSubtitleManager.Instance.TurnRoomAudio();
                 if (!result) return;
-                
+                Debug.Log("Turn on subtitle");
                 _isSubtitleSoundOn = true;
                 
-                SoundLine.SetActive(true);
+                SoundLine.SetActive(false);
                 //SubtitleOff();
             }
         }

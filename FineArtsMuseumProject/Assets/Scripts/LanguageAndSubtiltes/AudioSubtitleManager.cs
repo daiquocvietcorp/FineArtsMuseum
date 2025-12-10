@@ -394,11 +394,12 @@ public class AudioSubtitleManager : MonoSingleton<AudioSubtitleManager>
         }
         else
         {
-            _isPlayingRoomSound = false;
+            
             
             if(_isPlayingAudio) return true;
             
             TurnOffRoomAudio();
+            _isPlayingRoomSound = false;
             return true;
         }
     }
@@ -444,6 +445,11 @@ public class AudioSubtitleManager : MonoSingleton<AudioSubtitleManager>
     
     private void TurnOffRoomAudio()
     {
+        
+        Debug.Log("TurnOffRoomAudio");
+        Debug.Log("_isPlayingRoomSound:"+_isPlayingRoomSound);
+        Debug.Log("_isPlayingAudio:"+_isPlayingAudio);
+        Debug.Log("_isPlayingAmbientSound:"+_isPlayingAmbientSound);
         if (!_isPlayingRoomSound || _isPlayingAudio) return;
         audioSource.Stop();
         audioSource.clip = null;
@@ -453,5 +459,6 @@ public class AudioSubtitleManager : MonoSingleton<AudioSubtitleManager>
         audioSource.volume = ambientVolume;
         audioSource.loop = true;
         audioSource.Play();
+        Debug.Log("EndTurnOffRoomAudio, Turn Ambient On");
     }
 }
