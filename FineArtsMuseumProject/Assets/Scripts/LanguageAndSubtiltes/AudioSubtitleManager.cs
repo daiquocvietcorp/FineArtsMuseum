@@ -382,6 +382,7 @@ public class AudioSubtitleManager : MonoSingleton<AudioSubtitleManager>
 
     public bool TurnRoomAudio()
     {
+        if(string.IsNullOrEmpty(audioRoomId)) return false;
         //if(_isPlayingAudio) return false;
         
         if (!_isPlayingRoomSound)
@@ -406,7 +407,7 @@ public class AudioSubtitleManager : MonoSingleton<AudioSubtitleManager>
     
     private void TurnOnRoomAudio()
     {
-        if (!_isPlayingRoomSound || _isPlayingAudio) return;
+        if (!_isPlayingRoomSound || _isPlayingAudio || string.IsNullOrEmpty(audioRoomId)) return;
         
         var clipData = GetClipDataById(audioRoomId);
         if (clipData == null)
@@ -445,12 +446,11 @@ public class AudioSubtitleManager : MonoSingleton<AudioSubtitleManager>
     
     private void TurnOffRoomAudio()
     {
-        
         Debug.Log("TurnOffRoomAudio");
         Debug.Log("_isPlayingRoomSound:"+_isPlayingRoomSound);
         Debug.Log("_isPlayingAudio:"+_isPlayingAudio);
         Debug.Log("_isPlayingAmbientSound:"+_isPlayingAmbientSound);
-        if (!_isPlayingRoomSound || _isPlayingAudio) return;
+        if (!_isPlayingRoomSound || _isPlayingAudio || string.IsNullOrEmpty(audioRoomId)) return;
         audioSource.Stop();
         audioSource.clip = null;
         
