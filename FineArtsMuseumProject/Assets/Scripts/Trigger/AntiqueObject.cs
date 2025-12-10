@@ -162,6 +162,11 @@ public class AntiqueObject : MonoBehaviour
             isShowAI = false;
             AIVideoManager.Instance.StopVideoMaterial(AntiqueID);
         }
+
+        if (!string.IsNullOrEmpty(triggerZoneStatic.triggerId))
+        {
+            AudioSubtitleManager.Instance.StopAudioAndClearSubtitle();
+        }
     }
 
     private void OnEnable()
@@ -181,12 +186,17 @@ public class AntiqueObject : MonoBehaviour
         {
             ShowGuideButton.gameObject.SetActive(false);
         }
+        
         if (!PlatformManager.Instance.IsVR)
         {
             rect.transform.position += new Vector3(0f, 0f, 0f);
             rect.ForceUpdateRectTransforms();
         }
-        
+
+        if (!string.IsNullOrEmpty(triggerZoneStatic.triggerId))
+        {
+            AudioSubtitleManager.Instance.PlayAudioWithSubtitle(triggerZoneStatic.triggerId);
+        }
     }
     
     private IEnumerator DelayedStartGuide()
