@@ -3322,6 +3322,26 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -1853094968961178454, guid: a760268ec0326eb468b8b8f4733cab0f,
+        type: 3}
+      propertyPath: m_BackGroundColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -1853094968961178454, guid: a760268ec0326eb468b8b8f4733cab0f,
+        type: 3}
+      propertyPath: m_BackGroundColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -1853094968961178454, guid: a760268ec0326eb468b8b8f4733cab0f,
+        type: 3}
+      propertyPath: m_BackGroundColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -1853094968961178454, guid: a760268ec0326eb468b8b8f4733cab0f,
+        type: 3}
+      propertyPath: m_BackGroundColor.r
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: -1845623053412664013, guid: a760268ec0326eb468b8b8f4733cab0f,
         type: 3}
       propertyPath: m_IsActive
@@ -8135,12 +8155,19 @@ MonoBehaviour:
   guideToggle: {fileID: 356981986}
   vrToggle: {fileID: 1376939203}
   settingsToggle: {fileID: 257593147}
+  blueprintToggle: {fileID: 0}
+  subtitleToggle: {fileID: 0}
   guideOnSprite: {fileID: 21300000, guid: 30d0434198d6f1f46bdedfeac17bdb97, type: 3}
   guideOffSprite: {fileID: 21300000, guid: 77e4f6cb2e908a24298b4276b650b30c, type: 3}
   vrOnSprite: {fileID: 21300000, guid: 3bb9f6dcc95091646942a8eac7c87186, type: 3}
   vrOffSprite: {fileID: 21300000, guid: f1d36c6a1706a6048a22770891adb327, type: 3}
   settingsOnSprite: {fileID: 21300000, guid: cef712c7bdcc550408bb74ee0ccc388c, type: 3}
   settingsOffSprite: {fileID: 21300000, guid: a0e7b01bcb3af054c8459bcb2e23836a, type: 3}
+  LineBlack: {fileID: 0}
+  LineWhite: {fileID: 0}
+  SoundLine: {fileID: 0}
+  _isBlueprintOn: 0
+  _isSubtitleSoundOn: 0
 --- !u!1001 &34870160
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -27345,7 +27372,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &533364178
 RectTransform:
   m_ObjectHideFlags: 0
@@ -27383,12 +27410,19 @@ MonoBehaviour:
   guideToggle: {fileID: 1519878709}
   vrToggle: {fileID: 208157588}
   settingsToggle: {fileID: 1147419764}
+  blueprintToggle: {fileID: 0}
+  subtitleToggle: {fileID: 0}
   guideOnSprite: {fileID: 21300000, guid: 30d0434198d6f1f46bdedfeac17bdb97, type: 3}
   guideOffSprite: {fileID: 21300000, guid: 77e4f6cb2e908a24298b4276b650b30c, type: 3}
   vrOnSprite: {fileID: 21300000, guid: 3bb9f6dcc95091646942a8eac7c87186, type: 3}
   vrOffSprite: {fileID: 21300000, guid: f1d36c6a1706a6048a22770891adb327, type: 3}
   settingsOnSprite: {fileID: 21300000, guid: cef712c7bdcc550408bb74ee0ccc388c, type: 3}
   settingsOffSprite: {fileID: 21300000, guid: a0e7b01bcb3af054c8459bcb2e23836a, type: 3}
+  LineBlack: {fileID: 0}
+  LineWhite: {fileID: 0}
+  SoundLine: {fileID: 0}
+  _isBlueprintOn: 0
+  _isSubtitleSoundOn: 0
 --- !u!1 &539554821
 GameObject:
   m_ObjectHideFlags: 0
@@ -54383,9 +54417,13 @@ MonoBehaviour:
       type: 2}
     <videoClip>k__BackingField: {fileID: 32900000, guid: 1a4562e96833daa4f9406314c3b8575e,
       type: 3}
+    <IsPlaneReplace>k__BackingField: 0
+    <blackThreshold>k__BackingField: 0.001
   videoMaterial: {fileID: 2100000, guid: 71556235de6a1f54c90827365de2bf79, type: 2}
+  transparentVideoMaterial: {fileID: 0}
   videoPlayer: {fileID: 1474506867}
   videoRenderTexture: {fileID: 8400000, guid: e0cde6aeb5fb8b448900caf772744f2f, type: 2}
+  blinkCanvas: {fileID: 0}
 --- !u!1 &1334535001
 GameObject:
   m_ObjectHideFlags: 0
@@ -55948,6 +55986,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trailEffects:
   - {fileID: 0}
+  player: {fileID: 0}
+  trailF1: {fileID: 0}
+  trailF2: {fileID: 0}
+  trailF3: {fileID: 0}
+  trailHam: {fileID: 0}
+  isTrailOn: 0
 --- !u!4 &1368952690
 Transform:
   m_ObjectHideFlags: 0
@@ -58585,6 +58629,7 @@ MonoBehaviour:
   videoStreamReceiver: {fileID: 1459000974}
   audioStreamReceiver: {fileID: 1459000973}
   broadcast: {fileID: 1459000969}
+  socketManager: {fileID: 0}
   debugMode: 1
 --- !u!4 &1459000977
 Transform:
@@ -69615,7 +69660,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1742609850
 Transform:
   m_ObjectHideFlags: 0
@@ -72100,12 +72145,19 @@ MonoBehaviour:
   guideToggle: {fileID: 1271636136}
   vrToggle: {fileID: 1578559461}
   settingsToggle: {fileID: 484438998}
+  blueprintToggle: {fileID: 0}
+  subtitleToggle: {fileID: 0}
   guideOnSprite: {fileID: 21300000, guid: 30d0434198d6f1f46bdedfeac17bdb97, type: 3}
   guideOffSprite: {fileID: 21300000, guid: 77e4f6cb2e908a24298b4276b650b30c, type: 3}
   vrOnSprite: {fileID: 21300000, guid: 3bb9f6dcc95091646942a8eac7c87186, type: 3}
   vrOffSprite: {fileID: 21300000, guid: f1d36c6a1706a6048a22770891adb327, type: 3}
   settingsOnSprite: {fileID: 21300000, guid: cef712c7bdcc550408bb74ee0ccc388c, type: 3}
   settingsOffSprite: {fileID: 21300000, guid: a0e7b01bcb3af054c8459bcb2e23836a, type: 3}
+  LineBlack: {fileID: 0}
+  LineWhite: {fileID: 0}
+  SoundLine: {fileID: 0}
+  _isBlueprintOn: 0
+  _isSubtitleSoundOn: 0
 --- !u!1 &1799470399
 GameObject:
   m_ObjectHideFlags: 0

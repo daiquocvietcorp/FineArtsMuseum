@@ -2,6 +2,7 @@ using System;
 using InputController;
 using Trigger;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace UI
@@ -12,7 +13,8 @@ namespace UI
         [field: SerializeField] private Toggle guideToggle;
         [field: SerializeField] private Toggle vrToggle;
         [field: SerializeField] private Toggle settingsToggle;
-        [field: SerializeField] private Toggle blueprintToggle;
+        [field: SerializeField] private Toggle blueprintToggle; 
+        [field: SerializeField] private Toggle subtitleToggle;
         
         [Header("Guide Sprites")]
         [field: SerializeField] private Sprite guideOnSprite;
@@ -28,11 +30,14 @@ namespace UI
 
         public GameObject LineBlack;
         public GameObject LineWhite;
+
+        public GameObject SoundLine;
         
         private bool _isGuideOn;
         private bool _isVROn;
         private bool _isSettingsOn;
         public bool _isBlueprintOn;
+        public bool _isSubtitleSoundOn;
         
         #region Override Methods
 
@@ -63,12 +68,20 @@ namespace UI
             
             _isVROn = false;
             _isSettingsOn = false;
+            _isSubtitleSoundOn = false;
             settingsToggle.isOn = false;
+            subtitleToggle.isOn = false;
 
             if (blueprintToggle != null && blueprintToggle.gameObject.activeInHierarchy)
             {
                 blueprintToggle.isOn = false;
                 blueprintToggle.onValueChanged.AddListener(OnBlueprintToggleValueChanged);
+            }
+            
+            if (subtitleToggle != null && subtitleToggle.gameObject.activeInHierarchy)
+            {
+                subtitleToggle.isOn = false;
+                subtitleToggle.onValueChanged.AddListener(OnSubtitleToggleValueChanged);
             }
             
 
@@ -212,6 +225,27 @@ namespace UI
             _isBlueprintOn = arg0;
         }
         
+        private void OnSubtitleToggleValueChanged(bool arg0)
+        {
+            
+            if(_isSubtitleSoundOn == arg0) return;
+            
+            if (arg0)
+            {
+                CheckToggleOn();
+                SoundLine.SetActive(false);
+                SubtittleOn();
+            }
+            else
+            {
+                SoundLine.SetActive(true);
+
+                SubtitleOff();
+            }
+            
+            _isSubtitleSoundOn = arg0;
+        }
+        
         
         
         private void CheckToggleOn()
@@ -246,6 +280,14 @@ namespace UI
                 blueprintToggle.isOn = false;
                 blueprintToggle.image.color = Color.white;
                 BlueprintOff();
+            }
+
+            if (_isSubtitleSoundOn)
+            {
+                _isSubtitleSoundOn = false;
+                subtitleToggle.isOn = false;
+                SoundLine.SetActive(false);
+                SubtitleOff();
             }
 
         }
@@ -314,6 +356,16 @@ namespace UI
             //_isBlueprintOn = false;
             LineBlack.SetActive(true);
             LineWhite.SetActive(false);
+        }
+
+        private void SubtittleOn()
+        {
+            
+        }
+        
+        private void SubtitleOff()
+        {
+            
         }
 
         #endregion
