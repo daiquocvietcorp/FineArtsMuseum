@@ -193,6 +193,10 @@ public class AudioSubtitleManager : MonoSingleton<AudioSubtitleManager>
                 PlayAudioWithSubtitle(currentAudioId); // Phát lại với ngôn ngữ mới
             }
         }
+        else if (audioSource.isPlaying && _isPlayingRoomSound)
+        {
+            TurnOnRoomAudio();
+        }
     }
     public string GetCurrentPlayingAudioId()
     {
