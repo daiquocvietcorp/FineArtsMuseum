@@ -23,8 +23,7 @@ namespace Sound
 
         private void OnClick()
         {
-            _isPlaying = !_isPlaying;
-            if (_isPlaying)
+            if (!_isPlaying)
             {
                 //AudioSubtitleManager.Instance.
                 //AudioManager.Instance
@@ -32,6 +31,7 @@ namespace Sound
                 
                 var result = AudioSubtitleManager.Instance.TurnAmbientSound();
                 if (!result) return;
+                _isPlaying = !_isPlaying;
                 onSound.gameObject.SetActive(true);
                 offSound.gameObject.SetActive(false);
             }
@@ -41,6 +41,7 @@ namespace Sound
                 
                 var result = AudioSubtitleManager.Instance.TurnAmbientSound();
                 if (!result) return;
+                _isPlaying = !_isPlaying;
                 onSound.gameObject.SetActive(false);
                 offSound.gameObject.SetActive(true);
             }

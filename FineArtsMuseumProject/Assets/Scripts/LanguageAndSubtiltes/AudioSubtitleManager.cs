@@ -60,6 +60,9 @@ public class AudioSubtitleManager : MonoSingleton<AudioSubtitleManager>
     public float ambientVolume = 0.6f;
     private bool _isPlayingAmbientSound = false;
     private bool _isPlayingAudio = false;
+    private bool _isPlayingRoomSound = false;
+
+    [SerializeField] private string audioRoomId;
     
     private Coroutine repeatCoroutine;
     
@@ -229,7 +232,7 @@ public class AudioSubtitleManager : MonoSingleton<AudioSubtitleManager>
         StopAudioAndClearSubtitle();
 
         // Nếu đang bật ambient thì tắt
-        if (_isPlayingAmbientSound)
+        if (_isPlayingAmbientSound || _isPlayingRoomSound)
         {
             audioSource.Stop();
         }
@@ -289,14 +292,14 @@ public class AudioSubtitleManager : MonoSingleton<AudioSubtitleManager>
     {
         if (_isPlayingAmbientSound)
         {
-            if(_isPlayingAudio) return false;
+            if(_isPlayingAudio || _isPlayingRoomSound) return false;
             audioSource.Stop();
             _isPlayingAmbientSound = false;
             return true;
         }
         else
         {
-            if(_isPlayingAudio) return false;
+            if(_isPlayingAudio || _isPlayingRoomSound) return false;
             audioSource.clip = ambientSound;
             audioSource.volume = ambientVolume;
             audioSource.loop = true;
@@ -305,56 +308,6 @@ public class AudioSubtitleManager : MonoSingleton<AudioSubtitleManager>
             return true;
         }
     }
-    //
-    // IEnumerator DisplayDynamicSubtitle(SubtitleData subtitleData, float audioDuration)
-    // {
-    //     dynamicSubtitleText.text = "";
-    //     string textToDisplay = currentLanguage == "vi" ? subtitleData.vi : subtitleData.en;
-    //     
-    //     List<string> subtitleLines = SplitSubtitleIntoLines(textToDisplay, dynamicSubtitleText);
-    //     float timePerLine = Mathf.Max(audioDuration / subtitleLines.Count, minTimePerLine);
-    //
-    //     foreach (string line in subtitleLines)
-    //     {
-    //         dynamicSubtitleText.text = line;
-    //         yield return new WaitForSeconds(timePerLine);
-    //     }
-    //
-    //     yield return new WaitForSeconds(0);
-    //     dynamicSubtitleText.text = "";
-    // }
-    //
-    // List<string> SplitSubtitleIntoLines(string text, TMP_Text textComponent)
-    // {
-    //     List<string> lines = new List<string>();
-    //     string[] words = text.Split(' ');
-    //     string currentLine = "";
-    //
-    //     foreach (string word in words)
-    //     {
-    //         textComponent.text = currentLine + " " + word;
-    //         textComponent.ForceMeshUpdate();
-    //         float textHeight = textComponent.preferredHeight;
-    //         float maxHeight = textComponent.rectTransform.rect.height;
-    //
-    //         if (textHeight > maxHeight)
-    //         {
-    //             lines.Add(currentLine.Trim());
-    //             currentLine = word;
-    //         }
-    //         else
-    //         {
-    //             currentLine += " " + word;
-    //         }
-    //     }
-    //
-    //     if (!string.IsNullOrEmpty(currentLine.Trim()))
-    //     {
-    //         lines.Add(currentLine.Trim());
-    //     }
-    //
-    //     return lines;
-    // }
 
     void ShowStaticSubtitle()
     {
@@ -392,7 +345,12 @@ public class AudioSubtitleManager : MonoSingleton<AudioSubtitleManager>
         {
             audioSource.Stop();
             _isPlayingAudio = false;
-            if (_isPlayingAmbientSound)
+
+            if (_isPlayingRoomSound)
+            {
+                TurnOnRoomAudio();
+            }
+            else if (_isPlayingAmbientSound)
             {
                 audioSource.clip = ambientSound;
                 audioSource.volume = ambientVolume;
@@ -418,4 +376,73 @@ public class AudioSubtitleManager : MonoSingleton<AudioSubtitleManager>
         currentPlayingAudioId = "";
     }
 
+    public void TurnRoomAudio()
+    {
+        if(_isPlayingAudio) return;
+        
+        if (!_isPlayingRoomSound)
+        {
+            _isPlayingRoomSound = true;
+            TurnOnRoomAudio();
+            //return true;
+        }
+        else
+        {
+            _isPlayingRoomSound = false;
+            TurnOffRoomAudio();
+            //return true;
+        }
+    }
+    
+    private void TurnOnRoomAudio()
+    {
+        if (!_isPlayingRoomSound || _isPlayingAudio) return;
+        
+        var clipData = GetClipDataById(audioRoomId);
+        if (clipData == null)
+        {
+            Debug.LogWarning($"No matching audio found for trigger ID: {audioRoomId}");
+            return;
+        }
+            
+        var audioPath = (currentLanguage == "vi") ? clipData.audioPath_vi : clipData.audioPath_en;
+        var clip = Resources.Load<AudioClip>(audioPath);
+            
+        if (clip == null)
+        {
+            Debug.LogError("Audio clip not found: " + audioPath);
+            return;
+        }
+
+        audioSource.clip = clip;
+        audioSource.loop = false;
+        audioSource.Play();
+        
+        if (repeatCoroutine != null)
+            StopCoroutine(repeatCoroutine);
+        repeatCoroutine = StartCoroutine(RepeatRoomAudioAfterDelay(clip.length));
+    }
+
+    private IEnumerator RepeatRoomAudioAfterDelay(float clipDuration)
+    {
+        yield return new WaitForSeconds(clipDuration + 10f); // Đợi hết clip + 10s
+
+        Debug.Log("Audio finished, waiting 10 seconds... Replaying.");
+
+        // Gọi lại chính nó
+        TurnOnRoomAudio();
+    }
+    
+    private void TurnOffRoomAudio()
+    {
+        if (_isPlayingRoomSound || _isPlayingAudio) return;
+        audioSource.Stop();
+        audioSource.clip = null;
+        
+        if(!_isPlayingAmbientSound) return;
+        audioSource.clip = ambientSound;
+        audioSource.volume = ambientVolume;
+        audioSource.loop = true;
+        audioSource.Play();
+    }
 }
