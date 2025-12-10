@@ -376,21 +376,21 @@ public class AudioSubtitleManager : MonoSingleton<AudioSubtitleManager>
         currentPlayingAudioId = "";
     }
 
-    public void TurnRoomAudio()
+    public bool TurnRoomAudio()
     {
-        if(_isPlayingAudio) return;
+        if(_isPlayingAudio) return false;
         
         if (!_isPlayingRoomSound)
         {
             _isPlayingRoomSound = true;
             TurnOnRoomAudio();
-            //return true;
+            return true;
         }
         else
         {
             _isPlayingRoomSound = false;
             TurnOffRoomAudio();
-            //return true;
+            return true;
         }
     }
     
@@ -435,7 +435,7 @@ public class AudioSubtitleManager : MonoSingleton<AudioSubtitleManager>
     
     private void TurnOffRoomAudio()
     {
-        if (_isPlayingRoomSound || _isPlayingAudio) return;
+        if (!_isPlayingRoomSound || _isPlayingAudio) return;
         audioSource.Stop();
         audioSource.clip = null;
         
