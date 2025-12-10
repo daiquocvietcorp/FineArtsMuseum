@@ -378,17 +378,22 @@ public class AudioSubtitleManager : MonoSingleton<AudioSubtitleManager>
 
     public bool TurnRoomAudio()
     {
-        if(_isPlayingAudio) return false;
+        //if(_isPlayingAudio) return false;
         
         if (!_isPlayingRoomSound)
         {
             _isPlayingRoomSound = true;
+            
+            if(_isPlayingAudio) return true;
             TurnOnRoomAudio();
             return true;
         }
         else
         {
             _isPlayingRoomSound = false;
+            
+            if(_isPlayingAudio) return true;
+            
             TurnOffRoomAudio();
             return true;
         }
