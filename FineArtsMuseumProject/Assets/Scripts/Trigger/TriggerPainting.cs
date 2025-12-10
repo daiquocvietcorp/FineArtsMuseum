@@ -224,6 +224,7 @@ public class TriggerPainting : MonoBehaviour
             SetLayerRecursively(Player, "Default", true);
             SubtitleObject.SetActive(false);
             UIPainting.magnifierHover.enabled = false;
+            UIPainting.magnifierHover_mobile.enabled = false;
             detailCollider.enabled = true;
             detailCollider.GetComponent<TriggerPaintDetail>().ResetFade();
             //detailCollider.GetComponent<TriggerPaintDetail>().triggerPainting = null;

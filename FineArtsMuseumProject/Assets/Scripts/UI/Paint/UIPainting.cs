@@ -795,6 +795,7 @@ private void StartGuideSequence()
             PaintingDetailManager.Instance.SetZoomPainting(false);
             UIPaintingManager.Instance.DisableUIPainting(PaintID);
             magnifierHover.enabled = false;
+            magnifierHover_mobile.enabled = false;
             
             isZoom = false;
             paintRotateAndZoom.canRotate = true;
@@ -826,6 +827,8 @@ private void StartGuideSequence()
             PaintingDetailManager.Instance.SetZoomPainting(true);
             UIPaintingManager.Instance.EnableUIPainting(PaintID);
             magnifierHover.enabled = true;
+            magnifierHover_mobile.enabled = true;
+            
             isZoom = true;
             paintRotateAndZoom.SmoothAverageResetTransform();
             paintRotateAndZoom.canRotate = false;

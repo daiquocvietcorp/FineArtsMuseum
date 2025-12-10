@@ -162,7 +162,14 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
             }
         }
 
-        //transform.localRotation = Quaternion.Euler(current.x, y, current.z);
+        if (CanRotateUpDown)
+        {
+            transform.localRotation = Quaternion.Euler(current.x, y, current.z);
+        }
+        else
+        {
+            transform.localRotation = Quaternion.Euler(def.x, y, def.z);
+        }
     }
 
 
@@ -522,17 +529,8 @@ public class PaintRotateAndZoom : MonoBehaviour, IPointerDownHandler, IDragHandl
                         transform.rotation = rotation * transform.rotation;
                     }*/
 
-                    if (CanRotateUpDown)
-                    {
-                        Quaternion rotation = Quaternion.AngleAxis(angle, rotationAxis.normalized);
-                        transform.rotation = rotation * transform.rotation;
-                    }
-                    else
-                    {
-                        Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.up);
-                        transform.rotation = transform.rotation * rotation;
-                    }
-                    
+                    Quaternion rotation = Quaternion.AngleAxis(angle, rotationAxis.normalized);
+                    transform.rotation = rotation * transform.rotation;
                     
                     ClampRotation();
     

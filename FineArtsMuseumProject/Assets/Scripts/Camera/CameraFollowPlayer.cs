@@ -171,20 +171,20 @@ namespace Camera
                 //if(_joystickDirection.magnitude < 0.1f) return;
                 
                 // === Xử lý xoay camera bằng phím A/D hoặc mũi tên trái/phải ===
-                float horizontalInput = Input.GetAxisRaw("Horizontal");
-
-                // Nếu giữ phím A/D hoặc ←/→, xoay camera quanh nhân vật
-                if (Mathf.Abs(horizontalInput) > 0.1f)
-                {
-                    _isActive = true;
-
-                    // Tính tốc độ xoay — có thể điều chỉnh theo cảm giác mượt
-                    float rotationSpeed = data.Sensitivity * 50f; 
-                    _currentYaw += horizontalInput * rotationSpeed * Time.deltaTime;
-
-                    // Giữ nguyên góc pitch hiện tại
-                    _currentPitch = Mathf.Clamp(_currentPitch, data.MinPitch, data.MaxPitch);
-                }
+                // float horizontalInput = Input.GetAxisRaw("Horizontal");
+                //
+                // // Nếu giữ phím A/D hoặc ←/→, xoay camera quanh nhân vật
+                // if (Mathf.Abs(horizontalInput) > 0.1f)
+                // {
+                //     _isActive = true;
+                //
+                //     // Tính tốc độ xoay — có thể điều chỉnh theo cảm giác mượt
+                //     float rotationSpeed = data.Sensitivity * 50f; 
+                //     _currentYaw += horizontalInput * rotationSpeed * Time.deltaTime;
+                //
+                //     // Giữ nguyên góc pitch hiện tại
+                //     _currentPitch = Mathf.Clamp(_currentPitch, data.MinPitch, data.MaxPitch);
+                // }
                 
                 if(_joystickDirection == Vector2.zero) return;
                 
@@ -196,13 +196,13 @@ namespace Camera
                 if (_isActive)
                 {
                     mouseX = _joystickDirection.x * (SceneLog.IsNewController ? data.NewMoveSensitivity : data.Sensitivity);
-                    //mouseY = -_joystickDirection.y * data.Sensitivity;
+                    mouseY = _joystickDirection.y * data.Sensitivity;
                 
                     _currentYaw += mouseX;
-                    //_currentPitch = Mathf.Clamp(_currentPitch - mouseY, data.MinPitch, data.MaxPitch);
+                    _currentPitch = Mathf.Clamp(_currentPitch - mouseY, data.MinPitch, data.MaxPitch);
                 
                     _currentAreaYaw += mouseX;
-                    // _currentAreaPitch = Mathf.Clamp(_currentAreaPitch - mouseY, data.MinPitch, data.MaxPitch);
+                    _currentAreaPitch = Mathf.Clamp(_currentAreaPitch - mouseY, data.MinPitch, data.MaxPitch);
                 }
             }
             

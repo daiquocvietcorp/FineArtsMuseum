@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +13,16 @@ public class ChooseFloorManager : MonoBehaviour
     public CanvasGroup ButtonF1CG;
     public CanvasGroup ButtonF2CG;
     public CanvasGroup ButtonF3CG;
+
+    public Image capsuleButton1;
+    public Image capsuleButton2;
+    public Image capsuleButton3;
+    
+    public Color highLightColor;
+    
+    public TextMeshProUGUI text1;
+    public TextMeshProUGUI text2;
+    public TextMeshProUGUI text3;
 
     private int currentFloor = 1;
     private bool isOpenFloor = false;
@@ -68,6 +79,19 @@ public class ChooseFloorManager : MonoBehaviour
 
     public void SetCurrentFloorButton(int floor,bool isOpenTrail)
     {
+        
+        capsuleButton1.color = Color.white;
+        capsuleButton2.color = Color.white;
+        capsuleButton3.color = Color.white;
+        
+        text1.text = "Hiển thị lưới kiến trúc";
+        text2.text = "Hiển thị lưới kiến trúc";
+        text3.text = "Hiển thị lưới kiến trúc";
+        
+        text1.color = Color.black;
+        text2.color = Color.black;
+        text3.color = Color.black;
+       
         if (isOpenTrail)
         {
             if (floor == 1)
@@ -75,6 +99,10 @@ public class ChooseFloorManager : MonoBehaviour
                 ButtonF1CG.alpha = 1;
                 ButtonF2CG.alpha = .5f;
                 ButtonF3CG.alpha = .5f;
+                
+                capsuleButton1.color = highLightColor;
+                text1.text = "Tắt lưới kiến trúc";
+                text1.color = Color.white;
             }
 
             if (floor == 2)
@@ -82,6 +110,10 @@ public class ChooseFloorManager : MonoBehaviour
                 ButtonF1CG.alpha = .5f;
                 ButtonF2CG.alpha = 1;
                 ButtonF3CG.alpha = .5f;
+                
+                capsuleButton2.color = highLightColor;
+                text2.text = "Tắt lưới kiến trúc";
+                text2.color = Color.white;
             }
 
             if (floor == 3)
@@ -89,6 +121,10 @@ public class ChooseFloorManager : MonoBehaviour
                 ButtonF1CG.alpha = .5f;
                 ButtonF2CG.alpha = .5f;
                 ButtonF3CG.alpha = 1f;
+                
+                capsuleButton3.color = highLightColor;
+                text3.text = "Tắt lưới kiến trúc";
+                text3.color = Color.white;
             }
         }
         else
