@@ -38,6 +38,10 @@ namespace Mesh
             mesh.triangles = triangles;
             mesh.RecalculateNormals();
             mesh.RecalculateBounds();
+            
+            Bounds b = mesh.bounds;
+            b.Expand(5f); // hoặc giá trị đủ lớn
+            mesh.bounds = b;
 
             GetComponent<MeshFilter>().sharedMesh = mesh;
         }
