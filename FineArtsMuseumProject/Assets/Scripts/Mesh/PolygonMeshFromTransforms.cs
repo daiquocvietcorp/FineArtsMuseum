@@ -1,6 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 namespace Mesh
 {
     [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
@@ -37,6 +41,21 @@ namespace Mesh
 
             GetComponent<MeshFilter>().sharedMesh = mesh;
         }
+        
+#if UNITY_EDITOR
+        [ContextMenu("Save Mesh As Asset")]
+        void SaveMesh()
+        {
+            var mesh = GetComponent<MeshFilter>().sharedMesh;
+            if (mesh == null) return;
+
+            string path = "Assets/Generated/WaterMesh.asset";
+            AssetDatabase.CreateAsset(mesh, path);
+            AssetDatabase.SaveAssets();
+
+            Debug.Log("Mesh saved to " + path);
+        }
+#endif
 
         // -----------------------------
         // Ear Clipping Triangulation
