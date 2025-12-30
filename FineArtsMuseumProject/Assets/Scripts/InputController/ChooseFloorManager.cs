@@ -29,6 +29,10 @@ public class ChooseFloorManager : MonoBehaviour
     
     private void Start()
     {
+        text1.text = "Đo đạc tầng 1";
+        text2.text = "Đo đạc tầng 2";
+        text3.text = "Đo đạc tầng 3";
+        
         TrailF1Button.onClick.AddListener(() =>
         {
             ButtonFloorClicked(1);
@@ -43,6 +47,7 @@ public class ChooseFloorManager : MonoBehaviour
         {
             ButtonFloorClicked(3);
         });
+        
     }
     
     public void ButtonFloorClicked(int floor)
@@ -84,9 +89,9 @@ public class ChooseFloorManager : MonoBehaviour
         capsuleButton2.color = Color.white;
         capsuleButton3.color = Color.white;
         
-        text1.text = "Hiển thị lưới kiến trúc";
-        text2.text = "Hiển thị lưới kiến trúc";
-        text3.text = "Hiển thị lưới kiến trúc";
+        text1.text = "Đo đạc tầng 1";
+        text2.text = "Đo đạc tầng 2";
+        text3.text = "Đo đạc tầng 3";
         
         text1.color = Color.black;
         text2.color = Color.black;
@@ -101,7 +106,7 @@ public class ChooseFloorManager : MonoBehaviour
                 ButtonF3CG.alpha = .5f;
                 
                 capsuleButton1.color = highLightColor;
-                text1.text = "Tắt lưới kiến trúc";
+                text1.text = "Tắt đo đạc tầng 1";
                 text1.color = Color.white;
             }
 
@@ -112,7 +117,7 @@ public class ChooseFloorManager : MonoBehaviour
                 ButtonF3CG.alpha = .5f;
                 
                 capsuleButton2.color = highLightColor;
-                text2.text = "Tắt lưới kiến trúc";
+                text2.text = "Tắt đo đạc tầng 2";
                 text2.color = Color.white;
             }
 
@@ -123,7 +128,7 @@ public class ChooseFloorManager : MonoBehaviour
                 ButtonF3CG.alpha = 1f;
                 
                 capsuleButton3.color = highLightColor;
-                text3.text = "Tắt lưới kiến trúc";
+                text3.text = "Tắt đo đạc tầng 3";
                 text3.color = Color.white;
             }
         }
