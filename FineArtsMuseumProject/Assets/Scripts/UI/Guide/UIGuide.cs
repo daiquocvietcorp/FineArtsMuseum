@@ -30,8 +30,10 @@ public class UIGuide : UIBasic
     }
 
     // Start is called before the first frame update
-    void Start()
+    IEnumerator Start()
     {
+        yield return new WaitForSeconds(10f);
+        
         for (int i = 0; i < listGuide.Count; i++)
         {
             listGuide[i].RegisterUIGuide(this);
