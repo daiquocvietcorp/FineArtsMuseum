@@ -25,6 +25,12 @@ public class MoveThroughPointsBySpeedEditor : Editor
     private Material highlightMaterial;
     private List<Material> originalMaterials = new List<Material>();
     
+    public GameObject reviewPointPrefab;
+    
+    private Transform selectedPoint1 = null;
+    private Transform selectedPoint2 = null;
+    private bool isSelectingTwoPoints = false; // Chế độ chọn 2 điểm
+    
     private void OnEnable()
     {
         targetScript = (MoveThroughPointsBySpeed)target;
@@ -285,6 +291,11 @@ public class MoveThroughPointsBySpeedEditor : Editor
             ToggleSelectingFloorMode();
         }
         
+        if (GUILayout.Button(isSelectingTwoPoints ? "Dừng Chọn 2 Điểm" : "Chọn 2 Điểm"))
+        {
+            ToggleSelectingTwoPoints();
+        }
+        
         GUILayout.EndHorizontal();
         
         EditorGUILayout.Space();
@@ -530,6 +541,107 @@ public class MoveThroughPointsBySpeedEditor : Editor
     
         SceneView.RepaintAll();
         Repaint(); // Cập nhật inspector
+    }
+    
+    private void ToggleSelectingTwoPoints()
+    {
+        isSelectingTwoPoints = !isSelectingTwoPoints;
+
+        if (isSelectingTwoPoints)
+        {
+            // Tắt các chế độ khác
+            isCreatingMode = false;
+            isSelectingMode = false;
+            isSelectingFloorMode = false;
+
+            // Đăng ký sự kiện cho chọn 2 điểm
+            SceneView.duringSceneGui += OnSceneSelectingTwoPointsGUI;
+            Debug.Log("Chế độ chọn 2 điểm đã bật.");
+        }
+        else
+        {
+            // Tắt chế độ chọn 2 điểm
+            SceneView.duringSceneGui -= OnSceneSelectingTwoPointsGUI;
+            Debug.Log("Chế độ chọn 2 điểm đã tắt.");
+        }
+
+        SceneView.RepaintAll();
+        Repaint(); // Cập nhật inspector
+    }
+    
+    
+    private void OnSceneSelectingTwoPointsGUI(SceneView sceneView)
+    {
+        HandleUtility.AddDefaultControl(GUIUtility.GetControlID(FocusType.Passive));
+
+        Event currentEvent = Event.current;
+
+        if (currentEvent.type == EventType.MouseDown && currentEvent.button == 0)
+        {
+            GameObject clickedObject = HandleUtility.PickGameObject(currentEvent.mousePosition, false);
+
+            if (clickedObject != null)
+            {
+                // Kiểm tra tag nếu toggle được bật
+                if (checkTag && !clickedObject.CompareTag("Point"))
+                {
+                    Debug.LogWarning($"GameObject {clickedObject.name} không có tag 'Point'.");
+                    return;
+                }
+
+                if (selectedPoint1 == null)
+                {
+                    selectedPoint1 = clickedObject.transform;
+                    Debug.Log($"Chọn điểm 1: {selectedPoint1.name}");
+                }
+                else if (selectedPoint2 == null)
+                {
+                    selectedPoint2 = clickedObject.transform;
+                    Debug.Log($"Chọn điểm 2: {selectedPoint2.name}");
+
+                    // Tạo object giữa 2 điểm đã chọn
+                    CreateObjectBetweenPoints(selectedPoint1.position, selectedPoint2.position);
+
+                    // Tắt chế độ chọn 2 điểm
+                    ToggleSelectingTwoPoints();
+
+                    // Reset lại các điểm đã chọn
+                    selectedPoint1 = null;
+                    selectedPoint2 = null;
+                }
+
+                currentEvent.Use();
+            }
+        }
+
+        DrawSceneGUI(sceneView);
+    }
+    
+    private void CreateObjectBetweenPoints(Vector3 point1, Vector3 point2)
+    {
+        // Tính toán vị trí giữa 2 điểm
+        Vector3 middlePosition = (point1 + point2) / 2f;
+
+        // Đường dẫn đến prefab
+        string prefabPath = "Assets/Prefabs/Line/LineStat.prefab";
+
+        // Load prefab từ đường dẫn
+        GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
+        if (prefab != null)
+        {
+            // Instantiate prefab vào scene tại vị trí giữa 2 điểm
+            GameObject newObject = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
+            newObject.transform.position = middlePosition;
+
+            // Undo record
+            Undo.RegisterCreatedObjectUndo(newObject, "Create Object Between Points");
+
+            Debug.Log($"Đã tạo object giữa 2 điểm tại vị trí {middlePosition}");
+        }
+        else
+        {
+            Debug.LogError("Không tìm thấy prefab tại đường dẫn: " + prefabPath);
+        }
     }
     
     private void ToggleSelectingMode()

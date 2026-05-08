@@ -63,6 +63,41 @@ public class TrailEffectManager : MonoBehaviour
                 mover.StopMoving();
             }
         }
+        
+        if (currentFloor == 1)
+        {
+            trailF1.SetActive(true);
+            trailF2.SetActive(false);
+            trailF3.SetActive(false);
+            if(trailHam !=null)
+            trailHam.SetActive(false);
+
+        }
+        else if(currentFloor == 2)
+        {
+            trailF1.SetActive(false);
+            trailF2.SetActive(true);
+            trailF3.SetActive(false);
+            if(trailHam !=null)
+            trailHam.SetActive(false);
+
+        }
+        else if(currentFloor == 3)
+        {
+            trailF1.SetActive(false);
+            trailF2.SetActive(false);
+            trailF3.SetActive(true);
+            if(trailHam !=null)
+            trailHam.SetActive(false);
+        }
+        else
+        {
+            trailF1.SetActive(false);
+            trailF2.SetActive(false);
+            trailF3.SetActive(false);
+            if(trailHam != null)
+                trailHam.SetActive(false);
+        }
     }
 
     public void SetCurrentFloor(int floor)
